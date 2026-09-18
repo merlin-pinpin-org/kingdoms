@@ -1,30 +1,72 @@
 # ADR-0002: Workflow engine
 
-- **Status**: Proposed
-- **Date**: 2026-09-18
-- **Deciders**: Developer
-- **Reference**: kingdoms#2
+**Status:** Accepted
+**Date:** 2026-09-18
+**Reference:** kingdoms#2, kingdoms#6
 
 ## Context
 
-Most Kingdoms features are multi-step interaction sequences (registration in
-DMs, match reporting, moderation). Implementing each sequence ad hoc in commands
-leads to duplicated state handling, hard-to-test flows, and poor visibility for
-the game designer.
+Kingdoms has many multi-step user interactions (registration, ladder setup,
+match reporting, moderation). Without a workflow engine:
+
+- Each workflow would have duplicated code
+- State management would be inconsistent
+- Error handling would be scattered
+- Testing would be difficult
 
 ## Decision
 
-Centralize interaction sequences in a `WorkflowEngine` service:
+Implement a **WorkflowEngine** class that:
 
-- workflows are declared as steps with entry conditions and transitions
-- workflow state is persisted (`WorkflowState` in MongoDB, hot state in Redis)
-  so sequences survive restarts and can be resumed
-- UI components (buttons, select menus, modals) feed events back into the
-  running workflow
+- Manages workflow state (`PENDING`, `IN_PROGRESS`, `COMPLETED`, `FAILED`,
+  `CANCELLED`, `TIMED_OUT`)
+- Handles user interactions and transitions between states
+- Persists state durably (MongoDB `WorkflowState`) with hot state in Redis
+  for resilience, so flows survive restarts and can resume
+- Provides a consistent API for all workflows (`IWorkflow`)
+
+## Alternatives Considered
+
+1. **Custom code per workflow:** simple but leads to duplication
+2. **State machine library:** good but adds external dependency
+3. **Database-only state:** slower, less flexible for complex workflows
 
 ## Consequences
 
-- **Robustness**: interrupted flows (bot restart, user idle) can be resumed.
-- **Consistency**: all sequences share the same error handling and timeout rules.
-- **Testability**: workflows can be replayed without a live platform.
-- **Cost**: state must be modeled and versioned carefully when rules evolve.
+### Positive
+
+- Consistent workflow handling
+- Easy to add new workflows
+- Centralized state management
+- Better error handling
+- Built-in timeout handling
+
+### Negative
+
+- Learning curve for workflow definition
+- More abstraction to understand
+- Need to maintain the workflow engine
+
+## Diagram
+
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING: start_workflow()
+    PENDING --> IN_PROGRESS: User interaction
+    IN_PROGRESS --> COMPLETED: All steps done
+    IN_PROGRESS --> FAILED: Error/Timeout
+    FAILED --> PENDING: Retry
+    COMPLETED --> [*]
+
+    state IN_PROGRESS {
+        [*] --> WaitingForInput
+        WaitingForInput --> Processing: Interaction received
+        Processing --> WaitingForInput: Need more info
+        Processing --> COMPLETED: Done
+    }
+```
+
+## References
+
+- [WORKFLOWS.md](../WORKFLOWS.md) — workflow state lifecycle
+- kingdoms-services#6 (WorkflowEngine), kingdoms-services#9 (StateService)
