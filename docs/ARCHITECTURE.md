@@ -168,7 +168,7 @@ workflow payloads evolve with the game rules):
 - **`embeds.py`**: rich message builders
 
 UI conventions (persistent views, dynamic items, `custom_id` scheme) are
-documented in `docs/DISCORD_COMPONENTS.md` (see kingdoms#8).
+documented in [architecture/discord.md](architecture/discord.md).
 
 ## 4. Configuration (`kingdoms-services/config/`)
 
