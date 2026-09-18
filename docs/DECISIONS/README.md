@@ -1,0 +1,64 @@
+# Architecture Decision Records (ADR)
+
+ADRs document the major technical decisions of the Kingdoms project: the
+context, the decision, the alternatives considered, and the consequences.
+They are **permanent documentation** — the rationale behind our choices must
+survive the people who made them.
+
+## What is an ADR?
+
+An Architecture Decision Record captures a single, important architecture
+decision: what was decided, why, what alternatives were rejected, and what
+the consequences are (positive and negative).
+
+## ADR format and structure
+
+Every ADR follows the template ([decision-template.md](decision-template.md)):
+
+1. **Status**: Proposed | Accepted | Deprecated | Superseded by ADR-XXX
+2. **Date**: YYYY-MM-DD
+3. **Context**: the problem and the forces at play
+4. **Decision**: what was decided, in verifiable wording
+5. **Alternatives Considered**: what else was on the table, and why it was
+   rejected
+6. **Consequences**: positive and negative outcomes
+7. **Diagrams** (optional): Mermaid illustrations
+8. **References**: related docs and issues
+
+## How to create a new ADR
+
+1. Copy `decision-template.md` to `NNN-short-title.md` where `NNN` is the next
+   free number (zero-padded, e.g., `009`).
+2. Fill every section — an ADR without alternatives and consequences is
+   incomplete.
+3. Start with status **Proposed**; the developer flips it to **Accepted**.
+4. Open a PR (per the vibe-coding workflow, see
+   [../VIBEWORKFLOW.md](../VIBEWORKFLOW.md)).
+
+## Numbering and versioning
+
+- ADRs are numbered sequentially in decision order; numbers are never
+   reused.
+- ADRs are **immutable**: never edit an accepted ADR in place. If a decision
+   changes, write a new ADR and mark the old one
+   `Status: Superseded by ADR-NNN`.
+- Superseded ADRs stay in the directory for the record.
+
+## Relationship to CHANGELOG
+
+ADRs record **why** a decision was made; the changelogs
+(`docs/MODS/*/CHANGELOG.md`, releases) record **what** changed and when. A
+change that reverses an ADR must produce both a new ADR and a changelog entry.
+
+## Index
+
+| ADR | Decision |
+| --- | -------- |
+| [001](001-multi-platform-architecture.md) | Multi-platform architecture (`IPlatform`) |
+| [002](002-workflow-engine.md) | Workflow engine |
+| [003](003-channel-categories.md) | Channel categories (`ChannelService`) |
+| [004](004-mongodb-schema-design.md) | MongoDB schema design |
+| [005](005-redis-state-management.md) | Redis state management |
+| [006](006-docker-compose-infra.md) | Docker Compose infrastructure |
+| [007](007-gitops-deployment.md) | GitOps deployment |
+| [008](008-i18n-system.md) | YAML-based i18n |
