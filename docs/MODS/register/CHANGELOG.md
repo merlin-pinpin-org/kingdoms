@@ -1,11 +1,13 @@
 # Register mod — Changelog
 
-> Status: **placeholder** — the changelog is maintained with the mod rules
-> (kingdoms#5).
-
 All notable changes to the register mod rules and environment are documented
 here.
 
 ## [Unreleased]
 
-- Initial placeholder (kingdoms#1).
+- Initial mod documentation: purpose, onboarding flow references, role
+  assignment, admin notifications, UserModel fields (kingdoms#1).
+- Full rules: name uniqueness, game selection, role assignment, admin
+  notification format, workflow timeouts (kingdoms#5).
+- Full environment: permissions, channel categories, MongoDB collections
+  and indexes, Redis keys, configuration options (kingdoms#5).
