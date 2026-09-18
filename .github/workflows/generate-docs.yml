@@ -3,7 +3,10 @@ name: Generate Docs
 # Generates pydoc HTML documentation from the kingdoms-services Python source
 # into docs/DEVELOPMENT/pydoc/ and commits the result to main.
 # The source is cloned read-only from the kingdoms-services repo because the
-# Python code does not live in this repository.
+# Python code does not live in this repository. The checkout is best-effort:
+# kingdoms-services is a private sibling repo and the workflow token may not
+# have access to it; generate_pydoc.py exits 0 with a warning when the source
+# is absent.
 
 on:
   push:
@@ -26,6 +29,7 @@ jobs:
         with:
           repository: merlin-pinpin/kingdoms-services
           path: kingdoms-services
+        continue-on-error: true
 
       - uses: actions/setup-python@v5
         with:
