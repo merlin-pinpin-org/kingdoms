@@ -1,0 +1,73 @@
+# ADR-0007: GitOps deployment
+
+**Status:** Accepted
+**Date:** 2026-09-18
+**Reference:** kingdoms#6
+
+## Context
+
+We need a reliable, auditable deployment process that:
+
+- Is reproducible
+- Can be rolled back
+- Has a clear audit trail
+- Minimizes human error
+
+## Decision
+
+Implement a **GitOps** workflow:
+
+- All infrastructure as code in Git
+- Deployment triggered by Git pushes (merge to `main` → dev, tags → prod)
+- Git history = deployment audit trail
+- Manual approval for production
+- Automated testing before deployment
+
+Environment policy: dev auto-deploys on merge, staging deploys manually,
+production deploys on tags (see [VIBEWORKFLOW.md](../VIBEWORKFLOW.md)).
+
+## Alternatives Considered
+
+1. **Manual deployment:** error-prone, not auditable
+2. **CI/CD only:** no version control for infrastructure
+3. **Custom scripts:** hard to maintain, not standardized
+
+## Consequences
+
+### Positive
+
+- Full audit trail
+- Reproducible deployments
+- Easy rollback (git revert)
+- Consistent across environments
+- Better collaboration
+
+### Negative
+
+- Learning curve
+- More files to maintain
+- Need Git access for deployments
+
+## Diagram
+
+```mermaid
+flowchart TD
+    A["Developer"] -->|"Code Change"| B["Git Commit"]
+    B --> C["Git Push"]
+    C --> D["GitHub Actions"]
+    D --> E["Build Docker Image"]
+    E --> F["Push to Registry"]
+    F --> G["Deploy to Staging"]
+    G --> H["Run Tests"]
+    H -->|"Pass"| I["Manual Approval"]
+    I --> J["Deploy to Production"]
+    H -->|"Fail"| K["Notify Developer"]
+    J --> L["Monitor"]
+    L -->|"Issue"| M["Rollback"]
+    M --> B
+```
+
+## References
+
+- [VIBEWORKFLOW.md](../VIBEWORKFLOW.md) — release and environment flow
+- kingdoms-infra#2 (CI/CD)

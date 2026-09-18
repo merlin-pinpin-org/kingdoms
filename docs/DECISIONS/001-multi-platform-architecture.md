@@ -1,29 +1,108 @@
 # ADR-0001: Multi-platform architecture
 
-- **Status**: Proposed
-- **Date**: 2026-09-18
-- **Deciders**: Developer
-- **Reference**: kingdoms#2
+**Status:** Accepted
+**Date:** 2026-09-18
+**Reference:** kingdoms#2, kingdoms#6
 
 ## Context
 
-Kingdoms must run on Discord today, but the platform scope may grow later
-(Twitch, Telegram, ...). Game rules and workflows should not be rewritten for
-each platform, and mods documentation must stay platform-agnostic.
+We need to support Discord now, but want to add Twitch, Telegram, and
+potentially other platforms in the future. Building platform-specific code for
+each would lead to:
+
+- Code duplication
+- Inconsistent behavior across platforms
+- High maintenance overhead
+- Difficulty adding new platforms
 
 ## Decision
 
-Introduce a platform abstraction in the generic core:
+Implement an **abstract `IPlatform` interface** that defines platform-agnostic
+operations (messaging, channel management, roles, DMs). Each platform
+(Discord, Twitch, ...) has its own implementation of this interface, plus
+adapters that convert platform objects to core models (`IMessage`, `IChannel`,
+`IUser`) and back.
 
-- an `IPlatform` interface implemented by each platform (first: `DiscordPlatform`)
-- platform-agnostic models (`IMessage`, `IChannel`, `IUser`) and adapters that
-  convert between platform objects and core models
-- mods and workflows expressed only against the core interfaces
+Mods and workflows are expressed only against the core interfaces; they never
+import platform-specific code.
+
+## Alternatives Considered
+
+1. **Direct platform-specific code:** simple but not scalable, leads to
+   duplication
+2. **Adapter pattern only:** more complex, less clear abstraction
+3. **Plugin system:** overkill for our needs, adds unnecessary complexity
 
 ## Consequences
 
-- **Flexibility**: a new platform is a new `IPlatform` implementation plus its
-  adapters, without touching game logic.
-- **Maintainability**: platform quirks are contained in one layer.
-- **Extensibility**: mods developed against the core work on every platform.
-- **Cost**: an extra abstraction layer to design and test up front.
+### Positive
+
+- Easy to add new platforms (implement `IPlatform`)
+- Consistent API across all platforms
+- Core logic remains platform-agnostic
+- Easier testing (can mock `IPlatform`, see kingdoms-services#2 MockDiscord)
+- Better separation of concerns
+
+### Negative
+
+- Slight performance overhead (abstraction layer)
+- More initial setup work
+- Need to maintain multiple implementations
+
+## Diagram
+
+```mermaid
+classDiagram
+    class IPlatform {
+        <<interface>>
+        +send_message(message, channel)
+        +edit_message(message_id, content)
+        +create_channel(name, category)
+        +get_user(user_id)
+        +get_channel(channel_id)
+        +add_reaction(message, emoji)
+    }
+
+    class DiscordPlatform {
+        +send_message(message, channel)
+        +edit_message(message_id, content)
+        +create_channel(name, category)
+        +get_user(user_id)
+        +get_channel(channel_id)
+        +add_reaction(message, emoji)
+    }
+
+    class TwitchPlatform {
+        +send_message(message, channel)
+        +edit_message(message_id, content)
+        +create_channel(name, category)
+        +get_user(user_id)
+        +get_channel(channel_id)
+        +add_reaction(message, emoji)
+    }
+
+    class TelegramPlatform {
+        +send_message(message, channel)
+        +edit_message(message_id, content)
+        +create_channel(name, category)
+        +get_user(user_id)
+        +get_channel(channel_id)
+        +add_reaction(message, emoji)
+    }
+
+    IPlatform <|.. DiscordPlatform
+    IPlatform <|.. TwitchPlatform
+    IPlatform <|.. TelegramPlatform
+
+    class Core {
+        -platform: IPlatform
+        +execute_workflow()
+    }
+
+    Core --> IPlatform : uses
+```
+
+## References
+
+- [ARCHITECTURE.md](../ARCHITECTURE.md) — core interfaces
+- kingdoms-services#3 (IPlatform), kingdoms-services#11 (DiscordPlatform)
