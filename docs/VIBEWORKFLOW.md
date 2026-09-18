@@ -74,7 +74,10 @@ An agent session (which starts with no memory of previous conversations):
 5. Report the PR URL to the developer and wait for review.
 6. On approval: merge, tag, release — only when explicitly requested by the
    developer.
-7. Run the "Update roadmap" skill (see kingdoms#9).
+7. Verify the roadmap: the `Sync roadmap` workflow (kingdoms#27) updates
+   `ROADMAP.md` automatically on issue state changes. Only if automation is
+   down or a status needs human judgment (`in-progress`/`blocked`), run the
+   "Update roadmap" skill manually.
 
 ## Rules
 
