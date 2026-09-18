@@ -15,7 +15,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 |-------|-------|--------|
 | kingdoms: repo structure | kingdoms#1 | in-review |
 | kingdoms: architecture docs | kingdoms#2 | in-review |
-| kingdoms: docs CI | kingdoms#3 | todo |
+| kingdoms: docs CI | kingdoms#3 | in-review |
 | kingdoms: WORKFLOWS.md | kingdoms#4 | todo |
 | kingdoms: MODS docs | kingdoms#5 | todo |
 | kingdoms: ADRs | kingdoms#6 | todo |
@@ -78,3 +78,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | Date | Change |
 |------|--------|
 | 2026-09-18 | Initial roadmap (kingdoms#9), synced with GitHub issue states |
+| 2026-09-18 | kingdoms#3 in-review (PR #21); session PRs #12-#21 opened for kingdoms#1-#6, #8-#11 |
