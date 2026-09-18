@@ -1,3 +1,5 @@
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
+
 # Kingdoms
 
 Kingdoms is a modular Discord bot platform, built and maintained through a
@@ -56,6 +58,14 @@ Contributions are made through the vibe-coding workflow:
 4. Documentation must be in **English**; game-related examples may be in French
    for i18n purposes.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guide once it
-lands (see kingdoms#11), and [docs/DECISIONS/](docs/DECISIONS/) for the ADR
-process.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guide and
+the CLA process.
+
+## License
+
+Kingdoms is licensed under the [GNU Affero General Public License v3.0](LICENSE).
+AGPL-3.0 was chosen so that any fork operated as a service must publish its
+modified source to its users (§13) — a direct deterrent for competitive
+privatization, since a bot is inherently a network service. External
+contributors sign the [CLA](CLA.md), which preserves a relicensing option for
+the project owner.
