@@ -66,7 +66,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | Registration DM flow | kingdoms-services#25 | todo |
 | Channel/role mgmt | kingdoms-services#26 | todo |
 | AoE2 game service | kingdoms-services#27 | todo |
-| Docs architecture | kingdoms#7 | todo |
+| Docs architecture | kingdoms#7 | done |
 | discord.py guide | kingdoms#8 | done |
 
 ## Out of Scope
@@ -80,3 +80,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | 2026-09-18 | Initial roadmap (kingdoms#9), synced with GitHub issue states |
 | 2026-09-18 | kingdoms#3 in-review (PR #21); session PRs #12-#21 opened for kingdoms#1-#6, #8-#11 |
 | 2026-09-18 | kingdoms#1-#6, #9-#11 done (PRs #12-#21 merged); kingdoms#7 remaining: Key Principles + architecture sub-pages |
+| 2026-09-18 | kingdoms#7 done: Key Principles in README, architecture/{core,mods,testing}.md deep-dives, cross-references |
