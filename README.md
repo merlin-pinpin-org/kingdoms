@@ -43,6 +43,7 @@ kingdoms/
 ## Key documents
 
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
+- [ROADMAP.md](ROADMAP.md) — project phases and issue status (updated via the "Update roadmap" skill)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture
 - [docs/WORKFLOWS.md](docs/WORKFLOWS.md) — game workflows
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
