@@ -268,6 +268,10 @@ New major decisions follow the ADR process in [DECISIONS/](DECISIONS/)
 
 ## See also
 
+- [architecture/core.md](architecture/core.md) — core services design deep-dive
+- [architecture/mods.md](architecture/mods.md) — mod system design
+- [architecture/testing.md](architecture/testing.md) — testing strategy (`MockDiscord`)
+- [architecture/discord.md](architecture/discord.md) — Discord.py components guide
 - [WORKFLOWS.md](WORKFLOWS.md) — game workflow documentation
 - [MODS/](MODS/) — per-mod documentation
 - [DECISIONS/](DECISIONS/) — architecture decision records
