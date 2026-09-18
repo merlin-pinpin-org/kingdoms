@@ -18,6 +18,27 @@ development docs. No application code lives here.
 | [kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services) | All Python code: generic core, Discord platform, mods, YAML configs |
 | [kingdoms-infra](https://github.com/merlin-pinpin/kingdoms-infra) | Docker, CI/CD, GitOps manifests, deployment scripts |
 
+## Key principles
+
+1. **Platform-agnostic core** — game logic lives in
+   `kingdoms-services/src/kingdoms/core/`, behind the `IPlatform`
+   interface. Discord is one implementation
+   ([ADR-0001](docs/DECISIONS/001-multi-platform-architecture.md))
+2. **Modular mods** — each game mode is a self-contained mod declaring its
+   channels, roles, and workflows via `ModRegistry`
+   ([docs/MODS/](docs/MODS/),
+   [docs/architecture/mods.md](docs/architecture/mods.md))
+3. **MongoDB only** (no relational database) for durable data, plus
+   **Redis** for cache, hot state, and distributed locks
+   ([ADR-0004](docs/DECISIONS/004-mongodb-schema-design.md),
+   [ADR-0005](docs/DECISIONS/005-redis-state-management.md))
+4. **Full-stack testing** — `MockDiscord` provides an in-memory
+   `IPlatform` simulation; no test ever touches the real Discord API
+   ([docs/architecture/testing.md](docs/architecture/testing.md))
+5. **i18n by default** — English is the default locale, French is
+   available; every user-facing string comes from YAML locale files
+   ([ADR-0008](docs/DECISIONS/008-i18n-system.md))
+
 ## Documentation structure
 
 ```
