@@ -130,6 +130,11 @@ def fetch_repo_state(
         for item in raw_issues
         if "pull_request" not in item
     }
+    if not issues:
+        warn(
+            f"{OWNER}/{repo} returned no issues; the GitHub API may have "
+            f"rejected the token silently (check the issues:read permission)"
+        )
 
     linked: set[int] = set()
     try:

@@ -5,11 +5,17 @@ across the three Kingdoms repos.
 
 **Primary mechanism (automatic):** the `Sync roadmap` workflow
 (`.github/workflows/sync-roadmap.yml`, kingdoms#27) runs
-`scripts/sync_roadmap.py` whenever an issue or PR changes state, on a weekly
-schedule, and on cross-repo `repository_dispatch` pings. When the roadmap
-drifts, it updates a single rolling PR (`docs(roadmap): sync with GitHub
-issues`) on branch `automation/roadmap-sync`. Nothing to do unless that PR
-needs review.
+`scripts/sync_roadmap.py` whenever an issue is opened, reopened or closed —
+cross-repo issue events are forwarded from `kingdoms-services` and
+`kingdoms-infra` via `repository_dispatch` (`roadmap-ping.yml`, driven by the
+`ROADMAP_DISPATCH_PAT` secret). Merged PRs need no dedicated trigger: merging
+a PR closes its linked issue, which fires the issue event. When the roadmap
+drifts, the workflow updates a single rolling PR (`docs(roadmap): sync with
+GitHub issues`) on branch `automation/roadmap-sync`. Nothing to do unless
+that PR needs review.
+
+The workflow **fails on purpose** when the GitHub API returns no issue data,
+so a broken token can never rewrite the roadmap from incomplete state.
 
 **This skill (manual fallback):** run it when automation is down, when a
 status requires human judgment, or on explicit request ("update the roadmap").
@@ -44,7 +50,11 @@ set manually and preserved by the script.
    Cross-repo links are written fully qualified (`kingdoms-services#12`).
 
    `in-review` detection uses closing keywords in open PR bodies, matching
-   the script's `CLOSING_REF_RE`.
+   the script's `CLOSING_REF_RE`. PRs are linked to their issue with a
+   closing keyword in the PR description (`Closes #N` same-repo,
+   `Closes owner/repo#N` cross-repo): this populates the GitHub
+   "Development" section and closes the issue on merge, which triggers the
+   roadmap sync.
 
 4. **Update "Current Phase"**: the lowest phase that still has non-`done`
    issues. Sub-tasks do not affect the phase calculation.

@@ -4,14 +4,14 @@ name: Sync roadmap
 # docs/SKILLS/update-roadmap.md). Runs scripts/sync_roadmap.py against main
 # and, when the roadmap drifted, updates a single rolling PR on the
 # automation/roadmap-sync branch instead of pushing to main directly.
-# Cross-repo issue changes ping this workflow via repository_dispatch
-# (see roadmap-ping.yml in kingdoms-services and kingdoms-infra); the weekly
-# schedule is the safety net when that token is not configured.
+# Roadmap statuses are driven by issue state changes only: a merged PR closes
+# its linked issue, which fires the `issues` event here. Cross-repo issue
+# changes ping this workflow via repository_dispatch (see roadmap-ping.yml in
+# kingdoms-services and kingdoms-infra); the weekly schedule is the safety net
+# when that token is not configured.
 
 on:
   issues:
-    types: [opened, reopened, closed]
-  pull_request:
     types: [opened, reopened, closed]
   repository_dispatch:
     types: [roadmap-sync]
@@ -22,6 +22,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  issues: read
 
 concurrency:
   group: roadmap-sync
@@ -38,7 +39,13 @@ jobs:
       - name: Sync ROADMAP.md
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: python scripts/sync_roadmap.py | tee /tmp/sync-changes.txt
+        run: python scripts/sync_roadmap.py 2>&1 | tee /tmp/sync-changes.txt
+      - name: Fail on unreadable issue state
+        run: |
+          if grep -q "not found on GitHub" /tmp/sync-changes.txt; then
+            echo "::error::The GitHub API returned no issue data; refusing to write a roadmap update based on incomplete data"
+            exit 1
+          fi
       - name: Open or update rolling sync PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
