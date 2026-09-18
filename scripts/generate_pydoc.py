@@ -126,11 +126,11 @@ def main() -> int:
     src_root = args.source.resolve()
     if not src_root.is_dir():
         print(
-            f"error: source directory not found: {src_root}\n"
-            "Clone kingdoms-services next to this repo or pass --source.",
+            f"warning: source directory not found: {src_root} "
+            "kingdoms-services is not initialized yet; nothing to generate.",
             file=sys.stderr,
         )
-        return 1
+        return 0
 
     output_dir = args.output.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
