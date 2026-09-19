@@ -47,7 +47,10 @@ set manually and preserved by the script.
    | closed as completed | `done` |
    | closed as not planned | `dropped` (move the row to "Out of Scope") |
 
-   Cross-repo links are written fully qualified (`kingdoms-services#12`).
+   Issue references are written as Markdown links:
+   `[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)`.
+   The sync script migrates plain `repo#N` codes automatically, but new rows
+   should be written linked from the start.
 
    `in-review` detection uses closing keywords in open PR bodies, matching
    the script's `CLOSING_REF_RE`. PRs are linked to their issue with a
@@ -71,7 +74,7 @@ set manually and preserved by the script.
 - Never invent statuses: every row must reflect an actual GitHub issue state
   observed in step 2.
 - New issues discovered during the sync are added to the matching phase table
-  (or "Sub-tasks"); issues missing from GitHub are removed.
+  (or "Sub-tasks") as linked rows; issues missing from GitHub are removed.
 - Do not reorder tables; keep tracks grouped by repo.
 - The script prints a warning for open issues missing from the roadmap —
   add them to the matching table.
