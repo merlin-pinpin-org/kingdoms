@@ -26,7 +26,9 @@ set manually and preserved by the script.
 
 1. **Check the rolling sync PR first:**
    `gh pr list --repo merlin-pinpin/kingdoms --head automation/roadmap-sync`
-   If it exists and is up to date, just review/merge it and stop here.
+   If it exists and is up to date, review it and ask the developer to merge
+   it (the agent environment cannot merge PRs itself). Do not open a new PR
+   alongside it.
 
 2. **Collect issue states** for `merlin-pinpin/kingdoms`,
    `merlin-pinpin/kingdoms-services`, and `merlin-pinpin/kingdoms-infra`:
@@ -71,6 +73,9 @@ set manually and preserved by the script.
 ## Rules
 
 - The PR must **only touch `ROADMAP.md`**.
+- The rolling sync PR is the only roadmap PR: update it in place
+  (force-push the branch) instead of opening new PRs. The agent prepares it;
+  the developer merges it.
 - Never invent statuses: every row must reflect an actual GitHub issue state
   observed in step 2.
 - New issues discovered during the sync are added to the matching phase table

@@ -113,7 +113,8 @@ An agent session (which starts with no memory of previous conversations):
 ## Rules
 
 - The agent **never** merges to `main`, tags, or releases without explicit
-  developer approval.
+  developer approval. In practice the agent environment cannot merge PRs at
+  all: the developer merges every PR, even after an explicit approval.
 - The agent **never** pushes infrastructure changes without developer approval.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).

@@ -19,3 +19,8 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   (kingdoms#27) syncs `ROADMAP.md` automatically on issue state changes; only
   run the "Update roadmap" skill (`docs/SKILLS/update-roadmap.md`) manually
   when automation is down or a status needs human judgment.
+- After merging a PR that changes any issue state, check for the rolling
+  `automation/roadmap-sync` PR (`gh pr list --head automation/roadmap-sync`)
+  and ask the developer to merge it; unmerged sync PRs accumulate drift.
+- The agent environment cannot merge pull requests itself: always deliver
+  changes through a PR and let the developer merge.
