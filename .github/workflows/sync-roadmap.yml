@@ -1,0 +1,93 @@
+name: Sync roadmap
+
+# Keeps ROADMAP.md in sync with GitHub issue states (see kingdoms#27 and
+# docs/SKILLS/update-roadmap.md). Runs scripts/sync_roadmap.py against main
+# and, when the roadmap drifted, updates a single rolling PR on the
+# automation/roadmap-sync branch instead of pushing to main directly.
+# Roadmap statuses are driven by issue state changes only: a merged PR closes
+# its linked issue, which fires the `issues` event here. Cross-repo issue
+# changes ping this workflow via repository_dispatch (see roadmap-ping.yml in
+# kingdoms-services and kingdoms-infra); the weekly schedule is the safety net
+# when that token is not configured.
+
+on:
+  issues:
+    types: [opened, reopened, closed]
+  repository_dispatch:
+    types: [roadmap-sync]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+concurrency:
+  group: roadmap-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync ROADMAP.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/sync_roadmap.py 2>&1 | tee /tmp/sync-changes.txt
+      - name: Fail on unreadable issue state
+        run: |
+          if grep -q "not found on GitHub" /tmp/sync-changes.txt; then
+            echo "::error::The GitHub API returned no issue data; refusing to write a roadmap update based on incomplete data"
+            exit 1
+          fi
+      - name: Open or update rolling sync PR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: automation/roadmap-sync
+        run: |
+          set -euo pipefail
+          if git diff --quiet ROADMAP.md; then
+            echo "ROADMAP.md is up to date; nothing to do"
+            exit 0
+          fi
+          cp ROADMAP.md /tmp/ROADMAP.md.new
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if git ls-remote --exit-code "origin/${BRANCH}" >/dev/null 2>&1; then
+            git fetch origin "${BRANCH}"
+            if gh pr list --head "${BRANCH}" --state open --json number --jq 'length' | grep -q '^0$'; then
+              echo "Branch exists without an open PR; recreating the PR"
+              git push origin --delete "${BRANCH}"
+              git checkout -b "${BRANCH}"
+            else
+              git checkout -B "${BRANCH}" origin/main
+            fi
+          else
+            git checkout -b "${BRANCH}"
+          fi
+          cp /tmp/ROADMAP.md.new ROADMAP.md
+          git add ROADMAP.md
+          git commit -m "docs(roadmap): sync with GitHub issues"
+          git push origin "${BRANCH}" --force
+          if gh pr list --head "${BRANCH}" --state open --json number --jq 'length' | grep -q '^0$'; then
+            {
+              echo "## Summary"
+              echo "- Automated ROADMAP.md sync (kingdoms#27): statuses mapped from GitHub issue states"
+              echo ""
+              echo "\`\`\`"
+              cat /tmp/sync-changes.txt
+              echo "\`\`\`"
+              echo ""
+              echo "This rolling PR is updated in place by the sync workflow; merge it to clear the drift."
+            } > /tmp/pr-body.md
+            gh pr create --head "${BRANCH}" --title "docs(roadmap): sync with GitHub issues" \
+              --body-file /tmp/pr-body.md
+          else
+            gh pr comment "${BRANCH}" --body "Roadmap drift re-synced: $(head -1 /tmp/sync-changes.txt)"
+          fi
