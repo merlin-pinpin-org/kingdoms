@@ -50,7 +50,7 @@ PHASE_HEADING_RE = re.compile(r"^### Phase (?P<num>\d+) —")
 CURRENT_PHASE_RE = re.compile(r"^Phase (?P<num>\d+)\b")
 CLOSING_REF_RE = re.compile(
     r"\b(?:close[ds]?|closing|fix(?:e[ds]?)?|fixing|resolv(?:e[ds]?)?|resolving)"
-    r"[^#\n]*?(?:(?P<owner>[\w.-]+)/(?P<ref_repo>[\w.-]+))?"
+    r"[\s:;,.'\"()\[\]]*(?:(?P<owner>[\w.-]+)/(?P<ref_repo>[\w.-]+))?"
     r"#(?P<num>\d+)",
     re.IGNORECASE,
 )
