@@ -42,10 +42,42 @@ PER_PAGE = 100
 MANUAL_STATUSES = ("in-progress", "blocked")
 STATUSES = ("todo", "in-progress", "in-review", "done", "blocked", "dropped")
 
-ROW_RE = re.compile(
+ISSUE_URL = f"https://github.com/{OWNER}/" + "{repo}/issues/{num}"
+ROW_PLAIN_RE = re.compile(
     r"^\|\s*(?P<track>[^|]+?)\s*\|\s*(?P<repo>[\w.-]+)#(?P<num>\d+)\s*\|"
-    r"\s*(?P<status>[a-z-]+)\s*\|$"
+    r"\s*(?P<status>[a-z-]+)\s*\|$",
+    re.MULTILINE,
 )
+BULLET_PLAIN_RE = re.compile(
+    r"^(?P<prefix>\s*-\s+.*?dropped, see\s+)"
+    r"(?P<repo>[\w.-]+)#(?P<num>\d+)"
+    r"(?P<suffix>.*)$",
+    re.MULTILINE,
+)
+LINKED_ISSUE_RE = re.compile(
+    r"\[(?P<repo>[\w.-]+)#(?P<num>\d+)\]"
+    r"\(https://github\.com/[\w.-]+/[\w.-]+/issues/\d+\)"
+)
+PLAIN_ISSUE_RE = re.compile(r"(?P<repo>[\w.-]+)#(?P<num>\d+)")
+ROW_RE = re.compile(
+    r"^\|\s*(?P<track>[^|]+?)\s*\|\s*"
+    r"(?P<issue>\[[\w.-]+#\d+\]\(https://github\.com/[\w.-]+/[\w.-]+/issues/\d+\)"
+    r"|[\w.-]+#\d+)"
+    r"\s*\|\s*(?P<status>[a-z-]+)\s*\|$"
+)
+
+
+def issue_ref(repo: str, num: int) -> str:
+    """Render an issue reference as a Markdown link."""
+    return f"[{repo}#{num}]({ISSUE_URL.format(repo=repo, num=num)})"
+
+
+def parse_issue_ref(reference: str) -> tuple[str, int]:
+    """Extract (repo, num) from either a linked or a plain issue reference."""
+    match = LINKED_ISSUE_RE.fullmatch(reference) or PLAIN_ISSUE_RE.fullmatch(reference)
+    if not match:
+        raise ValueError(f"unparseable issue reference: {reference!r}")
+    return match["repo"], int(match["num"])
 PHASE_HEADING_RE = re.compile(r"^### Phase (?P<num>\d+) —")
 CURRENT_PHASE_RE = re.compile(r"^Phase (?P<num>\d+)\b")
 CLOSING_REF_RE = re.compile(
@@ -54,7 +86,10 @@ CLOSING_REF_RE = re.compile(
     r"#(?P<num>\d+)",
     re.IGNORECASE,
 )
-BULLET_REF_RE = re.compile(r"\b(?P<repo>[\w.-]+)#(?P<num>\d+)\b")
+BULLET_REF_RE = re.compile(
+    r"\[(?P<repo>[\w.-]+)#(?P<num>\d+)\]\(https://github\.com/[\w.-]+/[\w.-]+/issues/\d+\)"
+    r"|\b(?P<plain_repo>[\w.-]+)#(?P<plain_num>\d+)\b"
+)
 
 
 @dataclass
@@ -164,6 +199,26 @@ def compute_status(
     return "todo"
 
 
+def migrate_links(text: str) -> tuple[str, int]:
+    """Convert plain issue references to Markdown links; idempotent."""
+    migrated = 0
+
+    def link_row(match: re.Match) -> str:
+        nonlocal migrated
+        migrated += 1
+        return f"| {match['track']} | {issue_ref(match['repo'], int(match['num']))} | {match['status']} |"
+
+    text = ROW_PLAIN_RE.sub(link_row, text)
+
+    def link_bullet(match: re.Match) -> str:
+        nonlocal migrated
+        migrated += 1
+        return f"{match['prefix']}{issue_ref(match['repo'], int(match['num']))}{match['suffix']}"
+
+    text = BULLET_PLAIN_RE.sub(link_bullet, text)
+    return text, migrated
+
+
 def sync_roadmap(
     text: str,
     states: dict[str, tuple[dict[int, Issue], set[int]]],
@@ -195,8 +250,7 @@ def sync_roadmap(
         row = ROW_RE.match(line)
         if not row:
             continue
-        repo = row["repo"]
-        num = int(row["num"])
+        repo, num = parse_issue_ref(row["issue"])
         current = row["status"]
         if repo not in REPOS:
             warnings.append(f"unknown repository reference '{repo}#{num}'")
@@ -214,9 +268,9 @@ def sync_roadmap(
         if status == "dropped":
             dropped.append((repo, num, issue.title))
             if current != "dropped":
-                changes.append(f"{repo}#{num} {current}->dropped (moved to Out of Scope)")
+                changes.append(f"{issue_ref(repo, num)} {current}->dropped (moved to Out of Scope)")
         elif status != current:
-            changes.append(f"{repo}#{num} {current}->{status}")
+            changes.append(f"{issue_ref(repo, num)} {current}->{status}")
         if isinstance(section, int):
             phase_status[section].append(status)
         referenced[repo].add(num)
@@ -254,7 +308,7 @@ def sync_roadmap(
                     out_of_scope_buffer.pop()
                 for repo, num, title in dropped:
                     out_of_scope_buffer.append(
-                        f"- {title} — dropped, see {repo}#{num} (closed as not planned)"
+                        f"- {title} — dropped, see {issue_ref(repo, num)} (closed as not planned)"
                     )
                 out.extend(out_of_scope_buffer)
                 out.append("")
@@ -264,11 +318,13 @@ def sync_roadmap(
                 continue
             out_of_scope_buffer.append(line)
             ref = BULLET_REF_RE.search(line)
-            if ref and ref["repo"] in states:
-                issue = states[ref["repo"]][0].get(int(ref["num"]))
+            ref_repo = ref["repo"] if ref and ref["repo"] else (ref["plain_repo"] if ref else None)
+            ref_num = ref["num"] if ref and ref["num"] else (ref["plain_num"] if ref else None)
+            if ref_repo and ref_num and ref_repo in states:
+                issue = states[ref_repo][0].get(int(ref_num))
                 if issue is not None and issue.state == "open":
                     warnings.append(
-                        f"{ref['repo']}#{ref['num']} is listed in Out of Scope "
+                        f"{ref_repo}#{ref_num} is listed in Out of Scope "
                         f"but is open again; move it back manually"
                     )
             continue
@@ -277,11 +333,9 @@ def sync_roadmap(
             if status == "dropped":
                 continue
             row = ROW_RE.match(line)
+            repo, num = parse_issue_ref(row["issue"])
             if row["status"] != status:
-                line = ROW_RE.sub(
-                    lambda m: f"| {m['track']} | {m['repo']}#{m['num']} | {status} |",
-                    line,
-                )
+                line = f"| {row['track']} | {issue_ref(repo, num)} | {status} |"
         if replace_next_phase_line and CURRENT_PHASE_RE.match(line):
             if current_phase is None:
                 out.append("All phases complete")
@@ -302,7 +356,7 @@ def sync_roadmap(
             out_of_scope_buffer.pop()
         for repo, num, title in dropped:
             out_of_scope_buffer.append(
-                f"- {title} — dropped, see {repo}#{num} (closed as not planned)"
+                f"- {title} — dropped, see {issue_ref(repo, num)} (closed as not planned)"
             )
         out.extend(out_of_scope_buffer)
         out.append("")
@@ -338,7 +392,10 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    text = args.roadmap.read_text(encoding="utf-8")
+    original = args.roadmap.read_text(encoding="utf-8")
+    text, migrated = migrate_links(original)
+    if migrated:
+        print(f"migrated {migrated} plain issue reference(s) to Markdown links")
     states: dict[str, tuple[dict[int, Issue], set[int]] | None] = {}
     for repo in REPOS:
         states[repo] = fetch_repo_state(repo, args.token)
@@ -355,7 +412,14 @@ def main() -> int:
         warn(warning)
 
     if new_text == text:
-        print("ROADMAP.md is up to date")
+        if text == original:
+            print("ROADMAP.md is up to date")
+            return 0
+        if args.check:
+            print(f"ROADMAP.md is up to date (link migration pending: {migrated} reference(s))")
+            return 1
+        args.roadmap.write_text(text, encoding="utf-8")
+        print(f"ROADMAP.md updated (link migration: {migrated} reference(s))")
         return 0
 
     if args.check:
