@@ -22,6 +22,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | kingdoms: governance (LICENSE, CLA) | kingdoms#11 | in-review |
 | kingdoms: ROADMAP + skill | kingdoms#9 | in-review |
 | kingdoms: vibe-coding workflow doc | kingdoms#10 | in-review |
+| kingdoms: roadmap automation | kingdoms#27 | in-progress |
 | services: repo structure | kingdoms-services#1 | todo |
 | services: MockDiscord | kingdoms-services#2 | todo |
 | infra: repo structure | kingdoms-infra#1 | todo |
