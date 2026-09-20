@@ -133,6 +133,10 @@ workflow payloads evolve with the game rules):
 - **`ChannelModel`**: channel registry keyed by `ChannelCategory`
 - **`WorkflowState`**: persisted workflow instances (current step, payload,
   status) so flows survive restarts
+- **`db.py`**: MongoDB client setup — singleton sync (`MongoClient`) and async
+  (`AsyncMongoClient`, the native pymongo async API — no Motor dependency)
+  clients configured from `MONGO_URI`/`MONGO_DB`; models expose
+  `to_mongo()`/`from_mongo()` for lossless document round trips
 
 ### `services/`
 
