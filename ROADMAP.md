@@ -38,7 +38,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin/kingdoms-services/issues/8) | todo |
 | services: StateService | [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) | todo |
 | services: exceptions | [kingdoms-services#10](https://github.com/merlin-pinpin/kingdoms-services/issues/10) | todo |
-| services: Protocol interfaces | [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) | in-review |
+| services: Protocol interfaces | [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) | done |
 | services: config system | [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16) | todo |
 | services: i18n | [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17) | todo |
 | infra: CI/CD | [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) | todo |
@@ -84,3 +84,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | 2026-09-18 | kingdoms#3 in-review (PR #21); session PRs #12-#21 opened for kingdoms#1-#6, #8-#11 |
 | 2026-09-19 | auto-sync: kingdoms#1 in-review->done; kingdoms#2 in-review->done; kingdoms#3 in-review->done; kingdoms#4 todo->done; kingdoms#5 todo->done; (+7 more) |
 | 2026-09-20 | auto-sync: [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) todo->done; [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) todo->done |
+| 2026-09-20 | auto-sync: [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) in-review->done |

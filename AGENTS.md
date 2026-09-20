@@ -9,7 +9,8 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - `kingdoms-infra`: Docker, CI/CD, GitOps manifests, deployment scripts
 
 ## Rules for AI agents
-- All documentation is written in **English**.
+- All documentation is written in **English**, as well as commit messages,
+  PR titles and PR descriptions.
 - Mermaid diagrams must use **GitHub-compatible syntax** (quote node labels containing special characters like `->` or `{}`; never put colons inside unquoted labels).
 - This repo is the source of truth: keep `docs/` in sync with any change made in `kingdoms-services` or `kingdoms-infra`. A code change without its doc update is incomplete.
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.

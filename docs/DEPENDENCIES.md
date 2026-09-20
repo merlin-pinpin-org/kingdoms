@@ -27,7 +27,6 @@ Total: **47 pts**. Critical path:
 
 ```mermaid
 flowchart LR
-    ks_41["#41 Define core contracts as typing.Protocol (structural typing)"]
     ks_35["#35 Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets)"]
     ks_28["#28 Set up Conventional Changelog (semantic release)"]
     ks_27["#27 Sub-task: AoE2 game microservice (generic IGameProvider)"]
@@ -154,7 +153,6 @@ worked on in parallel.
 | kingdoms-services#16 — [Phase 2] Create config system | `S` (3) | `P2` | 12 |
 | kingdoms-services#3 — [Phase 2] Implement IPlatform | `S` (3) | `P1` | 2 |
 | kingdoms-infra#3 — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 46 |
-| kingdoms-services#41 — Define core contracts as typing.Protocol (structural typing) | `XS` (1) | `P3` | 46 |
 | kingdoms-services#7 — [Phase 2] Create enumerations | `XS` (1) | `P1` | 4 |
 
 **Wave 1**
@@ -245,4 +243,3 @@ worked on in parallel.
 | kingdoms-services#27 — Sub-task: AoE2 game microservice (generic IGameProvider) | 3 | `L` | `P0` | 0 | kingdoms-services#8, kingdoms-services#15 |
 | kingdoms-services#28 — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 39 | kingdoms-infra#2 |
 | kingdoms-services#35 — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | 3 | `S` | `P3` | 16 | kingdoms-services#12, kingdoms-services#26 |
-| kingdoms-services#41 — Define core contracts as typing.Protocol (structural typing) | 2 | `XS` | `P3` | 46 | — |
