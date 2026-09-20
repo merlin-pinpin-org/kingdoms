@@ -64,3 +64,4 @@ change that reverses an ADR must produce both a new ADR and a changelog entry.
 | [008](008-i18n-system.md) | YAML-based i18n |
 | [009](009-discord-components-v2.md) | Dual Discord UI system (embeds + Components V2) |
 | [010](010-redis-hosting.md) | Redis hosting (Redis Cloud free tier for prod) |
+| [011](011-protocol-interfaces.md) | Structural typing (`typing.Protocol`) for core interfaces |
