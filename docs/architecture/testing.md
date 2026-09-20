@@ -1,18 +1,28 @@
 # Testing strategy
 
-This page defines how Kingdoms is tested: the `MockDiscord` in-memory
-platform, the test pyramid, and the rules that keep tests fast and
-hermetic. `MockDiscord` is tracked by kingdoms-services#2; this page is the
-strategy its implementation and all later test work must follow. It will be
-enriched with concrete examples as the code lands in `kingdoms-services`.
+This page defines how Kingdoms is tested: the in-memory test doubles, the
+test pyramid, and the rules that keep tests fast and hermetic.
+`MockDiscord` is tracked by kingdoms-services#2 and the behavioral layer by
+kingdoms-services#22 / #24; this page is the strategy all test work must
+follow. It will be enriched with concrete examples as the code lands in
+`kingdoms-services`.
 
 ## 1. Principle: no test touches the real Discord API
 
 Discord is an external, rate-limited, hard-to-reproduce dependency. Every
-test runs against in-process fakes:
+test runs against in-process test doubles, at two complementary depths:
 
-- **`MockDiscord`** — a full in-memory `IPlatform` implementation: channels,
-  roles, DMs, and message history in plain Python structures
+- **`MockDiscord`** (kingdoms-services#2) — mock *objects*: subclasses of
+  the real discord.py classes (`MockInteraction`, `MockGuild`,
+  `MockMessage`…) built from plain Python data. Ideal for adapters, UI
+  builders and fast surgical unit tests; permissive by design (no
+  permissions, no dispatch), so it never validates the *glue*.
+- **SimCord** ([github.com/SilentHacks/simcord](https://github.com/SilentHacks/simcord),
+  dev-dependency `simcord[pytest]`) — a *simulator*: it swaps discord.py's
+  two seams (`HTTPClient.request` and `ConnectionState.parsers`) for an
+  in-memory backend, so the **real bot runs unmodified** through the real
+  command dispatch, converters, permission checks, interaction lifecycle,
+  view timeouts (virtual clock) and Components V2 layouts.
 - **In-memory MongoDB substitute** — same interface as the persistence
   layer, no server needed
 - **In-memory Redis substitute** — same interface as `StateService`, TTLs
@@ -27,21 +37,46 @@ job fails with an explicit error — a missing CI/CD bot token is a broken CI
 setup, never a silent skip. The developer provisions the secret so CI can
 pass.
 
+### Why both MockDiscord and SimCord
+
+Mock objects confirm what the test assumes: a mocked response always
+succeeds, a clicked button calls its callback directly, permissions are
+skipped. That is exactly right for testing *our* conversion and builder
+code, and exactly wrong for testing the discord.py glue (dispatch, checks,
+acknowledgment rules). The behavioral layer must cross the real
+machinery — this is the lesson of
+[discord.py#197](https://github.com/Rapptz/discord.py/issues/197): mocks
+bypass dispatch, so the glue stayed untestable until simulators existed.
+SimCord's own guide for coding agents states the failure mode plainly: *an
+agent can produce a plausible mock that confirms its own assumptions.*
+
 ## 2. Test pyramid
 
 | Level | Scope | Runs on | Tools |
 | ----- | ----- | ------- | ----- |
-| Unit | Core services, models, pure functions (`ChannelService` resolution, workflow transitions) | Every push/PR | pytest |
-| Integration | Multi-component flows: `WorkflowEngine` + `ChannelService` + `StateService` + stores | Every push/PR | pytest + `MockDiscord` |
-| Workflow E2E | Complete user journeys (register a player, report a match) driven only through `MockDiscord` interactions | Every push/PR | pytest |
+| Unit | Core services, models, pure functions (`ChannelService` resolution, workflow transitions) — zero Discord | Every push/PR | pytest |
+| Unit (Discord objects) | Adapters (`to_core_user`…), UI builders, embed/layout construction | Every push/PR | pytest + `MockDiscord` mocks |
+| Integration | Multi-component flows: `WorkflowEngine` + `ChannelService` + `StateService` + stores | Every push/PR | pytest |
+| Behavioral (journeys) | Complete user journeys driven as a user: slash commands, buttons, selects, modals, permissions, timeouts, Components V2 | Every push/PR | pytest + SimCord (`simcord_env`) |
 | Smoke (preflight) | Real container entrypoint: environment, MongoDB, Redis, locale catalogs — no Discord gateway | Every push/PR | GitHub Actions (`Bot preflight` step) |
 | Smoke (real Discord) | Real bot container, real gateway connection via the dedicated CI/CD bot | Every push/PR to `main`; **fails** if `CICD_DISCORD_TOKEN` is missing | GitHub Actions (`Discord smoke`, kingdoms-services#34) |
 
-## 3. MockDiscord
+Behavioral tests are the template for mod journeys
+(`tests/integration/test_simcord_journeys.py` in `kingdoms-services`):
+arrange the world with builders, act as a user through actors, assert on
+observable state (responses, channel messages, roles).
 
-`MockDiscord` implements `IPlatform` in memory and additionally exposes the
-**observer side** tests need: a way to drive interactions and inspect what
-the bot did.
+## 3. MockDiscord (mock objects — kingdoms-services#2)
+
+`tests/mocks/discord_mock.py` in `kingdoms-services` provides mock
+*objects*: `MockInteraction` (with `MockResponse`/`MockFollowup` recorders),
+`MockUser`, `MockMember`, `MockRole`, `MockGuild`, `MockMessage`,
+`MockTextChannel`/`MockVoiceChannel`/`MockCategoryChannel`/`MockDMChannel`,
+`MockClient`, `MockView`, `MockModal` and UI helpers. Every mock subclasses
+the real discord.py class so `isinstance` checks hold, records message
+history, and — per [ADR-0009](../DECISIONS/009-discord-components-v2.md) —
+records **both UI surfaces**: embed-based (`.embeds` + `.components`) and
+Components V2 (`.layout` + flattened `walk_children()` tree).
 
 ### Capabilities (contract for kingdoms-services#2)
 
@@ -49,30 +84,13 @@ the bot did.
 - Role assignment and membership tracking
 - DM and message capture (content, embeds, components) in inspectable
   history
-- Interaction simulation: button click, select choice, modal submission,
-  slash-command invocation — each producing the same core events as the
-  real adapter
+- Interaction response/followup recording (sent, deferred, ephemeral)
 - A controllable clock for TTL and workflow-timeout tests
-
-### Test-driving pattern
-
-```text
-mock = MockDiscord(clock=FakeClock())
-bot = build_bot(platform=mock, stores=in_memory_stores())
-bot.start()
-
-# drive a full user journey through interactions only
-session = mock.user("player1").slash_command("register")
-session.answer_modal({"pseudo": "Player1"})
-session.click_button("confirm")
-
-# assert on observable outcomes, not internals
-assert mock.guild.role("Player").has_member("player1")
-assert mock.dms_to("player1").last_content_contains("registration confirmed")
-```
 
 ### What MockDiscord must NOT do
 
+- Test the discord.py glue (dispatch, checks, permissions, acknowledgment
+  lifecycle) — that is SimCord's job
 - Reimplement game logic or workflow semantics — it is a platform, not an
   oracle
 - Share state between tests — each test builds a fresh instance
@@ -80,22 +98,49 @@ assert mock.dms_to("player1").last_content_contains("registration confirmed")
   the same `IPlatform` interface; divergences found in production are
   reproduced as tests at the `IPlatform` level first
 
-## 4. What each layer tests
+## 4. SimCord (behavioral simulator)
+
+`simcord[pytest]` is a dev-dependency of `kingdoms-services`. The pytest
+plugin provides the `simcord_env` fixture; each test class overrides the
+`simcord_bot` fixture with the bot it drives (calibration bots today, the
+real bot factory once kingdoms-services#12 lands).
+
+### Rules for behavioral tests
+
+- Drive the bot as a **user**: `alice.slash(channel, "register")`,
+  `alice.click(message, custom_id=…)`, `alice.submit_modal(shown, …)` —
+  never call a command callback directly
+- Assert observable results: `result.response.content`, channel messages,
+  roles assigned, `InteractionResult` flags (`ephemeral`, `acknowledged`)
+- **No token, no network, no sleeps** — actors settle the event loop, and
+  `env.advance_time(seconds)` fires view timeouts and cooldowns instantly
+- Keep `strict_sync=True` (default) for journeys that mirror production:
+  an unsynced slash command must fail the test; use
+  `@pytest.mark.simcord(strict_sync=False)` only for calibration tests
+- A `RouteNotImplemented` failure is a SimCord parity gap: report it
+  upstream or extend the test to another level — never replace it with a
+  silent fake
+- Components on a received `Message` are **wire-model** components
+  (`discord.components.*`, `TextDisplay.content`), not UI items
+  (`discord.ui.*`, `TextDisplay.text`); assert on the wire classes
+
+### What each layer tests
 
 - **Core services** — state transitions, persistence round-trips,
   channel-resolution order, lock behavior, restart recovery
-- **Mods/workflows** — journey outcomes: final state in MongoDB, roles
-  assigned, messages sent, i18n of every user-facing string (English
-  default, French available —
+- **Adapters/UI (MockDiscord)** — conversions between platform objects and
+  core models (`IMessage`, `IChannel`, `IUser`), embed/layout builders,
+  dual-surface recording per ADR-0009
+- **Mods/workflows (SimCord)** — journey outcomes: responses, final state
+  in MongoDB, roles assigned, messages sent, permissions enforced,
+  i18n of every user-facing string (English default, French available —
   [ADR-0008](../DECISIONS/008-i18n-system.md))
-- **Adapters** — conversions between platform objects and core models
-  (`IMessage`, `IChannel`, `IUser`)
 - **Config** — every YAML file parses and validates against its schema
 
 ## 5. Rules
 
 1. Tests never sleep on wall-clock time; timeouts are tested with the
-   controllable clock
+   controllable clock (`MockDiscord` clock, `env.advance_time` on SimCord)
 2. One assertion focus per test; journeys are split into ordered test
    cases that rebuild state explicitly rather than depending on execution
    order
@@ -109,6 +154,11 @@ assert mock.dms_to("player1").last_content_contains("registration confirmed")
    checks. When a new check cannot run locally, add or extend the workflow
    that validates it — never leave it unverified.
    (`.github/workflows/check-docs.yml`)
+6. **The right double for the right depth**: mock objects (MockDiscord)
+   for our conversion/builder code; the simulator (SimCord) for anything
+   that depends on discord.py dispatch, checks, permissions or the
+   interaction lifecycle; no `MagicMock` as a substitute for Discord
+   permissions or cache state; no `bot.run()` in tests.
 
 ## See also
 
@@ -117,3 +167,7 @@ assert mock.dms_to("player1").last_content_contains("registration confirmed")
 - [discord.md](discord.md) — Discord platform guide
 - [ADR-0001](../DECISIONS/001-multi-platform-architecture.md) —
   `IPlatform` abstraction, the seam that makes this strategy possible
+- [ADR-0009](../DECISIONS/009-discord-components-v2.md) — dual Discord UI
+  system, respected by both test doubles
+- [SimCord — AI coding agents guide](https://simcord.readthedocs.io/en/latest/guides/ai-coding-agents/)
+  — the agent workflow this strategy adopts
