@@ -20,6 +20,14 @@ them — no ghost PR, no accumulated drift.
 | `/check-docs` | Run `scripts/validate_docs.py --check` (against the current `kingdoms-services` main) | none (report only) |
 | `/generate-docs` | Run `scripts/generate_pydoc.py` | `docs/DEVELOPMENT/pydoc/` |
 
+## Rollout constraint
+
+`issue_comment` workflows only trigger from the workflow file on the
+**default branch**. The first `/check-docs` comment posted before this
+workflow reached `main` was ignored (expected); after the PR merging
+`pr-commands.yml` is merged, the commands work on every PR, including the
+one that introduced them (post-merge smoke test).
+
 ## Access control
 
 The `parse` job checks the comment author's permission on the repo before
