@@ -32,6 +32,23 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   your open PR branch. Statuses needing human judgment (`in-progress`,
   `blocked`) are set manually and preserved by the script.
 
+## Testing strategy (summary)
+
+Full strategy: [docs/architecture/testing.md](docs/architecture/testing.md).
+Two complementary Discord test doubles — pick the right depth:
+
+- **MockDiscord** (mock objects, `kingdoms-services` `tests/mocks/`) for
+  adapter and UI-builder unit tests; permissive by design, never validates
+  the discord.py glue.
+- **SimCord** (behavioral simulator, dev-dependency `simcord[pytest]` in
+  `kingdoms-services`) for journeys through the real discord.py dispatch:
+  slash commands, buttons, selects, modals, permissions, timeouts,
+  Components V2. Drive the bot as a user; never call a command callback
+  directly; no token, no network, no sleeps.
+
+A doc change describing testing must keep this page and
+`docs/architecture/testing.md` consistent.
+
 ## Session checklist (do this by default)
 
 At the end of every session, verify consistency across the three repos:
