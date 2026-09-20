@@ -15,6 +15,12 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
+- **Never commit secrets** (tokens, passwords, API keys, private keys,
+  `.env` values): real credentials live only in GitHub secrets or in
+  host-provisioned `.env` files; repositories carry `.env.example`
+  placeholders only. Before making any repository public, scan the full
+  git history for leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`)
+  and get merlin-pinpin's approval.
 - The agent **never** merges a PR without an explicit merge approval from
   the developer (a named go-ahead such as "merge #44" — not a review
   comment, a "LGTM", an idea approval, or silence; CI must be green). For
@@ -51,9 +57,9 @@ At the end of every session, verify consistency across the three repos:
    --source <kingdoms-services>/src/kingdoms --config
    <kingdoms-services>/config` must pass before opening any PR (fail-closed:
    it refuses to validate without the kingdoms-services source/config).
-   The `Check Docs` required check re-runs it on every PR, plus a
-   generated-docs freshness step — regenerate with `/generate-docs` when it
-   reports the pydoc as stale (always generate before checking).
+   The `Check Docs` required check re-runs it on every PR. Generated technical
+   docs (pydoc) live in `kingdoms-services` and are freshness-checked there
+   (see [docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)).
 
 ## Issue conventions
 

@@ -9,7 +9,9 @@ PR branch**, and reports the outcome in a PR comment.
 This replaces the former event-driven sync workflows (`sync-roadmap.yml`,
 `sync-dependencies.yml`, `generate-docs.yml`) and their rolling
 `automation/*` PRs: generated artifacts now land in the PR that needs
-them — no ghost PR, no accumulated drift.
+them — no ghost PR, no accumulated drift. Generated technical docs (pydoc)
+live in `kingdoms-services` (PR merlin-pinpin/kingdoms-services#39):
+generation and freshness checking moved there.
 
 ## Fail-closed validation (all sync/generate scripts)
 
@@ -25,26 +27,24 @@ them degrades to a partial or best-effort result:
   `priority/*` labels, unknown or still-open checked dependencies,
   dependency cycles, and unreadable repositories. It also reports
   `priority/*` label drift (fix with `gh issue edit`, then re-run).
-- `/generate-docs` (`generate_pydoc.py`): memory addresses are scrubbed so
-  the output is deterministic; a module that fails to import is a warning.
 - `/check-docs` (`validate_docs.py`): fails when the `kingdoms-services`
   source or config checkout is absent — partial validation is refused —
   in addition to docstring completeness and mods-documentation checks.
-- The `Check Docs` **required check** enforces generated-docs freshness on
-  every PR: it regenerates the pydoc and fails with "stale" when the
-  committed copy differs. The fix is always the same order: **generate
-  first (`/generate-docs`), then check (`/check-docs`)**.
+- Generated technical docs are **no longer produced here**: pydoc lives in
+  `kingdoms-services` (`scripts/generate_pydoc.py`, `make docs`), where a
+  dedicated workflow checks its freshness on every PR of that repo.
 
 ## Required checks
 
 The `Check Docs` workflow (`check`) and the `CLA Check` (`cla`) are
 **required status checks** on `main` (configured in the repository ruleset —
 GitHub admin action, not automatable from the sandbox): a PR cannot merge
-while either is red. `Check Docs` runs on **every** PR and additionally
-verifies that the committed `docs/DEVELOPMENT/pydoc` is fresh — when it
-fails with "stale", run `/generate-docs` on that PR and merge the resulting
-commit. In `kingdoms-services`, the full CI matrix is required the same way.
+while either is red. `Check Docs` runs on **every** PR. In
+`kingdoms-services`, the full CI matrix (including the docs freshness
+check) is required the same way.
 `kingdoms-infra` (private, free plan) has no rulesets: its CI is advisory.
+Once `kingdoms-infra` becomes public, its CI can be made required the same
+way and the `DEPS_SYNC_PAT` secret becomes unnecessary (see Secrets).
 
 ## Commands
 
@@ -53,7 +53,6 @@ commit. In `kingdoms-services`, the full CI matrix is required the same way.
 | `/roadmap` | Run `scripts/sync_roadmap.py` | `ROADMAP.md` |
 | `/dependencies` | Run `scripts/sync_dependencies.py` | `docs/DEPENDENCIES.md` |
 | `/check-docs` | Run `scripts/validate_docs.py --check` (against the current `kingdoms-services` main) | none (report only) |
-| `/generate-docs` | Run `scripts/generate_pydoc.py` | `docs/DEVELOPMENT/pydoc/` |
 
 ## Rollout constraint
 
@@ -81,7 +80,9 @@ data:
 
 - `DEPS_SYNC_PAT` (repository secret of `kingdoms`): a fine-grained PAT
   with **"Issues: read"** on **both** `merlin-pinpin/kingdoms-services`
-  **and** `merlin-pinpin/kingdoms-infra`.
+  **and** `merlin-pinpin/kingdoms-infra`. Once `kingdoms-infra` becomes
+  public, this secret is no longer needed and can be deleted (the default
+  `GITHUB_TOKEN` will then read its issues).
 
 The former `ROADMAP_DISPATCH_PAT` secret (in `kingdoms-services` and
 `kingdoms-infra`, used by the now-removed `repository_dispatch` pings) is
@@ -96,7 +97,9 @@ The former `ROADMAP_DISPATCH_PAT` secret (in `kingdoms-services` and
   an issue): run `/roadmap` and `/dependencies` on an open PR — the
   artifacts are committed to its branch, ready for review.
 - **PRs that change the `kingdoms-services` source layout or docstrings**:
-  run `/generate-docs` to refresh `docs/DEVELOPMENT/pydoc`.
+  pydoc regeneration happens in `kingdoms-services` itself (`make docs`,
+  then commit); its `docs` workflow fails on any PR whose committed pydoc
+  is stale.
 
 The agent runs these commands itself by posting the comment on the PR
 (e.g. `gh pr comment <n> --body "/dependencies"`); the workflow commits

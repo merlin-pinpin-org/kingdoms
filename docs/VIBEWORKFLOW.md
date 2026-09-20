@@ -64,14 +64,15 @@ Step by step:
 
 ## PR commands automation
 
-`ROADMAP.md`, `docs/DEPENDENCIES.md` and `docs/DEVELOPMENT/pydoc` are kept in
+`ROADMAP.md` and `docs/DEPENDENCIES.md` are kept in
 sync through **PR comment commands** (see the
 [PR commands](SKILLS/pr-commands.md) skill, workflow
 `.github/workflows/pr-commands.yml`): a collaborator with write access
-comments `/roadmap`, `/dependencies`, `/check-docs` or `/generate-docs` on a
+comments `/roadmap`, `/dependencies` or `/check-docs` on a
 pull request, the corresponding script runs against the PR branch, and the
 generated artifact is **committed to that PR branch** — never a rolling
-`automation/*` PR, never a direct push to `main`.
+`automation/*` PR, never a direct push to `main`. Generated technical docs
+(pydoc) live in `kingdoms-services` and are freshness-checked there.
 
 - **Why comment-triggered:** the agent can post the commands itself
   (`gh pr comment <n> --body "/roadmap"`), so every open PR can absorb the
@@ -89,8 +90,7 @@ generated artifact is **committed to that PR branch** — never a rolling
   judgment and are preserved as-is.
 - **Fail-closed:** every sync/generation script fails when its validation
   fails (unreadable repo, partial data, missing labels, stale generated
-  docs) — no best-effort or partial writes. The order is always
-  **generate first, then check**: `/generate-docs` before `/check-docs`.
+  docs) — no best-effort or partial writes.
 - **Linking PRs to issues:** use a closing keyword in the PR description
   (`Closes #N` same-repo, `Closes owner/repo#N` cross-repo) — this populates
   the GitHub "Development" section, drives `in-review` detection, and closes

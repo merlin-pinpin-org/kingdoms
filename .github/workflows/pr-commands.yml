@@ -1,12 +1,12 @@
 name: PR commands
 # Slash-command automation for pull requests (see docs/SKILLS/pr-commands.md):
-# a collaborator with write access comments /roadmap, /dependencies,
-# /check-docs or /generate-docs on a PR, and the corresponding script runs
+# a collaborator with write access comments /roadmap, /dependencies or
+# /check-docs on a PR, and the corresponding script runs
 # against the PR branch. Generated artifacts are committed to the PR branch
 # itself — there is no rolling "ghost" PR — and the outcome is reported in a
 # PR comment. This replaces the former event-driven sync workflows
-# (sync-roadmap.yml, sync-dependencies.yml, generate-docs.yml) and the
-# repository_dispatch pings they relied on.
+# (sync-roadmap.yml, sync-dependencies.yml) and the repository_dispatch
+# pings they relied on.
 #
 # /roadmap and /dependencies read the issues of the private kingdoms-infra
 # repository, which the GITHUB_TOKEN of this repo cannot: they require the
@@ -44,7 +44,7 @@ jobs:
           set -euo pipefail
           cmd="$(echo "$BODY" | awk '{print $1}')"
           case "$cmd" in
-            /roadmap|/dependencies|/check-docs|/generate-docs) ;;
+            /roadmap|/dependencies|/check-docs) ;;
             *) echo "command=" >> "$GITHUB_OUTPUT"; exit 0 ;;
           esac
           perm="$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq .permission)"
@@ -209,57 +209,4 @@ jobs:
             gh pr comment "$PR" --body "✅ \`/check-docs\` — documentation validation passed."
           else
             gh pr comment "$PR" --body "❌ \`/check-docs\` failed — check the workflow run logs."
-          fi
-
-  generate-docs:
-    name: /generate-docs
-    needs: parse
-    if: needs.parse.outputs.command == '/generate-docs'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          fetch-depth: 0
-      - name: Checkout kingdoms-services (read-only)
-        uses: actions/checkout@v4
-        with:
-          repository: merlin-pinpin/kingdoms-services
-          path: kingdoms-services
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Generate pydoc documentation
-        run: |
-          python scripts/generate_pydoc.py \
-            --source kingdoms-services/src/kingdoms \
-            --output docs/DEVELOPMENT/pydoc
-      - name: Commit changes to the PR branch
-        id: commit
-        run: |
-          set -euo pipefail
-          if git diff --quiet docs/DEVELOPMENT/; then
-            echo "updated=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add docs/DEVELOPMENT/
-          git commit -m "docs: auto-generate development docs"
-          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
-          echo "updated=true" >> "$GITHUB_OUTPUT"
-      - name: Report on the PR
-        if: always()
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR: ${{ github.event.issue.number }}
-        run: |
-          if [ "${{ job.status }}" = "success" ]; then
-            if [ "${{ steps.commit.outputs.updated }}" = "true" ]; then
-              gh pr comment "$PR" --body "✅ \`/generate-docs\` — docs/DEVELOPMENT/pydoc regenerated and committed to the PR branch."
-            else
-              gh pr comment "$PR" --body "✅ \`/generate-docs\` — generated docs already up to date (no changes)."
-            fi
-          else
-            gh pr comment "$PR" --body "❌ \`/generate-docs\` failed — check the workflow run logs."
           fi

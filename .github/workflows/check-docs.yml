@@ -1,10 +1,9 @@
 name: Check Docs
-# Validates documentation completeness on every PR, and that the generated
-# docs are fresh. Docstring checks require the kingdoms-services source,
-# which is not part of this repository; it is checked out read-only for the
-# validation run. The checkout is best-effort: kingdoms-services is a private
-# sibling repo and the workflow token may not have access to it;
-# validate_docs.py degrades gracefully when the source is absent.
+# Validates documentation completeness on every PR. Docstring and
+# mod-declaration checks require the kingdoms-services source, which is not
+# part of this repository; the checkout is mandatory (fail-closed) —
+# partial validation is refused. Generated technical docs (pydoc) live in
+# kingdoms-services itself and are freshness-checked there.
 on:
   pull_request:
 
@@ -26,16 +25,3 @@ jobs:
           python scripts/validate_docs.py --check \
             --source kingdoms-services/src/kingdoms \
             --config kingdoms-services/config
-      - name: Check generated docs freshness
-        run: |
-          python scripts/generate_pydoc.py \
-            --source kingdoms-services/src/kingdoms \
-            --output /tmp/pydoc-fresh
-          if diff -rq /tmp/pydoc-fresh docs/DEVELOPMENT/pydoc \
-            --exclude=.gitkeep > /tmp/pydoc-diff.txt 2>&1; then
-            echo "Generated docs are fresh"
-          else
-            echo "::error::docs/DEVELOPMENT/pydoc is stale — run /generate-docs on this PR to regenerate it"
-            cat /tmp/pydoc-diff.txt
-            exit 1
-          fi
