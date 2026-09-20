@@ -79,11 +79,10 @@ generated artifact is **committed to that PR branch** — never a rolling
   generated drift it needs before review; nothing accumulates in ghost PRs.
 - **Access control:** only `admin`/`maintain`/`write` collaborators can run
   the commands (checked in the `parse` job).
-- **Fail-closed:** `/roadmap` and `/dependencies` need the `DEPS_SYNC_PAT`
-  secret (fine-grained PAT, "Issues: read" on `kingdoms-services` AND
-  `kingdoms-infra`, which is private); they fail with an explicit error when
-  it is missing or a repo is unreadable, never regenerating from partial
-  data.
+- **Fail-closed:** `/roadmap` and `/dependencies` read the issues of
+  `kingdoms-services` and `kingdoms-infra` with the default `GITHUB_TOKEN`
+  (all three repositories are public); they fail with an explicit error
+  when a repo is unreadable, never regenerating from partial data.
 - **Status mapping:** closed-as-completed → `done`, closed-as-not-planned →
   `dropped` (moved to "Out of Scope"), open with a closing-keyword PR →
   `in-review`, otherwise `todo`. `in-progress` and `blocked` require human
@@ -138,9 +137,10 @@ An agent session (which starts with no memory of previous conversations):
   docstring completeness **and** generated-docs freshness) and `cla` (CLA
   Check). For `kingdoms-services`: the full CI matrix (lint, typecheck, unit
   tests, compose, smoke, Discord smoke, image build). A PR cannot be merged
-  while any required check is red. `kingdoms-infra` is a private repository
-  on a free plan: rulesets (and therefore required checks) are unavailable
-  there — its CI is advisory until the plan changes; do not merge with a
+  while any required check is red. All three repositories are public with an
+  active `main` ruleset enforcing their required checks (`kingdoms`:
+  `check`, `cla`; `kingdoms-services`: the full CI matrix + `cla`;
+  `kingdoms-infra`: its CI matrix + `cla`). A PR cannot be merged with a
   red check.
 - The agent **never** pushes infrastructure changes without developer approval.
 - All issues are written in English and are self-contained (future sessions

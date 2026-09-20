@@ -38,13 +38,11 @@ report** when an issue's `priority/*` label no longer matches its
 critical-path slack; fix the labels with `gh issue edit` (the script never
 edits issues) and re-run the command.
 
-**Cross-repo access:** `kingdoms-infra` is a **private** repository, so the
-`GITHUB_TOKEN` of `kingdoms` cannot read its issues. `/dependencies`
-therefore requires the `DEPS_SYNC_PAT` repository secret: a fine-grained
-PAT with **"Issues: read"** on **both**
-`merlin-pinpin/kingdoms-services` **and** `merlin-pinpin/kingdoms-infra`.
-The job fails closed when the secret is missing or a repository is
-unreadable — it never regenerates the graph from partial data.
+**Cross-repo access:** all three repositories are public, so the default
+`GITHUB_TOKEN` reads the issues of `kingdoms-services` and
+`kingdoms-infra` directly (no custom secret; the former `DEPS_SYNC_PAT` is
+obsolete). The job still fails closed when a repository is unreadable —
+it never regenerates the graph from partial data.
 
 ## Procedure
 

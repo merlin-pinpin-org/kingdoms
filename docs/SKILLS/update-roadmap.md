@@ -10,13 +10,11 @@ commits the updated `ROADMAP.md` to the PR branch where the command was
 commented. Post `/roadmap` as a PR comment (the agent and the developer
 both can); the workflow reports the outcome in a PR comment.
 
-**Cross-repo access:** `kingdoms-infra` is a **private** repository, so the
-`GITHUB_TOKEN` of `kingdoms` cannot read its issues. `/roadmap` therefore
-requires the `DEPS_SYNC_PAT` repository secret: a fine-grained PAT with
-**"Issues: read"** on **both** `merlin-pinpin/kingdoms-services` **and**
-`merlin-pinpin/kingdoms-infra`. The job fails closed when the secret is
-missing or a repository is unreadable — roadmap statuses for
-`kingdoms-infra` can never silently go stale.
+**Cross-repo access:** all three repositories are public, so the default
+`GITHUB_TOKEN` reads the issues of `kingdoms-services` and
+`kingdoms-infra` directly (no custom secret). The job still fails closed
+when a repository is unreadable — roadmap statuses for `kingdoms-infra`
+can never silently go stale.
 
 **This skill (manual fallback):** run it when automation is down, when a
 status requires human judgment, or on explicit request ("update the roadmap").
