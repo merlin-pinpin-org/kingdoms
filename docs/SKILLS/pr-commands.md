@@ -1,0 +1,83 @@
+# Skill: PR commands
+
+Drive the repo automation from **PR comments**: a collaborator with write
+access comments a slash command on a pull request, the `PR commands`
+workflow (`.github/workflows/pr-commands.yml`) runs the corresponding
+script against the PR branch, commits the generated artifact **to that
+PR branch**, and reports the outcome in a PR comment.
+
+This replaces the former event-driven sync workflows (`sync-roadmap.yml`,
+`sync-dependencies.yml`, `generate-docs.yml`) and their rolling
+`automation/*` PRs: generated artifacts now land in the PR that needs
+them — no ghost PR, no accumulated drift.
+
+## Commands
+
+| Command | Action | Artifact committed to the PR branch |
+| ------- | ------ | ----------------------------------- |
+| `/roadmap` | Run `scripts/sync_roadmap.py` | `ROADMAP.md` |
+| `/dependencies` | Run `scripts/sync_dependencies.py` | `docs/DEPENDENCIES.md` |
+| `/check-docs` | Run `scripts/validate_docs.py --check` (against the current `kingdoms-services` main) | none (report only) |
+| `/generate-docs` | Run `scripts/generate_pydoc.py` | `docs/DEVELOPMENT/pydoc/` |
+
+## Access control
+
+The `parse` job checks the comment author's permission on the repo before
+running anything: only `admin`, `maintain` or `write` collaborators can run
+PR commands. A PR comment from anyone else fails the run with an explicit
+permission error. The permission check uses the `GITHUB_TOKEN`, so it works
+for both human collaborators and the agent account.
+
+## Secrets
+
+`/roadmap` and `/dependencies` read the issues of the **private**
+`kingdoms-infra` repository, which the `GITHUB_TOKEN` of this repo cannot.
+Both jobs fail closed when the `DEPS_SYNC_PAT` repository secret is
+missing or a repository is unreadable — they never regenerate from partial
+data:
+
+- `DEPS_SYNC_PAT` (repository secret of `kingdoms`): a fine-grained PAT
+  with **"Issues: read"** on **both** `merlin-pinpin/kingdoms-services`
+  **and** `merlin-pinpin/kingdoms-infra`.
+
+The former `ROADMAP_DISPATCH_PAT` secret (in `kingdoms-services` and
+`kingdoms-infra`, used by the now-removed `repository_dispatch` pings) is
+**no longer needed** and can be deleted.
+
+## When to run which command
+
+- **Every PR touching `docs/` or `scripts/`**: run `/check-docs` before
+  requesting review (same check as the `Check Docs` workflow).
+- **PRs that change issue states or the dependency graph** (new issue,
+  edited `## Dependencies`, size/priority re-decision, merged PR closing
+  an issue): run `/roadmap` and `/dependencies` on an open PR — the
+  artifacts are committed to its branch, ready for review.
+- **PRs that change the `kingdoms-services` source layout or docstrings**:
+  run `/generate-docs` to refresh `docs/DEVELOPMENT/pydoc`.
+
+The agent runs these commands itself by posting the comment on the PR
+(e.g. `gh pr comment <n> --body "/dependencies"`); the workflow commits
+the result and reports back on the PR.
+
+## Commit discipline
+
+- The workflow commits with `github-actions[bot]` identity and conventional
+  commit messages (`docs(roadmap): …`, `docs(dependencies): …`).
+- Results are committed to the **PR branch** (never `main`, never a
+  separate automation branch), so every generated change goes through the
+  normal PR review.
+
+## Failure modes
+
+- **Missing `DEPS_SYNC_PAT`**: `/roadmap` and `/dependencies` fail with an
+  actionable error message; create the secret (see Secrets) and re-run by
+  commenting the command again.
+- **Unreadable repository**: same fail-closed behavior as a missing secret.
+- **Permission denied on the comment author**: explicit error, nothing runs.
+- **Command from a non-collaborator**: fails the `parse` job; no job runs.
+
+## See also
+
+- [update-roadmap.md](update-roadmap.md) — manual fallback for `/roadmap`
+- [update-dependencies.md](update-dependencies.md) — manual fallback for `/dependencies`
+- [../../AGENTS.md](../../AGENTS.md) — session checklist referencing the commands

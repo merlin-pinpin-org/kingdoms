@@ -65,27 +65,28 @@ kingdoms/
 
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
 - [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
-  automatically by the `Sync roadmap` workflow; the
+  by the `/roadmap` PR command; the
   [Update roadmap](docs/SKILLS/update-roadmap.md) skill is the manual fallback)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture
 - [docs/WORKFLOWS.md](docs/WORKFLOWS.md) — game workflows
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
 - [docs/MODS/](docs/MODS/) — mods documentation
 
-## Automation secrets
+## Automation
 
-The cross-repo automation (`Sync roadmap`, `Sync dependencies`) needs to read
-the issues of the private `kingdoms-infra` repository, which the default
-`GITHUB_TOKEN` cannot. Two repository secrets are required (the workflows fail
-closed without them):
+Generated artifacts (`ROADMAP.md`, `docs/DEPENDENCIES.md`,
+`docs/DEVELOPMENT/pydoc`) are refreshed by **PR comment commands** (workflow
+`.github/workflows/pr-commands.yml`, skill
+[docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)): a collaborator with
+write access comments `/roadmap`, `/dependencies`, `/check-docs` or
+`/generate-docs` on a PR, and the result is committed to that PR branch — no
+rolling automation PR, no ghost PR.
 
-| Secret | Where | Fine-grained PAT permission |
-| ------ | ----- | --------------------------- |
-| `ROADMAP_DISPATCH_PAT` | `kingdoms-services`, `kingdoms-infra` | "Contents: read and write" on `merlin-pinpin/kingdoms` |
-| `DEPS_SYNC_PAT` | `kingdoms` | "Issues: read" on `merlin-pinpin/kingdoms-services` AND `merlin-pinpin/kingdoms-infra` |
-
-See the [Update roadmap](docs/SKILLS/update-roadmap.md) and
-[Update dependencies](docs/SKILLS/update-dependencies.md) skills for details.
+The `/roadmap` and `/dependencies` commands read the issues of the private
+`kingdoms-infra` repository, which the default `GITHUB_TOKEN` cannot: they
+require the `DEPS_SYNC_PAT` repository secret (fine-grained PAT with
+"Issues: read" on `merlin-pinpin/kingdoms-services` AND
+`merlin-pinpin/kingdoms-infra`) and fail closed without it.
 
 ## Contributing
 

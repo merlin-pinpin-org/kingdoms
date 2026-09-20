@@ -62,36 +62,40 @@ Step by step:
 6. The release triggers the GitOps deployment to the chosen environment on the
    VPS; the bot runs and the game designer validates the behavior in Discord.
 
-## Roadmap automation
+## PR commands automation
 
-`ROADMAP.md` is the single source of truth for project progress. It is kept
-in sync **automatically** — no manual issue-edit, PR, or session-end ritual is
-needed:
+`ROADMAP.md`, `docs/DEPENDENCIES.md` and `docs/DEVELOPMENT/pydoc` are kept in
+sync through **PR comment commands** (see the
+[PR commands](SKILLS/pr-commands.md) skill, workflow
+`.github/workflows/pr-commands.yml`): a collaborator with write access
+comments `/roadmap`, `/dependencies`, `/check-docs` or `/generate-docs` on a
+pull request, the corresponding script runs against the PR branch, and the
+generated artifact is **committed to that PR branch** — never a rolling
+`automation/*` PR, never a direct push to `main`.
 
-- **Trigger:** the `Sync roadmap` workflow in `kingdoms` runs
-  `scripts/sync_roadmap.py` whenever an issue is opened, reopened or closed —
-  including in `kingdoms-services` and `kingdoms-infra`, which forward their
-  issue events via a `repository_dispatch` ping (`roadmap-ping.yml`, driven by
-  the `ROADMAP_DISPATCH_PAT` secret). Merged PRs need no dedicated trigger:
-  merging a PR closes its linked issue, and the issue event drives the sync.
+- **Why comment-triggered:** the agent can post the commands itself
+  (`gh pr comment <n> --body "/roadmap"`), so every open PR can absorb the
+  generated drift it needs before review; nothing accumulates in ghost PRs.
+- **Access control:** only `admin`/`maintain`/`write` collaborators can run
+  the commands (checked in the `parse` job).
+- **Fail-closed:** `/roadmap` and `/dependencies` need the `DEPS_SYNC_PAT`
+  secret (fine-grained PAT, "Issues: read" on `kingdoms-services` AND
+  `kingdoms-infra`, which is private); they fail with an explicit error when
+  it is missing or a repo is unreadable, never regenerating from partial
+  data.
 - **Status mapping:** closed-as-completed → `done`, closed-as-not-planned →
   `dropped` (moved to "Out of Scope"), open with a closing-keyword PR →
   `in-review`, otherwise `todo`. `in-progress` and `blocked` require human
   judgment and are preserved as-is.
-- **Delivery:** when the roadmap drifted, the workflow updates a single
-  **rolling PR** on branch `automation/roadmap-sync` (never a direct push to
-  `main`, never one PR per event). Reviewing that PR is the only human task.
-- **Safety nets:** a weekly schedule run, manual `workflow_dispatch`, and a
-  guard that fails the workflow when the GitHub API returns no issue data
-  (instead of writing a roadmap update based on incomplete state).
 - **Linking PRs to issues:** use a closing keyword in the PR description
   (`Closes #N` same-repo, `Closes owner/repo#N` cross-repo) — this populates
   the GitHub "Development" section, drives `in-review` detection, and closes
-  the issue on merge, which in turn triggers the roadmap sync.
+  the issue on merge.
 
-The [Update roadmap](SKILLS/update-roadmap.md) skill remains the manual
-fallback: run it only when automation is down or when a status needs human
-judgment (`in-progress`/`blocked`).
+The [Update roadmap](SKILLS/update-roadmap.md) and
+[Update dependencies](SKILLS/update-dependencies.md) skills remain the
+manual fallbacks: run them only when automation is down or when a status
+needs human judgment (`in-progress`/`blocked`).
 
 ## Session loop
 
@@ -105,8 +109,8 @@ An agent session (which starts with no memory of previous conversations):
 5. Report the PR URL to the developer and wait for review.
 6. On approval: merge, tag, release — only when explicitly requested by the
    developer.
-7. Verify the roadmap: the `Sync roadmap` workflow (kingdoms#27) updates
-   `ROADMAP.md` automatically on issue state changes. Only if automation is
+7. Verify the roadmap: post `/roadmap` on the PR (the `PR commands` workflow
+   commits the synced `ROADMAP.md` to the PR branch). Only if automation is
    down or a status needs human judgment (`in-progress`/`blocked`), run the
    "Update roadmap" skill manually.
 

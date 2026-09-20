@@ -66,7 +66,8 @@ flowchart TD
 - Any code change in `kingdoms-services` or `kingdoms-infra` must come with — or
   be followed by — a doc update in this repo (see [AGENTS.md](../AGENTS.md)).
 - Auto-generated technical docs (`docs/DEVELOPMENT/`) are produced from
-  `kingdoms-services` sources by the `generate-docs.yml` workflow.
+  `kingdoms-services` sources by the `/generate-docs` PR command (see
+  [SKILLS/pr-commands.md](SKILLS/pr-commands.md)).
 
 ## 2. Generic core (`kingdoms-services/src/kingdoms/core/`)
 

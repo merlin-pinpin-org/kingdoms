@@ -3,28 +3,20 @@
 Keep `ROADMAP.md` (repo root) in sync with the actual GitHub issue states
 across the three Kingdoms repos.
 
-**Primary mechanism (automatic):** the `Sync roadmap` workflow
-(`.github/workflows/sync-roadmap.yml`, kingdoms#27) runs
-`scripts/sync_roadmap.py` whenever an issue is opened, reopened or closed —
-cross-repo issue events are forwarded from `kingdoms-services` and
-`kingdoms-infra` via `repository_dispatch` (`roadmap-ping.yml`, driven by the
-`ROADMAP_DISPATCH_PAT` secret in those repos). Merged PRs need no dedicated
-trigger: merging a PR closes its linked issue, which fires the issue event.
-When the roadmap drifts, the workflow updates a single rolling PR
-(`docs(roadmap): sync with GitHub issues`) on branch `automation/roadmap-sync`.
-Nothing to do unless that PR needs review.
+**Primary mechanism (automatic):** the `/roadmap` PR command (see
+[pr-commands.md](pr-commands.md), workflow
+`.github/workflows/pr-commands.yml`) runs `scripts/sync_roadmap.py` and
+commits the updated `ROADMAP.md` to the PR branch where the command was
+commented. Post `/roadmap` as a PR comment (the agent and the developer
+both can); the workflow reports the outcome in a PR comment.
 
 **Cross-repo access:** `kingdoms-infra` is a **private** repository, so the
-`GITHUB_TOKEN` of `kingdoms` cannot read its issues. The workflow therefore
-uses the `DEPS_SYNC_PAT` repository secret: a fine-grained PAT with
+`GITHUB_TOKEN` of `kingdoms` cannot read its issues. `/roadmap` therefore
+requires the `DEPS_SYNC_PAT` repository secret: a fine-grained PAT with
 **"Issues: read"** on **both** `merlin-pinpin/kingdoms-services` **and**
 `merlin-pinpin/kingdoms-infra`. The job fails closed when the secret is
 missing or a repository is unreadable — roadmap statuses for
 `kingdoms-infra` can never silently go stale.
-
-The workflow **fails on purpose** when the GitHub API returns no issue data
-or a repository is unreadable, so a broken token can never rewrite the
-roadmap from incomplete state.
 
 **This skill (manual fallback):** run it when automation is down, when a
 status requires human judgment, or on explicit request ("update the roadmap").
@@ -33,13 +25,12 @@ set manually and preserved by the script.
 
 ## Procedure
 
-1. **Check the rolling sync PR first:**
-   `gh pr list --repo merlin-pinpin/kingdoms --head automation/roadmap-sync`
-   If it exists and is up to date, just review/merge it and stop here.
+1. **Run `/roadmap` on an open PR** (or post it as the agent): the workflow
+   syncs `ROADMAP.md` and commits the result to the PR branch. Review the
+   committed diff like any PR change.
 
-2. **Collect issue states** for `merlin-pinpin/kingdoms`,
+2. **Manual fallback only** — collect issue states for `merlin-pinpin/kingdoms`,
    `merlin-pinpin/kingdoms-services`, and `merlin-pinpin/kingdoms-infra`:
-
    ```bash
    gh issue list --repo merlin-pinpin/<repo> --state all --limit 200 \
      --json number,title,state,stateReason
@@ -65,8 +56,7 @@ set manually and preserved by the script.
    the script's `CLOSING_REF_RE`. PRs are linked to their issue with a
    closing keyword in the PR description (`Closes #N` same-repo,
    `Closes owner/repo#N` cross-repo): this populates the GitHub
-   "Development" section and closes the issue on merge, which triggers the
-   roadmap sync.
+   "Development" section and closes the issue on merge.
 
 4. **Update "Current Phase"**: the lowest phase that still has non-`done`
    issues. Sub-tasks do not affect the phase calculation.
@@ -75,7 +65,8 @@ set manually and preserved by the script.
    issues were added/removed.
 
 6. **Open a PR** with the title `docs(roadmap): sync with GitHub issues`
-   (or update the rolling `automation/roadmap-sync` PR in place if it exists).
+   (or commit to the branch of an existing open PR, e.g. after running
+   `/roadmap` on it).
 
 ## Rules
 
@@ -95,6 +86,7 @@ set manually and preserved by the script.
 ## See also
 
 - [../../ROADMAP.md](../../ROADMAP.md) — the roadmap this skill maintains
+- [pr-commands.md](pr-commands.md) — the `/roadmap` PR command automation
 - [../../scripts/sync_roadmap.py](../../scripts/sync_roadmap.py) — the
   automation backing this process (run with `--check` to preview drift)
 - [../../AGENTS.md](../../AGENTS.md) — the rule that triggers this skill at
