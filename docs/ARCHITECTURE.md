@@ -174,11 +174,12 @@ documented in [architecture/discord.md](architecture/discord.md).
 
 All configuration is versioned YAML, loaded at startup:
 
-- **`locales/`**: i18n message catalogs (`en.yaml`, `fr.yaml`)
-- **`games/`**: game declarations (`aoe2.yaml`, `chess.yaml`) — name, aliases,
-  team size
-- **`mods/`**: mod declarations (`register.yaml`, `ladder.yaml`) — enabled
-  flags, per-mod settings
+- **`locales/`**: i18n message catalogs (`en.yaml`, `fr.yaml`) — common keys;
+  mod strings arrive with their mods
+- **`games/`**: game declarations (name, aliases, team size) — added per game,
+  none shipped yet
+- **`mods/`**: mod declarations (`_example.yaml` is the documented template) —
+  enabled flags, channels, roles, workflows, commands, dependencies
 
 ```mermaid
 flowchart LR

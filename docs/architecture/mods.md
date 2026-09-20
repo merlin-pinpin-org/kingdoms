@@ -34,26 +34,27 @@ Responsibilities:
 
 ### Declaration example
 
+The repo ships a fully documented template: `kingdoms-services/config/mods/_example.yaml`.
+Mods are added by copying it as `config/mods/<mod>.yaml` — no core change.
+
 ```yaml
-# kingdoms-services/config/mods/register.yaml
-id: register
-enabled: true
-settings:
-  require_approval: false
-  allowed_games:
-    - aoe2
-channels:
-  - key: register_admin
-    display_name: Registration Admins
-    description: Registration notifications and approval requests
-  - key: register_info
-    display_name: Infos Inscription
-    description: Welcome panel and instructions
-roles:
-  - key: player
-    display_name: Joueur
-  - key: registered_aoe2
-    display_name: Joueur AoE2
+# kingdoms-services/config/mods/<mod>.yaml — schema (validated at startup)
+id: example            # simple slug, must match the mod package name
+enabled: false         # disabled mods are never loaded
+settings: {}           # free-form, mod-specific
+channels:              # addressed at runtime as "mod:key"
+  - key: announce
+    display_name: Annonces
+    description: Where the example mod posts announcements
+    per_instance: false # true = one channel per instance (e.g. per clan)
+roles:                 # logical role keys, resolved by RoleService
+  - key: example_member
+    display_name: Example Member
+    color: 0x99AAB5
+    hoisted: false
+workflows: []           # workflow names implemented by the mod
+commands: []            # command names implemented by the mod
+dependencies: []        # mod ids this mod depends on
 ```
 
 Channel and role declarations are **mod-scoped**: the core never
@@ -101,7 +102,7 @@ Mods extend the platform by combining core seams (detailed in
 | Need | Extension point | Example |
 | ---- | --------------- | ------- |
 | New interaction sequence | `IWorkflow` + `WorkflowEngine` | Registration flow |
-| New destination | Channel category declared in the mod YAML + `ChannelService` | `ladder:ladder_rankings` for standings |
+| New destination | Channel category declared in the mod YAML + `ChannelService` | `example:announce` for announcements |
 | New persistent data | MongoDB model | Ladder standings |
 | New hot state | `StateService` key scope | Matchmaking queue |
 | New user-facing identity | Role declared in mod YAML, resolved by `RoleService` | `player` role |
