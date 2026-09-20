@@ -1,0 +1,212 @@
+name: PR commands
+# Slash-command automation for pull requests (see docs/SKILLS/pr-commands.md):
+# a collaborator with write access comments /roadmap, /dependencies or
+# /check-docs on a PR, and the corresponding script runs
+# against the PR branch. Generated artifacts are committed to the PR branch
+# itself — there is no rolling "ghost" PR — and the outcome is reported in a
+# PR comment. This replaces the former event-driven sync workflows
+# (sync-roadmap.yml, sync-dependencies.yml) and the repository_dispatch
+# pings they relied on.
+#
+# /roadmap and /dependencies read the issues of the private kingdoms-infra
+# repository, which the GITHUB_TOKEN of this repo cannot: they require the
+# DEPS_SYNC_PAT secret (fine-grained PAT with "Issues: read" on
+# kingdoms-services AND kingdoms-infra) and fail closed when it is missing.
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+concurrency:
+  group: pr-commands-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  parse:
+    name: Parse command
+    if: github.event.issue.pull_request
+    runs-on: ubuntu-latest
+    outputs:
+      command: ${{ steps.parse.outputs.command }}
+    steps:
+      - name: Parse the comment and check write access
+        id: parse
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BODY: ${{ github.event.comment.body }}
+          ACTOR: ${{ github.event.comment.user.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          cmd="$(echo "$BODY" | awk '{print $1}')"
+          case "$cmd" in
+            /roadmap|/dependencies|/check-docs) ;;
+            *) echo "command=" >> "$GITHUB_OUTPUT"; exit 0 ;;
+          esac
+          perm="$(gh api "repos/$REPO/collaborators/$ACTOR/permission" --jq .permission)"
+          case "$perm" in
+            admin|maintain|write) ;;
+            *) echo "::error::$ACTOR (permission: $perm) is not allowed to run PR commands"
+               exit 1 ;;
+          esac
+          echo "command=$cmd" >> "$GITHUB_OUTPUT"
+
+  roadmap:
+    name: /roadmap
+    needs: parse
+    if: needs.parse.outputs.command == '/roadmap'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fail closed when DEPS_SYNC_PAT is not configured
+        env:
+          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
+        run: |
+          if [ "${PAT_SET}" != "true" ]; then
+            echo "::error::DEPS_SYNC_PAT is not set; /roadmap needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/pr-commands.md."
+            exit 1
+          fi
+      - name: Sync ROADMAP.md
+        env:
+          GH_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
+        run: |
+          set -o pipefail
+          python scripts/sync_roadmap.py 2>/tmp/sync-warnings.txt | tee /tmp/sync-changes.txt
+          cat /tmp/sync-warnings.txt >&2
+          if grep -q "not found on GitHub" /tmp/sync-warnings.txt; then
+            echo "::error::The GitHub API returned no issue data; refusing to write a roadmap update based on incomplete data"
+            exit 1
+          fi
+          if grep -q "cannot read" /tmp/sync-warnings.txt; then
+            echo "::error::A repository was unreadable (check the DEPS_SYNC_PAT secret); refusing to write a roadmap update based on incomplete data"
+            cat /tmp/sync-warnings.txt >&2
+            exit 1
+          fi
+      - name: Commit changes to the PR branch
+        id: commit
+        run: |
+          set -euo pipefail
+          if git diff --quiet ROADMAP.md; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ROADMAP.md
+          git commit -m "docs(roadmap): sync with GitHub issues"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+      - name: Report on the PR
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.issue.number }}
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            if [ "${{ steps.commit.outputs.updated }}" = "true" ]; then
+              gh pr comment "$PR" --body "✅ \`/roadmap\` — ROADMAP.md updated and committed to the PR branch."
+            else
+              gh pr comment "$PR" --body "✅ \`/roadmap\` — ROADMAP.md already in sync (no changes)."
+            fi
+          else
+            gh pr comment "$PR" --body "❌ \`/roadmap\` failed — check the workflow run logs."
+          fi
+
+  dependencies:
+    name: /dependencies
+    needs: parse
+    if: needs.parse.outputs.command == '/dependencies'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fail closed when DEPS_SYNC_PAT is not configured
+        env:
+          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
+        run: |
+          if [ "${PAT_SET}" != "true" ]; then
+            echo "::error::DEPS_SYNC_PAT is not set; /dependencies needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/pr-commands.md."
+            exit 1
+          fi
+      - name: Sync docs/DEPENDENCIES.md
+        env:
+          GH_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
+        run: python scripts/sync_dependencies.py
+      - name: Commit changes to the PR branch
+        id: commit
+        run: |
+          set -euo pipefail
+          if git diff --quiet docs/DEPENDENCIES.md; then
+            echo "updated=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/DEPENDENCIES.md
+          git commit -m "docs(dependencies): sync dependency graph"
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+      - name: Report on the PR
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.issue.number }}
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            if [ "${{ steps.commit.outputs.updated }}" = "true" ]; then
+              gh pr comment "$PR" --body "✅ \`/dependencies\` — docs/DEPENDENCIES.md updated and committed to the PR branch."
+            else
+              gh pr comment "$PR" --body "✅ \`/dependencies\` — dependency graph already in sync (no changes)."
+            fi
+          else
+            gh pr comment "$PR" --body "❌ \`/dependencies\` failed — check the workflow run logs."
+          fi
+
+  check-docs:
+    name: /check-docs
+    needs: parse
+    if: needs.parse.outputs.command == '/check-docs'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+      - name: Checkout kingdoms-services (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: merlin-pinpin/kingdoms-services
+          path: kingdoms-services
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check documentation completeness
+        run: |
+          python scripts/validate_docs.py --check \
+            --source kingdoms-services/src/kingdoms \
+            --config kingdoms-services/config
+      - name: Report on the PR
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR: ${{ github.event.issue.number }}
+        run: |
+          if [ "${{ job.status }}" = "success" ]; then
+            gh pr comment "$PR" --body "✅ \`/check-docs\` — documentation validation passed."
+          else
+            gh pr comment "$PR" --body "❌ \`/check-docs\` failed — check the workflow run logs."
+          fi

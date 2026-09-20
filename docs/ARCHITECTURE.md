@@ -65,8 +65,10 @@ flowchart TD
   implements them; `kingdoms-infra` deploys the implementation.
 - Any code change in `kingdoms-services` or `kingdoms-infra` must come with — or
   be followed by — a doc update in this repo (see [AGENTS.md](../AGENTS.md)).
-- Auto-generated technical docs (`docs/DEVELOPMENT/`) are produced from
-  `kingdoms-services` sources by the `generate-docs.yml` workflow.
+- Technical docs are generated **in the repository hosting the sources**:
+  the pydoc of `kingdoms-services` is produced by that repo itself
+  (`scripts/generate_pydoc.py`, `make docs`) and freshness-checked on every
+  one of its PRs.
 
 ## 2. Generic core (`kingdoms-services/src/kingdoms/core/`)
 
