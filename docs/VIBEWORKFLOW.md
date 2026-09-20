@@ -26,7 +26,7 @@ must be able to understand the model from this page alone.
 | Implementation | Feature branches `vibe/<slug>` → PRs | Agent |
 | Approvals & merges | PR review, GitHub rulesets | Reviewers with merge access |
 | Versions | Git tags + GitHub releases | Agent executes on request; permissions enforced by GitHub |
-| Deployment | `kingdoms-infra` GitOps (dev / staging / prod) | Agent via CI/CD |
+| Deployment | `kingdoms-infra` GitOps (test / staging / prod, self-hosted runner on the VPS) | Agent via CI/CD |
 
 ## End-to-end flow
 
@@ -133,12 +133,14 @@ An agent session (which starts with no memory of previous conversations):
   have no conversation memory).
 - Every feature is validated by the game designer in Discord before a release
   is tagged.
-- Environments:
-  - **dev**: auto-deploy on merge to `main`; authorized contributors (as
-    defined by the GitHub environment protection rules) can also trigger a
-    dev deployment manually
-  - **staging**: manual deployment
-  - **prod**: tag-triggered deployment
+- Environments (all on the Kingdoms VPS, deployed by the CD pipeline
+  running on its self-hosted runner — installation guide:
+  [VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
+  - **test** (formerly `dev`): auto-deploy on merge to `main`; it is the
+    validation environment where the game designer checks the bot in
+    Discord
+  - **staging**: manual deployment (workflow_dispatch)
+  - **prod**: tag-triggered deployment with a pinned bot image
 
 ## Cross-references
 
