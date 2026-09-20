@@ -22,8 +22,10 @@ Real-API verification (token present, intents correct) runs in CI against a
 **dedicated CI/CD bot** whose token lives in the `kingdoms-services` secret
 `CICD_DISCORD_TOKEN` (kingdoms-services#34): the `Discord smoke` job boots
 the real bot container, asserts the gateway-ready signal, and soaks it. The
-job is presence-gated on the secret, so it is skipped cleanly (green) when
-the token is not configured — forks and fresh clones never fail on it.
+job is **fail-closed** on the secret: when the token is not configured the
+job fails with an explicit error — a missing CI/CD bot token is a broken CI
+setup, never a silent skip. The developer provisions the secret so CI can
+pass.
 
 ## 2. Test pyramid
 
@@ -33,7 +35,7 @@ the token is not configured — forks and fresh clones never fail on it.
 | Integration | Multi-component flows: `WorkflowEngine` + `ChannelService` + `StateService` + stores | Every push/PR | pytest + `MockDiscord` |
 | Workflow E2E | Complete user journeys (register a player, report a match) driven only through `MockDiscord` interactions | Every push/PR | pytest |
 | Smoke (preflight) | Real container entrypoint: environment, MongoDB, Redis, locale catalogs — no Discord gateway | Every push/PR | GitHub Actions (`Bot preflight` step) |
-| Smoke (real Discord) | Real bot container, real gateway connection via the dedicated CI/CD bot | Every push/PR to `main`, presence-gated on `CICD_DISCORD_TOKEN` | GitHub Actions (`Discord smoke`, kingdoms-services#34) |
+| Smoke (real Discord) | Real bot container, real gateway connection via the dedicated CI/CD bot | Every push/PR to `main`; **fails** if `CICD_DISCORD_TOKEN` is missing | GitHub Actions (`Discord smoke`, kingdoms-services#34) |
 
 ## 3. MockDiscord
 
