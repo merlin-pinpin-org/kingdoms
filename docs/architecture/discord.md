@@ -1,8 +1,24 @@
 # Discord.py components guide
 
 This guide documents the discord.py UI component concepts used throughout
-Kingdoms: Views, Buttons, Selects, Modals, **Persistent Views**, and
-**Dynamic Items**, with concrete usage patterns and pitfalls.
+Kingdoms: **embeds**, **Components V2** (`LayoutView`), Buttons, Selects,
+Modals, **Persistent Views**, and **Dynamic Items**, with concrete usage
+patterns and pitfalls.
+
+Kingdoms uses **both** systems as complements (ADR-0009):
+
+- **Embeds**: sober, lightweight, read-mostly messages (a result, a
+  confirmation, a status update). First choice for simple output.
+- **Components V2** (`LayoutView`): rich, structured, interactive UI —
+  panels, multi-block layouts, side-by-side text + accessory, galleries.
+
+A message is **either** embed-based or Components V2 — never both in the
+same message (Discord rejects `content`/`embeds` on a V2 message, and the
+`IS_COMPONENTS_V2` flag is permanent per message).
+
+When in doubt, start with an embed; upgrade to V2 when the layout demands
+more than a flat title/description/fields shape. See
+[ADR-0009](../DECISIONS/009-discord-components-v2.md).
 
 The goal is that all mods use consistent patterns, so interactions behave the
 same everywhere and the game designer can iterate on interactions without
@@ -13,10 +29,23 @@ page is the reference for the patterns the implementation must follow.
 
 ## 1. Views (basic)
 
+> **Components V2 (discord.py ≥ 2.6):** rich UI uses `discord.ui.LayoutView`
+> — see section 1b and [ADR-0009](../DECISIONS/009-discord-components-v2.md).
+> The `ui.View` patterns below (interaction checks, timeouts, custom IDs)
+> carry over almost unchanged; the container class differs.
+>
+> **Embeds are not legacy** (ADR-0009): for sober, lightweight messages,
+> send a `discord.Embed` (optionally with a `ui.View` for buttons). This
+> section's `ui.View` patterns apply to both systems — only the rich-display
+> part (V2 layouts, section 1b) is V2-specific.
+
 A `discord.ui.View` is a container for buttons/selects attached to a message.
 It dies after its timeout.
 
 Good for: one-off confirmations within a single conversation.
+
+Legacy `ui.View` example (kept for reference — do **not** start new code
+this way):
 
 ```python
 """
@@ -67,6 +96,103 @@ if view.value:
     ...
 ```
 
+## 1b. Components V2 — LayoutView (for rich UI)
+
+Discord's Components V2 replaces `content` + `embeds` + rows with a
+composable component tree, for messages that need more than a flat embed.
+discord.py exposes it since 2.6 (we pin `>=2.7.1`). The root is a
+`discord.ui.LayoutView`; inside it:
+
+| Component | Kind | Notes |
+| --------- | ---- | ----- |
+| `ui.Container` | layout | Rounded card with `accent_color`; children stack vertically |
+| `ui.Section` | layout | 1–3 `TextDisplay` children + one accessory (`Thumbnail` or `Button`) |
+| `ui.ActionRow` | layout | Up to 5 buttons or 1 select (as before) |
+| `ui.Separator` | display | `visible=True/False`, `spacing` small/large |
+| `ui.TextDisplay` | display | Markdown text; **4000 chars total per message** |
+| `ui.Thumbnail` | display | Only as a `Section` accessory; images/GIF/WebP |
+| `ui.MediaGallery` | display | Up to 10 media items |
+| `ui.File` | display | Attachment surfaced explicitly |
+
+### Hard incompatibilities to avoid
+
+1. **Never mix systems in one message**: a Components V2 message cannot
+   carry `content`, `embeds`, `stickers`, or `poll`. Passing both raises an
+   API error. Text belongs in `TextDisplay`, cards in `Container`.
+2. **The flag is permanent per message**: once sent with
+   `IS_COMPONENTS_V2`, the flag cannot be removed; edits must send a full
+   V2 layout again.
+3. **Limits**: 40 components per message; 4000 shared characters across all
+   `TextDisplay` (`LayoutView.content_length()` returns the total — assert
+   it in tests); `Section` max 3 text children; `MediaGallery` max 10 items.
+4. **Mentions in `TextDisplay` ping** even inside containers: gate
+   mentionable content before rendering.
+5. **Attachments are not previewed** by default: surface them via
+   `MediaGallery` / `File` / `Thumbnail` (URL auto-embeds are off).
+6. **Use `walk_children()`** to iterate/disable interactive items — the
+   tree nests (Container → ActionRow → Button).
+
+### Basic V2 confirmation card
+
+```python
+"""
+Components V2 confirm/cancel card: Container + TextDisplays + ActionRow.
+Replaces the embed-based confirm view.
+"""
+import discord
+
+
+class ConfirmCancelLayout(discord.ui.LayoutView):
+    """Confirm/cancel card with a timeout, restricted to one user."""
+
+    def __init__(self, user_id: int, timeout: float = 60.0) -> None:
+        super().__init__(timeout=timeout)
+        self.user_id = user_id
+        self.value: bool | None = None
+        self.container = discord.ui.Container(
+            discord.ui.TextDisplay("## Are you sure?"),
+            discord.ui.TextDisplay("This action cannot be undone."),
+            accent_color=discord.Color.blurple(),
+        )
+        self.action_row = discord.ui.ActionRow()
+        self.container.add_item(self.action_row)
+        self.add_item(self.container)
+
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if interaction.user.id != self.user_id:
+            await interaction.response.send_message(
+                "This prompt is not for you.", ephemeral=True
+            )
+            return False
+        return True
+
+    @discord.ui.button(label="Confirm", style=discord.ButtonStyle.success)
+    async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button) -> None:
+        self.value = True
+        for child in self.walk_children():
+            if isinstance(child, (discord.ui.Button, discord.ui.Select)):
+                child.disabled = True
+        await interaction.response.edit_message(view=self)
+        self.stop()
+
+    @discord.ui.button(label="Cancel", style=discord.ButtonStyle.danger)
+    async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button) -> None:
+        self.value = False
+        for child in self.walk_children():
+            if isinstance(child, (discord.ui.Button, discord.ui.Select)):
+                child.disabled = True
+        await interaction.response.edit_message(view=self)
+        self.stop()
+
+
+# usage — no content=, no embed=; everything is in the layout
+view = ConfirmCancelLayout(user_id=interaction.user.id)
+await interaction.response.send_message(view=view, ephemeral=True)
+await view.wait()
+if view.value:
+    ...
+```
+
 ## 2. Persistent Views (survive restarts)
 
 Key rules:
@@ -78,26 +204,35 @@ Key rules:
 
 ```python
 """
-Persistent view: works even after bot restarts.
+Persistent layout: works even after bot restarts.
 Good for: registration welcome panels, leaderboard refresh buttons.
 Custom IDs follow the convention: mod:component:payload
+
+`bot.add_view()` works identically for LayoutView as for legacy View.
 """
 import discord
 
 
-class RegistrationPanelView(discord.ui.View):
+class RegistrationPanelLayout(discord.ui.LayoutView):
     """Welcome panel with a Register button that always works."""
 
     def __init__(self):
         super().__init__(timeout=None)  # MUST be None for persistence
+        container = discord.ui.Container(accent_colour=discord.Colour.blurple())
+        section = discord.ui.Section(
+            discord.ui.TextDisplay("**Welcome to Kingdoms!**\nPress Register to create your kingdom."),
+            accessory=discord.ui.Button(
+                label="Register",
+                style=discord.ButtonStyle.green,
+                custom_id="registration:panel:register",  # Explicit custom_id
+                emoji="✅",
+            ),
+        )
+        section.accessory.callback = self.register  # type: ignore[assignment]
+        container.add_item(section)
+        self.add_item(container)
 
-    @discord.ui.button(
-        label="Register",
-        style=discord.ButtonStyle.green,
-        custom_id="registration:panel:register",  # Explicit custom_id
-        emoji="✅",
-    )
-    async def register(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def register(self, interaction: discord.Interaction):
         # No in-memory state here: recover everything from DB/interaction
         await interaction.response.defer(ephemeral=True)
         # ... start registration workflow ...
@@ -107,8 +242,12 @@ class RegistrationPanelView(discord.ui.View):
 
 
 # At bot startup (in setup_hook):
-# bot.add_view(RegistrationPanelView())
+# bot.add_view(RegistrationPanelLayout())
 ```
+
+> **Legacy note**: the same panel built with `discord.ui.View` + `@discord.ui.button`
+> decorators works too, but all **new** UI must be LayoutView per
+> [ADR-0009](../DECISIONS/009-discord-components-v2.md).
 
 ## 3. Dynamic Items (templated components)
 
@@ -256,6 +395,12 @@ flowchart TD
 
 ## Pitfalls summary
 
+- **Dual UI system** ([ADR-0009](../DECISIONS/009-discord-components-v2.md)):
+  embeds for sober, lightweight messages; Components V2 (`LayoutView`) for
+  rich UI. Never mix `content`/`embeds`/`stickers`/`poll` with a LayoutView
+  message — the `IS_COMPONENTS_V2` flag is permanent per message; keep total
+  TextDisplay length ≤ 4000 characters and ≤ 40 components; mentions inside
+  TextDisplay ping the mentioned users.
 - **`interaction_check`**: always restrict components to the intended user
   (e.g., the command author), with an ephemeral rejection message.
 - **`timeout=None` is required** for persistence; any non-`None` timeout kills
