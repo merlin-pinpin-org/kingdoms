@@ -411,6 +411,13 @@ def main() -> int:
     for warning in warnings:
         warn(warning)
 
+    if warnings:
+        warn(
+            "validation failed; fix the warnings above and re-run — "
+            "ROADMAP.md was not written"
+        )
+        return 3
+
     if new_text == text:
         if text == original:
             print("ROADMAP.md is up to date")

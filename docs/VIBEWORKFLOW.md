@@ -87,6 +87,10 @@ generated artifact is **committed to that PR branch** — never a rolling
   `dropped` (moved to "Out of Scope"), open with a closing-keyword PR →
   `in-review`, otherwise `todo`. `in-progress` and `blocked` require human
   judgment and are preserved as-is.
+- **Fail-closed:** every sync/generation script fails when its validation
+  fails (unreadable repo, partial data, missing labels, stale generated
+  docs) — no best-effort or partial writes. The order is always
+  **generate first, then check**: `/generate-docs` before `/check-docs`.
 - **Linking PRs to issues:** use a closing keyword in the PR description
   (`Closes #N` same-repo, `Closes owner/repo#N` cross-repo) — this populates
   the GitHub "Development" section, drives `in-review` detection, and closes

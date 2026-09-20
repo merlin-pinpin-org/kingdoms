@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import re
 import importlib
 import pydoc
 import sys
@@ -57,6 +58,11 @@ def write_pages(
     written: list[tuple[str, Path]] = []
     for name, module in imported:
         content = pydoc.html.page(name, pydoc.html.document(module, name))
+        content = re.sub(
+            r"0x[0-9a-f]+|\b\d{12,}\b",
+            "0xMEMORY_ADDRESS",
+            content,
+        )
         rel_dir = Path(*name.split(".")[:-1])
         out_dir = output_dir / rel_dir
         out_dir.mkdir(parents=True, exist_ok=True)

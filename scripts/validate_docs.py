@@ -179,16 +179,18 @@ def main() -> int:
 
     if source_root is None:
         print(
-            "warning: kingdoms-services source not found, "
-            "docstring check skipped",
+            "error: kingdoms-services source not found — the docstring check "
+            "is mandatory; refusing to validate partially",
             file=sys.stderr,
         )
+        return 1
     if config_root is None:
         print(
-            "warning: kingdoms-services config not found, "
-            "only validating documented mods",
+            "error: kingdoms-services config not found — mod-declaration "
+            "validation is mandatory; refusing to validate partially",
             file=sys.stderr,
         )
+        return 1
 
     problems = (
         check_mods_docs(docs_root, config_root)

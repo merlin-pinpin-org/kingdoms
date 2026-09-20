@@ -11,6 +11,30 @@ This replaces the former event-driven sync workflows (`sync-roadmap.yml`,
 `automation/*` PRs: generated artifacts now land in the PR that needs
 them — no ghost PR, no accumulated drift.
 
+## Fail-closed validation (all sync/generate scripts)
+
+Every sync/generation script **fails** when its validation fails — none of
+them degrades to a partial or best-effort result:
+
+- `/roadmap` (`sync_roadmap.py`): refuses to write `ROADMAP.md` if any of
+  the three repositories is unreadable (exit 2) or if any validation
+  warning is raised — open issue missing from the roadmap, unknown
+  repository reference, issue not found on GitHub, Out-of-Scope drift
+  (exit 3). Fix the reported problems and re-run.
+- `/dependencies` (`sync_dependencies.py`): fails on missing `size/*` or
+  `priority/*` labels, unknown or still-open checked dependencies,
+  dependency cycles, and unreadable repositories. It also reports
+  `priority/*` label drift (fix with `gh issue edit`, then re-run).
+- `/generate-docs` (`generate_pydoc.py`): memory addresses are scrubbed so
+  the output is deterministic; a module that fails to import is a warning.
+- `/check-docs` (`validate_docs.py`): fails when the `kingdoms-services`
+  source or config checkout is absent — partial validation is refused —
+  in addition to docstring completeness and mods-documentation checks.
+- The `Check Docs` **required check** enforces generated-docs freshness on
+  every PR: it regenerates the pydoc and fails with "stale" when the
+  committed copy differs. The fix is always the same order: **generate
+  first (`/generate-docs`), then check (`/check-docs`)**.
+
 ## Required checks
 
 The `Check Docs` workflow (`check`) and the `CLA Check` (`cla`) are
