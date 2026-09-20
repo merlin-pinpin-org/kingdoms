@@ -5,6 +5,10 @@ name: Sync dependencies
 # docs/SKILLS/update-dependencies.md). Cross-repo issue changes ping this
 # workflow via repository_dispatch (dependencies-ping.yml in kingdoms-services
 # and kingdoms-infra); the weekly schedule is the safety net.
+# kingdoms-infra is a private repository, so the GITHUB_TOKEN of this repo
+# cannot read its issues: the DEPS_SYNC_PAT secret (fine-grained PAT with
+# "Issues: read" on kingdoms-services AND kingdoms-infra) is required and
+# the job fails closed when it is missing or invalid.
 on:
   issues:
     types: [opened, edited, reopened, closed]
@@ -31,9 +35,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Fail closed when DEPS_SYNC_PAT is not configured
+        env:
+          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
+        run: |
+          if [ "${PAT_SET}" != "true" ]; then
+            echo "::error::DEPS_SYNC_PAT is not set; the sync needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/update-dependencies.md." 
+            exit 1
+          fi
       - name: Sync docs/DEPENDENCIES.md
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
         run: python scripts/sync_dependencies.py
       - name: Open or update rolling sync PR
         env:

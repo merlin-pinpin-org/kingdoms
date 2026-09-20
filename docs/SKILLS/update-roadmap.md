@@ -8,14 +8,23 @@ across the three Kingdoms repos.
 `scripts/sync_roadmap.py` whenever an issue is opened, reopened or closed —
 cross-repo issue events are forwarded from `kingdoms-services` and
 `kingdoms-infra` via `repository_dispatch` (`roadmap-ping.yml`, driven by the
-`ROADMAP_DISPATCH_PAT` secret). Merged PRs need no dedicated trigger: merging
-a PR closes its linked issue, which fires the issue event. When the roadmap
-drifts, the workflow updates a single rolling PR (`docs(roadmap): sync with
-GitHub issues`) on branch `automation/roadmap-sync`. Nothing to do unless
-that PR needs review.
+`ROADMAP_DISPATCH_PAT` secret in those repos). Merged PRs need no dedicated
+trigger: merging a PR closes its linked issue, which fires the issue event.
+When the roadmap drifts, the workflow updates a single rolling PR
+(`docs(roadmap): sync with GitHub issues`) on branch `automation/roadmap-sync`.
+Nothing to do unless that PR needs review.
 
-The workflow **fails on purpose** when the GitHub API returns no issue data,
-so a broken token can never rewrite the roadmap from incomplete state.
+**Cross-repo access:** `kingdoms-infra` is a **private** repository, so the
+`GITHUB_TOKEN` of `kingdoms` cannot read its issues. The workflow therefore
+uses the `DEPS_SYNC_PAT` repository secret: a fine-grained PAT with
+**"Issues: read"** on **both** `merlin-pinpin/kingdoms-services` **and**
+`merlin-pinpin/kingdoms-infra`. The job fails closed when the secret is
+missing or a repository is unreadable — roadmap statuses for
+`kingdoms-infra` can never silently go stale.
+
+The workflow **fails on purpose** when the GitHub API returns no issue data
+or a repository is unreadable, so a broken token can never rewrite the
+roadmap from incomplete state.
 
 **This skill (manual fallback):** run it when automation is down, when a
 status requires human judgment, or on explicit request ("update the roadmap").

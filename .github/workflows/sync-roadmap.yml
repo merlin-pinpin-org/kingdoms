@@ -7,8 +7,12 @@ name: Sync roadmap
 # Roadmap statuses are driven by issue state changes only: a merged PR closes
 # its linked issue, which fires the `issues` event here. Cross-repo issue
 # changes ping this workflow via repository_dispatch (see roadmap-ping.yml in
-# kingdoms-services and kingdoms-infra); the weekly schedule is the safety net
-# when that token is not configured.
+# kingdoms-services and kingdoms-infra); the weekly schedule is the safety net.
+# kingdoms-infra is a private repository, so the GITHUB_TOKEN of this repo
+# cannot read its issues: the DEPS_SYNC_PAT secret (fine-grained PAT with
+# "Issues: read" on kingdoms-services AND kingdoms-infra) is required so
+# roadmap statuses never go stale for kingdoms-infra; the job fails closed
+# when the token is missing or a repository is unreadable.
 
 on:
   issues:
@@ -36,9 +40,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Fail closed when DEPS_SYNC_PAT is not configured
+        env:
+          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
+        run: |
+          if [ "${PAT_SET}" != "true" ]; then
+            echo "::error::DEPS_SYNC_PAT is not set; the roadmap sync needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/update-roadmap.md."
+            exit 1
+          fi
       - name: Sync ROADMAP.md
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
         run: |
           set -o pipefail
           python scripts/sync_roadmap.py 2>/tmp/sync-warnings.txt | tee /tmp/sync-changes.txt
@@ -47,6 +59,11 @@ jobs:
         run: |
           if grep -q "not found on GitHub" /tmp/sync-warnings.txt; then
             echo "::error::The GitHub API returned no issue data; refusing to write a roadmap update based on incomplete data"
+            exit 1
+          fi
+          if grep -q "cannot read" /tmp/sync-warnings.txt; then
+            echo "::error::A repository was unreadable (check the DEPS_SYNC_PAT secret: fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra); refusing to write a roadmap update based on incomplete data"
+            cat /tmp/sync-warnings.txt >&2
             exit 1
           fi
       - name: Open or update rolling sync PR

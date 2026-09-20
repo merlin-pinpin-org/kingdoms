@@ -72,6 +72,21 @@ kingdoms/
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
 - [docs/MODS/](docs/MODS/) — mods documentation
 
+## Automation secrets
+
+The cross-repo automation (`Sync roadmap`, `Sync dependencies`) needs to read
+the issues of the private `kingdoms-infra` repository, which the default
+`GITHUB_TOKEN` cannot. Two repository secrets are required (the workflows fail
+closed without them):
+
+| Secret | Where | Fine-grained PAT permission |
+| ------ | ----- | --------------------------- |
+| `ROADMAP_DISPATCH_PAT` | `kingdoms-services`, `kingdoms-infra` | "Contents: read and write" on `merlin-pinpin/kingdoms` |
+| `DEPS_SYNC_PAT` | `kingdoms` | "Issues: read" on `merlin-pinpin/kingdoms-services` AND `merlin-pinpin/kingdoms-infra` |
+
+See the [Update roadmap](docs/SKILLS/update-roadmap.md) and
+[Update dependencies](docs/SKILLS/update-dependencies.md) skills for details.
+
 ## Contributing
 
 Contributions are made through the vibe-coding workflow:

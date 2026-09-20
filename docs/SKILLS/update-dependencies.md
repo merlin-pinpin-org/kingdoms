@@ -27,6 +27,14 @@ issue's tracked progress automatically. The reverse direction
 - `priority/P0-P3` labels on every issue (critical-path slack)
 - `size/XS-XL` labels (set manually: XS=1, S=3, M=5, L=8, XL=13 points)
 
+**Cross-repo access:** `kingdoms-infra` is a **private** repository, so the
+`GITHUB_TOKEN` of `kingdoms` cannot read its issues. The `Sync dependencies`
+workflow therefore uses the `DEPS_SYNC_PAT` repository secret: a
+fine-grained PAT with **"Issues: read"** on **both**
+`merlin-pinpin/kingdoms-services` **and** `merlin-pinpin/kingdoms-infra`.
+The job fails closed when the secret is missing or a repository is
+unreadable — it never regenerates the graph from partial data.
+
 ## Procedure
 
 1. **Collect and recompute:**
@@ -66,7 +74,7 @@ issue's tracked progress automatically. The reverse direction
   (`.github/workflows/sync-dependencies.yml`) pings this repo via
   `repository_dispatch` whenever an issue in `kingdoms-services` or
   `kingdoms-infra` is opened, edited, reopened or closed (driven by the
-  `ROADMAP_DISPATCH_PAT` secret), and updates a single rolling PR.
+  `ROADMAP_DISPATCH_PAT` secret in those repos), and updates a single rolling PR.
 - Manually: this skill, when automation is down or when a human decision
   (new dependency, re-prioritization, re-sizing) needs to be reflected.
 
