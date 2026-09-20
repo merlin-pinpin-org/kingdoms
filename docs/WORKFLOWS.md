@@ -4,7 +4,7 @@ This document is the definitive reference for Kingdoms user interactions and
 system behavior. All workflows are described **platform-agnostically**: they
 are expressed against the generic core (see
 [ARCHITECTURE.md](ARCHITECTURE.md)), so they apply to Discord today and to
-future platforms (Twitch, Telegram) without changes.
+future platforms (Twitch) without changes.
 
 Components referenced here (`WorkflowEngine`, `ChannelService`,
 `ChannelCategory`, `WorkflowState`) are documented in
@@ -34,7 +34,7 @@ documented in [architecture/discord.md](architecture/discord.md).
 **Channels used:**
 
 - DM for user interaction
-- `ADMIN` channel for notification
+- `register:register_admin` channel for notifications (mod-declared)
 
 ```mermaid
 sequenceDiagram
@@ -79,12 +79,12 @@ sequenceDiagram
 7. Bot records match result
 8. Bot updates ELO ratings
 9. Bot updates ladder rankings
-10. Bot posts results in `LADDER` channel
+10. Bot posts results in the `ladder:ladder_rankings` channel
 
 **Channels used:**
 
 - DM for match coordination
-- `LADDER` channel for rankings and results
+- `ladder:ladder_rankings` channel for rankings, `ladder:ladder_info` for announcements
 
 ```mermaid
 sequenceDiagram
@@ -144,7 +144,7 @@ command**; moderation is admin-driven.
 
 **Channels used:**
 
-- `ADMIN` channel for admin actions
+- Mod-declared admin channels (e.g. `register:register_admin`, `ladder:ladder_admin`) for admin actions
 - `LOGS` channel for moderation history
 - DM for user notification
 
@@ -181,9 +181,9 @@ flowchart TD
     B -->|"/clan"| D2["Handle Clan Action"]
     B -->|"Other"| F["Default Channel"]
 
-    C --> G["ChannelCategory.REGISTRATION"]
-    E --> I["ChannelCategory.LEADERBOARD"]
-    D2 --> I2["ChannelCategory.CLAN"]
+    C --> G["register:register_admin"]
+    E --> I["ladder:ladder_rankings"]
+    D2 --> I2["clans:clan_chat"]
 
     G --> J["get_channel_for_category"]
     H --> J

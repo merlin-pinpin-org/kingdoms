@@ -7,10 +7,10 @@ flows through the system.
 
 The five architectural pillars:
 
-1. **Multi-platform**: abstraction via `IPlatform` (Discord now, Twitch/Telegram later)
+1. **Multi-platform**: abstraction via `IPlatform` (Discord now, Twitch later)
 2. **Modular**: generic core + specific implementations
 3. **Workflow-based**: a workflow engine drives interaction sequences
-4. **Channel categories**: intelligent message routing (`ADMIN`, `REPORTS`, ...)
+4. **Channel categories**: intelligent message routing; core keeps only platform-level categories (`ADMIN`, `REPORTS`, `LOGS`), mods declare their own (`ladder:ladder_rankings`, ...)
 5. **GitOps**: deployment via Docker Compose manifests
 
 ## 1. Overview
@@ -140,7 +140,7 @@ workflow payloads evolve with the game rules):
 
 ### `enums/`
 
-- **`ChannelCategory`**: `ADMIN`, `REPORTS`, `LADDER`, ... — the routing keys
+- **`ChannelCategory`**: platform-level routing keys (`ADMIN`, `REPORTS`, `LOGS`); mod-scoped categories are declared per mod (`mod:key`)
   used by `ChannelService`
 - **`PlatformType`**: `DISCORD`, `TWITCH`, ...
 - **`WorkflowStatus`**: `PENDING`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`,
@@ -275,7 +275,7 @@ flowchart LR
 
 | Decision | Rationale | ADR |
 | -------- | ---------- | --- |
-| `IPlatform` abstraction | **Extensibility** — Twitch/Telegram later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
+| `IPlatform` abstraction | **Extensibility** — Twitch later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |

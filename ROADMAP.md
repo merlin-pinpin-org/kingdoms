@@ -73,7 +73,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin/kingdoms-services/issues/18)
   (closed as not planned)
-- Twitch/Telegram platforms — architecture-ready (`IPlatform`), not implemented
+- Twitch platform — architecture-ready (`IPlatform`), not implemented
 
 ## Change Log
 | Date | Change |

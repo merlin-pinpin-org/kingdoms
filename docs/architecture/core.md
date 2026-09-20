@@ -6,7 +6,7 @@ This page is the design deep-dive of the generic core
 the two disagree, the overview wins and this page must be fixed.
 
 The core is **platform-agnostic**: it contains everything reusable across
-Discord, Twitch, or Telegram, and never imports platform-specific code (see
+Discord or Twitch, and never imports platform-specific code (see
 [ADR-0001](../DECISIONS/001-multi-platform-architecture.md)). Implementation
 is tracked by the Phase 2 issues of
 [kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services)
@@ -105,9 +105,13 @@ durable document is the recovery source. Detailed key scheme:
 
 ## 2. ChannelService
 
-Mods and workflows ask for a channel by **category** (`ChannelCategory`
-enum: `ADMIN`, `REPORTS`, `LADDER`, ...), never by name or ID. Resolution
-order is cache → database → platform creation, described in
+Mods and workflows ask for a channel by **category**, never by name or
+ID. Categories are **mod-scoped**: the core enum keeps only platform-level
+categories (`ADMIN`, `REPORTS`, `LOGS`); each mod declares its own channel
+categories (e.g. the ladder mod: admins, rankings, info) in its mod config,
+provisioned automatically via `ModRegistry` (kingdoms-services#26). A mod
+category is addressed as `mod:key` (e.g. `ladder:ladder_rankings`).
+Resolution order is cache → database → platform creation, described in
 [ADR-0003](../DECISIONS/003-channel-categories.md) and diagrammed in the
 [overview](../ARCHITECTURE.md#6-key-diagrams).
 
@@ -145,7 +149,7 @@ The core exposes deliberate seams for the platform layer and mods:
 | --------------- | -------- | ------- |
 | `IPlatform` implementation | Discord layer (`DiscordPlatform`) | Platform capabilities without touching core logic |
 | `IWorkflow` implementation | Mods | New interaction sequences |
-| `ChannelCategory` enum value | Mods | New message destinations |
+| Mod-declared channel category (`mod:key`) | Mods | New message destinations, no core change |
 | MongoDB model | Mods | New persistent game data |
 | `StateService` key | Mods | New hot state, locks, counters |
 | YAML config file | Game designer | Games, locales, mod settings — no code change needed |
