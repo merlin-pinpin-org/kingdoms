@@ -52,9 +52,6 @@ kingdoms/
 │   │   ├── register/              # Registration mod (rules, environment)
 │   │   ├── ladder/                # Ladder mod (rules, environment)
 │   │   └── TEMPLATE/              # Template referenced by new mod docs
-│   ├── DEVELOPMENT/               # Auto-generated technical docs
-│   │   ├── api/                   # Generated API docs
-│   │   └── pydoc/                 # Generated pydoc HTML
 │   └── DECISIONS/                 # Architecture Decision Records (ADR)
 ├── .github/workflows/             # Docs generation and validation workflows
 ├── scripts/                       # Doc generation and validation scripts
@@ -65,12 +62,33 @@ kingdoms/
 
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
 - [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
-  automatically by the `Sync roadmap` workflow; the
+  by the `/roadmap` PR command; the
   [Update roadmap](docs/SKILLS/update-roadmap.md) skill is the manual fallback)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture
 - [docs/WORKFLOWS.md](docs/WORKFLOWS.md) — game workflows
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
 - [docs/MODS/](docs/MODS/) — mods documentation
+
+## Automation
+
+Generated artifacts (`ROADMAP.md`, `docs/DEPENDENCIES.md`) are refreshed by
+**PR comment commands** (workflow
+`.github/workflows/pr-commands.yml`, skill
+[docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)): a collaborator with
+write access comments `/roadmap`, `/dependencies` or `/check-docs` on a PR,
+and the result is committed to that PR branch — no
+rolling automation PR, no ghost PR.
+
+Generated technical documentation (pydoc) lives in `kingdoms-services`
+([`docs/DEVELOPMENT/pydoc`](https://github.com/merlin-pinpin/kingdoms-services/tree/main/docs/DEVELOPMENT/pydoc)),
+next to the sources it documents; a dedicated workflow checks its freshness
+on every PR of that repo.
+
+The `/roadmap` and `/dependencies` commands read the issues of the private
+`kingdoms-infra` repository, which the default `GITHUB_TOKEN` cannot: they
+require the `DEPS_SYNC_PAT` repository secret (fine-grained PAT with
+"Issues: read" on `merlin-pinpin/kingdoms-services` AND
+`merlin-pinpin/kingdoms-infra`) and fail closed without it.
 
 ## Contributing
 

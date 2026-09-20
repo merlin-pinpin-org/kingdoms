@@ -19,14 +19,15 @@ Sizes (`size/XS..XL`) map to points (1, 3, 5, 8, 13).
 
 ## Critical path
 
-Total: **48 pts**. Critical path:
+Total: **47 pts**. Critical path:
 
-[kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) -> [kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) -> [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) -> [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) -> [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) -> [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14) -> [kingdoms-services#15](https://github.com/merlin-pinpin/kingdoms-services/issues/15) -> [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27)
+[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) -> [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) -> [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) -> [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) -> [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14) -> [kingdoms-services#15](https://github.com/merlin-pinpin/kingdoms-services/issues/15) -> [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27)
 
 ## Dependency graph
 
 ```mermaid
 flowchart LR
+    ks_35["#35 Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets)"]
     ks_28["#28 Set up Conventional Changelog (semantic release)"]
     ks_27["#27 Sub-task: AoE2 game microservice (generic IGameProvider)"]
     ks_26["#26 Sub-task: Generic channel/role management per mod"]
@@ -53,12 +54,13 @@ flowchart LR
     ks_4["#4 [Phase 2] Create DB models (MongoDB)"]
     ks_3["#3 [Phase 2] Implement IPlatform"]
     ks_2["#2 [Phase 1] Add MockDiscord for testing"]
-    ks_1["#1 [Phase 1] Initialize Python structure"]
     ki_5["#5 [Phase 2] Configure monitoring"]
     ki_4["#4 [Phase 2] Create deployment scripts"]
     ki_3["#3 [Phase 2] Add infrastructure documentation"]
     ki_2["#2 [Phase 2] Configure GitHub workflows for CI/CD"]
     ki_1["#1 [Phase 1] Initialize repo structure"]
+    ks_12 --> ks_35
+    ks_26 --> ks_35
     ki_2 --> ks_28
     ks_8 --> ks_27
     ks_15 --> ks_27
@@ -94,9 +96,7 @@ flowchart LR
     ks_14 --> ks_19
     ks_16 --> ks_19
     ks_17 --> ks_19
-    ks_1 --> ks_17
-    ks_1 --> ks_16
-    ks_17 --> ks_16
+    ks_16 --> ks_17
     ks_4 --> ks_15
     ks_5 --> ks_15
     ks_6 --> ks_15
@@ -122,11 +122,9 @@ flowchart LR
     ks_4 --> ks_11
     ks_7 --> ks_11
     ks_8 --> ks_11
-    ks_1 --> ks_10
     ks_4 --> ks_9
     ks_7 --> ks_9
     ks_3 --> ks_8
-    ks_1 --> ks_7
     ks_3 --> ks_6
     ks_4 --> ks_6
     ks_7 --> ks_6
@@ -134,9 +132,6 @@ flowchart LR
     ks_3 --> ks_5
     ks_4 --> ks_5
     ks_7 --> ks_5
-    ks_1 --> ks_4
-    ks_1 --> ks_3
-    ks_1 --> ks_2
     ki_1 --> ki_5
     ki_2 --> ki_5
     ki_1 --> ki_4
@@ -145,7 +140,7 @@ flowchart LR
     ki_1 --> ki_3
     ki_1 --> ki_2
     classDef critical fill:#ffe0e0,stroke:#d43d51,stroke-width:3px;
-    class ks_1, ks_4, ks_9, ks_6, ks_12, ks_14, ks_15, ks_27 critical
+    class ks_4, ks_9, ks_6, ks_12, ks_14, ks_15, ks_27 critical
 ```
 
 ## Waves (parallelisable batches)
@@ -157,42 +152,36 @@ worked on in parallel.
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| kingdoms-infra#1 — [Phase 1] Initialize repo structure | `XS` (1) | `P3` | 37 |
-| kingdoms-services#1 — [Phase 1] Initialize Python structure | `XS` (1) | `P0` | 0 |
+| kingdoms-services#2 — [Phase 1] Add MockDiscord for testing | `M` (5) | `P3` | 37 |
+| kingdoms-services#4 — [Phase 2] Create DB models (MongoDB) | `M` (5) | `P0` | 0 |
+| kingdoms-services#10 — [Phase 2] Create exception handling system | `S` (3) | `P2` | 12 |
+| kingdoms-services#16 — [Phase 2] Create config system | `S` (3) | `P2` | 12 |
+| kingdoms-services#3 — [Phase 2] Implement IPlatform | `S` (3) | `P1` | 2 |
+| kingdoms-infra#1 — [Phase 1] Initialize repo structure | `XS` (1) | `P3` | 36 |
+| kingdoms-services#7 — [Phase 2] Create enumerations | `XS` (1) | `P1` | 4 |
 
 **Wave 1**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| kingdoms-infra#2 — [Phase 2] Configure GitHub workflows for CI/CD | `M` (5) | `P3` | 37 |
-| kingdoms-services#2 — [Phase 1] Add MockDiscord for testing | `M` (5) | `P3` | 37 |
-| kingdoms-services#4 — [Phase 2] Create DB models (MongoDB) | `M` (5) | `P0` | 0 |
-| kingdoms-services#10 — [Phase 2] Create exception handling system | `S` (3) | `P2` | 12 |
-| kingdoms-services#17 — [Phase 2] Implement i18n system | `S` (3) | `P2` | 9 |
-| kingdoms-services#3 — [Phase 2] Implement IPlatform | `S` (3) | `P1` | 2 |
-| kingdoms-infra#3 — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 46 |
-| kingdoms-services#7 — [Phase 2] Create enumerations | `XS` (1) | `P1` | 4 |
+| kingdoms-infra#2 — [Phase 2] Configure GitHub workflows for CI/CD | `M` (5) | `P3` | 36 |
+| kingdoms-services#5 — [Phase 2] Implement ChannelService | `M` (5) | `P2` | 5 |
+| kingdoms-services#8 — [Phase 3] Create adapters | `M` (5) | `P1` | 2 |
+| kingdoms-services#9 — [Phase 2] Implement StateService | `M` (5) | `P0` | 0 |
+| kingdoms-services#17 — [Phase 2] Implement i18n system | `S` (3) | `P3` | 17 |
+| kingdoms-infra#3 — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 45 |
 
 **Wave 2**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| kingdoms-infra#5 — [Phase 2] Configure monitoring | `M` (5) | `P3` | 37 |
-| kingdoms-services#5 — [Phase 2] Implement ChannelService | `M` (5) | `P2` | 5 |
-| kingdoms-services#8 — [Phase 3] Create adapters | `M` (5) | `P1` | 2 |
-| kingdoms-services#9 — [Phase 2] Implement StateService | `M` (5) | `P0` | 0 |
-| kingdoms-services#16 — [Phase 2] Create config system | `S` (3) | `P2` | 9 |
-| kingdoms-services#28 — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 39 |
-
-**Wave 3**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
+| kingdoms-infra#5 — [Phase 2] Configure monitoring | `M` (5) | `P3` | 36 |
 | kingdoms-services#11 — [Phase 3] Implement DiscordPlatform | `M` (5) | `P1` | 2 |
 | kingdoms-services#23 — Sub-task: MongoDB + Redis caching integration | `M` (5) | `P3` | 32 |
 | kingdoms-services#6 — [Phase 2] Implement WorkflowEngine | `M` (5) | `P0` | 0 |
+| kingdoms-services#28 — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 38 |
 
-**Wave 4**
+**Wave 3**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
@@ -201,15 +190,15 @@ worked on in parallel.
 | kingdoms-services#22 — Sub-task: Unit tests for core services | `M` (5) | `P3` | 27 |
 | kingdoms-services#24 — Sub-task: MockDiscord full test framework | `S` (3) | `P3` | 29 |
 
-**Wave 5**
+**Wave 4**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
 | kingdoms-services#14 — [Phase 3] Implement registration mod | `L` (8) | `P0` | 0 |
-| kingdoms-services#26 — Sub-task: Generic channel/role management per mod | `M` (5) | `P3` | 19 |
+| kingdoms-services#26 — Sub-task: Generic channel/role management per mod | `M` (5) | `P3` | 16 |
 | kingdoms-services#20 — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 16 |
 
-**Wave 6**
+**Wave 5**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
@@ -218,8 +207,9 @@ worked on in parallel.
 | kingdoms-services#19 — [Phase 3] Implement clans mod | `M` (5) | `P2` | 11 |
 | kingdoms-services#21 — [Phase 3] Implement admin mod | `M` (5) | `P2` | 11 |
 | kingdoms-services#25 — Sub-task: Registration DM enrollment flow | `M` (5) | `P2` | 11 |
+| kingdoms-services#35 — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | `S` (3) | `P3` | 16 |
 
-**Wave 7**
+**Wave 6**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
@@ -229,28 +219,27 @@ worked on in parallel.
 
 | Issue | Phase | Size | Priority | Slack | Depends on |
 | ----- | ----- | ---- | -------- | ----- | ---------- |
-| kingdoms-infra#1 — [Phase 1] Initialize repo structure | 1 | `XS` | `P3` | 37 | — |
-| kingdoms-infra#2 — [Phase 2] Configure GitHub workflows for CI/CD | 2 | `M` | `P3` | 37 | kingdoms-infra#1 |
-| kingdoms-infra#3 — [Phase 2] Add infrastructure documentation | 2 | `XS` | `P3` | 46 | kingdoms-infra#1 |
+| kingdoms-infra#1 — [Phase 1] Initialize repo structure | 1 | `XS` | `P3` | 36 | — |
+| kingdoms-infra#2 — [Phase 2] Configure GitHub workflows for CI/CD | 2 | `M` | `P3` | 36 | kingdoms-infra#1 |
+| kingdoms-infra#3 — [Phase 2] Add infrastructure documentation | 2 | `XS` | `P3` | 45 | kingdoms-infra#1 |
 | kingdoms-infra#4 — [Phase 2] Create deployment scripts | 2 | `M` | `P3` | 16 | kingdoms-infra#1, kingdoms-infra#2, kingdoms-services#20 |
-| kingdoms-infra#5 — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 37 | kingdoms-infra#1, kingdoms-infra#2 |
-| kingdoms-services#1 — [Phase 1] Initialize Python structure | 1 | `XS` | `P0` | 0 | — |
-| kingdoms-services#2 — [Phase 1] Add MockDiscord for testing | 1 | `M` | `P3` | 37 | kingdoms-services#1 |
-| kingdoms-services#3 — [Phase 2] Implement IPlatform | 2 | `S` | `P1` | 2 | kingdoms-services#1 |
-| kingdoms-services#4 — [Phase 2] Create DB models (MongoDB) | 2 | `M` | `P0` | 0 | kingdoms-services#1 |
+| kingdoms-infra#5 — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 36 | kingdoms-infra#1, kingdoms-infra#2 |
+| kingdoms-services#2 — [Phase 1] Add MockDiscord for testing | 1 | `M` | `P3` | 37 | ~~kingdoms-services#1~~ ✅ |
+| kingdoms-services#3 — [Phase 2] Implement IPlatform | 2 | `S` | `P1` | 2 | ~~kingdoms-services#1~~ ✅ |
+| kingdoms-services#4 — [Phase 2] Create DB models (MongoDB) | 2 | `M` | `P0` | 0 | ~~kingdoms-services#1~~ ✅ |
 | kingdoms-services#5 — [Phase 2] Implement ChannelService | 2 | `M` | `P2` | 5 | kingdoms-services#3, kingdoms-services#4, kingdoms-services#7 |
 | kingdoms-services#6 — [Phase 2] Implement WorkflowEngine | 2 | `M` | `P0` | 0 | kingdoms-services#3, kingdoms-services#4, kingdoms-services#7, kingdoms-services#9 |
-| kingdoms-services#7 — [Phase 2] Create enumerations | 2 | `XS` | `P1` | 4 | kingdoms-services#1 |
+| kingdoms-services#7 — [Phase 2] Create enumerations | 2 | `XS` | `P1` | 4 | ~~kingdoms-services#1~~ ✅ |
 | kingdoms-services#8 — [Phase 3] Create adapters | 3 | `M` | `P1` | 2 | kingdoms-services#3 |
 | kingdoms-services#9 — [Phase 2] Implement StateService | 2 | `M` | `P0` | 0 | kingdoms-services#4, kingdoms-services#7 |
-| kingdoms-services#10 — [Phase 2] Create exception handling system | 2 | `S` | `P2` | 12 | kingdoms-services#1 |
+| kingdoms-services#10 — [Phase 2] Create exception handling system | 2 | `S` | `P2` | 12 | ~~kingdoms-services#1~~ ✅ |
 | kingdoms-services#11 — [Phase 3] Implement DiscordPlatform | 3 | `M` | `P1` | 2 | kingdoms-services#3, kingdoms-services#4, kingdoms-services#7, kingdoms-services#8 |
 | kingdoms-services#12 — [Phase 3] Create Bot structure | 3 | `L` | `P0` | 0 | kingdoms-services#5, kingdoms-services#6, kingdoms-services#9, kingdoms-services#10, kingdoms-services#11, kingdoms-services#16 |
 | kingdoms-services#13 — [Phase 3] Create UI components | 3 | `M` | `P2` | 5 | kingdoms-services#11 |
 | kingdoms-services#14 — [Phase 3] Implement registration mod | 3 | `L` | `P0` | 0 | kingdoms-services#5, kingdoms-services#6, kingdoms-services#9, kingdoms-services#12, kingdoms-services#13, kingdoms-services#16, kingdoms-services#17 |
 | kingdoms-services#15 — [Phase 3] Implement ladder mod | 3 | `L` | `P0` | 0 | kingdoms-services#4, kingdoms-services#5, kingdoms-services#6, kingdoms-services#9, kingdoms-services#10, kingdoms-services#12, kingdoms-services#14 |
-| kingdoms-services#16 — [Phase 2] Create config system | 2 | `S` | `P2` | 9 | kingdoms-services#1, kingdoms-services#17 |
-| kingdoms-services#17 — [Phase 2] Implement i18n system | 2 | `S` | `P2` | 9 | kingdoms-services#1 |
+| kingdoms-services#16 — [Phase 2] Create config system | 2 | `S` | `P2` | 12 | ~~kingdoms-services#1~~ ✅ |
+| kingdoms-services#17 — [Phase 2] Implement i18n system | 2 | `S` | `P3` | 17 | kingdoms-services#16, ~~kingdoms-services#1~~ ✅ |
 | kingdoms-services#19 — [Phase 3] Implement clans mod | 3 | `M` | `P2` | 11 | kingdoms-services#4, kingdoms-services#5, kingdoms-services#6, kingdoms-services#12, kingdoms-services#14, kingdoms-services#16, kingdoms-services#17 |
 | kingdoms-services#20 — [Phase 1] Create deployment scripts | 1 | `S` | `P3` | 16 | kingdoms-infra#1, kingdoms-services#12 |
 | kingdoms-services#21 — [Phase 3] Implement admin mod | 3 | `M` | `P2` | 11 | kingdoms-services#12, kingdoms-services#14, kingdoms-services#16, kingdoms-services#17 |
@@ -258,6 +247,7 @@ worked on in parallel.
 | kingdoms-services#23 — Sub-task: MongoDB + Redis caching integration | 2 | `M` | `P3` | 32 | kingdoms-services#4, kingdoms-services#9 |
 | kingdoms-services#24 — Sub-task: MockDiscord full test framework | 3 | `S` | `P3` | 29 | kingdoms-services#2, kingdoms-services#3, kingdoms-services#6 |
 | kingdoms-services#25 — Sub-task: Registration DM enrollment flow | 3 | `M` | `P2` | 11 | kingdoms-services#5, kingdoms-services#6, kingdoms-services#14, kingdoms-services#17 |
-| kingdoms-services#26 — Sub-task: Generic channel/role management per mod | 3 | `M` | `P3` | 19 | kingdoms-services#3, kingdoms-services#4, kingdoms-services#5, kingdoms-services#12 |
+| kingdoms-services#26 — Sub-task: Generic channel/role management per mod | 3 | `M` | `P3` | 16 | kingdoms-services#3, kingdoms-services#4, kingdoms-services#5, kingdoms-services#12 |
 | kingdoms-services#27 — Sub-task: AoE2 game microservice (generic IGameProvider) | 3 | `L` | `P0` | 0 | kingdoms-services#8, kingdoms-services#15 |
-| kingdoms-services#28 — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 39 | kingdoms-infra#2 |
+| kingdoms-services#28 — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 38 | kingdoms-infra#2 |
+| kingdoms-services#35 — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | 3 | `S` | `P3` | 16 | kingdoms-services#12, kingdoms-services#26 |

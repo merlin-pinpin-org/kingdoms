@@ -33,9 +33,13 @@ OWNER = "merlin-pinpin"
 SIZE_POINTS = {"XS": 1, "S": 3, "M": 5, "L": 8, "XL": 13}
 PHASE_LABEL = re.compile(r"^phase-(\d+)$")
 PRIORITY_LABEL = re.compile(r"^priority/(P[0-3])$")
-DEP_LINE = re.compile(r"^-\s+\[[ x]\]\s+(?:merlin-pinpin/)?(kingdoms-services|kingdoms-infra)#(\d+)$")
-DEP_LINE_SAME_REPO = re.compile(r"^-\s+\[[ x]\]\s+#(\d+)$")
-DEP_LINE_OWNER = re.compile(r"^-\s+\[[ x]\]\s+merlin-pinpin/(kingdoms-services|kingdoms-infra)#(\d+)$")
+DEP_LINE = re.compile(
+    r"^-\s+\[([ x])\]\s+(?:merlin-pinpin/)?(kingdoms-services|kingdoms-infra)#(\d+)$"
+)
+DEP_LINE_SAME_REPO = re.compile(r"^-\s+\[([ x])\]\s+#(\d+)$")
+DEP_LINE_OWNER = re.compile(
+    r"^-\s+\[([ x])\]\s+merlin-pinpin/(kingdoms-services|kingdoms-infra)#(\d+)$"
+)
 DEPS_SECTION = re.compile(r"(?s)## Dependencies\n(.*?)(?=\n## |\Z)")
 DOCS_URL = "https://github.com/merlin-pinpin/kingdoms/blob/main/docs/DEPENDENCIES.md"
 
@@ -66,20 +70,27 @@ def load_issues() -> list[dict]:
                 body = it.get("body") or ""
                 m = DEPS_SECTION.search(body)
                 deps: list[str] = []
+                done_deps: list[str] = []
                 if m:
                     for line in m.group(1).splitlines():
                         stripped = line.strip()
                         dm = DEP_LINE_OWNER.match(stripped)
                         if dm:
-                            deps.append(f"{dm.group(1)}#{dm.group(2)}")
+                            (done_deps if dm.group(1) == "x" else deps).append(
+                                f"{dm.group(2)}#{dm.group(3)}"
+                            )
                             continue
                         dm = DEP_LINE.match(stripped)
                         if dm:
-                            deps.append(f"{dm.group(1)}#{dm.group(2)}")
+                            (done_deps if dm.group(1) == "x" else deps).append(
+                                f"{dm.group(2)}#{dm.group(3)}"
+                            )
                             continue
                         dm = DEP_LINE_SAME_REPO.match(stripped)
                         if dm:
-                            deps.append(f"{repo}#{dm.group(1)}")
+                            (done_deps if dm.group(1) == "x" else deps).append(
+                                f"{repo}#{dm.group(2)}"
+                            )
                 size = next((s for s in SIZE_POINTS if f"size/{s}" in labels), None)
                 phase = next((m2.group(1) for l in labels if (m2 := PHASE_LABEL.match(l))), "?")
                 prio_label = next((m3.group(1) for l in labels if (m3 := PRIORITY_LABEL.match(l))), None)
@@ -94,6 +105,7 @@ def load_issues() -> list[dict]:
                         "phase": phase,
                         "prio_label": prio_label,
                         "deps": deps,
+                        "done_deps": done_deps,
                     }
                 )
             page += 1
@@ -111,6 +123,12 @@ def fail_on_missing(issues: list[dict]) -> None:
         for d in i["deps"]:
             if d not in ids:
                 problems.append(f"{i['id']}: depends on unknown or closed issue {d}")
+        for d in i["done_deps"]:
+            if d in ids:
+                problems.append(
+                    f"{i['id']}: dependency on {d} is checked but the issue is "
+                    f"still open — uncheck it or close {d}"
+                )
     if problems:
         sys.exit("Refusing to regenerate:\n  " + "\n  ".join(problems))
 
@@ -243,10 +261,29 @@ def render(issues: list[dict], a: dict) -> str:
               "| Issue | Phase | Size | Priority | Slack | Depends on |",
               "| ----- | ----- | ---- | -------- | ----- | ---------- |"]
     for i in sorted(issues, key=lambda x: (x["repo"], x["number"])):
-        deps = ", ".join(i["deps"]) if i["deps"] else "—"
+        deps = ", ".join(i["deps"] + [f"~~{d}~~ ✅" for d in i["done_deps"]]) or "—"
         lines.append(f"| {i['id']} — {i['title']} | {i['phase']} | `{i['size']}` | `{i['prio_label']}` | {a['slack'][i['id']]} | {deps} |")
     lines.append("")
     return "\n".join(lines)
+
+
+def report_priority_drift(issues: list[dict], a: dict) -> None:
+    """Print a warning for every issue whose priority label drifted from
+    the critical-path slack, so it can be fixed manually with gh issue edit.
+    The script never edits issues: labels are human decisions."""
+    drifted = [
+        i
+        for i in issues
+        if i["prio_label"] != expected_prio(a["slack"][i["id"]])
+    ]
+    if drifted:
+        print("Priority label drift (fix with `gh issue edit`):")
+        for i in sorted(drifted, key=lambda x: (x["repo"], x["number"])):
+            expected = expected_prio(a["slack"][i["id"]])
+            print(
+                f"  {i['id']}: labeled {i['prio_label']}, "
+                f"expected {expected} (slack {a['slack'][i['id']]} pts)"
+            )
 
 
 def main() -> None:
@@ -257,6 +294,7 @@ def main() -> None:
     issues = load_issues()
     fail_on_missing(issues)
     analysis = cpm(issues)
+    report_priority_drift(issues, analysis)
     content = render(issues, analysis)
     print(f"{len(issues)} issues, critical path: {' -> '.join(analysis['cp'])}, total {analysis['total']} pts")
     if args.dry_run:

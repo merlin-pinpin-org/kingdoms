@@ -15,10 +15,26 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
-- At the end of every session, verify the roadmap: the `Sync roadmap` workflow
-  (kingdoms#27) syncs `ROADMAP.md` automatically on issue state changes; only
-  run the "Update roadmap" skill (`docs/SKILLS/update-roadmap.md`) manually
-  when automation is down or a status needs human judgment.
+- **Never commit secrets** (tokens, passwords, API keys, private keys,
+  `.env` values): real credentials live only in GitHub secrets or in
+  host-provisioned `.env` files; repositories carry `.env.example`
+  placeholders only. Before making any repository public, scan the full
+  git history for leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`)
+  and get merlin-pinpin's approval.
+- The agent **never** merges a PR without an explicit merge approval from
+  the developer (a named go-ahead such as "merge #44" — not a review
+  comment, a "LGTM", an idea approval, or silence; CI must be green). For
+  changes with a critical architecture impact (ADR-level design, data
+  model, core interfaces, infrastructure/deployment, security), the
+  approval must come from **merlin-pinpin**: he is the sole decision-maker
+  for production; other users may at most deploy non-prod environments,
+  as he directs.
+- At the end of every session, verify the roadmap: post `/roadmap` on your
+  open PR — the `PR commands` workflow (`docs/SKILLS/pr-commands.md`) runs
+  `scripts/sync_roadmap.py` and commits the synced `ROADMAP.md` to the PR
+  branch; only run the "Update roadmap" skill
+  (`docs/SKILLS/update-roadmap.md`) manually when automation is down or a
+  status needs human judgment.
 
 ## Session checklist (do this by default)
 
@@ -30,14 +46,20 @@ At the end of every session, verify consistency across the three repos:
 2. **Issues vs code**: after closing or starting work, confirm the linked
    issues reflect reality (state, acceptance criteria, `## Dependencies`
    checkboxes).
-3. **Dependency graph**: the `Sync dependencies` workflow regenerates
-   `docs/DEPENDENCIES.md` from the `## Dependencies` sections of open issues
-   in `kingdoms-services` and `kingdoms-infra`. Only run the
+3. **Dependency graph**: post `/dependencies` on your open PR — the
+   `PR commands` workflow regenerates `docs/DEPENDENCIES.md` from the
+   `## Dependencies` sections of open issues in `kingdoms-services` and
+   `kingdoms-infra` and commits it to the PR branch. Only run the
    "Update dependencies" skill (`docs/SKILLS/update-dependencies.md`)
    manually when automation is down or dependencies, sizes or priorities
    were re-decided by a human.
-4. **Docs validation**: `python3 scripts/validate_docs.py --check` must pass
-   in this repo before opening any PR that touches `docs/`.
+4. **Docs validation**: `python3 scripts/validate_docs.py --check
+   --source <kingdoms-services>/src/kingdoms --config
+   <kingdoms-services>/config` must pass before opening any PR (fail-closed:
+   it refuses to validate without the kingdoms-services source/config).
+   The `Check Docs` required check re-runs it on every PR. Generated technical
+   docs (pydoc) live in `kingdoms-services` and are freshness-checked there
+   (see [docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)).
 
 ## Issue conventions
 
