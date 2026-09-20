@@ -116,10 +116,19 @@ An agent session (which starts with no memory of previous conversations):
 
 ## Rules
 
-- The agent **never** merges to `main`, tags, or releases without explicit
-  developer approval. The agent environment cannot merge pull requests at
-  all (CLI merge, API merge and dedicated merge tools are blocked): the
-  developer merges every PR, even after an explicit approval.
+- The agent **never** merges a PR without an **explicit merge approval**
+  from the developer. What an explicit merge approval includes:
+  - a clear go-ahead naming the PR (e.g. "merge #44") — a review comment,
+    a "LGTM", an approval of the *idea*, or silence is **not** a merge
+    approval;
+  - CI green on the PR head at merge time;
+  - for changes with a **critical architecture impact** (ADR-level design,
+    data model, core interfaces, infrastructure/deployment, security),
+    the approval must come from **merlin-pinpin himself**: he is the only
+    decision-maker for production; other users may at most deploy
+    non-prod environments, as he directs.
+- The agent never tags or releases without an explicit request from the
+  developer.
 - The agent **never** pushes infrastructure changes without developer approval.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).

@@ -15,9 +15,14 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
-- The agent environment cannot merge pull requests: the developer merges
-  every PR, even after an explicit approval. Plan PRs so their merge is the
-  only human step.
+- The agent **never** merges a PR without an explicit merge approval from
+  the developer (a named go-ahead such as "merge #44" — not a review
+  comment, a "LGTM", an idea approval, or silence; CI must be green). For
+  changes with a critical architecture impact (ADR-level design, data
+  model, core interfaces, infrastructure/deployment, security), the
+  approval must come from **merlin-pinpin**: he is the sole decision-maker
+  for production; other users may at most deploy non-prod environments,
+  as he directs.
 - At the end of every session, verify the roadmap: post `/roadmap` on your
   open PR — the `PR commands` workflow (`docs/SKILLS/pr-commands.md`) runs
   `scripts/sync_roadmap.py` and commits the synced `ROADMAP.md` to the PR
