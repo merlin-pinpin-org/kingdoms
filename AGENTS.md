@@ -15,6 +15,9 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
+- The agent environment cannot merge pull requests: the developer merges
+  every PR, even after an explicit approval. Plan PRs so their merge is the
+  only human step.
 - At the end of every session, verify the roadmap: post `/roadmap` on your
   open PR — the `PR commands` workflow (`docs/SKILLS/pr-commands.md`) runs
   `scripts/sync_roadmap.py` and commits the synced `ROADMAP.md` to the PR
