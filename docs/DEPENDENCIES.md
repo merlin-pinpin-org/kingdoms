@@ -27,6 +27,7 @@ Total: **42 pts**. Critical path:
 
 ```mermaid
 flowchart LR
+    ks_52["#52 Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys)"]
     ks_35["#35 Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets)"]
     ks_28["#28 Set up Conventional Changelog (semantic release)"]
     ks_27["#27 Sub-task: AoE2 game microservice (generic IGameProvider)"]
@@ -50,11 +51,8 @@ flowchart LR
     ks_5["#5 [Phase 2] Implement ChannelService"]
     ks_3["#3 [Phase 2] Implement IPlatform"]
     ki_5["#5 [Phase 2] Configure monitoring"]
-    ki_4["#4 [Phase 2] Create deployment scripts"]
     ki_3["#3 [Phase 2] Add infrastructure documentation"]
-    ki_2["#2 [Phase 2] Configure GitHub workflows for CI/CD"]
     ks_26 --> ks_35
-    ki_2 --> ks_28
     ks_8 --> ks_27
     ks_15 --> ks_27
     ks_3 --> ks_26
@@ -87,9 +85,6 @@ flowchart LR
     ks_3 --> ks_8
     ks_3 --> ks_5
     ks_7 --> ks_5
-    ki_2 --> ki_5
-    ki_2 --> ki_4
-    ks_20 --> ki_4
     classDef critical fill:#ffe0e0,stroke:#d43d51,stroke-width:3px;
     class ks_3,ks_8,ks_11,ks_13,ks_14,ks_15,ks_27 critical
 ```
@@ -103,12 +98,14 @@ worked on in parallel.
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) — [Phase 2] Configure GitHub workflows for CI/CD | `M` (5) | `P3` | 32 |
+| [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 37 |
 | [kingdoms-services#23](https://github.com/merlin-pinpin/kingdoms-services/issues/23) — Sub-task: MongoDB + Redis caching integration | `M` (5) | `P3` | 37 |
 | [kingdoms-services#10](https://github.com/merlin-pinpin/kingdoms-services/issues/10) — [Phase 2] Create exception handling system | `S` (3) | `P3` | 23 |
 | [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16) — [Phase 2] Create config system | `S` (3) | `P2` | 12 |
-| [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 34 |
+| [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 39 |
+| [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 39 |
 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | `S` (3) | `P0` | 0 |
+| [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | `S` (3) | `P3` | 39 |
 | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 41 |
 | [kingdoms-services#7](https://github.com/merlin-pinpin/kingdoms-services/issues/7) — [Phase 2] Create enumerations | `XS` (1) | `P2` | 7 |
 
@@ -116,13 +113,10 @@ worked on in parallel.
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) — [Phase 2] Create deployment scripts | `M` (5) | `P3` | 32 |
-| [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 32 |
 | [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5) — [Phase 2] Implement ChannelService | `M` (5) | `P2` | 10 |
 | [kingdoms-services#8](https://github.com/merlin-pinpin/kingdoms-services/issues/8) — [Phase 3] Create adapters | `M` (5) | `P0` | 0 |
 | [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17) — [Phase 2] Implement i18n system | `S` (3) | `P2` | 12 |
 | [kingdoms-services#24](https://github.com/merlin-pinpin/kingdoms-services/issues/24) — Sub-task: MockDiscord full test framework | `S` (3) | `P3` | 36 |
-| [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 34 |
 
 **Wave 2**
 
@@ -164,10 +158,8 @@ worked on in parallel.
 
 | Issue | Phase | Size | Priority | Slack | Depends on |
 | ----- | ----- | ---- | -------- | ----- | ---------- |
-| [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) — [Phase 2] Configure GitHub workflows for CI/CD | 2 | `M` | `P3` | 32 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅ |
 | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) — [Phase 2] Add infrastructure documentation | 2 | `XS` | `P3` | 41 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅ |
-| [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) — [Phase 2] Create deployment scripts | 2 | `M` | `P3` | 32 | [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2), [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20), ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅ |
-| [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 32 | [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2), ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅ |
+| [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 37 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2)~~ ✅ |
 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | 2 | `S` | `P0` | 0 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1)~~ ✅ |
 | [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5) — [Phase 2] Implement ChannelService | 2 | `M` | `P2` | 10 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3), [kingdoms-services#7](https://github.com/merlin-pinpin/kingdoms-services/issues/7), ~~[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4)~~ ✅ |
 | [kingdoms-services#7](https://github.com/merlin-pinpin/kingdoms-services/issues/7) — [Phase 2] Create enumerations | 2 | `XS` | `P2` | 7 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1)~~ ✅ |
@@ -180,7 +172,7 @@ worked on in parallel.
 | [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16) — [Phase 2] Create config system | 2 | `S` | `P2` | 12 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1)~~ ✅ |
 | [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17) — [Phase 2] Implement i18n system | 2 | `S` | `P2` | 12 | [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16), ~~[kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1)~~ ✅ |
 | [kingdoms-services#19](https://github.com/merlin-pinpin/kingdoms-services/issues/19) — [Phase 3] Implement clans mod | 3 | `M` | `P2` | 11 | [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5), [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14), [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16), [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17), ~~[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | 1 | `S` | `P3` | 34 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
+| [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | 1 | `S` | `P3` | 39 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#21](https://github.com/merlin-pinpin/kingdoms-services/issues/21) — [Phase 3] Implement admin mod | 3 | `M` | `P2` | 11 | [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14), [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16), [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17), ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#22](https://github.com/merlin-pinpin/kingdoms-services/issues/22) — Sub-task: Unit tests for core services | 2 | `M` | `P3` | 29 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5), ~~[kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2)~~ ✅, ~~[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9)~~ ✅ |
 | [kingdoms-services#23](https://github.com/merlin-pinpin/kingdoms-services/issues/23) — Sub-task: MongoDB + Redis caching integration | 2 | `M` | `P3` | 37 | ~~[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9)~~ ✅ |
@@ -188,5 +180,6 @@ worked on in parallel.
 | [kingdoms-services#25](https://github.com/merlin-pinpin/kingdoms-services/issues/25) — Sub-task: Registration DM enrollment flow | 3 | `M` | `P2` | 11 | [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5), [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14), [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17), ~~[kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6)~~ ✅ |
 | [kingdoms-services#26](https://github.com/merlin-pinpin/kingdoms-services/issues/26) — Sub-task: Generic channel/role management per mod | 3 | `M` | `P3` | 26 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5), ~~[kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27) — Sub-task: AoE2 game microservice (generic IGameProvider) | 3 | `L` | `P0` | 0 | [kingdoms-services#8](https://github.com/merlin-pinpin/kingdoms-services/issues/8), [kingdoms-services#15](https://github.com/merlin-pinpin/kingdoms-services/issues/15) |
-| [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 34 | [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) |
+| [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 39 | ~~[kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2)~~ ✅ |
 | [kingdoms-services#35](https://github.com/merlin-pinpin/kingdoms-services/issues/35) — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | 3 | `S` | `P3` | 26 | [kingdoms-services#26](https://github.com/merlin-pinpin/kingdoms-services/issues/26), ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
+| [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | 3 | `S` | `P3` | 39 | ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#34](https://github.com/merlin-pinpin/kingdoms-services/issues/34)~~ ✅ |
