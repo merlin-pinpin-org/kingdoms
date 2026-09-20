@@ -18,13 +18,24 @@ We need a reliable, auditable deployment process that:
 Implement a **GitOps** workflow:
 
 - All infrastructure as code in Git
-- Deployment triggered by Git pushes (merge to `main` → dev, tags → prod)
+- Deployment triggered by Git pushes (merge to `main` → test, tags → prod)
 - Git history = deployment audit trail
 - Manual approval for production
 - Automated testing before deployment
 
-Environment policy: dev auto-deploys on merge, staging deploys manually,
-production deploys on tags (see [VIBEWORKFLOW.md](../VIBEWORKFLOW.md)).
+Environment policy: `test` auto-deploys on merge, staging deploys
+manually, production deploys on tags (see
+[VIBEWORKFLOW.md](../VIBEWORKFLOW.md)). The former `dev` environment is
+renamed `test`: it is a validation environment on the VPS, not a
+developer machine.
+
+**Deployment mechanism (2026 revision, kingdoms-infra#2):** CD jobs run
+on a **GitHub Actions self-hosted runner installed on the VPS** (chosen
+over SSH-from-Actions and cron-pull: it keeps secrets on the VPS,
+attaches deployment to the merge event, and needs no inbound SSH
+exposure). The runner carries the labels `self-hosted, kingdoms`. Full
+installation procedure:
+[kingdoms-infra docs/VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md).
 
 ## Alternatives Considered
 
