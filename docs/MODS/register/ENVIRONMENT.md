@@ -4,8 +4,13 @@
 
 - Bot permissions: send messages, send DMs, manage roles (to assign game
   roles), view channels
-- Channel categories used: `ADMIN` (registration notifications),
-  `REGISTRATION` (welcome panel / instructions, if enabled)
+- Channels declared by the mod (provisioned automatically by the core via
+  `ModRegistry`, kingdoms-services#26):
+  - `register:register_admin` — registration notifications and approvals
+  - `register:register_info` — welcome panel and instructions
+- Roles declared by the mod (logical keys, resolved by `RoleService`):
+  - `player` — base registered player
+  - `registered_aoe2` (example game role, one per allowed game)
 - Role requirements: the bot's role must be above the game roles it assigns
 
 ## Database requirements

@@ -66,6 +66,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | MockDiscord framework | [kingdoms-services#24](https://github.com/merlin-pinpin/kingdoms-services/issues/24) | todo |
 | Registration DM flow | [kingdoms-services#25](https://github.com/merlin-pinpin/kingdoms-services/issues/25) | todo |
 | Channel/role mgmt | [kingdoms-services#26](https://github.com/merlin-pinpin/kingdoms-services/issues/26) | todo |
+| Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin/kingdoms-services/issues/35) | todo |
 | AoE2 game service | [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27) | todo |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin/kingdoms/issues/7) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin/kingdoms/issues/8) | done |
@@ -73,7 +74,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin/kingdoms-services/issues/18)
   (closed as not planned)
-- Twitch/Telegram platforms — architecture-ready (`IPlatform`), not implemented
+- Twitch platform — architecture-ready (`IPlatform`), not implemented
 
 ## Change Log
 | Date | Change |

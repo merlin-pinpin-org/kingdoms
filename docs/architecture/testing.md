@@ -18,8 +18,14 @@ test runs against in-process fakes:
 - **In-memory Redis substitute** — same interface as `StateService`, TTLs
   simulated with a controllable clock
 
-Real-API verification (token present, intents correct) is a one-off smoke
-check run manually against a throwaway guild, never part of CI.
+Real-API verification (token present, intents correct) runs in CI against a
+**dedicated CI/CD bot** whose token lives in the `kingdoms-services` secret
+`CICD_DISCORD_TOKEN` (kingdoms-services#34): the `Discord smoke` job boots
+the real bot container, asserts the gateway-ready signal, and soaks it. The
+job is **fail-closed** on the secret: when the token is not configured the
+job fails with an explicit error — a missing CI/CD bot token is a broken CI
+setup, never a silent skip. The developer provisions the secret so CI can
+pass.
 
 ## 2. Test pyramid
 
@@ -28,7 +34,8 @@ check run manually against a throwaway guild, never part of CI.
 | Unit | Core services, models, pure functions (`ChannelService` resolution, workflow transitions) | Every push/PR | pytest |
 | Integration | Multi-component flows: `WorkflowEngine` + `ChannelService` + `StateService` + stores | Every push/PR | pytest + `MockDiscord` |
 | Workflow E2E | Complete user journeys (register a player, report a match) driven only through `MockDiscord` interactions | Every push/PR | pytest |
-| Manual smoke | Real Discord connection, slash command registration | Before release, by hand | — |
+| Smoke (preflight) | Real container entrypoint: environment, MongoDB, Redis, locale catalogs — no Discord gateway | Every push/PR | GitHub Actions (`Bot preflight` step) |
+| Smoke (real Discord) | Real bot container, real gateway connection via the dedicated CI/CD bot | Every push/PR to `main`; **fails** if `CICD_DISCORD_TOKEN` is missing | GitHub Actions (`Discord smoke`, kingdoms-services#34) |
 
 ## 3. MockDiscord
 
@@ -96,6 +103,11 @@ assert mock.dms_to("player1").last_content_contains("registration confirmed")
    content, never raw hardcoded text
 4. CI (lint, test) runs on every PR in `kingdoms-services` and
    `kingdoms-infra`; docs validation runs on every PR in this repo
+5. **Anything the dev sandbox cannot run is validated by GitHub Actions
+   instead**: Docker builds, Compose boots, stack healthchecks,
+   backup/restore round-trips and entrypoint runs are CI jobs, not manual
+   checks. When a new check cannot run locally, add or extend the workflow
+   that validates it — never leave it unverified.
    (`.github/workflows/check-docs.yml`)
 
 ## See also

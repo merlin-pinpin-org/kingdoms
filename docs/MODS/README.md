@@ -56,31 +56,28 @@ Mods extend the platform by combining core services:
 
 ```mermaid
 flowchart TD
-    A["Core System"] --> B["Workflow Engine"]
-    B --> C["Load Mods"]
-    C --> D["Register Mod"]
-    C --> E["Ladder Mod"]
-    C --> F["Clans Mod"]
-
-    D --> G["Register Workflow"]
-    E --> H["Ladder Workflow"]
-    F --> I["Clans Workflow"]
-
-    G --> J["UserModel"]
-    H --> J
-    I --> J
-    J --> K["MongoDB"]
+    A["Core System"] --> B["ModRegistry loads config/mods/*.yaml"]
+    B --> C{"Mod enabled?"}
+    C -->|No| X["Skip (startup warning if depended on)"]
+    C -->|Yes| D["Provision declared channels and roles"]
+    D --> E["Register declared commands and workflows"]
+    E --> F["Mod workflows run on the WorkflowEngine"]
+    F --> G["Core models and services"]
+    G --> H["MongoDB / Redis"]
 ```
 
 ## Available mods
 
-| Mod | Purpose | Docs |
-| --- | ------- | ---- |
-| register | Player onboarding, role assignment, admin notifications | [register/](register/) |
-| ladder | Competitive ranking (ELO), matchmaking queue, match results | [ladder/](ladder/) |
+None implemented yet. The repo provides the generic mod tooling only:
+the `config/mods/_example.yaml` declaration template and the
+`ModRegistry` (kingdoms-services#26). Each mod lands with its own issue,
+implementation and documentation set.
 
-Mods on the roadmap but not yet documented here: clans
-(kingdoms-services#19), admin (kingdoms-services#21).
+Planned: register (kingdoms-services#14), ladder
+(kingdoms-services#15), clans (kingdoms-services#19), admin
+(kingdoms-services#21). Design docs for planned mods live under
+[register/](register/) and [ladder/](ladder/) — they describe the target
+behavior, not shipped code.
 
 ## Mod version history
 

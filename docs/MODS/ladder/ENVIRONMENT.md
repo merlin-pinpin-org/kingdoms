@@ -4,9 +4,15 @@
 
 - Bot permissions: send messages, send DMs, view channels, manage messages
   (refresh standings posts)
-- Channel categories used: `LADDER` (rankings and results), `REPORTS`
-  (disputes)
-- Role requirements: registered players only (the register mod's game roles)
+- Channels declared by the mod (provisioned automatically by the core via
+  `ModRegistry`, kingdoms-services#26):
+  - `ladder:ladder_admin` — admin notifications (disputes, moderation)
+  - `ladder:ladder_rankings` — standings and match results
+  - `ladder:ladder_info` — rules, matchmaking info, announcements
+- Platform-level categories used: `REPORTS` (disputes)
+- Roles declared by the mod (logical keys, resolved by `RoleService`):
+  - `ladder_participant` — registered players only (the register mod's game roles)
+  - `ladder_admin`
 
 ## Database requirements
 

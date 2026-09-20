@@ -7,10 +7,10 @@ flows through the system.
 
 The five architectural pillars:
 
-1. **Multi-platform**: abstraction via `IPlatform` (Discord now, Twitch/Telegram later)
+1. **Multi-platform**: abstraction via `IPlatform` (Discord now, Twitch later)
 2. **Modular**: generic core + specific implementations
 3. **Workflow-based**: a workflow engine drives interaction sequences
-4. **Channel categories**: intelligent message routing (`ADMIN`, `REPORTS`, ...)
+4. **Channel categories**: intelligent message routing; core keeps only platform-level categories (`ADMIN`, `REPORTS`, `LOGS`), mods declare their own (`ladder:ladder_rankings`, ...)
 5. **GitOps**: deployment via Docker Compose manifests
 
 ## 1. Overview
@@ -132,6 +132,14 @@ workflow payloads evolve with the game rules):
 - **`ChannelService`**: channel category management. Mods ask for a channel by
   category, never by name or ID. Resolution order: cache → database → platform
   creation.
+- **`StatusService`**: operational report (version, uptime, configured games,
+  enabled mods with their declared channels/roles, bot admins) — powers the
+  generic `/status` command.
+- **`AdminService`** (kingdoms-services#35): distinguishes **bot admins**
+  (operators, defined by the `BOT_ADMINS` environment variable — provisioned
+  via GitHub secrets in hosted environments) from **guild admins**
+  (guild-scoped: platform permissions or mod-declared admin roles). Bot
+  admins operate the bot; guild admins administer their guild only.
 - **`WorkflowEngine`**: workflow execution. Declares nothing itself; loads
   workflow definitions, drives step transitions, persists state through
   `StateService`, and dispatches UI events to the right running workflow.
@@ -140,7 +148,7 @@ workflow payloads evolve with the game rules):
 
 ### `enums/`
 
-- **`ChannelCategory`**: `ADMIN`, `REPORTS`, `LADDER`, ... — the routing keys
+- **`ChannelCategory`**: platform-level routing keys (`ADMIN`, `REPORTS`, `LOGS`); mod-scoped categories are declared per mod (`mod:key`)
   used by `ChannelService`
 - **`PlatformType`**: `DISCORD`, `TWITCH`, ...
 - **`WorkflowStatus`**: `PENDING`, `IN_PROGRESS`, `COMPLETED`, `CANCELLED`,
@@ -157,9 +165,14 @@ workflow payloads evolve with the game rules):
 ### `bot/`
 
 - **`main.py`**: entry point — loads config, wires the core services, starts
-  the Discord client
+  the Discord client, syncs slash commands on ready (guild-scoped when
+  `CICD_GUILD_ID` is set, global otherwise)
 - **`cogs/`**: Discord mods (`register.py`, `ladder.py`, ...). Each cog maps
   commands and interactions to core services; no game logic lives in cogs.
+- **`status.py`**: the generic `/status` command — bot and per-guild
+  operational report (uptime, version, games, enabled mods with their
+  declared channels/roles, bot admins, guild admins). Not a mod: it is a
+  platform capability, gated by admin levels (kingdoms-services#35).
 
 ### `ui/`
 
@@ -174,11 +187,12 @@ documented in [architecture/discord.md](architecture/discord.md).
 
 All configuration is versioned YAML, loaded at startup:
 
-- **`locales/`**: i18n message catalogs (`en.yaml`, `fr.yaml`)
-- **`games/`**: game declarations (`aoe2.yaml`, `chess.yaml`) — name, aliases,
-  team size
-- **`mods/`**: mod declarations (`register.yaml`, `ladder.yaml`) — enabled
-  flags, per-mod settings
+- **`locales/`**: i18n message catalogs (`en.yaml`, `fr.yaml`) — common keys;
+  mod strings arrive with their mods
+- **`games/`**: game declarations (name, aliases, team size) — added per game,
+  none shipped yet
+- **`mods/`**: mod declarations (`_example.yaml` is the documented template) —
+  enabled flags, channels, roles, workflows, commands, dependencies
 
 ```mermaid
 flowchart LR
@@ -194,9 +208,28 @@ flowchart LR
 - **`deploy/`**: Docker Compose manifests per environment (dev, staging,
   production). One command launches the bot and its dependencies (MongoDB,
   Redis).
-- **`.github/workflows/`**: CI/CD — lint, test, build, deploy. Deployment is
-  GitOps-style: environments are defined by versioned manifests, and deploys
-  are reproducible from the repo state.
+- **Images**: the bot image is a **multi-stage build** (deps → build →
+  runtime) published by the `kingdoms-services` `Docker` workflow to
+  `ghcr.io/merlin-pinpin/kingdoms-services` (tags: `main`, `vX.Y.Z`, `sha-*`).
+  Environments pull it from GHCR; production pins the exact tag via
+  `KINGDOMS_BOT_IMAGE`.
+- **Backups**: every deployment runs a **mandatory pre-deploy backup of both
+  stores** (`scripts/backup_db.sh`): MongoDB via `mongodump --archive --gzip`,
+  Redis via a `BGSAVE` RDB snapshot. Both artifacts share a timestamp prefix,
+  are verified (non-empty, gzip integrity for Mongo) and abort the deployment
+  on failure.
+- **Rollback**: `scripts/rollback.sh` restores the latest backup (or a given
+  archive) and reverts the manifests; `deploy.sh` triggers it automatically
+  when the post-deploy health gate fails.
+- **Smoke/preflight**: the bot image ships a `--preflight` mode that runs the
+  real startup path (environment, MongoDB, Redis, locale catalogs) without
+  connecting to the Discord gateway; CI runs it through the real container
+  entrypoint on every PR.
+- **`.github/workflows/`**: CI/CD — shellcheck, compose validation, smoke
+  test (dev stack boot), **backup/restore round-trip test** (seed → dump →
+  wipe → restore → byte-for-byte diff, on MongoDB **and** Redis), then
+  deploy. Deployment is GitOps-style: environments are defined by versioned
+  manifests, and deploys are reproducible from the repo state.
 
 ## 6. Key diagrams
 
@@ -256,7 +289,7 @@ flowchart LR
 
 | Decision | Rationale | ADR |
 | -------- | ---------- | --- |
-| `IPlatform` abstraction | **Extensibility** — Twitch/Telegram later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
+| `IPlatform` abstraction | **Extensibility** — Twitch later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |

@@ -6,8 +6,8 @@
 
 ## Context
 
-We need to support Discord now, but want to add Twitch, Telegram, and
-potentially other platforms in the future. Building platform-specific code for
+We need to support Discord now, and want to keep the door open to Twitch
+and potentially other platforms in the future. Building platform-specific code for
 each would lead to:
 
 - Code duplication
@@ -81,18 +81,9 @@ classDiagram
         +add_reaction(message, emoji)
     }
 
-    class TelegramPlatform {
-        +send_message(message, channel)
-        +edit_message(message_id, content)
-        +create_channel(name, category)
-        +get_user(user_id)
-        +get_channel(channel_id)
-        +add_reaction(message, emoji)
-    }
 
     IPlatform <|.. DiscordPlatform
     IPlatform <|.. TwitchPlatform
-    IPlatform <|.. TelegramPlatform
 
     class Core {
         -platform: IPlatform
