@@ -39,12 +39,9 @@ them degrades to a partial or best-effort result:
 The `Check Docs` workflow (`check`) and the `CLA Check` (`cla`) are
 **required status checks** on `main` (configured in the repository ruleset —
 GitHub admin action, not automatable from the sandbox): a PR cannot merge
-while either is red. `Check Docs` runs on **every** PR. In
-`kingdoms-services`, the full CI matrix (including the docs freshness
-check) is required the same way.
-`kingdoms-infra` (private, free plan) has no rulesets: its CI is advisory.
-Once `kingdoms-infra` becomes public, its CI can be made required the same
-way and the `DEPS_SYNC_PAT` secret becomes unnecessary (see Secrets).
+while either is red. `Check Docs` runs on **every** PR. `kingdoms-services`
+and `kingdoms-infra` enforce their full CI matrix the same way (all three
+repositories are public with an active `main` ruleset).
 
 ## Commands
 
@@ -72,21 +69,17 @@ for both human collaborators and the agent account.
 
 ## Secrets
 
-`/roadmap` and `/dependencies` read the issues of the **private**
-`kingdoms-infra` repository, which the `GITHUB_TOKEN` of this repo cannot.
-Both jobs fail closed when the `DEPS_SYNC_PAT` repository secret is
-missing or a repository is unreadable — they never regenerate from partial
-data:
+No custom secret is needed anymore: all three repositories are public, so
+the default `GITHUB_TOKEN` reads the issues of `kingdoms-services` and
+`kingdoms-infra` directly. The jobs still fail closed when a repository is
+unreadable — they never regenerate from partial data.
 
-- `DEPS_SYNC_PAT` (repository secret of `kingdoms`): a fine-grained PAT
-  with **"Issues: read"** on **both** `merlin-pinpin/kingdoms-services`
-  **and** `merlin-pinpin/kingdoms-infra`. Once `kingdoms-infra` becomes
-  public, this secret is no longer needed and can be deleted (the default
-  `GITHUB_TOKEN` will then read its issues).
+Former secrets that can be deleted:
 
-The former `ROADMAP_DISPATCH_PAT` secret (in `kingdoms-services` and
-`kingdoms-infra`, used by the now-removed `repository_dispatch` pings) is
-**no longer needed** and can be deleted.
+- `DEPS_SYNC_PAT` (repository secret of `kingdoms`): obsolete since all
+  repositories became public — the default `GITHUB_TOKEN` reads the issues.
+- `ROADMAP_DISPATCH_PAT` (in `kingdoms-services` and `kingdoms-infra`, used
+  by the now-removed `repository_dispatch` pings).
 
 ## When to run which command
 
@@ -115,10 +108,9 @@ the result and reports back on the PR.
 
 ## Failure modes
 
-- **Missing `DEPS_SYNC_PAT`**: `/roadmap` and `/dependencies` fail with an
-  actionable error message; create the secret (see Secrets) and re-run by
-  commenting the command again.
-- **Unreadable repository**: same fail-closed behavior as a missing secret.
+- **Unreadable repository**: the job fails with an actionable error message
+  and refuses to write anything — fix the access and re-run by commenting
+  the command again.
 - **Permission denied on the comment author**: explicit error, nothing runs.
 - **Command from a non-collaborator**: fails the `parse` job; no job runs.
 

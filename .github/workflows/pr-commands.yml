@@ -8,10 +8,10 @@ name: PR commands
 # (sync-roadmap.yml, sync-dependencies.yml) and the repository_dispatch
 # pings they relied on.
 #
-# /roadmap and /dependencies read the issues of the private kingdoms-infra
-# repository, which the GITHUB_TOKEN of this repo cannot: they require the
-# DEPS_SYNC_PAT secret (fine-grained PAT with "Issues: read" on
-# kingdoms-services AND kingdoms-infra) and fail closed when it is missing.
+# /roadmap and /dependencies read the issues of the kingdoms-services and
+# kingdoms-infra repositories; all three repositories are public, so the
+# default GITHUB_TOKEN is sufficient. They still fail closed when a
+# repository is unreadable.
 on:
   issue_comment:
     types: [created]
@@ -68,17 +68,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Fail closed when DEPS_SYNC_PAT is not configured
-        env:
-          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
-        run: |
-          if [ "${PAT_SET}" != "true" ]; then
-            echo "::error::DEPS_SYNC_PAT is not set; /roadmap needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/pr-commands.md."
-            exit 1
-          fi
       - name: Sync ROADMAP.md
         env:
-          GH_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -o pipefail
           python scripts/sync_roadmap.py 2>/tmp/sync-warnings.txt | tee /tmp/sync-changes.txt
@@ -88,7 +80,7 @@ jobs:
             exit 1
           fi
           if grep -q "cannot read" /tmp/sync-warnings.txt; then
-            echo "::error::A repository was unreadable (check the DEPS_SYNC_PAT secret); refusing to write a roadmap update based on incomplete data"
+            echo "::error::A repository was unreadable; refusing to write a roadmap update based on incomplete data"
             cat /tmp/sync-warnings.txt >&2
             exit 1
           fi
@@ -135,17 +127,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Fail closed when DEPS_SYNC_PAT is not configured
-        env:
-          PAT_SET: ${{ secrets.DEPS_SYNC_PAT != '' }}
-        run: |
-          if [ "${PAT_SET}" != "true" ]; then
-            echo "::error::DEPS_SYNC_PAT is not set; /dependencies needs cross-repo read access to the private kingdoms-infra issues (fine-grained PAT with 'Issues: read' on kingdoms-services AND kingdoms-infra). See docs/SKILLS/pr-commands.md."
-            exit 1
-          fi
       - name: Sync docs/DEPENDENCIES.md
         env:
-          GH_TOKEN: ${{ secrets.DEPS_SYNC_PAT }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python scripts/sync_dependencies.py
       - name: Commit changes to the PR branch
         id: commit
