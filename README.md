@@ -62,8 +62,8 @@ kingdoms/
 
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
 - [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
-  by the `/roadmap` PR command; the
-  [Update roadmap](docs/SKILLS/update-roadmap.md) skill is the manual fallback)
+  by `scripts/sync_roadmap.py`; see the
+  [Update roadmap](docs/SKILLS/update-roadmap.md) skill)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture
 - [docs/WORKFLOWS.md](docs/WORKFLOWS.md) — game workflows
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
@@ -72,22 +72,20 @@ kingdoms/
 ## Automation
 
 Generated artifacts (`ROADMAP.md`, `docs/DEPENDENCIES.md`) are refreshed by
-**PR comment commands** (workflow
-`.github/workflows/pr-commands.yml`, skill
-[docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)): a collaborator with
-write access comments `/roadmap`, `/dependencies` or `/check-docs` on a PR,
-and the result is committed to that PR branch — no
-rolling automation PR, no ghost PR.
+the sync skills ([Update roadmap](docs/SKILLS/update-roadmap.md),
+[Update dependencies](docs/SKILLS/update-dependencies.md)): run
+`scripts/sync_roadmap.py` / `scripts/sync_dependencies.py` locally and
+commit the result to the PR branch — no rolling automation PR, no ghost PR.
 
 Generated technical documentation (pydoc) lives in `kingdoms-services`
 ([`docs/DEVELOPMENT/pydoc`](https://github.com/merlin-pinpin/kingdoms-services/tree/main/docs/DEVELOPMENT/pydoc)),
 next to the sources it documents; a dedicated workflow checks its freshness
 on every PR of that repo.
 
-The `/roadmap` and `/dependencies` commands read the issues of
-`kingdoms-services` and `kingdoms-infra`; all three repositories are public,
-so the default `GITHUB_TOKEN` is sufficient (the former `DEPS_SYNC_PAT`
-secret is obsolete). They still fail closed when a repository is unreadable.
+The sync scripts read the issues of `kingdoms-services` and
+`kingdoms-infra` through `gh api`; all three repositories are public, so no
+credentials are needed. They fail closed when a repository is unreadable.
+The `Check Docs` workflow (`scripts/validate_docs.py`) runs on every PR.
 
 ## Contributing
 
