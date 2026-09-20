@@ -11,6 +11,17 @@ This replaces the former event-driven sync workflows (`sync-roadmap.yml`,
 `automation/*` PRs: generated artifacts now land in the PR that needs
 them — no ghost PR, no accumulated drift.
 
+## Required checks
+
+The `Check Docs` workflow (`check`) and the `CLA Check` (`cla`) are
+**required status checks** on `main` (configured in the repository ruleset —
+GitHub admin action, not automatable from the sandbox): a PR cannot merge
+while either is red. `Check Docs` runs on **every** PR and additionally
+verifies that the committed `docs/DEVELOPMENT/pydoc` is fresh — when it
+fails with "stale", run `/generate-docs` on that PR and merge the resulting
+commit. In `kingdoms-services`, the full CI matrix is required the same way.
+`kingdoms-infra` (private, free plan) has no rulesets: its CI is advisory.
+
 ## Commands
 
 | Command | Action | Artifact committed to the PR branch |

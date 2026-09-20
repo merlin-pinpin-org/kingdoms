@@ -129,6 +129,15 @@ An agent session (which starts with no memory of previous conversations):
     non-prod environments, as he directs.
 - The agent never tags or releases without an explicit request from the
   developer.
+- **Required status checks**: the merge-blocking checks are enforced by the
+  `main` ruleset of each repository. For `kingdoms`: `check` (Check Docs —
+  docstring completeness **and** generated-docs freshness) and `cla` (CLA
+  Check). For `kingdoms-services`: the full CI matrix (lint, typecheck, unit
+  tests, compose, smoke, Discord smoke, image build). A PR cannot be merged
+  while any required check is red. `kingdoms-infra` is a private repository
+  on a free plan: rulesets (and therefore required checks) are unavailable
+  there — its CI is advisory until the plan changes; do not merge with a
+  red check.
 - The agent **never** pushes infrastructure changes without developer approval.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).
