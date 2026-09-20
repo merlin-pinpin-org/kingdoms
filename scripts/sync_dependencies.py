@@ -1,0 +1,275 @@
+#!/usr/bin/env python3
+"""Regenerate docs/DEPENDENCIES.md from GitHub issue dependencies.
+
+Reads the `## Dependencies` section of every open issue in
+`kingdoms-services` and `kingdoms-infra` (written as GitHub task-list
+checkboxes: `- [ ] kingdoms-services#N` or `- [ ] #N` for same-repo refs),
+runs critical-path analysis (CPM) on the resulting graph, and rewrites:
+
+- the Mermaid dependency diagram (including the critical path),
+- the wave table (parallelisable batches),
+- the per-issue priority table (slack-based P0-P3).
+
+Issue sizes come from the `size/XS|S|M|L|XL` labels (points: XS=1, S=3,
+M=5, L=8, XL=13). If an issue has no size label, the script fails loudly
+rather than guessing.
+
+Usage:
+    GITHUB_TOKEN=... python3 scripts/sync_dependencies.py [--dry-run]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+from collections import defaultdict, deque
+from pathlib import Path
+
+REPOS = ("kingdoms-services", "kingdoms-infra")
+OWNER = "merlin-pinpin"
+SIZE_POINTS = {"XS": 1, "S": 3, "M": 5, "L": 8, "XL": 13}
+PHASE_LABEL = re.compile(r"^phase-(\d+)$")
+PRIORITY_LABEL = re.compile(r"^priority/(P[0-3])$")
+DEP_LINE = re.compile(r"^-\s+\[[ x]\]\s+(?:merlin-pinpin/)?(kingdoms-services|kingdoms-infra)#(\d+)$")
+DEP_LINE_SAME_REPO = re.compile(r"^-\s+\[[ x]\]\s+#(\d+)$")
+DEP_LINE_OWNER = re.compile(r"^-\s+\[[ x]\]\s+merlin-pinpin/(kingdoms-services|kingdoms-infra)#(\d+)$")
+DEPS_SECTION = re.compile(r"(?s)## Dependencies\n(.*?)(?=\n## |\Z)")
+DOCS_URL = "https://github.com/merlin-pinpin/kingdoms/blob/main/docs/DEPENDENCIES.md"
+
+
+def gh_api(path: str) -> dict | list:
+    env = dict(os.environ)
+    token = env.get("GH_TOKEN") or env.get("GITHUB_TOKEN")
+    if token:
+        env["GH_TOKEN"] = token
+    out = subprocess.run(
+        ["gh", "api", path], capture_output=True, text=True, env=env, check=True
+    )
+    return json.loads(out.stdout)
+
+
+def load_issues() -> list[dict]:
+    issues = []
+    for repo in REPOS:
+        page = 1
+        while True:
+            data = gh_api(f"repos/{OWNER}/{repo}/issues?state=open&per_page=100&page={page}")
+            if not data:
+                break
+            for it in data:
+                if "pull_request" in it:
+                    continue
+                labels = [l["name"] if isinstance(l, dict) else l for l in it["labels"]]
+                body = it.get("body") or ""
+                m = DEPS_SECTION.search(body)
+                deps: list[str] = []
+                if m:
+                    for line in m.group(1).splitlines():
+                        stripped = line.strip()
+                        dm = DEP_LINE_OWNER.match(stripped)
+                        if dm:
+                            deps.append(f"{dm.group(1)}#{dm.group(2)}")
+                            continue
+                        dm = DEP_LINE.match(stripped)
+                        if dm:
+                            deps.append(f"{dm.group(1)}#{dm.group(2)}")
+                            continue
+                        dm = DEP_LINE_SAME_REPO.match(stripped)
+                        if dm:
+                            deps.append(f"{repo}#{dm.group(1)}")
+                size = next((s for s in SIZE_POINTS if f"size/{s}" in labels), None)
+                phase = next((m2.group(1) for l in labels if (m2 := PHASE_LABEL.match(l))), "?")
+                prio_label = next((m3.group(1) for l in labels if (m3 := PRIORITY_LABEL.match(l))), None)
+                issues.append(
+                    {
+                        "id": f"{repo}#{it['number']}",
+                        "repo": repo,
+                        "number": it["number"],
+                        "title": it["title"],
+                        "labels": labels,
+                        "size": size,
+                        "phase": phase,
+                        "prio_label": prio_label,
+                        "deps": deps,
+                    }
+                )
+            page += 1
+    return issues
+
+
+def fail_on_missing(issues: list[dict]) -> None:
+    problems = []
+    ids = {i["id"] for i in issues}
+    for i in issues:
+        if i["size"] is None:
+            problems.append(f"{i['id']}: no size/* label")
+        if i["prio_label"] is None:
+            problems.append(f"{i['id']}: no priority/* label")
+        for d in i["deps"]:
+            if d not in ids:
+                problems.append(f"{i['id']}: depends on unknown or closed issue {d}")
+    if problems:
+        sys.exit("Refusing to regenerate:\n  " + "\n  ".join(problems))
+
+
+def cpm(issues: list[dict]) -> dict:
+    by_id = {i["id"]: i for i in issues}
+    T = {i["id"]: SIZE_POINTS[i["size"]] for i in issues}
+    pred = {i["id"]: [d for d in i["deps"] if d in T] for i in issues}
+    succ: dict[str, list[str]] = defaultdict(list)
+    for k, ds in pred.items():
+        for d in ds:
+            succ[d].append(k)
+    indeg = {k: len(ds) for k, ds in pred.items()}
+    order: list[str] = []
+    q = deque(sorted([k for k, v in indeg.items() if v == 0]))
+    ind = dict(indeg)
+    while q:
+        u = q.popleft()
+        order.append(u)
+        for v in sorted(succ[u]):
+            ind[v] -= 1
+            if ind[v] == 0:
+                q.append(v)
+    if len(order) != len(T):
+        missing = sorted(set(T) - set(order))
+        sys.exit(f"Dependency cycle detected involving: {', '.join(missing)}")
+
+    ES, EF = {}, {}
+    for u in order:
+        ES[u] = max([EF[p] for p in pred[u]], default=0)
+        EF[u] = ES[u] + T[u]
+    total = max(EF.values())
+    LF, LS = {}, {}
+    for u in reversed(order):
+        LF[u] = min([LS[s] for s in succ[u]], default=total)
+        LS[u] = LF[u] - T[u]
+    slack = {k: LS[k] - ES[k] for k in T}
+    end = max(EF, key=EF.get)
+    cp = [end]
+    while pred[end]:
+        end = max(pred[end], key=lambda p: EF[p])
+        cp.append(end)
+    cp.reverse()
+    wave: dict[str, int] = {}
+
+    def dep_depth(k: str) -> int:
+        if k not in wave:
+            wave[k] = max((dep_depth(p) for p in pred[k]), default=-1) + 1
+        return wave[k]
+
+    for k in order:
+        dep_depth(k)
+    return {"pred": pred, "succ": dict(succ), "T": T, "slack": slack, "wave": wave,
+            "cp": cp, "total": total, "ES": ES, "EF": EF, "by_id": by_id}
+
+
+def expected_prio(slack: int) -> str:
+    if slack == 0:
+        return "P0"
+    if slack <= 4:
+        return "P1"
+    if slack <= 12:
+        return "P2"
+    return "P3"
+
+
+def node_key(i: dict) -> str:
+    return i["id"].replace("#", "_").replace("kingdoms-services", "ks").replace("kingdoms-infra", "ki")
+
+
+def render(issues: list[dict], a: dict) -> str:
+    cp_set = set(a["cp"])
+    by_id = a["by_id"]
+    lines: list[str] = []
+    lines += [
+        "# Dependencies",
+        "",
+        "> Auto-generated by `scripts/sync_dependencies.py`. Do not edit manually:",
+        "> edit the `## Dependencies` sections of the issues instead, then",
+        "> regenerate this page (see the [Update dependencies](docs/SKILLS/update-dependencies.md) skill).",
+        "",
+        f"Source: open issues in [kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services/issues)"
+        f" and [kingdoms-infra](https://github.com/merlin-pinpin/kingdoms-infra/issues).",
+        "",
+        "Priority labels come from critical-path analysis (CPM):",
+        "",
+        "| Label | Meaning |",
+        "| ----- | ------- |",
+        "| `priority/P0` | zero slack — on the critical path, any delay delays the project |",
+        "| `priority/P1` | slack ≤ 4 pts — near-critical |",
+        "| `priority/P2` | slack ≤ 12 pts |",
+        "| `priority/P3` | large slack — can be deferred without impact |",
+        "",
+        "Sizes (`size/XS..XL`) map to points (1, 3, 5, 8, 13).",
+        "",
+        "## Critical path",
+        "",
+        f"Total: **{a['total']} pts**. Critical path:",
+        "",
+    ]
+    lines.append(" -> ".join(f"[{n}](https://github.com/{OWNER}/{n.split('#')[0]}/issues/{n.split('#')[1]})" for n in a["cp"]))
+    lines += ["", "## Dependency graph", "", "```mermaid", "flowchart LR"]
+    for i in issues:
+        label = f"#{i['number']} {i['title']}".replace('"', "'")
+        lines.append(f'    {node_key(i)}["{label}"]')
+    for i in issues:
+        for d in i["deps"]:
+            if d in by_id:
+                lines.append(f"    {node_key(by_id[d])} --> {node_key(i)}")
+    lines.append("    classDef critical fill:#ffe0e0,stroke:#d43d51,stroke-width:3px;")
+    cp_keys = ", ".join(node_key(by_id[n]) for n in a["cp"])
+    lines.append(f"    class {cp_keys} critical")
+    lines += ["```", "", "## Waves (parallelisable batches)", "",
+              "Issues in the same wave have no dependency on each other and can be",
+              "worked on in parallel.", ""]
+    by_wave: defaultdict[int, list[dict]] = defaultdict(list)
+    for i in issues:
+        by_wave[a["wave"][i["id"]]].append(i)
+    for w in sorted(by_wave):
+        lines.append(f"**Wave {w}**")
+        lines.append("")
+        lines.append("| Issue | Size | Priority | Slack |")
+        lines.append("| ----- | ---- | -------- | ----- |")
+        for i in sorted(by_wave[w], key=lambda x: (-a["T"][x["id"]], x["id"])):
+            lines.append(
+                f"| {i['id']} — {i['title']} | `{i['size']}` ({a['T'][i['id']]}) | `{i['prio_label']}` | {a['slack'][i['id']]} |"
+            )
+        lines.append("")
+    lines += ["## All issues", "",
+              "| Issue | Phase | Size | Priority | Slack | Depends on |",
+              "| ----- | ----- | ---- | -------- | ----- | ---------- |"]
+    for i in sorted(issues, key=lambda x: (x["repo"], x["number"])):
+        deps = ", ".join(i["deps"]) if i["deps"] else "—"
+        lines.append(f"| {i['id']} — {i['title']} | {i['phase']} | `{i['size']}` | `{i['prio_label']}` | {a['slack'][i['id']]} | {deps} |")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def main() -> None:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--out", default="docs/DEPENDENCIES.md")
+    args = ap.parse_args()
+    issues = load_issues()
+    fail_on_missing(issues)
+    analysis = cpm(issues)
+    content = render(issues, analysis)
+    print(f"{len(issues)} issues, critical path: {' -> '.join(analysis['cp'])}, total {analysis['total']} pts")
+    if args.dry_run:
+        print(content)
+        return
+    out = Path(args.out)
+    old = out.read_text() if out.exists() else ""
+    if old == content:
+        print("No changes.")
+        return
+    out.write_text(content)
+    print(f"Wrote {out}")
+
+
+if __name__ == "__main__":
+    main()

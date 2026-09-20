@@ -19,3 +19,43 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   (kingdoms#27) syncs `ROADMAP.md` automatically on issue state changes; only
   run the "Update roadmap" skill (`docs/SKILLS/update-roadmap.md`) manually
   when automation is down or a status needs human judgment.
+
+## Session checklist (do this by default)
+
+At the end of every session, verify consistency across the three repos:
+
+1. **Docs vs code**: a code change in `kingdoms-services` or `kingdoms-infra`
+   without its doc update here is incomplete. Check that the docs describing
+   what you changed are still accurate.
+2. **Issues vs code**: after closing or starting work, confirm the linked
+   issues reflect reality (state, acceptance criteria, `## Dependencies`
+   checkboxes).
+3. **Dependency graph**: the `Sync dependencies` workflow regenerates
+   `docs/DEPENDENCIES.md` from the `## Dependencies` sections of open issues
+   in `kingdoms-services` and `kingdoms-infra`. Only run the
+   "Update dependencies" skill (`docs/SKILLS/update-dependencies.md`)
+   manually when automation is down or dependencies, sizes or priorities
+   were re-decided by a human.
+4. **Docs validation**: `python3 scripts/validate_docs.py --check` must pass
+   in this repo before opening any PR that touches `docs/`.
+
+## Issue conventions
+
+- Every open issue in `kingdoms-services` and `kingdoms-infra` carries exactly
+  one `size/*` label (XS/S/M/L/XL, Fibonacci points, set by judgment), one
+  `priority/P0-P3` label (critical-path slack, maintained by
+  `scripts/sync_dependencies.py`), and a `phase-N` label.
+- Every issue has a `## Dependencies` section: task-list checkboxes pointing
+  at the issues it blocks on (fully qualified for cross-repo refs, e.g.
+  `merlin-pinpin/kingdoms-infra#2`). "Depends on" = cannot start before;
+  soft relations stay in `## Related`.
+- When creating an issue, add its dependencies and `size/*` label, then let
+  the sync workflow assign `priority/*`; if priorities look off, re-run the
+  skill manually. See [docs/SKILLS/update-dependencies.md](docs/SKILLS/update-dependencies.md).
+
+## See also
+
+- [ARCHITECTURE.md](docs/ARCHITECTURE.md) — system overview
+- [ROADMAP.md](ROADMAP.md) — project progress, synced with issue states
+- [docs/DEPENDENCIES.md](docs/DEPENDENCIES.md) — dependency graph, critical
+  path, waves, priorities, synced from issue `## Dependencies` sections
