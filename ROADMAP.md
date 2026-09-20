@@ -85,3 +85,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | 2026-09-19 | auto-sync: kingdoms#1 in-review->done; kingdoms#2 in-review->done; kingdoms#3 in-review->done; kingdoms#4 todo->done; kingdoms#5 todo->done; (+7 more) |
 | 2026-09-20 | auto-sync: [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) todo->done; [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) in-review->done |
+| 2026-09-20 | post-merge smoke test: PR comment commands verified on main (GITHUB_TOKEN cross-repo reads) |
