@@ -23,7 +23,7 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | kingdoms: ROADMAP + skill | [kingdoms#9](https://github.com/merlin-pinpin/kingdoms/issues/9) | done |
 | kingdoms: vibe-coding workflow doc | [kingdoms#10](https://github.com/merlin-pinpin/kingdoms/issues/10) | done |
 | kingdoms: roadmap automation | [kingdoms#27](https://github.com/merlin-pinpin/kingdoms/issues/27) | done |
-| services: repo structure | [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) | todo |
+| services: repo structure | [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) | done |
 | services: MockDiscord | [kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2) | todo |
 | infra: repo structure | [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) | todo |
 
@@ -81,3 +81,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | 2026-09-18 | Initial roadmap (kingdoms#9), synced with GitHub issue states |
 | 2026-09-18 | kingdoms#3 in-review (PR #21); session PRs #12-#21 opened for kingdoms#1-#6, #8-#11 |
 | 2026-09-19 | auto-sync: kingdoms#1 in-review->done; kingdoms#2 in-review->done; kingdoms#3 in-review->done; kingdoms#4 todo->done; kingdoms#5 todo->done; (+7 more) |
+| 2026-09-20 | auto-sync: [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) todo->done |
