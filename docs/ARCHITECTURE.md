@@ -199,17 +199,23 @@ flowchart LR
   `ghcr.io/merlin-pinpin/kingdoms-services` (tags: `main`, `vX.Y.Z`, `sha-*`).
   Environments pull it from GHCR; production pins the exact tag via
   `KINGDOMS_BOT_IMAGE`.
-- **Backups**: every deployment runs a **mandatory pre-deploy MongoDB
-  backup** (`scripts/backup_db.sh`) and aborts if it fails. The backup is
-  verified (non-empty, gzip integrity) before being accepted.
+- **Backups**: every deployment runs a **mandatory pre-deploy backup of both
+  stores** (`scripts/backup_db.sh`): MongoDB via `mongodump --archive --gzip`,
+  Redis via a `BGSAVE` RDB snapshot. Both artifacts share a timestamp prefix,
+  are verified (non-empty, gzip integrity for Mongo) and abort the deployment
+  on failure.
 - **Rollback**: `scripts/rollback.sh` restores the latest backup (or a given
   archive) and reverts the manifests; `deploy.sh` triggers it automatically
   when the post-deploy health gate fails.
+- **Smoke/preflight**: the bot image ships a `--preflight` mode that runs the
+  real startup path (environment, MongoDB, Redis, locale catalogs) without
+  connecting to the Discord gateway; CI runs it through the real container
+  entrypoint on every PR.
 - **`.github/workflows/`**: CI/CD — shellcheck, compose validation, smoke
   test (dev stack boot), **backup/restore round-trip test** (seed → dump →
-  wipe → restore → byte-for-byte diff), then deploy. Deployment is
-  GitOps-style: environments are defined by versioned manifests, and deploys
-  are reproducible from the repo state.
+  wipe → restore → byte-for-byte diff, on MongoDB **and** Redis), then
+  deploy. Deployment is GitOps-style: environments are defined by versioned
+  manifests, and deploys are reproducible from the repo state.
 
 ## 6. Key diagrams
 
