@@ -9,7 +9,7 @@ ladder standings.
 - Provide a competitive ranking system per game (ELO)
 - Automate matchmaking from a join queue
 - Record match results and maintain rankings
-- Publish results and standings in the `LADDER` channel
+- Publish results and standings in the mod's rankings channel (`ladder:ladder_rankings`)
 
 ## ELO rating system
 
@@ -45,7 +45,7 @@ authoritative sequence and diagram.
 - Rankings are derived from ELO (descending), with tie-breaks by number of
   matches played, then earliest registration
 - Rankings are recomputed after every recorded match
-- Standings are published to the `LADDER` channel category
+- Standings are published to the `ladder:ladder_rankings` channel (mod-declared category)
 
 ## Data stored
 

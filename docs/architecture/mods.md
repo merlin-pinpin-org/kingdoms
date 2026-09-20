@@ -25,8 +25,8 @@ Responsibilities:
 3. **Declaration surface** — expose, per mod:
    - its commands (names and descriptions, i18n keys)
    - its workflows (name → `IWorkflow` implementation)
-   - its channel needs (`ChannelCategory` values it consumes or creates)
-   - its role needs (roles it assigns or manages)
+   - its channel needs (its own channel categories, addressed `mod:key`)
+   - its role needs (its own logical role keys, resolved by `RoleService`)
    - its MongoDB collections and Redis key scopes
 4. **Dependency awareness** — declare soft dependencies between mods (e.g.
    ladder depends on register for player identity); a disabled dependency
@@ -34,18 +34,33 @@ Responsibilities:
 
 ### Declaration example
 
+The repo ships a fully documented template: `kingdoms-services/config/mods/_example.yaml`.
+Mods are added by copying it as `config/mods/<mod>.yaml` — no core change.
+
 ```yaml
-# kingdoms-services/config/mods/register.yaml
-mod:
-  name: register
-  enabled: true
-  settings:
-    default_role: "Player"
-    admin_notifications: true
-    allowed_games:
-      - aoe2
-      - chess
+# kingdoms-services/config/mods/<mod>.yaml — schema (validated at startup)
+id: example            # simple slug, must match the mod package name
+enabled: false         # disabled mods are never loaded
+settings: {}           # free-form, mod-specific
+channels:              # addressed at runtime as "mod:key"
+  - key: announce
+    display_name: Annonces
+    description: Where the example mod posts announcements
+    per_instance: false # true = one channel per instance (e.g. per clan)
+roles:                 # logical role keys, resolved by RoleService
+  - key: example_member
+    display_name: Example Member
+    color: 0x99AAB5
+    hoisted: false
+workflows: []           # workflow names implemented by the mod
+commands: []            # command names implemented by the mod
+dependencies: []        # mod ids this mod depends on
 ```
+
+Channel and role declarations are **mod-scoped**: the core never
+enumerates mod channels or roles; it only provides the generic services
+(`ChannelService`, `RoleService`, `ModRegistry`) that provision them
+(kingdoms-services#26).
 
 `ModRegistry` validates the declaration (schema, known categories, known
 locales, resolvable workflow classes) before the mod is loaded; an invalid
@@ -87,16 +102,17 @@ Mods extend the platform by combining core seams (detailed in
 | Need | Extension point | Example |
 | ---- | --------------- | ------- |
 | New interaction sequence | `IWorkflow` + `WorkflowEngine` | Registration flow |
-| New destination | `ChannelCategory` value + `ChannelService` | `REPORTS` for match reports |
+| New destination | Channel category declared in the mod YAML + `ChannelService` | `example:announce` for announcements |
 | New persistent data | MongoDB model | Ladder standings |
 | New hot state | `StateService` key scope | Matchmaking queue |
-| New user-facing identity | Role declared in mod settings | `Player` role |
+| New user-facing identity | Role declared in mod YAML, resolved by `RoleService` | `player` role |
 | New content without code | YAML config (games, locales) | Add a game to `register` |
 
 Anti-patterns (enforced by review, not by code):
 
 - Importing `discord.py` (or any platform package) from mod or core code
 - Hardcoding channel IDs, role IDs, or guild IDs
+- Extending core enums (`ChannelCategory`, `PlatformType`) with mod-specific values
 - Writing raw Redis commands instead of going through `StateService`
 - Duplicating another mod's logic instead of depending on it explicitly
 
