@@ -144,6 +144,8 @@ correctness. Key naming follows `kingdoms:{scope}:{key}` (see
 ## 4. Extension points
 
 The core exposes deliberate seams for the platform layer and mods:
+All `I*` contracts are `typing.Protocol` classes ([ADR-0011](../DECISIONS/011-protocol-interfaces.md)):
+implementations satisfy them structurally, without inheritance.
 
 | Extension point | Consumer | Purpose |
 | --------------- | -------- | ------- |
