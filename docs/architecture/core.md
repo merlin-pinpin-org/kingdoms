@@ -159,7 +159,8 @@ implementations satisfy them structurally, without inheritance.
 ## 5. Testing strategy for core services
 
 Core services have no platform dependency, so they are tested with an
-in-memory `IPlatform` implementation (`MockDiscord`, kingdoms-services#2)
+in-memory `IPlatform` implementation (MockPlatform, kingdoms-services#24 —
+distinct from the `MockDiscord` mock objects of kingdoms-services#2)
 plus in-memory MongoDB/Redis substitutes. Full strategy:
 [testing.md](testing.md).
 
