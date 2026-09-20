@@ -59,7 +59,9 @@ def check_mods_docs(docs_root: Path, config_root: Path | None) -> list[str]:
     declared: set[str] = set()
     if config_root and (config_root / "mods").is_dir():
         declared = {
-            p.stem for p in (config_root / "mods").glob("*.y*ml")
+            p.stem
+            for p in (config_root / "mods").glob("*.y*ml")
+            if not p.stem.startswith("_")
         }
 
     for mod in sorted(documented | declared):
