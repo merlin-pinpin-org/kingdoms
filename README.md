@@ -84,11 +84,10 @@ Generated technical documentation (pydoc) lives in `kingdoms-services`
 next to the sources it documents; a dedicated workflow checks its freshness
 on every PR of that repo.
 
-The `/roadmap` and `/dependencies` commands read the issues of the private
-`kingdoms-infra` repository, which the default `GITHUB_TOKEN` cannot: they
-require the `DEPS_SYNC_PAT` repository secret (fine-grained PAT with
-"Issues: read" on `merlin-pinpin/kingdoms-services` AND
-`merlin-pinpin/kingdoms-infra`) and fail closed without it.
+The `/roadmap` and `/dependencies` commands read the issues of
+`kingdoms-services` and `kingdoms-infra`; all three repositories are public,
+so the default `GITHUB_TOKEN` is sufficient (the former `DEPS_SYNC_PAT`
+secret is obsolete). They still fail closed when a repository is unreadable.
 
 ## Contributing
 
