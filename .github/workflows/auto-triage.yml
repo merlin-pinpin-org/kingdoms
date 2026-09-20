@@ -37,6 +37,10 @@ jobs:
             );
 
             const LABEL_ALIASES = { documentation: ['docs'] };
+            const NO_AUTO_LABELS = new Set([
+              'invalid', 'question', 'duplicate', 'wontfix', 'setup',
+              'enhancement', 'good first issue', 'help wanted',
+            ]);
 
             function labelPattern(name) {
               const parts = name.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
@@ -58,6 +62,7 @@ jobs:
               const t = (text || '').toLowerCase();
               const found = [];
               for (const name of repoLabels) {
+                if (NO_AUTO_LABELS.has(name.toLowerCase())) continue;
                 const re = labelPattern(name);
                 if (re && re.test(t)) found.push(name);
               }
@@ -108,7 +113,7 @@ jobs:
             }
 
             if (isIssue) {
-              const labels = inferLabels(`${title}\n${body}`);
+              const labels = inferLabels(title);
               let milestone = null;
               const parentLines = body.split('\n').filter((l) => /parent\s+issue/i.test(l));
               for (const line of parentLines) {
@@ -118,7 +123,7 @@ jobs:
                   const parent = await getIssue(parseInt(m[4], 10), refOwner, refRepo);
                   if (!parent) continue;
                   for (const l of parent.labels || []) {
-                    if (repoLabels.has(l.name)) labels.push(l.name);
+                    if (repoLabels.has(l.name) && !NO_AUTO_LABELS.has(l.name.toLowerCase())) labels.push(l.name);
                   }
                   if (refOwner === owner && refRepo === repo && parent.milestone) {
                     milestone = parent.milestone.number;
@@ -133,16 +138,11 @@ jobs:
               const ownRefRe = new RegExp(`(?:${owner}/${repo})?#(\\d+)`, 'g');
               const closingLines = body
                 .split('\n')
-                .filter((l) => closingRe.test(l) && ownRefRe.test(l));
+                .filter((l) => closingRe.test(l) && new RegExp(ownRefRe.source).test(l));
               for (const line of closingLines) {
-                for (const m of line.matchAll(ownRefRe)) {
-                  linked.add(parseInt(m[2], 10));
+                for (const m of line.matchAll(new RegExp(ownRefRe.source, 'g'))) {
+                  linked.add(parseInt(m[1], 10));
                 }
-              }
-              const branchRef = (item.head && item.head.ref) || '';
-              const branchMatch = branchRef.match(/^vibe\/(\d+)-/);
-              if (isNew && branchMatch) {
-                linked.add(parseInt(branchMatch[1], 10));
               }
               const issues = [];
               for (const num of linked) {
@@ -151,23 +151,13 @@ jobs:
               }
               const labels = [];
               for (const issue of issues) {
-                for (const l of issue.labels || []) labels.push(l.name);
-              }
-              if (labels.length === 0) labels.push(...inferLabels(`${title}\n${body}`));
-              await applyLabels(labels);
-              if (issues.length > 0) await setMilestone(issues[0].milestone ? issues[0].milestone.number : null);
-              if (isNew && branchMatch) {
-                const branchIssue = parseInt(branchMatch[1], 10);
-                const mentioned = new Set([...body.matchAll(/#(\d+)/g)].map((m) => parseInt(m[1], 10)));
-                if (issues.some((i) => i.number === branchIssue) && !mentioned.has(branchIssue)) {
-                  await github.rest.issues.update({
-                    owner,
-                    repo,
-                    issue_number: number,
-                    body: `${body}\n\nCloses #${branchIssue}`,
-                  });
+                for (const l of issue.labels || []) {
+                  if (!NO_AUTO_LABELS.has(l.name.toLowerCase())) labels.push(l.name);
                 }
               }
+              if (labels.length === 0) labels.push(...inferLabels(title));
+              await applyLabels(labels);
+              if (issues.length > 0) await setMilestone(issues[0].milestone ? issues[0].milestone.number : null);
             }
 
             await ensureAssignee();
