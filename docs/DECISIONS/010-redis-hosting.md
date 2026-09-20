@@ -1,6 +1,6 @@
 # ADR-0010: Redis hosting — Redis Cloud free tier for prod, containerized Redis for dev/staging
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Date:** 2026-09-21
 
