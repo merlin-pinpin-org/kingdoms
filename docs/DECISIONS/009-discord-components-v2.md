@@ -1,6 +1,6 @@
 # ADR-0009: Dual Discord UI system — embeds for simple output, Components V2 for rich UI
 
-- **Status**: Proposed
+- **Status**: Accepted
 - **Date**: 2026-09-20
 - **Deciders**: developer
 - **Reference**: kingdoms-services#13
