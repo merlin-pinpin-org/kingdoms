@@ -47,8 +47,13 @@ At the end of every session, verify consistency across the three repos:
    "Update dependencies" skill (`docs/SKILLS/update-dependencies.md`)
    manually when automation is down or dependencies, sizes or priorities
    were re-decided by a human.
-4. **Docs validation**: `python3 scripts/validate_docs.py --check` must pass
-   in this repo before opening any PR that touches `docs/`.
+4. **Docs validation**: `python3 scripts/validate_docs.py --check
+   --source <kingdoms-services>/src/kingdoms --config
+   <kingdoms-services>/config` must pass before opening any PR (fail-closed:
+   it refuses to validate without the kingdoms-services source/config).
+   The `Check Docs` required check re-runs it on every PR, plus a
+   generated-docs freshness step — regenerate with `/generate-docs` when it
+   reports the pydoc as stale (always generate before checking).
 
 ## Issue conventions
 
