@@ -43,14 +43,14 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | services: i18n | [kingdoms-services#17](https://github.com/merlin-pinpin/kingdoms-services/issues/17) | todo |
 | infra: CI/CD | [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) | todo |
 | infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) | todo |
-| infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) | todo |
+| infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) | done |
 | infra: monitoring | [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) | todo |
 
 ### Phase 3 — Mods & Discord
 | Track | Issue | Status |
 |-------|-------|--------|
 | services: DiscordPlatform | [kingdoms-services#11](https://github.com/merlin-pinpin/kingdoms-services/issues/11) | todo |
-| services: Bot structure | [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) | todo |
+| services: Bot structure | [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) | done |
 | services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin/kingdoms-services/issues/13) | todo |
 | services: registration mod | [kingdoms-services#14](https://github.com/merlin-pinpin/kingdoms-services/issues/14) | todo |
 | services: ladder mod | [kingdoms-services#15](https://github.com/merlin-pinpin/kingdoms-services/issues/15) | todo |
@@ -58,6 +58,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | services: admin mod | [kingdoms-services#21](https://github.com/merlin-pinpin/kingdoms-services/issues/21) | todo |
 | services: deployment scripts | [kingdoms-services#20](https://github.com/merlin-pinpin/kingdoms-services/issues/20) | todo |
 | services: semantic release | [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) | todo |
+| services: startup announcement (PR link) | [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) | todo |
 
 ### Sub-tasks
 | Sub-task | Parent | Status |
@@ -86,3 +87,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-20 | auto-sync: [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) todo->done; [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) in-review->done |
 | 2026-09-20 | auto-sync: [kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2) todo->done; [kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) todo->done; [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) todo->done; [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) todo->done; current phase 1->2 |
+| 2026-09-20 | auto-sync: [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) todo->done; [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) todo->done |
