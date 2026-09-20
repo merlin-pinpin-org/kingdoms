@@ -77,6 +77,11 @@ written against the core only; they never import Discord-specific code.
 
 ### `interfaces/`
 
+All contracts are `typing.Protocol` classes (`@runtime_checkable`):
+implementations satisfy them **structurally**, without inheritance —
+conformance is verified by mypy strict, not at instantiation time
+([ADR-0011](DECISIONS/011-protocol-interfaces.md)).
+
 - **`IPlatform`**: the platform abstraction. Methods cover messaging
   (send/edit/delete), channel management (create/get by category), role
   assignment, and DMs. First implementation: `DiscordPlatform`.
@@ -292,6 +297,7 @@ flowchart LR
 | Decision | Rationale | ADR |
 | -------- | ---------- | --- |
 | `IPlatform` abstraction | **Extensibility** — Twitch later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
+| `typing.Protocol` contracts | **Decoupling** — adapters satisfy interfaces structurally, no inheritance | [ADR-0011](DECISIONS/011-protocol-interfaces.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |
