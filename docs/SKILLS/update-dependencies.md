@@ -29,38 +29,26 @@ from the graph but still shown (struck through) in the tables.
 - `priority/P0-P3` labels on every issue (critical-path slack)
 - `size/XS-XL` labels (set manually: XS=1, S=3, M=5, L=8, XL=13 points)
 
-**Primary mechanism (automatic):** the `/dependencies` PR command (see
-[pr-commands.md](pr-commands.md), workflow
-`.github/workflows/pr-commands.yml`) runs `scripts/sync_dependencies.py`
-and commits the regenerated `docs/DEPENDENCIES.md` to the PR branch where
-the command was commented. The script prints a **priority-label drift
-report** when an issue's `priority/*` label no longer matches its
-critical-path slack; fix the labels with `gh issue edit` (the script never
-edits issues) and re-run the command.
-
-**Cross-repo access:** all three repositories are public, so the default
-`GITHUB_TOKEN` reads the issues of `kingdoms-services` and
-`kingdoms-infra` directly (no custom secret; the former `DEPS_SYNC_PAT` is
-obsolete). The job still fails closed when a repository is unreadable —
-it never regenerates the graph from partial data.
+**Mechanism:** run `scripts/sync_dependencies.py` locally, then commit the
+regenerated `docs/DEPENDENCIES.md` to the PR branch (or open a dedicated
+PR). The script reads all open issues via `gh api`; since all three
+repositories are public, no custom secret is required. It fails closed
+when a repository is unreadable — it never regenerates the graph from
+partial data.
 
 ## Procedure
 
-1. **Run `/dependencies` on an open PR** (or post it as the agent): the
-   workflow regenerates `docs/DEPENDENCIES.md` and commits it to the PR
-   branch. Review the committed diff like any PR change.
-
-2. **Manual fallback / label drift:** run the script directly:
+1. **Run the script** from the repo root:
    ```bash
    python3 scripts/sync_dependencies.py
    ```
-   The script reads all open issues via `gh api`, fails loudly on missing
-   `size/*`/`priority/*` labels, unknown or unchecked references, or
-   cycles, then rewrites `docs/DEPENDENCIES.md`. It never edits issues:
-   label mismatches it detects are reported and must be fixed manually.
+   It fails loudly on missing `size/*`/`priority/*` labels, unknown or
+   still-open checked dependencies, cycles, and unreadable repositories,
+   then rewrites `docs/DEPENDENCIES.md`. Use `--dry-run` to preview.
 
-3. **Fix label drift.** If the script reports priority mismatches,
-   update the affected issues:
+2. **Fix label drift.** The script prints a **priority-label drift report**
+   when an issue's `priority/*` label no longer matches its critical-path
+   slack; it never edits issues. Fix the labels and re-run:
    ```bash
    gh issue edit <n> --repo merlin-pinpin/<repo> \
      --remove-label priority/P1 --add-label priority/P2
@@ -75,9 +63,9 @@ it never regenerates the graph from partial data.
    | `priority/P2` | ≤ 12 |
    | `priority/P3` | > 12 |
 
-4. **Commit and open a PR** with `docs(dependencies): sync dependency graph`
-   (or commit to the branch of an existing open PR, e.g. after running
-   `/dependencies` on it).
+3. **Commit and open a PR** with `docs(dependencies): sync dependency graph`
+   — or commit to the branch of an existing open PR that needs the
+   regenerated graph. Review the diff like any PR change.
 
 ## Conventions
 
@@ -88,11 +76,10 @@ it never regenerates the graph from partial data.
 - Dependencies are build-order constraints ("cannot start before"),
   not mere relations; soft relations stay in `## Related`.
 - When creating a new issue, add its dependencies and both labels, then
-  run `/dependencies` on an open PR (or the manual script); the printed
-  drift report catches label drift immediately.
+  run the script; the printed drift report catches label drift immediately.
 
 ## See also
 
-- [pr-commands.md](pr-commands.md) — the `/dependencies` PR command automation
+- [update-roadmap.md](update-roadmap.md) — the companion roadmap sync skill
 - [../../scripts/sync_dependencies.py](../../scripts/sync_dependencies.py)
-  — the script behind the command (use `--dry-run` to preview)
+  — the script behind this process (use `--dry-run` to preview)
