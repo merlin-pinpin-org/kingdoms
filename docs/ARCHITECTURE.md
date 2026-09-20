@@ -194,7 +194,20 @@ flowchart LR
 - **`deploy/`**: Docker Compose manifests per environment (dev, staging,
   production). One command launches the bot and its dependencies (MongoDB,
   Redis).
-- **`.github/workflows/`**: CI/CD — lint, test, build, deploy. Deployment is
+- **Images**: the bot image is a **multi-stage build** (deps → build →
+  runtime) published by the `kingdoms-services` `Docker` workflow to
+  `ghcr.io/merlin-pinpin/kingdoms-services` (tags: `main`, `vX.Y.Z`, `sha-*`).
+  Environments pull it from GHCR; production pins the exact tag via
+  `KINGDOMS_BOT_IMAGE`.
+- **Backups**: every deployment runs a **mandatory pre-deploy MongoDB
+  backup** (`scripts/backup_db.sh`) and aborts if it fails. The backup is
+  verified (non-empty, gzip integrity) before being accepted.
+- **Rollback**: `scripts/rollback.sh` restores the latest backup (or a given
+  archive) and reverts the manifests; `deploy.sh` triggers it automatically
+  when the post-deploy health gate fails.
+- **`.github/workflows/`**: CI/CD — shellcheck, compose validation, smoke
+  test (dev stack boot), **backup/restore round-trip test** (seed → dump →
+  wipe → restore → byte-for-byte diff), then deploy. Deployment is
   GitOps-style: environments are defined by versioned manifests, and deploys
   are reproducible from the repo state.
 
