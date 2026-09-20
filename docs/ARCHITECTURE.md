@@ -132,6 +132,14 @@ workflow payloads evolve with the game rules):
 - **`ChannelService`**: channel category management. Mods ask for a channel by
   category, never by name or ID. Resolution order: cache → database → platform
   creation.
+- **`StatusService`**: operational report (version, uptime, configured games,
+  enabled mods with their declared channels/roles, bot admins) — powers the
+  generic `/status` command.
+- **`AdminService`** (kingdoms-services#35): distinguishes **bot admins**
+  (operators, defined by the `BOT_ADMINS` environment variable — provisioned
+  via GitHub secrets in hosted environments) from **guild admins**
+  (guild-scoped: platform permissions or mod-declared admin roles). Bot
+  admins operate the bot; guild admins administer their guild only.
 - **`WorkflowEngine`**: workflow execution. Declares nothing itself; loads
   workflow definitions, drives step transitions, persists state through
   `StateService`, and dispatches UI events to the right running workflow.
@@ -157,9 +165,14 @@ workflow payloads evolve with the game rules):
 ### `bot/`
 
 - **`main.py`**: entry point — loads config, wires the core services, starts
-  the Discord client
+  the Discord client, syncs slash commands on ready (guild-scoped when
+  `CICD_GUILD_ID` is set, global otherwise)
 - **`cogs/`**: Discord mods (`register.py`, `ladder.py`, ...). Each cog maps
   commands and interactions to core services; no game logic lives in cogs.
+- **`status.py`**: the generic `/status` command — bot and per-guild
+  operational report (uptime, version, games, enabled mods with their
+  declared channels/roles, bot admins, guild admins). Not a mod: it is a
+  platform capability, gated by admin levels (kingdoms-services#35).
 
 ### `ui/`
 
