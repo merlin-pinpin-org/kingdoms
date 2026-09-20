@@ -62,3 +62,5 @@ change that reverses an ADR must produce both a new ADR and a changelog entry.
 | [006](006-docker-compose-infra.md) | Docker Compose infrastructure |
 | [007](007-gitops-deployment.md) | GitOps deployment |
 | [008](008-i18n-system.md) | YAML-based i18n |
+| [009](009-discord-components-v2.md) | Dual Discord UI system (embeds + Components V2) |
+| [010](010-redis-hosting.md) | Redis hosting (Redis Cloud free tier for prod) |
