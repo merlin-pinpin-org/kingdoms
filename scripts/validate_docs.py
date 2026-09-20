@@ -137,6 +137,15 @@ def check_mermaid(docs_root: Path) -> list[str]:
                     problems.append(f"{label}: unbalanced subgraph/end")
                 elif block.count("subgraph") != len(re.findall(r"^\s*end\s*$", block, re.MULTILINE)):
                     problems.append(f"{label}: unbalanced subgraph/end")
+            for cls in re.findall(r"^\s*class\s+([^\n]+)$", block, re.MULTILINE):
+                for key in cls.split(","):
+                    if key.strip() != key or not key.strip():
+                        problems.append(
+                            f"{label}: invalid class statement "
+                            f"(`class {cls.strip()}`): node ids must be "
+                            f"comma-separated without spaces"
+                        )
+                        break
     return problems
 
 

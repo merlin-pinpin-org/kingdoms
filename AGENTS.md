@@ -20,16 +20,12 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   `.env` values): real credentials live only in GitHub secrets or in
   host-provisioned `.env` files; repositories carry `.env.example`
   placeholders only. Before making any repository public, scan the full
-  git history for leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`)
-  and get merlin-pinpin's approval.
-- The agent **never** merges a PR without an explicit merge approval from
-  the developer (a named go-ahead such as "merge #44" — not a review
-  comment, a "LGTM", an idea approval, or silence; CI must be green). For
-  changes with a critical architecture impact (ADR-level design, data
-  model, core interfaces, infrastructure/deployment, security), the
-  approval must come from **merlin-pinpin**: he is the sole decision-maker
-  for production; other users may at most deploy non-prod environments,
-  as he directs.
+  git history for leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`).
+- Merge approvals and required checks are enforced by the `main` ruleset
+  of each repository; do not document person-based permissions here.
+- Anyone can run the local checks (`python3 scripts/validate_docs.py` with
+  the `kingdoms-services` clone next to this repo); they require public
+  clones only, no credentials.
 - At the end of every session, verify the roadmap: post `/roadmap` on your
   open PR — the `PR commands` workflow (`docs/SKILLS/pr-commands.md`) runs
   `scripts/sync_roadmap.py` and commits the synced `ROADMAP.md` to the PR
