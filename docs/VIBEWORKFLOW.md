@@ -63,43 +63,35 @@ Step by step:
 6. The release triggers the GitOps deployment to the chosen environment on the
    VPS; the bot runs and the game designer validates the behavior in Discord.
 
-## PR commands automation
+## Generated artifacts sync
 
-`ROADMAP.md` and `docs/DEPENDENCIES.md` are kept in
-sync through **PR comment commands** (see the
-[PR commands](SKILLS/pr-commands.md) skill, workflow
-`.github/workflows/pr-commands.yml`): a collaborator with write access
-comments `/roadmap`, `/dependencies` or `/check-docs` on a
-pull request, the corresponding script runs against the PR branch, and the
-generated artifact is **committed to that PR branch** — never a rolling
-`automation/*` PR, never a direct push to `main`. Generated technical docs
-(pydoc) live in `kingdoms-services` and are freshness-checked there.
+`ROADMAP.md` and `docs/DEPENDENCIES.md` are generated artifacts kept in
+sync by the sync skills ([Update roadmap](SKILLS/update-roadmap.md),
+[Update dependencies](SKILLS/update-dependencies.md)): the agent runs the
+sync script locally (`scripts/sync_roadmap.py`,
+`scripts/sync_dependencies.py`), fixes what the script reports, and
+**commits the regenerated artifact to the current PR branch** — never a
+rolling `automation/*` PR, never a direct push to `main`. Generated
+technical docs (pydoc) live in `kingdoms-services` and are
+freshness-checked there.
 
-- **Why comment-triggered:** the agent can post the commands itself
-  (`gh pr comment <n> --body "/roadmap"`), so every open PR can absorb the
-  generated drift it needs before review; nothing accumulates in ghost PRs.
-- **Access control:** only `admin`/`maintain`/`write` collaborators can run
-  the commands (checked in the `parse` job).
-- **Fail-closed:** `/roadmap` and `/dependencies` read the issues of
-  `kingdoms-services` and `kingdoms-infra` with the default `GITHUB_TOKEN`
-  (all three repositories are public); they fail with an explicit error
-  when a repo is unreadable, never regenerating from partial data.
+- **Fail-closed:** both scripts read the issues of `kingdoms-services` and
+  `kingdoms-infra` through `gh api` (all three repositories are public, no
+  custom secret); they fail with an explicit error when a repo is
+  unreadable, never regenerating from partial data. Every sync script fails
+  when its validation fails (unreadable repo, partial data, missing
+  labels, stale generated docs) — no best-effort or partial writes.
 - **Status mapping:** closed-as-completed → `done`, closed-as-not-planned →
   `dropped` (moved to "Out of Scope"), open with a closing-keyword PR →
   `in-review`, otherwise `todo`. `in-progress` and `blocked` require human
   judgment and are preserved as-is.
-- **Fail-closed:** every sync/generation script fails when its validation
-  fails (unreadable repo, partial data, missing labels, stale generated
-  docs) — no best-effort or partial writes.
 - **Linking PRs to issues:** use a closing keyword in the PR description
   (`Closes #N` same-repo, `Closes owner/repo#N` cross-repo) — this populates
   the GitHub "Development" section, drives `in-review` detection, and closes
   the issue on merge.
 
-The [Update roadmap](SKILLS/update-roadmap.md) and
-[Update dependencies](SKILLS/update-dependencies.md) skills remain the
-manual fallbacks: run them only when automation is down or when a status
-needs human judgment (`in-progress`/`blocked`).
+The `Check Docs` required check runs `scripts/validate_docs.py` on every PR
+— documentation validation never depends on a manual command.
 
 ## Session loop
 
@@ -113,10 +105,9 @@ An agent session (which starts with no memory of previous conversations):
 5. Report the PR URL and wait for review.
 6. On request: merge, tag, release — only from actors authorized by the
    GitHub policies.
-7. Verify the roadmap: post `/roadmap` on the PR (the `PR commands` workflow
-   commits the synced `ROADMAP.md` to the PR branch). Only if automation is
-   down or a status needs human judgment (`in-progress`/`blocked`), run the
-   "Update roadmap" skill manually.
+7. Verify the roadmap: run `scripts/sync_roadmap.py` (the
+   [Update roadmap](SKILLS/update-roadmap.md) skill) and commit the synced
+   `ROADMAP.md` to the current PR branch.
 
 ## Rules
 

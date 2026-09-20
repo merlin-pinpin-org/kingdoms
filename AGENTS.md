@@ -26,12 +26,11 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - Anyone can run the local checks (`python3 scripts/validate_docs.py` with
   the `kingdoms-services` clone next to this repo); they require public
   clones only, no credentials.
-- At the end of every session, verify the roadmap: post `/roadmap` on your
-  open PR — the `PR commands` workflow (`docs/SKILLS/pr-commands.md`) runs
-  `scripts/sync_roadmap.py` and commits the synced `ROADMAP.md` to the PR
-  branch; only run the "Update roadmap" skill
-  (`docs/SKILLS/update-roadmap.md`) manually when automation is down or a
-  status needs human judgment.
+- At the end of every session, verify the roadmap: run
+  `scripts/sync_roadmap.py` (the "Update roadmap" skill,
+  `docs/SKILLS/update-roadmap.md`) and commit the synced `ROADMAP.md` to
+  your open PR branch. Statuses needing human judgment (`in-progress`,
+  `blocked`) are set manually and preserved by the script.
 
 ## Session checklist (do this by default)
 
@@ -43,20 +42,16 @@ At the end of every session, verify consistency across the three repos:
 2. **Issues vs code**: after closing or starting work, confirm the linked
    issues reflect reality (state, acceptance criteria, `## Dependencies`
    checkboxes).
-3. **Dependency graph**: post `/dependencies` on your open PR — the
-   `PR commands` workflow regenerates `docs/DEPENDENCIES.md` from the
-   `## Dependencies` sections of open issues in `kingdoms-services` and
-   `kingdoms-infra` and commits it to the PR branch. Only run the
-   "Update dependencies" skill (`docs/SKILLS/update-dependencies.md`)
-   manually when automation is down or dependencies, sizes or priorities
-   were re-decided by a human.
+3. **Dependency graph**: run `scripts/sync_dependencies.py` (the
+   "Update dependencies" skill, `docs/SKILLS/update-dependencies.md`) and
+   commit the regenerated `docs/DEPENDENCIES.md` to your open PR branch.
+   Fix any priority-label drift it reports (`gh issue edit`), then re-run.
 4. **Docs validation**: `python3 scripts/validate_docs.py --check
    --source <kingdoms-services>/src/kingdoms --config
    <kingdoms-services>/config` must pass before opening any PR (fail-closed:
    it refuses to validate without the kingdoms-services source/config).
    The `Check Docs` required check re-runs it on every PR. Generated technical
-   docs (pydoc) live in `kingdoms-services` and are freshness-checked there
-   (see [docs/SKILLS/pr-commands.md](docs/SKILLS/pr-commands.md)).
+   docs (pydoc) live in `kingdoms-services` and are freshness-checked there.
 
 ## Issue conventions
 
@@ -68,9 +63,9 @@ At the end of every session, verify consistency across the three repos:
   at the issues it blocks on (fully qualified for cross-repo refs, e.g.
   `merlin-pinpin/kingdoms-infra#2`). "Depends on" = cannot start before;
   soft relations stay in `## Related`.
-- When creating an issue, add its dependencies and `size/*` label, then let
-  the sync workflow assign `priority/*`; if priorities look off, re-run the
-  skill manually. See [docs/SKILLS/update-dependencies.md](docs/SKILLS/update-dependencies.md).
+- When creating an issue, add its dependencies and `size/*` label, then run
+  `scripts/sync_dependencies.py` and fix the `priority/*` labels it reports
+  as drifted. See [docs/SKILLS/update-dependencies.md](docs/SKILLS/update-dependencies.md).
 
 ## See also
 

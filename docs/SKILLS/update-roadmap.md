@@ -3,38 +3,28 @@
 Keep `ROADMAP.md` (repo root) in sync with the actual GitHub issue states
 across the three Kingdoms repos.
 
-**Primary mechanism (automatic):** the `/roadmap` PR command (see
-[pr-commands.md](pr-commands.md), workflow
-`.github/workflows/pr-commands.yml`) runs `scripts/sync_roadmap.py` and
-commits the updated `ROADMAP.md` to the PR branch where the command was
-commented. Post `/roadmap` as a PR comment (the agent and the developer
-both can); the workflow reports the outcome in a PR comment.
+**Mechanism:** run `scripts/sync_roadmap.py` locally, then commit the updated
+`ROADMAP.md` to the PR branch (or open a dedicated PR). The script reads all
+three repositories through `gh api`; since they are public, no custom secret
+is required. It fails closed when a repository is unreadable — roadmap
+statuses for `kingdoms-infra` can never silently go stale.
 
-**Cross-repo access:** all three repositories are public, so the default
-`GITHUB_TOKEN` reads the issues of `kingdoms-services` and
-`kingdoms-infra` directly (no custom secret). The job still fails closed
-when a repository is unreadable — roadmap statuses for `kingdoms-infra`
-can never silently go stale.
-
-**This skill (manual fallback):** run it when automation is down, when a
-status requires human judgment, or on explicit request ("update the roadmap").
-The automation cannot infer `in-progress` or `blocked`; those statuses are
-set manually and preserved by the script.
+Statuses that require human judgment (`in-progress`, `blocked`) cannot be
+inferred from GitHub state; set them manually — the script preserves them.
 
 ## Procedure
 
-1. **Run `/roadmap` on an open PR** (or post it as the agent): the workflow
-   syncs `ROADMAP.md` and commits the result to the PR branch. Review the
-   committed diff like any PR change.
-
-2. **Manual fallback only** — collect issue states for `merlin-pinpin/kingdoms`,
-   `merlin-pinpin/kingdoms-services`, and `merlin-pinpin/kingdoms-infra`:
+1. **Collect issue states** — the script does this itself via `gh api`:
    ```bash
    gh issue list --repo merlin-pinpin/<repo> --state all --limit 200 \
      --json number,title,state,stateReason
    ```
 
-3. **Map each issue** referenced in `ROADMAP.md` to a status:
+2. **Run the sync script** from the repo root:
+   ```bash
+   python3 scripts/sync_roadmap.py
+   ```
+   It maps each issue referenced in `ROADMAP.md` to a status:
 
    | GitHub state | Roadmap status |
    | ------------ | --------------- |
@@ -56,21 +46,26 @@ set manually and preserved by the script.
    `Closes owner/repo#N` cross-repo): this populates the GitHub
    "Development" section and closes the issue on merge.
 
-4. **Update "Current Phase"**: the lowest phase that still has non-`done`
-   issues. Sub-tasks do not affect the phase calculation.
+3. **Fix what the script reports** — it fails (or warns) on: unreadable
+   repository (exit 2), open issue missing from the roadmap, unknown
+   repository reference, issue not found on GitHub, Out-of-Scope drift
+   (exit 3). Re-run until clean.
 
-5. **Append a Change Log row** (dated) if and only if any status changed or
-   issues were added/removed.
+4. **Verify "Current Phase"**: the lowest phase that still has non-`done`
+   issues. Sub-tasks do not affect the phase calculation. The script updates
+   it automatically — check it matches intent.
 
-6. **Open a PR** with the title `docs(roadmap): sync with GitHub issues`
-   (or commit to the branch of an existing open PR, e.g. after running
-   `/roadmap` on it).
+5. **Check the Change Log**: the script appends a dated row whenever a status
+   changed or issues were added/removed.
+
+6. **Commit and open a PR** with the title `docs(roadmap): sync with GitHub
+   issues` — or commit to the branch of an existing open PR that needs
+   the synced roadmap. Review the diff like any PR change.
 
 ## Rules
 
-- The PR must **only touch `ROADMAP.md`**.
-- Never invent statuses: every row must reflect an actual GitHub issue state
-  observed in step 2.
+- A roadmap-only change must **only touch `ROADMAP.md`**.
+- Never invent statuses: every row must reflect an actual GitHub issue state.
 - New issues discovered during the sync are added to the matching phase table
   (or "Sub-tasks") as linked rows; issues missing from GitHub are removed.
 - Do not reorder tables; keep tracks grouped by repo.
@@ -84,7 +79,6 @@ set manually and preserved by the script.
 ## See also
 
 - [../../ROADMAP.md](../../ROADMAP.md) — the roadmap this skill maintains
-- [pr-commands.md](pr-commands.md) — the `/roadmap` PR command automation
 - [../../scripts/sync_roadmap.py](../../scripts/sync_roadmap.py) — the
   automation backing this process (run with `--check` to preview drift)
 - [../../AGENTS.md](../../AGENTS.md) — the rule that triggers this skill at
