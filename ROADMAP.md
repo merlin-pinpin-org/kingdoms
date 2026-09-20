@@ -6,7 +6,7 @@
 Status values: `todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`.
 
 ## Current Phase
-Phase 1 — Foundations (repos structure, architecture docs)
+Phase 2 — Foundations (repos structure, architecture docs)
 
 ## Milestones
 
@@ -24,19 +24,19 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | kingdoms: vibe-coding workflow doc | [kingdoms#10](https://github.com/merlin-pinpin/kingdoms/issues/10) | done |
 | kingdoms: roadmap automation | [kingdoms#27](https://github.com/merlin-pinpin/kingdoms/issues/27) | done |
 | services: repo structure | [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) | done |
-| services: MockDiscord | [kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2) | todo |
+| services: MockDiscord | [kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2) | done |
 | infra: repo structure | [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) | done |
 
 ### Phase 2 — Core
 | Track | Issue | Status |
 |-------|-------|--------|
 | services: IPlatform | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3) | todo |
-| services: DB models | [kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) | todo |
+| services: DB models | [kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) | done |
 | services: ChannelService | [kingdoms-services#5](https://github.com/merlin-pinpin/kingdoms-services/issues/5) | todo |
-| services: WorkflowEngine | [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) | todo |
+| services: WorkflowEngine | [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) | done |
 | services: enums | [kingdoms-services#7](https://github.com/merlin-pinpin/kingdoms-services/issues/7) | todo |
 | services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin/kingdoms-services/issues/8) | todo |
-| services: StateService | [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) | todo |
+| services: StateService | [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) | done |
 | services: exceptions | [kingdoms-services#10](https://github.com/merlin-pinpin/kingdoms-services/issues/10) | todo |
 | services: Protocol interfaces | [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) | done |
 | services: config system | [kingdoms-services#16](https://github.com/merlin-pinpin/kingdoms-services/issues/16) | todo |
@@ -85,3 +85,4 @@ Phase 1 — Foundations (repos structure, architecture docs)
 | 2026-09-19 | auto-sync: kingdoms#1 in-review->done; kingdoms#2 in-review->done; kingdoms#3 in-review->done; kingdoms#4 todo->done; kingdoms#5 todo->done; (+7 more) |
 | 2026-09-20 | auto-sync: [kingdoms-services#1](https://github.com/merlin-pinpin/kingdoms-services/issues/1) todo->done; [kingdoms-infra#1](https://github.com/merlin-pinpin/kingdoms-infra/issues/1) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-services#41](https://github.com/merlin-pinpin/kingdoms-services/issues/41) in-review->done |
+| 2026-09-20 | auto-sync: [kingdoms-services#2](https://github.com/merlin-pinpin/kingdoms-services/issues/2) todo->done; [kingdoms-services#4](https://github.com/merlin-pinpin/kingdoms-services/issues/4) todo->done; [kingdoms-services#6](https://github.com/merlin-pinpin/kingdoms-services/issues/6) todo->done; [kingdoms-services#9](https://github.com/merlin-pinpin/kingdoms-services/issues/9) todo->done; current phase 1->2 |
