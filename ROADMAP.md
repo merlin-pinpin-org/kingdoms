@@ -45,11 +45,11 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) | todo |
 | infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) | done |
 | infra: monitoring | [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) | todo |
-| kingdoms: ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | in-review |
-| kingdoms: ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | in-review |
-| kingdoms: ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | in-review |
-| kingdoms: ADR-0015 webapp API boundary | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | in-review |
-| kingdoms: ADR-0017 packaging & distribution | [kingdoms#65](https://github.com/merlin-pinpin/kingdoms/issues/65) | in-review |
+| kingdoms: ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | done |
+| kingdoms: ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | done |
+| kingdoms: ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | done |
+| kingdoms: ADR-0015 webapp API boundary | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | done |
+| kingdoms: ADR-0017 packaging & distribution | [kingdoms#65](https://github.com/merlin-pinpin/kingdoms/issues/65) | done |
 
 ### Phase 3 — Mods & Discord
 | Track | Issue | Status |
@@ -83,10 +83,10 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | On-demand test deployments | [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) | in-review |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin/kingdoms/issues/7) | done |
 | Discord permissions guide | [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) | done |
-| ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | in-review |
-| ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | in-review |
-| ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | in-review |
-| ADR-0015 webapp frontend & API | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | in-review |
+| ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | done |
+| ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | done |
+| ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | done |
+| ADR-0015 webapp frontend & API | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin/kingdoms/issues/8) | done |
 | Discord permissions & message delivery guide | [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) | done |
 | On-demand test deployments | [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) | in-review |
@@ -115,3 +115,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-21 | auto-sync: [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) todo->in-review |
 | 2026-09-21 | auto-sync: [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) todo->in-review; [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) todo->in-review; [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) todo->in-review; [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) todo->in-review; [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) todo->done |
 | 2026-09-21 | auto-sync: [kingdoms#65](https://github.com/merlin-pinpin/kingdoms/issues/65) todo->in-review; [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) todo->done; [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) todo->in-review; [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) todo->in-review; [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) todo->in-review; (+1 more) |
+| 2026-09-21 | auto-sync: [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) in-review->done; [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) in-review->done; [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) in-review->done; [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) in-review->done; [kingdoms#65](https://github.com/merlin-pinpin/kingdoms/issues/65) in-review->done; (+4 more) |

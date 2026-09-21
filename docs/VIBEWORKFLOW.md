@@ -38,7 +38,8 @@ flowchart TD
     A -->|"Implements"| BR["Feature branch vibe/slug"]
     BR -->|"PR"| PR["Pull Request draft"]
     PR -->|"CI checks"| CI["GitHub Actions"]
-    CI -->|"Pass"| REV["Developer review"]
+    CI -->|"Pass"| READY["Agent marks PR ready"]
+    READY -->|"Review"| REV["Developer review"]
     REV -->|"Approve + merge"| MAIN["main branch"]
     A -->|"On request"| TAG["Tag vX.Y.Z"]
     TAG -->|"Release"| REL["GitHub Release"]
@@ -55,7 +56,10 @@ Step by step:
    explainable behavior, then creates a self-contained GitHub issue in the
    relevant repo.
 3. The agent implements the issue on a `vibe/<short-slug>` branch and opens a
-   draft PR. CI runs on the PR; the agent monitors and fixes failures.
+   draft PR. CI runs on the PR; the agent monitors and fixes failures. When
+   the agent considers the PR merge-ready (all checks green, implementation
+   complete, self-review done, docs updated), it marks the PR *ready for
+   review*; while work remains, the PR stays in draft.
 4. A reviewer with merge access reviews and merges the PR — approvals and
    merge rights are enforced by the GitHub rulesets, not by this document.
 5. When explicitly requested, the agent tags a version and creates the GitHub
@@ -102,10 +106,12 @@ An agent session (which starts with no memory of previous conversations):
 2. Create branch `vibe/<short-slug>`.
 3. Implement, run `make lint` + `make test`.
 4. Open a draft PR, monitor CI, fix failures.
-5. Report the PR URL and wait for review.
-6. On request: merge, tag, release — only from actors authorized by the
+5. Mark the PR ready for review when merge-ready (see the PR draft-status
+   rule below); otherwise keep it in draft.
+6. Report the PR URL and wait for review.
+7. On request: merge, tag, release — only from actors authorized by the
    GitHub policies.
-7. Verify the roadmap: run `scripts/sync_roadmap.py` (the
+8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](SKILLS/update-roadmap.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.
 
@@ -131,6 +137,13 @@ An agent session (which starts with no memory of previous conversations):
   only requires public clones — no credentials.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).
+- **PR draft status is the agent's merge-readiness signal.** The agent always
+  opens PRs as drafts. It marks a PR *ready for review* —
+  `gh pr ready` — **only** when, from its point of view, the PR can be merged:
+  all checks green, implementation complete, self-review done, docs updated.
+  If work remains (red or pending checks, missing doc updates, open review
+  comments), the PR stays in (or returns to) draft — `gh pr ready --undo`.
+  The reviewer remains free to merge or ask for changes at any time.
 - Every feature is validated by the game designer in Discord before a release
   is tagged.
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
