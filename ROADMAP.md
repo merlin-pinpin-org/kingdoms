@@ -71,6 +71,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin/kingdoms-services/issues/35) | todo |
 | Deploy announcement | [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) | todo |
 | AoE2 game service | [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27) | todo |
+| On-demand test deploys | [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) | todo |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin/kingdoms/issues/7) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin/kingdoms/issues/8) | done |
 
@@ -91,3 +92,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-20 | auto-sync: [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) todo->done; [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) todo->done; [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) todo->done |
+| 2026-09-21 | auto-sync: [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) in-review->todo |
