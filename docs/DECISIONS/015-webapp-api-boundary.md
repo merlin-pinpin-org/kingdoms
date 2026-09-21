@@ -1,6 +1,8 @@
 # ADR-0015: Webapp frontend and API boundary
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted with:** co-built with the developer across agent sessions (challenged and revised together)
 
 **Date:** 2026-09-21
 

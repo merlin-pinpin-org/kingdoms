@@ -1,6 +1,8 @@
 # ADR-0012: Taxonomy of building blocks, boundaries and repo strategy
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted with:** co-built with the developer across agent sessions (challenged and revised together)
 
 **Date:** 2026-09-21
 

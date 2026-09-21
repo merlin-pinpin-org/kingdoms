@@ -1,6 +1,8 @@
 # ADR-0016: Discord permissions & message delivery — DM vs channel, runtime role checks, channel access policies
 
-- **Status**: Proposed
+- **Status**: Accepted
+
+- **Accepted with**: co-built with the developer across agent sessions (challenged and revised together)
 - **Date**: 2026-09-21
 - **Deciders**: developer (pending), game designer (requested)
 - **Reference**: kingdoms-services#55, kingdoms-services#56, kingdoms-services#57, kingdoms-services#58

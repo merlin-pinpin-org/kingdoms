@@ -1,6 +1,8 @@
 # ADR-0013: Cross-platform identity, OAuth providers and account merge
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted with:** co-built with the developer across agent sessions (challenged and revised together)
 
 **Date:** 2026-09-21
 
