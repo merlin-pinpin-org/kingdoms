@@ -305,6 +305,7 @@ flowchart LR
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |
+| Discord permissions & delivery | **Least surprise** — runtime role checks, DM/channel content policies, drift alerting, admin-triggered sync | [ADR-0016](DECISIONS/016-discord-permissions-and-delivery.md) |
 | Docker Compose | **Simplicity** — one command to launch everything | — |
 | GitOps | **Reproducibility** — versioned, reviewable environments | — |
 
@@ -317,6 +318,7 @@ New major decisions follow the ADR process in [DECISIONS/](DECISIONS/)
 - [architecture/mods.md](architecture/mods.md) — mod system design
 - [architecture/testing.md](architecture/testing.md) — hybrid testing strategy  (`MockDiscord` mock objects + SimCord behavioral simulator)
 - [architecture/discord.md](architecture/discord.md) — Discord.py components guide
+- [architecture/discord-permissions.md](architecture/discord-permissions.md) — Discord permissions & message delivery guide (DM vs channel, runtime role checks, channel access, sync)
 - [WORKFLOWS.md](WORKFLOWS.md) — game workflow documentation
 - [MODS/](MODS/) — per-mod documentation
 - [DECISIONS/](DECISIONS/) — architecture decision records
