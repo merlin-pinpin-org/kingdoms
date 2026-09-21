@@ -216,7 +216,7 @@ flowchart LR
 
 ## 5. Infra (`kingdoms-infra/`)
 
-- **`deploy/`**: Docker Compose manifests per environment (dev, staging,
+- **`deploy/`**: Docker Compose manifests per environment (test,
   production). One command launches the bot and its dependencies (MongoDB,
   Redis).
 - **Images**: the bot image is a **multi-stage build** (deps → build →

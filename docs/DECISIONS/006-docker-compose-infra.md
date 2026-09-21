@@ -18,7 +18,7 @@ We need to deploy:
 Use **Docker Compose** for:
 
 - Local development
-- Staging environment
+- Test environment
 - Production environment (with proper orchestration)
 
 ### Architecture
