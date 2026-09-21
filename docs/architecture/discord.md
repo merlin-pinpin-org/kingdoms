@@ -380,7 +380,7 @@ interaction to the right mod handler with zero configuration.
 > **Permissions**: which user may use which component — and what a DM vs a
 > channel message may contain — is governed by the separate
 > [Discord permissions & message delivery guide](discord-permissions.md)
-> ([ADR-0012](../DECISIONS/012-discord-permissions-and-delivery.md)).
+> ([ADR-0016](../DECISIONS/016-discord-permissions-and-delivery.md)).
 
 ### Component routing
 

@@ -1,4 +1,4 @@
-# ADR-0012: Discord permissions & message delivery — DM vs channel, runtime role checks, channel access policies
+# ADR-0016: Discord permissions & message delivery — DM vs channel, runtime role checks, channel access policies
 
 - **Status**: Proposed
 - **Date**: 2026-09-21

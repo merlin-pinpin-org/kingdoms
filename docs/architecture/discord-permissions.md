@@ -8,7 +8,7 @@ access categories, drift alerting, and the on-demand role/channel sync.
 These rules were decided with the game designer; they are **binding for every
 mod**. Implementation is tracked in kingdoms-services#55, kingdoms-services#56,
 kingdoms-services#57 and kingdoms-services#58. The decision record is
-[ADR-0012](../DECISIONS/012-discord-permissions-and-delivery.md); this page is
+[ADR-0016](../DECISIONS/016-discord-permissions-and-delivery.md); this page is
 the operating reference.
 
 Two principles anchor everything:
@@ -201,7 +201,7 @@ Rules:
 
 ## See also
 
-- [ADR-0012](../DECISIONS/012-discord-permissions-and-delivery.md) — decision
+- [ADR-0016](../DECISIONS/016-discord-permissions-and-delivery.md) — decision
   record for this guide
 - [discord.md](discord.md) — Discord.py components guide (UI systems, views,
   persistent views, custom_id conventions)

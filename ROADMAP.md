@@ -78,6 +78,10 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | On-demand test deployments | [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) | in-review |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin/kingdoms/issues/7) | done |
 | Discord permissions guide | [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) | todo |
+| ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | todo |
+| ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | todo |
+| ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | todo |
+| ADR-0015 webapp frontend & API | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | todo |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin/kingdoms/issues/8) | done |
 
 ## Out of Scope
