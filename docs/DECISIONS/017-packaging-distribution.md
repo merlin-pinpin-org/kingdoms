@@ -1,6 +1,8 @@
 # ADR-0017: Packaging and distribution strategy
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted with:** co-built with the developer across agent sessions (challenged and revised together)
 
 **Date:** 2026-09-21
 

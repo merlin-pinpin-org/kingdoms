@@ -15,6 +15,13 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - This repo is the source of truth: keep `docs/` in sync with any change made in `kingdoms-services` or `kingdoms-infra`. A code change without its doc update is incomplete.
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
+- ADR status: a decision shaped and challenged collaboratively with the
+  developer during a session is **Accepted** on creation; the ADR body records
+  the co-construction. An ADR drafted unilaterally by the agent starts as
+  **Proposed** until the developer reviews it.
+- Before writing a new ADR file, create its tracking issue and check the numbers
+  already reserved by other open issues and in-flight PRs (parallel sessions
+  are common); never pick a number already in use.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
 - **Never commit secrets** (tokens, passwords, API keys, private keys,
   `.env` values): real credentials live only in GitHub secrets or in
