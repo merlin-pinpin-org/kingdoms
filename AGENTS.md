@@ -77,6 +77,15 @@ At the end of every session, verify consistency across the three repos:
 
 ## Issue conventions
 
+- **Issue templates are mandatory in all three repos**: blank issues are
+  disabled (`.github/ISSUE_TEMPLATE/config.yml`). Create every issue from the
+  template matching its kind (`gh issue create --template <name>`) and keep
+  its required sections: `## Objective/Context/Specifications/Acceptance
+  criteria/Dependencies` in `kingdoms-services` and `kingdoms-infra`,
+  `## Summary/Details` in this repo. A "Validate issue" workflow labels
+  non-compliant issues `invalid` — recreate them properly rather than
+  editing around the flag.
+
 - Every open issue in `kingdoms-services` and `kingdoms-infra` carries exactly
   one `size/*` label (XS/S/M/L/XL, Fibonacci points, set by judgment), one
   `priority/P0-P3` label (critical-path slack, maintained by
