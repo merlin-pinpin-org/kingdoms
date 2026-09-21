@@ -302,6 +302,11 @@ flowchart LR
 | -------- | ---------- | --- |
 | `IPlatform` abstraction | **Extensibility** — Twitch later without touching game logic | [ADR-0001](DECISIONS/001-multi-platform-architecture.md) |
 | `typing.Protocol` contracts | **Decoupling** — adapters satisfy interfaces structurally, no inheritance | [ADR-0011](DECISIONS/011-protocol-interfaces.md) |
+| Building-block taxonomy | **Clarity** — platform / game / data provider / mod; CI-enforced dependency matrix; cross-game mods; per-environment activation | [ADR-0012](DECISIONS/012-taxonomy-repo-strategy.md) |
+| Cross-platform identity | **Continuity** — one account, N platform identities; OAuth (Discord, Twitch) + Steam game-account link; explicit reversible merge | [ADR-0013](DECISIONS/013-cross-platform-identity.md) |
+| RBAC grants | **Uniform rights** — one permission model enforced in the application layer for every frontend | [ADR-0014](DECISIONS/014-rbac-permissions.md) |
+| Webapp API boundary | **Single business path** — webapp is a request/response frontend over the application layer, not an `IPlatform` | [ADR-0015](DECISIONS/015-webapp-api-boundary.md) |
+| Packaging trajectory | **Boundaries as packages** — uv workspace now, private index on first external consumer, public PyPI only by explicit decision | [ADR-0017](DECISIONS/017-packaging-distribution.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |
@@ -311,6 +316,30 @@ flowchart LR
 
 New major decisions follow the ADR process in [DECISIONS/](DECISIONS/)
 (template: [templates/decision-template.md](../templates/decision-template.md)).
+
+## 8. Frontends and application layer
+
+Beyond Discord, Kingdoms is planned to grow a Twitch bot and a webapp.
+All three are **frontends** over one application layer
+([ADR-0012](DECISIONS/012-taxonomy-repo-strategy.md),
+[ADR-0015](DECISIONS/015-webapp-api-boundary.md)):
+
+- **Every building block has one of four natures**: platform frontend,
+  game, data provider, mod. Dependencies follow a CI-enforced matrix;
+  mods may be game-agnostic or bound to N games; what runs per
+  environment is an infra-owned activation manifest.
+- **Identity is cross-platform**: one account, N platform identities
+  (Discord now; OAuth for the webapp, Twitch later; Steam links game
+  accounts via `mod-profile`). Duplicates merge explicitly and
+  reversibly ([ADR-0013](DECISIONS/013-cross-platform-identity.md)).
+- **Permissions are application-level**: mod-declared permission keys,
+  app roles, scoped grants; platform roles are synced grant sources, and
+  enforcement happens in application services for every frontend
+  ([ADR-0014](DECISIONS/014-rbac-permissions.md)).
+- **The webapp is request/response**, not an `IPlatform`: it consumes a
+  versioned API (`/api/v1/`) that calls the same services and workflows
+  as the bot; stats come from read models, never from direct database
+  access ([ADR-0015](DECISIONS/015-webapp-api-boundary.md)).
 
 ## See also
 
