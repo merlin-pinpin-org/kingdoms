@@ -45,6 +45,10 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) | todo |
 | infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) | done |
 | infra: monitoring | [kingdoms-infra#5](https://github.com/merlin-pinpin/kingdoms-infra/issues/5) | todo |
+| kingdoms: ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin/kingdoms/issues/59) | todo |
+| kingdoms: ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin/kingdoms/issues/60) | todo |
+| kingdoms: ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | todo |
+| kingdoms: ADR-0015 webapp API boundary | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | todo |
 
 ### Phase 3 — Mods & Discord
 | Track | Issue | Status |
@@ -73,6 +77,12 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | AoE2 game service | [kingdoms-services#27](https://github.com/merlin-pinpin/kingdoms-services/issues/27) | todo |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin/kingdoms/issues/7) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin/kingdoms/issues/8) | done |
+| Discord permissions & message delivery guide | [kingdoms#57](https://github.com/merlin-pinpin/kingdoms/issues/57) | todo |
+| On-demand test deployments | [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) | in-review |
+| Runtime permission checks for component actions | [kingdoms-services#55](https://github.com/merlin-pinpin/kingdoms-services/issues/55) | todo |
+| DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin/kingdoms-services/issues/56) | todo |
+| Channel access policies per category + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin/kingdoms-services/issues/57) | todo |
+| On-demand role & channel sync | [kingdoms-services#58](https://github.com/merlin-pinpin/kingdoms-services/issues/58) | todo |
 
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin/kingdoms-services/issues/18)
@@ -91,3 +101,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-20 | auto-sync: [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) todo->done; [kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12) todo->done |
 | 2026-09-20 | auto-sync: [kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2) todo->done; [kingdoms-infra#4](https://github.com/merlin-pinpin/kingdoms-infra/issues/4) todo->done |
+| 2026-09-21 | auto-sync: [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) todo->in-review |
