@@ -152,6 +152,8 @@ An agent session (which starts with no memory of previous conversations):
 - [AGENTS.md](../AGENTS.md) — repo rules for AI agents (all 3 repos link back
   to this document)
 - [WORKFLOWS.md](WORKFLOWS.md) — user-facing game workflows
+- [PROCESS.md](PROCESS.md) — the four processes (development, test
+  deployment, release, production) per role: game designer, developer, ops
 - [ARCHITECTURE.md](ARCHITECTURE.md) — technical architecture, including the
   deployment flow
 - `kingdoms-infra` — GitOps implementation of the deployment flow
