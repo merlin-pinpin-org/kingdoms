@@ -53,16 +53,21 @@ someone wants to check behavior in the real bot.
 **Two entry points:**
 
 - **Vibe-coding session** (the normal path for the game designer): "deploy
-  this on test" — the agent prepares everything and gives the exact
-  **Deploy test** run link (with the commit-SHA-tagged image to use); a
-  human clicks **Run workflow** in the GitHub UI (the agent sandbox cannot
-  dispatch workflows), then the agent **monitors the run** and reports the
-  result with the logs analyzed on failure.
-- **PR comment `/deploy-test`** (any PR on `kingdoms-services`): builds the
-  PR image (tag `pr-<n>-sha-<sha>`) and deploys it automatically — the
-  comment itself is the trigger, no one clicks anything. The PR gets a ✅/❌
-  comment with the run links. Only the PR author or a write-access user
-  may use it.
+  this on test" — the agent posts the **`/deploy-test` comment** on the
+  feature PR (the comment is the trigger; the agent does not need workflow
+  permissions), the workflow builds the PR image and deploys it, and the
+  agent **monitors the run** and reports the result with the logs analyzed
+  on failure. No human click is needed.
+- **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
+  mechanism, usable by anyone authorized — the PR image (tag
+  `pr-<n>-sha-<sha>`) is built and deployed automatically, and the PR gets a
+  ✅/❌ comment with the run links. Only the PR author or a write-access
+  user may use it.
+
+  Note: the agent sandbox cannot dispatch workflows directly — deploying
+  **`main` with no open PR** is the one case that needs a human click on
+  **Run workflow** (the agent gives the exact link and the image tag to
+  use).
 
 Test-config changes on `main` also retrigger the deployment automatically,
 with no human action at all.
@@ -115,7 +120,7 @@ idea ──▶ vibe session (Mistral agent)
           │ issue → branch → PR → CI green → ready for review
           │
           ▼ "deploy on test"
-        agent gives the run link → human clicks Run workflow
+        agent comments /deploy-test on the PR → automatic build + deploy
           │
           ▼ agent monitors → result;      Developer approves & merges
         test bot in Discord  ◀──── deployment on demand (SHA image)
