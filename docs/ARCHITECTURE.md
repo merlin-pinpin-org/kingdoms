@@ -306,10 +306,11 @@ flowchart LR
 | Cross-platform identity | **Continuity** — one account, N platform identities; OAuth (Discord, Twitch) + Steam game-account link; explicit reversible merge | [ADR-0013](DECISIONS/013-cross-platform-identity.md) |
 | RBAC grants | **Uniform rights** — one permission model enforced in the application layer for every frontend | [ADR-0014](DECISIONS/014-rbac-permissions.md) |
 | Webapp API boundary | **Single business path** — webapp is a request/response frontend over the application layer, not an `IPlatform` | [ADR-0015](DECISIONS/015-webapp-api-boundary.md) |
-| Packaging trajectory | **Boundaries as packages** — uv workspace now, private index on first external consumer, public PyPI only by explicit decision | [ADR-0016](DECISIONS/016-packaging-distribution.md) |
+| Packaging trajectory | **Boundaries as packages** — uv workspace now, private index on first external consumer, public PyPI only by explicit decision | [ADR-0017](DECISIONS/017-packaging-distribution.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |
+| Discord permissions & delivery | **Least surprise** — runtime role checks, DM/channel content policies, drift alerting, admin-triggered sync | [ADR-0016](DECISIONS/016-discord-permissions-and-delivery.md) |
 | Docker Compose | **Simplicity** — one command to launch everything | — |
 | GitOps | **Reproducibility** — versioned, reviewable environments | — |
 
@@ -346,6 +347,7 @@ All three are **frontends** over one application layer
 - [architecture/mods.md](architecture/mods.md) — mod system design
 - [architecture/testing.md](architecture/testing.md) — hybrid testing strategy  (`MockDiscord` mock objects + SimCord behavioral simulator)
 - [architecture/discord.md](architecture/discord.md) — Discord.py components guide
+- [architecture/discord-permissions.md](architecture/discord-permissions.md) — Discord permissions & message delivery guide (DM vs channel, runtime role checks, channel access, sync)
 - [WORKFLOWS.md](WORKFLOWS.md) — game workflow documentation
 - [MODS/](MODS/) — per-mod documentation
 - [DECISIONS/](DECISIONS/) — architecture decision records

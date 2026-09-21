@@ -1,4 +1,4 @@
-# ADR-0016: Packaging and distribution strategy
+# ADR-0017: Packaging and distribution strategy
 
 **Status:** Proposed
 
