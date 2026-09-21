@@ -50,6 +50,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | kingdoms: ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin/kingdoms/issues/61) | done |
 | kingdoms: ADR-0015 webapp API boundary | [kingdoms#62](https://github.com/merlin-pinpin/kingdoms/issues/62) | done |
 | kingdoms: ADR-0017 packaging & distribution | [kingdoms#65](https://github.com/merlin-pinpin/kingdoms/issues/65) | done |
+| kingdoms: issue templates (all repos) | [kingdoms#68](https://github.com/merlin-pinpin/kingdoms/issues/68) | in-review |
 
 ### Phase 3 — Mods & Discord
 | Track | Issue | Status |
