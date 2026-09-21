@@ -33,8 +33,10 @@ developer machine.
 on a **GitHub Actions self-hosted runner installed on the VPS** (chosen
 over SSH-from-Actions and cron-pull: it keeps secrets on the VPS,
 attaches deployment to the merge event, and needs no inbound SSH
-exposure). The runner carries the labels `self-hosted, kingdoms`. Full
-installation procedure:
+exposure). The runner carries the labels `self-hosted, kingdoms, env-test`
+(one runner — one VPS — per environment; each future environment VPS
+gets its own `env-*` label, and the CD jobs target the matching label).
+Full installation procedure:
 [kingdoms-infra docs/VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md).
 
 ## Alternatives Considered
