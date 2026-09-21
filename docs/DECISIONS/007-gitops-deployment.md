@@ -23,11 +23,16 @@ Implement a **GitOps** workflow:
 - Manual approval for production
 - Automated testing before deployment
 
-Environment policy: `test` auto-deploys on merge, staging deploys
-manually, production deploys on tags (see
-[VIBEWORKFLOW.md](../VIBEWORKFLOW.md)). The former `dev` environment is
-renamed `test`: it is a validation environment on the VPS, not a
-developer machine.
+Environment policy: `test` deploys **on demand** — by a vibe-coding
+session (agent dispatch) or the `/deploy-test` PR comment, with the
+PR-built image tagged by its commit SHA; test-config changes on `main`
+also redeploy. `prod` deploys only from **released tags** (`vX.Y.Z`,
+pinned image), run manually by identified production deployers gated by
+GitHub rulesets (see [VIBEWORKFLOW.md](../VIBEWORKFLOW.md)). The former
+`dev` environment is renamed `test`: it is a validation environment on
+the VPS, not a developer machine. The `staging` environment is dropped:
+two environments cover the workflow (on-demand validation, released
+production).
 
 **Deployment mechanism (2026 revision, kingdoms-infra#2):** CD jobs run
 on a **GitHub Actions self-hosted runner installed on the VPS** (chosen
@@ -70,9 +75,9 @@ flowchart TD
     C --> D["GitHub Actions"]
     D --> E["Build Docker Image"]
     E --> F["Push to Registry"]
-    F --> G["Deploy to Staging"]
-    G --> H["Run Tests"]
-    H -->|"Pass"| I["Manual Approval"]
+    F --> G["Deploy to Test (on demand: /deploy-test or session)"]
+    G --> H["Validate in Discord"]
+    H -->|"Pass"| I["Manual Approval (production deployers)"]
     I --> J["Deploy to Production"]
     H -->|"Fail"| K["Notify Developer"]
     J --> L["Monitor"]

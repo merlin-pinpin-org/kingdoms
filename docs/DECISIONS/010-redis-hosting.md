@@ -1,4 +1,4 @@
-# ADR-0010: Redis hosting — Redis Cloud free tier for prod, containerized Redis for dev/staging
+# ADR-0010: Redis hosting — Redis Cloud free tier for prod, containerized Redis for local/test
 
 **Status:** Accepted
 
@@ -10,7 +10,7 @@
 
 [ADR-0005](005-redis-state-management.md) decided **what** Redis is used for
 (hot workflow state with TTLs, locks, rate limiting, channel-mapping
-cache). [ADR-0006](006-docker-compose-infra.md) decided that dev and staging
+cache). [ADR-0006](006-docker-compose-infra.md) decided that local and test
 run on Docker Compose. Neither decides **where Redis runs in production**.
 
 Constraints:
@@ -32,7 +32,7 @@ throughput, 5 GB monthly bandwidth, TLS + IP allowlist, persistence on.
 - **Production**: managed **Redis Cloud** (Essentials free tier). It is the
   official Redis offering, mirroring the "official vendor free tier" choice
   already made for MongoDB Atlas.
-- **Dev and staging**: Redis as a service in the local `docker-compose.yml`
+- **Local and test**: Redis as a service in the local `docker-compose.yml`
   (per ADR-0006). No cloud dependency for local runs.
 - The connection string comes from environment config only
   (`REDIS_URL` + `REDIS_TLS`); no code difference between environments.
@@ -61,7 +61,7 @@ throughput, 5 GB monthly bandwidth, TLS + IP allowlist, persistence on.
 ### Positive
 
 - Zero cost, officially supported product, TLS and IP allowlist included.
-- Same Redis server (not a dialect) across dev, staging, and prod.
+- Same Redis server (not a dialect) across test and prod.
 - Durable state is unaffected by Redis outages (ADR-0002 split).
 
 ### Negative
