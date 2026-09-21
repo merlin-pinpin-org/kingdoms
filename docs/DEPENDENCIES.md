@@ -27,6 +27,7 @@ Total: **42 pts**. Critical path:
 
 ```mermaid
 flowchart LR
+    ks_54["#54 On-demand test deployments (vibe session, /deploy-test) with SHA-tagged images"]
     ks_52["#52 Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys)"]
     ks_35["#35 Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets)"]
     ks_28["#28 Set up Conventional Changelog (semantic release)"]
@@ -106,6 +107,7 @@ worked on in parallel.
 | [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 39 |
 | [kingdoms-services#3](https://github.com/merlin-pinpin/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | `S` (3) | `P0` | 0 |
 | [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | `S` (3) | `P3` | 39 |
+| [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) — On-demand test deployments (vibe session, /deploy-test) with SHA-tagged images | `S` (3) | `P3` | 39 |
 | [kingdoms-infra#3](https://github.com/merlin-pinpin/kingdoms-infra/issues/3) — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 41 |
 | [kingdoms-services#7](https://github.com/merlin-pinpin/kingdoms-services/issues/7) — [Phase 2] Create enumerations | `XS` (1) | `P2` | 7 |
 
@@ -183,3 +185,4 @@ worked on in parallel.
 | [kingdoms-services#28](https://github.com/merlin-pinpin/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 39 | ~~[kingdoms-infra#2](https://github.com/merlin-pinpin/kingdoms-infra/issues/2)~~ ✅ |
 | [kingdoms-services#35](https://github.com/merlin-pinpin/kingdoms-services/issues/35) — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | 3 | `S` | `P3` | 26 | [kingdoms-services#26](https://github.com/merlin-pinpin/kingdoms-services/issues/26), ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#52](https://github.com/merlin-pinpin/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | 3 | `S` | `P3` | 39 | ~~[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#34](https://github.com/merlin-pinpin/kingdoms-services/issues/34)~~ ✅ |
+| [kingdoms-services#54](https://github.com/merlin-pinpin/kingdoms-services/issues/54) — On-demand test deployments (vibe session, /deploy-test) with SHA-tagged images | ? | `S` | `P3` | 39 | — |
