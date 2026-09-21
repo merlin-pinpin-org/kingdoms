@@ -31,7 +31,10 @@ Every ADR follows the template ([decision-template.md](decision-template.md)):
    free number (zero-padded, e.g., `009`).
 2. Fill every section — an ADR without alternatives and consequences is
    incomplete.
-3. Start with status **Proposed**; the developer flips it to **Accepted**.
+3. Start with status **Proposed** — unless the decision was shaped and
+   challenged collaboratively with a human during the session, in which case
+   it starts as **Accepted** with the co-construction recorded in the ADR
+   body (see AGENTS.md).
 4. Open a PR (per the vibe-coding workflow, see
    [../VIBEWORKFLOW.md](../VIBEWORKFLOW.md)).
 

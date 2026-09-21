@@ -1,6 +1,8 @@
 # ADR-0014: RBAC: application roles, grants and permission enforcement
 
-**Status:** Proposed
+**Status:** Accepted
+
+**Accepted with:** co-built with the developer across agent sessions (challenged and revised together)
 
 **Date:** 2026-09-21
 
