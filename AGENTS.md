@@ -15,6 +15,13 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - This repo is the source of truth: keep `docs/` in sync with any change made in `kingdoms-services` or `kingdoms-infra`. A code change without its doc update is incomplete.
 - Reference issues with full repo-qualified identifiers (e.g., `kingdoms-services#12`) since cross-repo references are common.
 - Follow the ADR process in `docs/DECISIONS/` for any major architecture change.
+- ADR status: a decision shaped and challenged collaboratively with the
+  developer during a session is **Accepted** on creation; the ADR body records
+  the co-construction. An ADR drafted unilaterally by the agent starts as
+  **Proposed** until the developer reviews it.
+- Before writing a new ADR file, create its tracking issue and check the numbers
+  already reserved by other open issues and in-flight PRs (parallel sessions
+  are common); never pick a number already in use.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
 - **Never commit secrets** (tokens, passwords, API keys, private keys,
   `.env` values): real credentials live only in GitHub secrets or in
@@ -31,6 +38,11 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   `docs/SKILLS/update-roadmap.md`) and commit the synced `ROADMAP.md` to
   your open PR branch. Statuses needing human judgment (`in-progress`,
   `blocked`) are set manually and preserved by the script.
+- **PR draft status is the merge-readiness signal** (see
+  `docs/VIBEWORKFLOW.md`): always open PRs as drafts; mark a PR ready for
+  review only when, from your point of view, it can be merged (checks
+  green, implementation complete, self-review done, docs updated); keep or
+  return it to draft (`gh pr ready --undo`) while work remains.
 
 ## Testing strategy (summary)
 
@@ -71,6 +83,15 @@ At the end of every session, verify consistency across the three repos:
    docs (pydoc) live in `kingdoms-services` and are freshness-checked there.
 
 ## Issue conventions
+
+- **Issue templates are mandatory in all three repos**: blank issues are
+  disabled (`.github/ISSUE_TEMPLATE/config.yml`). Create every issue from the
+  template matching its kind (`gh issue create --template <name>`) and keep
+  its required sections: `## Objective/Context/Specifications/Acceptance
+  criteria/Dependencies` in `kingdoms-services` and `kingdoms-infra`,
+  `## Summary/Details` in this repo. A "Validate issue" workflow labels
+  non-compliant issues `invalid` — recreate them properly rather than
+  editing around the flag.
 
 - Every open issue in `kingdoms-services` and `kingdoms-infra` carries exactly
   one `size/*` label (XS/S/M/L/XL, Fibonacci points, set by judgment), one

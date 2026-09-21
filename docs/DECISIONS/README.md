@@ -31,7 +31,10 @@ Every ADR follows the template ([decision-template.md](decision-template.md)):
    free number (zero-padded, e.g., `009`).
 2. Fill every section — an ADR without alternatives and consequences is
    incomplete.
-3. Start with status **Proposed**; the developer flips it to **Accepted**.
+3. Start with status **Proposed** — unless the decision was shaped and
+   challenged collaboratively with a human during the session, in which case
+   it starts as **Accepted** with the co-construction recorded in the ADR
+   body (see AGENTS.md).
 4. Open a PR (per the vibe-coding workflow, see
    [../VIBEWORKFLOW.md](../VIBEWORKFLOW.md)).
 
@@ -65,3 +68,9 @@ change that reverses an ADR must produce both a new ADR and a changelog entry.
 | [009](009-discord-components-v2.md) | Dual Discord UI system (embeds + Components V2) |
 | [010](010-redis-hosting.md) | Redis hosting (Redis Cloud free tier for prod) |
 | [011](011-protocol-interfaces.md) | Structural typing (`typing.Protocol`) for core interfaces |
+| [012](012-taxonomy-repo-strategy.md) | Taxonomy of building blocks, boundaries and repo strategy |
+| [013](013-cross-platform-identity.md) | Cross-platform identity, OAuth providers and account merge |
+| [014](014-rbac-permissions.md) | RBAC: application roles, grants and permission enforcement |
+| [015](015-webapp-api-boundary.md) | Webapp frontend and API boundary |
+| [016](016-discord-permissions-and-delivery.md) | Discord permissions & message delivery (DM vs channel, runtime role checks, channel access policies) |
+| [017](017-packaging-distribution.md) | Packaging and distribution (workspace, private index, PyPI) |
