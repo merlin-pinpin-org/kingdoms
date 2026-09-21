@@ -54,7 +54,9 @@ Step by step:
    environment) to the agent.
 2. The agent challenges and shapes the idea toward automatable, simply
    explainable behavior, then creates a self-contained GitHub issue in the
-   relevant repo.
+   relevant repo, using that repo's issue templates — blank issues are
+   disabled and a "Validate issue" workflow flags non-compliant issues
+   `invalid`.
 3. The agent implements the issue on a `vibe/<short-slug>` branch and opens a
    draft PR. CI runs on the PR; the agent monitors and fixes failures. When
    the agent considers the PR merge-ready (all checks green, implementation
