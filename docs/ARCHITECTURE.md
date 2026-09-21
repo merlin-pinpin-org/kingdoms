@@ -306,6 +306,7 @@ flowchart LR
 | Cross-platform identity | **Continuity** — one account, N platform identities; OAuth (Discord, Twitch) + Steam game-account link; explicit reversible merge | [ADR-0013](DECISIONS/013-cross-platform-identity.md) |
 | RBAC grants | **Uniform rights** — one permission model enforced in the application layer for every frontend | [ADR-0014](DECISIONS/014-rbac-permissions.md) |
 | Webapp API boundary | **Single business path** — webapp is a request/response frontend over the application layer, not an `IPlatform` | [ADR-0015](DECISIONS/015-webapp-api-boundary.md) |
+| Packaging trajectory | **Boundaries as packages** — uv workspace now, private index on first external consumer, public PyPI only by explicit decision | [ADR-0016](DECISIONS/016-packaging-distribution.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |

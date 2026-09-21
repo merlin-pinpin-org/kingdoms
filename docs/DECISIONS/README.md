@@ -69,3 +69,4 @@ change that reverses an ADR must produce both a new ADR and a changelog entry.
 | [013](013-cross-platform-identity.md) | Cross-platform identity, OAuth providers and account merge |
 | [014](014-rbac-permissions.md) | RBAC: application roles, grants and permission enforcement |
 | [015](015-webapp-api-boundary.md) | Webapp frontend and API boundary |
+| [016](016-packaging-distribution.md) | Packaging and distribution (workspace, private index, PyPI) |
