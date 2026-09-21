@@ -53,14 +53,19 @@ someone wants to check behavior in the real bot.
 **Two entry points:**
 
 - **Vibe-coding session** (the normal path for the game designer): "deploy
-  this on test" — the agent dispatches the **Deploy test** workflow on
-  `kingdoms-infra` with the commit-SHA-tagged image and reports the result.
+  this on test" — the agent prepares everything and gives the exact
+  **Deploy test** run link (with the commit-SHA-tagged image to use); a
+  human clicks **Run workflow** in the GitHub UI (the agent sandbox cannot
+  dispatch workflows), then the agent **monitors the run** and reports the
+  result with the logs analyzed on failure.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): builds the
-  PR image (tag `pr-<n>-sha-<sha>`) and deploys it. The PR gets a ✅/❌
+  PR image (tag `pr-<n>-sha-<sha>`) and deploys it automatically — the
+  comment itself is the trigger, no one clicks anything. The PR gets a ✅/❌
   comment with the run links. Only the PR author or a write-access user
   may use it.
 
-Test-config changes on `main` also retrigger the deployment automatically.
+Test-config changes on `main` also retrigger the deployment automatically,
+with no human action at all.
 
 Every deployment runs the same safety chain: **mandatory pre-deploy
 backup → compose up → health gate → automatic rollback on failure**.
@@ -109,7 +114,10 @@ those exist; nothing else changes.
 idea ──▶ vibe session (Mistral agent)
           │ issue → branch → PR → CI green → ready for review
           │
-          ▼ "deploy on test"        Developer approves & merges
+          ▼ "deploy on test"
+        agent gives the run link → human clicks Run workflow
+          │
+          ▼ agent monitors → result;      Developer approves & merges
         test bot in Discord  ◀──── deployment on demand (SHA image)
           │
           ▼ "it works, release it"
