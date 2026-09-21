@@ -26,7 +26,7 @@ must be able to understand the model from this page alone.
 | Implementation | Feature branches `vibe/<slug>` → PRs | Agent |
 | Approvals & merges | PR review, GitHub rulesets | Reviewers with merge access |
 | Versions | Git tags + GitHub releases | Agent executes on request; permissions enforced by GitHub |
-| Deployment | `kingdoms-infra` GitOps (test / staging / prod, self-hosted runner on the VPS) | Agent via CI/CD |
+| Deployment | `kingdoms-infra` GitOps (test / prod, self-hosted runner on the VPS) | Agent via CI/CD |
 
 ## End-to-end flow
 
@@ -60,8 +60,10 @@ Step by step:
    merge rights are enforced by the GitHub rulesets, not by this document.
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
-6. The release triggers the GitOps deployment to the chosen environment on the
-   VPS; the bot runs and the game designer validates the behavior in Discord.
+6. Test deployments are **on demand** (vibe-coding session or `/deploy-test`
+   PR comment — commit-SHA image tag); production deployments happen only
+   from a released tag (`vX.Y.Z`), run by identified production deployers.
+   The bot runs and the game designer validates the behavior in Discord.
 
 ## Generated artifacts sync
 
@@ -136,11 +138,14 @@ An agent session (which starts with no memory of previous conversations):
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
   running on its self-hosted runner — installation guide:
   [VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
-  - **test** (formerly `dev`): auto-deploy on merge to `main`; it is the
-    validation environment where the game designer checks the bot in
-    Discord
-  - **staging**: manual deployment (workflow_dispatch)
-  - **prod**: tag-triggered deployment with a pinned bot image
+  - **test**: deployed **on demand** — by a vibe-coding session (agent
+    dispatch) or the `/deploy-test` PR comment (the PR image is built
+    with its commit SHA tag and deployed); test-config changes on `main`
+    also redeploy. It is the validation environment where the game
+    designer checks the bot in Discord
+  - **prod**: released only — image tagged `vX.Y.Z`, deployed manually by
+    identified production deployers (GitHub rulesets gate who may run
+    the Deploy prod workflow)
 
 ## Cross-references
 
