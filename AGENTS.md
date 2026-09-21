@@ -31,6 +31,11 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   `docs/SKILLS/update-roadmap.md`) and commit the synced `ROADMAP.md` to
   your open PR branch. Statuses needing human judgment (`in-progress`,
   `blocked`) are set manually and preserved by the script.
+- **PR draft status is the merge-readiness signal** (see
+  `docs/VIBEWORKFLOW.md`): always open PRs as drafts; mark a PR ready for
+  review only when, from your point of view, it can be merged (checks
+  green, implementation complete, self-review done, docs updated); keep or
+  return it to draft (`gh pr ready --undo`) while work remains.
 
 ## Testing strategy (summary)
 
