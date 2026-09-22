@@ -16,7 +16,7 @@ must be able to understand the model from this page alone.
 | Game designer | Non-developer, idea-rich | Defines features, game rules, environments; validates behavior in Discord |
 | Developer | Experienced, maintains the platform | Challenges the design, **reviews and approves PRs** (one click); never codes |
 | Ops | Infrastructure owner | Everything the developer does, plus environment and secret administration in the GitHub web UI and production deployment approvals |
-| AI agent (Vibe Code) | Mistral-powered coding agent | Does 100% of the technical work: issues, code, branches, PRs, CI, test deployments, `/merge`, tags/releases on request |
+| AI agent (Vibe Code) | Mistral-powered coding agent | Does 100% of the technical work: issues, code, branches, PRs, CI, test deployments, tags/releases on request. The agent never merges — the human clicks Merge |
 
 **Humans never check out, write code, or run scripts** — this platform is a
 pure vibe-coding test. Every human technical action is a **click in the
@@ -41,7 +41,7 @@ org owner):
 | Ideas, rules, environments | `kingdoms` docs (`docs/MODS/`) | Game designer (via agent) |
 | Work items | GitHub issues (3 repos) | Agent creates |
 | Implementation | Feature branches `vibe/<slug>` → PRs | Agent |
-| Approvals & merges | PR review, GitHub rulesets | Developer and ops (one click); the agent executes the merge on `/merge` |
+| Approvals & merges | PR review, GitHub rulesets | Developer and ops — one **Merge** click in the GitHub web UI |
 | Versions | Git tags + GitHub releases | Agent executes on request; permissions enforced by GitHub |
 | Deployment | `kingdoms-infra` GitOps (test / prod, self-hosted runner on the VPS) | Agent via CI/CD; ops approves prod |
 
@@ -80,21 +80,17 @@ Step by step:
    complete, self-review done, docs updated), it marks the PR *ready for
    review*; while work remains, the PR stays in draft.
 4. A reviewer with merge access (developer or ops, per the CODEOWNERS
-   rules backed by the `main` rulesets) reviews and approves the PR — one
-   human click. On `/merge` (session instruction or PR comment), the agent
-   verifies its merge criteria and executes the squash merge; GitHub
-   rulesets remain the hard, fail-closed gate. The agent never approves its
-   own PRs.
-5. On `/merge` from a reviewer, the agent checks its merge criteria (PR
-   ready, all checks green, required code-owner approval present, docs
-   synced, linked issue, no unresolved review threads) and merges with
-   squash, deleting the branch. **GitHub automerge is intentionally not
+   rules backed by the `main` rulesets) reads the PR and **clicks Merge**
+   in the GitHub web UI — one human click, the trust anchor of the model.
+   The agent never merges (an earlier `/merge` agent-executed convention
+   was abandoned: the agent opens PRs under the developer's identity,
+   GitHub forbids author self-approval, and the session platform blocks
+   agent-executed merges). **GitHub automerge is intentionally not
    used**: it merges as soon as checks and the required approval land,
-   ignoring the agent's criteria and the game designer's Discord validation.
-   The agent-executed `/merge` keeps the judgment (has the feature been
-   validated in Discord? are the docs synced?) while GitHub rulesets keep
-   the enforcement.
-6. When explicitly requested, the agent tags a version and creates the GitHub
+   ignoring the game designer's Discord validation. The agent keeps its
+   merge-readiness judgment (draft status, checks, docs, validation) and
+   GitHub rulesets keep the enforcement.
+5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
 7. Test deployments are **on demand** (`/deploy-test` PR comment posted by
    the session — commit-SHA image tag; the cross-repo dispatch uses the
@@ -145,10 +141,9 @@ An agent session (which starts with no memory of previous conversations):
 4. Open a draft PR, monitor CI, fix failures.
 5. Mark the PR ready for review when merge-ready (see the PR draft-status
    rule below); otherwise keep it in draft.
-6. Report the PR URL and wait for review.
-7. On `/merge`: verify the merge criteria and execute the squash merge —
-   GitHub rulesets stay the hard gate; on request, tag and release — only
-   from actors authorized by the GitHub policies.
+6. Report the PR URL; the human reviewer clicks Merge (or asks for changes
+   — the agent never merges). On request, tag and release — only from
+   actors authorized by the GitHub policies.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](SKILLS/update-roadmap.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.

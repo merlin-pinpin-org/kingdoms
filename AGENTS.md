@@ -55,17 +55,16 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
 - **Never handle secrets.** Secrets are entered only by ops in the GitHub
   web UI (environment secrets); they never transit through an agent
   session, a PR, an issue, or a command line.
-- **`/merge` is an agent-executed command, not GitHub automerge.** When a
-  reviewer (developer or ops) says `/merge` — in the session or as a PR
-  comment — the agent verifies its merge criteria (PR ready, all checks
-  green, required code-owner approval present, docs synced, linked issue,
-  no unresolved review threads) and merges with squash, deleting the
-  branch. GitHub automerge is intentionally not used: it merges as soon
-  as checks and the required approval are in, ignoring the agent criteria
-  and the Discord validation. GitHub rulesets remain the hard gate: if a
-  criterion GitHub enforces is missing, the merge fails closed. The agent
-  never approves its own PRs — the human approval is the trust anchor of
-  the whole model.
+- **The merge is one human click.** The agent never merges: it prepares
+  PRs to be merge-ready (ready for review, checks green, docs updated,
+  issue linked) and reports the PR URL; the developer or ops **clicks
+  Merge** in the GitHub web UI. The `main` rulesets enforce the hard
+  gate (required checks, squash only). GitHub automerge is intentionally
+  not used: it merges as soon as checks and the required approval land,
+  ignoring the game designer's Discord validation. An earlier `/merge`
+  agent-executed convention was abandoned: the agent opens PRs under the
+  developer's identity, GitHub forbids author self-approval, and the
+  session platform blocks agent-executed merges.
 
 ## Testing strategy (summary)
 
