@@ -14,9 +14,9 @@ development docs. No application code lives here.
 
 | Repository | Purpose |
 | ---------- | ------- |
-| [kingdoms](https://github.com/merlin-pinpin/kingdoms) (this repo) | Documentation: architecture, workflows, ADRs, mods docs, generated dev docs |
-| [kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services) | All Python code: generic core, Discord platform, mods, YAML configs |
-| [kingdoms-infra](https://github.com/merlin-pinpin/kingdoms-infra) | Docker, CI/CD, GitOps manifests, deployment scripts |
+| [kingdoms](https://github.com/merlin-pinpin-org/kingdoms) (this repo) | Documentation: architecture, workflows, ADRs, mods docs, generated dev docs |
+| [kingdoms-services](https://github.com/merlin-pinpin-org/kingdoms-services) | All Python code: generic core, Discord platform, mods, YAML configs |
+| [kingdoms-infra](https://github.com/merlin-pinpin-org/kingdoms-infra) | Docker, CI/CD, GitOps manifests, deployment scripts |
 
 ## Key principles
 
@@ -78,7 +78,7 @@ the sync skills ([Update roadmap](docs/SKILLS/update-roadmap.md),
 commit the result to the PR branch — no rolling automation PR, no ghost PR.
 
 Generated technical documentation (pydoc) lives in `kingdoms-services`
-([`docs/DEVELOPMENT/pydoc`](https://github.com/merlin-pinpin/kingdoms-services/tree/main/docs/DEVELOPMENT/pydoc)),
+([`docs/DEVELOPMENT/pydoc`](https://github.com/merlin-pinpin-org/kingdoms-services/tree/main/docs/DEVELOPMENT/pydoc)),
 next to the sources it documents; a dedicated workflow checks its freshness
 on every PR of that repo.
 
@@ -91,7 +91,7 @@ The `Check Docs` workflow (`scripts/validate_docs.py`) runs on every PR.
 
 Contributions are made through the vibe-coding workflow:
 
-1. Work is tracked in [GitHub issues](https://github.com/merlin-pinpin/kingdoms/issues).
+1. Work is tracked in [GitHub issues](https://github.com/merlin-pinpin-org/kingdoms/issues).
 2. Each issue is developed on a dedicated `vibe/<short-slug>` branch.
 3. A draft pull request is opened for every issue and reviewed before merge.
 4. Documentation must be in **English**; game-related examples may be in French

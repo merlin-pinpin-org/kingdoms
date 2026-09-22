@@ -36,7 +36,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 API_BASE = "https://api.github.com"
-OWNER = "merlin-pinpin"
+OWNER = "merlin-pinpin-org"
 REPOS = ("kingdoms", "kingdoms-services", "kingdoms-infra")
 PER_PAGE = 100
 MANUAL_STATUSES = ("in-progress", "blocked")

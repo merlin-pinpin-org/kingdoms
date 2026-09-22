@@ -16,7 +16,7 @@ inferred from GitHub state; set them manually — the script preserves them.
 
 1. **Collect issue states** — the script does this itself via `gh api`:
    ```bash
-   gh issue list --repo merlin-pinpin/<repo> --state all --limit 200 \
+   gh issue list --repo merlin-pinpin-org/<repo> --state all --limit 200 \
      --json number,title,state,stateReason
    ```
 
@@ -36,7 +36,7 @@ inferred from GitHub state; set them manually — the script preserves them.
    | closed as not planned | `dropped` (move the row to "Out of Scope") |
 
    Issue references are written as Markdown links:
-   `[kingdoms-services#12](https://github.com/merlin-pinpin/kingdoms-services/issues/12)`.
+   `[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)`.
    The sync script migrates plain `repo#N` codes automatically, but new rows
    should be written linked from the start.
 

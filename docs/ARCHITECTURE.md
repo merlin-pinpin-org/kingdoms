@@ -221,7 +221,7 @@ flowchart LR
   Redis).
 - **Images**: the bot image is a **multi-stage build** (deps → build →
   runtime) published by the `kingdoms-services` `Docker` workflow to
-  `ghcr.io/merlin-pinpin/kingdoms-services` (tags: `main`, `vX.Y.Z`, `sha-*`).
+  `ghcr.io/merlin-pinpin-org/kingdoms-services` (tags: `main`, `vX.Y.Z`, `sha-*`).
   Environments pull it from GHCR; production pins the exact tag via
   `KINGDOMS_BOT_IMAGE`.
 - **Backups**: every deployment runs a **mandatory pre-deploy backup of both
