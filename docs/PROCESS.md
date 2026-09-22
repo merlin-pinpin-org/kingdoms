@@ -31,17 +31,17 @@ else:
 | Create org teams (`maintainers`, `ops`, `game-designers`) and attach them to the repos | Org owner | once |
 | Activate code-owner review + 1 approval in each repo's `main` ruleset; no bypass actors | Org owner | once |
 | Set `prod` environment required reviewers (ops) and enter environment secrets | Ops | once, then on rotation |
-| Approve a PR (code owners) | Developer or ops | per PR |
+| Merge a ready PR (review it, then click Merge) | Developer or ops | per PR |
 | Approve a production deployment (`prod` environment) | Ops | per prod deploy |
 
 Everything else — issues, branches, code, PRs, CI fixes, `/deploy-test`,
-`/merge`, tags, releases, roadmap sync — is executed by the agent.
+tags, releases, roadmap sync — is executed by the agent.
 
 ## 1. Development (feature request → merged code)
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary; tests in Discord | Challenges the design; reviews the PR and **clicks Approve**; never codes | Same as developer, plus reviews infra changes |
+| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary; tests in Discord | Challenges the design; reviews the ready PR and **clicks Merge**; never codes | Same as developer, plus reviews infra changes |
 
 **Flow:**
 
@@ -52,10 +52,10 @@ Everything else — issues, branches, code, PRs, CI fixes, `/deploy-test`,
    PR**; CI runs on the PR (lint, typecheck, tests, image build).
 3. The agent monitors CI and fixes failures until green, then marks the PR
    **ready for review**.
-4. **Only the developer or ops can approve** (GitHub rulesets + CODEOWNERS
-   enforce it; the game designer never needs merge rights). After the
-   approval, anyone in the session can say `/merge` and the agent executes
-   the squash merge after checking its criteria.
+4. **Only the developer or ops can merge** (GitHub rulesets + CODEOWNERS
+   enforce it; the game designer never needs merge rights). The agent
+   prepares the PR to merge-ready and never merges; the human reviews and
+   clicks **Merge** (squash) — one click.
 5. On merge, the PR closes its issue automatically (`Closes #N`).
 
 The game designer's feedback loop — *I want → the agent builds → I read a
@@ -147,8 +147,7 @@ idea ──▶ vibe session (Mistral agent)
           ▼ "deploy on test"
         agent comments /deploy-test on the PR → automatic build + deploy
           │
-          ▼ agent monitors → result;      Developer/ops clicks Approve,
-      then /merge (agent merges)
+          ▼ agent monitors → result;      Developer/ops clicks Merge
         test bot in Discord  ◀──── deployment on demand (SHA image)
           │
           ▼ "it works, release it"
@@ -156,7 +155,7 @@ idea ──▶ vibe session (Mistral agent)
 ```
 
 - One interface: **the vibe-coding session** (plus Discord to test).
-- One human click per PR: **Approve** (developer or ops — GitHub enforces
-  it); the agent executes the merge on `/merge`.
+- One human click per PR: **Merge** (developer or ops — GitHub rulesets
+  enforce required checks and squash-only merges; the agent never merges).
 - One production gate: **released tags + ops-only workflow policy + ops
   environment approval**.
