@@ -99,7 +99,7 @@ At the end of every session, verify consistency across the three repos:
   `scripts/sync_dependencies.py`), and a `phase-N` label.
 - Every issue has a `## Dependencies` section: task-list checkboxes pointing
   at the issues it blocks on (fully qualified for cross-repo refs, e.g.
-  `merlin-pinpin/kingdoms-infra#2`). "Depends on" = cannot start before;
+  `merlin-pinpin-org/kingdoms-infra#2`). "Depends on" = cannot start before;
   soft relations stay in `## Related`.
 - When creating an issue, add its dependencies and `size/*` label, then run
   `scripts/sync_dependencies.py` and fix the `priority/*` labels it reports

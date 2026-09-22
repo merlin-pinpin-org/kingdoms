@@ -15,7 +15,7 @@ jobs:
       - name: Checkout kingdoms-services (read-only)
         uses: actions/checkout@v4
         with:
-          repository: merlin-pinpin/kingdoms-services
+          repository: merlin-pinpin-org/kingdoms-services
           path: kingdoms-services
       - uses: actions/setup-python@v5
         with:

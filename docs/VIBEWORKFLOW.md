@@ -154,7 +154,7 @@ An agent session (which starts with no memory of previous conversations):
   is tagged.
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
   running on its self-hosted runner — installation guide:
-  [VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
+  [VPS-SETUP.md](https://github.com/merlin-pinpin-org/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
   - **test**: deployed **on demand** — by the `/deploy-test` PR comment
     (the PR image is built with its commit SHA tag and deployed; the
     cross-repo trigger goes through the kingdoms-deployer GitHub App,

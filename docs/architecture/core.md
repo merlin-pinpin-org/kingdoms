@@ -9,7 +9,7 @@ The core is **platform-agnostic**: it contains everything reusable across
 Discord or Twitch, and never imports platform-specific code (see
 [ADR-0001](../DECISIONS/001-multi-platform-architecture.md)). Implementation
 is tracked by the Phase 2 issues of
-[kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services)
+[kingdoms-services](https://github.com/merlin-pinpin-org/kingdoms-services)
 (kingdoms-services#3–kingdoms-services#10, kingdoms-services#16,
 kingdoms-services#17).
 

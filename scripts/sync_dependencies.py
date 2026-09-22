@@ -29,19 +29,19 @@ from collections import defaultdict, deque
 from pathlib import Path
 
 REPOS = ("kingdoms-services", "kingdoms-infra")
-OWNER = "merlin-pinpin"
+OWNER = "merlin-pinpin-org"
 SIZE_POINTS = {"XS": 1, "S": 3, "M": 5, "L": 8, "XL": 13}
 PHASE_LABEL = re.compile(r"^phase-(\d+)$")
 PRIORITY_LABEL = re.compile(r"^priority/(P[0-3])$")
 DEP_LINE = re.compile(
-    r"^-\s+\[([ x])\]\s+(?:merlin-pinpin/)?(kingdoms-services|kingdoms-infra)#(\d+)$"
+    r"^-\s+\[([ x])\]\s+(?:merlin-pinpin-org/)?(kingdoms-services|kingdoms-infra)#(\d+)$"
 )
 DEP_LINE_SAME_REPO = re.compile(r"^-\s+\[([ x])\]\s+#(\d+)$")
 DEP_LINE_OWNER = re.compile(
-    r"^-\s+\[([ x])\]\s+merlin-pinpin/(kingdoms-services|kingdoms-infra)#(\d+)$"
+    r"^-\s+\[([ x])\]\s+merlin-pinpin-org/(kingdoms-services|kingdoms-infra)#(\d+)$"
 )
 DEPS_SECTION = re.compile(r"(?s)## Dependencies\n(.*?)(?=\n## |\Z)")
-DOCS_URL = "https://github.com/merlin-pinpin/kingdoms/blob/main/docs/DEPENDENCIES.md"
+DOCS_URL = "https://github.com/merlin-pinpin-org/kingdoms/blob/main/docs/DEPENDENCIES.md"
 
 
 def gh_api(path: str) -> dict | list:
@@ -215,8 +215,8 @@ def render(issues: list[dict], a: dict) -> str:
         "> edit the `## Dependencies` sections of the issues instead, then",
         "> regenerate this page (see the [Update dependencies](SKILLS/update-dependencies.md) skill).",
         "",
-        f"Source: open issues in [kingdoms-services](https://github.com/merlin-pinpin/kingdoms-services/issues)"
-        f" and [kingdoms-infra](https://github.com/merlin-pinpin/kingdoms-infra/issues).",
+        f"Source: open issues in [kingdoms-services](https://github.com/merlin-pinpin-org/kingdoms-services/issues)"
+        f" and [kingdoms-infra](https://github.com/merlin-pinpin-org/kingdoms-infra/issues).",
         "",
         "Priority labels come from critical-path analysis (CPM):",
         "",
