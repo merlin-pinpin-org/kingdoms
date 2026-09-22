@@ -14,8 +14,25 @@ must be able to understand the model from this page alone.
 | Role | Who | Responsibility |
 |------|-----|----------------|
 | Game designer | Non-developer, idea-rich | Defines features, game rules, environments; validates behavior in Discord |
-| Developer | Experienced, maintains the platform | Reviews PRs, infrastructure and architecture decisions; permissions are enforced by GitHub policies |
-| AI agent (Vibe Code) | Mistral-powered coding agent | Implements issues, opens PRs, monitors CI, manages branches/tags/releases on request |
+| Developer | Experienced, maintains the platform | Challenges the design, **reviews and approves PRs** (one click); never codes |
+| Ops | Infrastructure owner | Everything the developer does, plus environment and secret administration in the GitHub web UI and production deployment approvals |
+| AI agent (Vibe Code) | Mistral-powered coding agent | Does 100% of the technical work: issues, code, branches, PRs, CI, test deployments, `/merge`, tags/releases on request |
+
+**Humans never check out, write code, or run scripts** — this platform is a
+pure vibe-coding test. Every human technical action is a **click in the
+GitHub web UI**: approving PRs, approving production deployments, and the
+one-time administration (org teams, rulesets, environments, secrets).
+There is deliberately no human CLI step anywhere in the model; agents must
+never propose one (see `AGENTS.md`).
+
+The three roles map to GitHub org teams (created once in the web UI by the
+org owner):
+
+| Team | Members | Repo permissions |
+|------|---------|-----------------|
+| `@merlin-pinpin-org/maintainers` | developer + ops | Write on the 3 repos; code owners (required reviewers on `main` PRs) |
+| `@merlin-pinpin-org/ops` | ops | Maintain on `kingdoms-infra` (environments + secrets), Read elsewhere; owns the `/deploy/prod/` CODEOWNERS paths |
+| `@merlin-pinpin-org/game-designers` | game designer | Write on `kingdoms` and `kingdoms-services` (open PRs, never merge — rulesets enforce it), Read on `kingdoms-infra` |
 
 ## Artifact map
 
@@ -24,9 +41,9 @@ must be able to understand the model from this page alone.
 | Ideas, rules, environments | `kingdoms` docs (`docs/MODS/`) | Game designer (via agent) |
 | Work items | GitHub issues (3 repos) | Agent creates |
 | Implementation | Feature branches `vibe/<slug>` → PRs | Agent |
-| Approvals & merges | PR review, GitHub rulesets | Reviewers with merge access |
+| Approvals & merges | PR review, GitHub rulesets | Developer and ops (one click); the agent executes the merge on `/merge` |
 | Versions | Git tags + GitHub releases | Agent executes on request; permissions enforced by GitHub |
-| Deployment | `kingdoms-infra` GitOps (test / prod, self-hosted runner on the VPS) | Agent via CI/CD |
+| Deployment | `kingdoms-infra` GitOps (test / prod, self-hosted runner on the VPS) | Agent via CI/CD; ops approves prod |
 
 ## End-to-end flow
 
@@ -62,16 +79,30 @@ Step by step:
    the agent considers the PR merge-ready (all checks green, implementation
    complete, self-review done, docs updated), it marks the PR *ready for
    review*; while work remains, the PR stays in draft.
-4. A reviewer with merge access reviews and merges the PR — approvals and
-   merge rights are enforced by the GitHub rulesets, not by this document.
-5. When explicitly requested, the agent tags a version and creates the GitHub
+4. A reviewer with merge access (developer or ops, per the CODEOWNERS
+   rules backed by the `main` rulesets) reviews and approves the PR — one
+   human click. On `/merge` (session instruction or PR comment), the agent
+   verifies its merge criteria and executes the squash merge; GitHub
+   rulesets remain the hard, fail-closed gate. The agent never approves its
+   own PRs.
+5. On `/merge` from a reviewer, the agent checks its merge criteria (PR
+   ready, all checks green, required code-owner approval present, docs
+   synced, linked issue, no unresolved review threads) and merges with
+   squash, deleting the branch. **GitHub automerge is intentionally not
+   used**: it merges as soon as checks and the required approval land,
+   ignoring the agent's criteria and the game designer's Discord validation.
+   The agent-executed `/merge` keeps the judgment (has the feature been
+   validated in Discord? are the docs synced?) while GitHub rulesets keep
+   the enforcement.
+6. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
-6. Test deployments are **on demand** (`/deploy-test` PR comment posted by
+7. Test deployments are **on demand** (`/deploy-test` PR comment posted by
    the session — commit-SHA image tag; the cross-repo dispatch uses the
    kingdoms-deployer GitHub App, an ephemeral Actions: write-only token);
-   production deployments happen only from a released tag (`vX.Y.Z`), run
-   by identified production deployers.
-   The bot runs and the game designer validates the behavior in Discord.
+   production deployments happen only from a released tag (`vX.Y.Z`),
+   gated to ops (Actions policy on the Deploy prod workflow + required
+   reviewers on the `prod` environment). The bot runs and the game
+   designer validates the behavior in Discord.
 
 ## Generated artifacts sync
 
@@ -115,8 +146,9 @@ An agent session (which starts with no memory of previous conversations):
 5. Mark the PR ready for review when merge-ready (see the PR draft-status
    rule below); otherwise keep it in draft.
 6. Report the PR URL and wait for review.
-7. On request: merge, tag, release — only from actors authorized by the
-   GitHub policies.
+7. On `/merge`: verify the merge criteria and execute the squash merge —
+   GitHub rulesets stay the hard gate; on request, tag and release — only
+   from actors authorized by the GitHub policies.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](SKILLS/update-roadmap.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.
@@ -140,7 +172,12 @@ An agent session (which starts with no memory of previous conversations):
 - **Anyone can run the tests locally**, with no special access: `make lint`,
   `make typecheck` and `make test` in `kingdoms-services`, the doc validation
   in `kingdoms`, the shell checks in `kingdoms-infra`. The local toolchain
-  only requires public clones — no credentials.
+  only requires public clones — no credentials. (In practice no human ever
+  runs them: the agent runs them, and CI re-runs them on every PR.)
+- **Humans never check out, write code, or run scripts.** The only manual
+  technical actions are clicks in the GitHub web UI, listed in
+  [PROCESS.md](PROCESS.md). An agent session must never propose a
+  human CLI step.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).
 - **PR draft status is the agent's merge-readiness signal.** The agent always
@@ -162,9 +199,11 @@ An agent session (which starts with no memory of previous conversations):
     docs/DEPLOY-TEST-APP.md); test-config changes on `main` also redeploy.
     It is the validation environment where the game designer checks the
     bot in Discord
-  - **prod**: released only — image tagged `vX.Y.Z`, deployed manually by
-    identified production deployers (GitHub rulesets gate who may run
-    the Deploy prod workflow)
+  - **prod**: released only — image tagged `vX.Y.Z`, triggered by the
+    released tag or an ops member, paused until an ops member approves
+    the `prod` environment protection (required reviewers), and gated to
+    ops actors by the Actions policy on the Deploy prod workflow. Only
+    ops deploys to production.
 
 ## Cross-references
 
