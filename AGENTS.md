@@ -43,6 +43,29 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   review only when, from your point of view, it can be merged (checks
   green, implementation complete, self-review done, docs updated); keep or
   return it to draft (`gh pr ready --undo`) while work remains.
+- **Humans never check out, write code, or run scripts.** This platform is
+  a pure vibe-coding test: the AI agent does 100% of the technical work.
+  Never propose a solution that requires a human to run a CLI command, a
+  script, or any local tooling. The only manual technical actions are
+  **clicks in the GitHub web UI** (team, ruleset, environment and secret
+  administration, PR approvals, production deployment approvals),
+  performed by authorized humans. When a GitHub admin action is needed
+  that the agent cannot perform, point the human at the exact web UI page
+  — never at a terminal or a command to copy.
+- **Never handle secrets.** Secrets are entered only by ops in the GitHub
+  web UI (environment secrets); they never transit through an agent
+  session, a PR, an issue, or a command line.
+- **`/merge` is an agent-executed command, not GitHub automerge.** When a
+  reviewer (developer or ops) says `/merge` — in the session or as a PR
+  comment — the agent verifies its merge criteria (PR ready, all checks
+  green, required code-owner approval present, docs synced, linked issue,
+  no unresolved review threads) and merges with squash, deleting the
+  branch. GitHub automerge is intentionally not used: it merges as soon
+  as checks and the required approval are in, ignoring the agent criteria
+  and the Discord validation. GitHub rulesets remain the hard gate: if a
+  criterion GitHub enforces is missing, the merge fails closed. The agent
+  never approves its own PRs — the human approval is the trust anchor of
+  the whole model.
 
 ## Testing strategy (summary)
 
