@@ -65,6 +65,12 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   agent-executed convention was abandoned: the agent opens PRs under the
   developer's identity, GitHub forbids author self-approval, and the
   session platform blocks agent-executed merges.
+- **Always include GitHub links in user-facing reports.** Every PR,
+  issue, workflow run, or branch mentioned in a session report to a
+  human carries its full GitHub URL (e.g.
+  `https://github.com/merlin-pinpin-org/<repo>/pull/N`): humans never
+  open a terminal, so links are their only way to reach the artifacts.
+  A report without links is a bug in the session.
 
 ## Testing strategy (summary)
 
