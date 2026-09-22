@@ -90,7 +90,7 @@ backup → compose up → health gate → automatic rollback on failure**.
 2. Tag and release permissions are **enforced by GitHub** (rulesets); the
    agent executes, it is not granted by convention.
 3. Pushing the tag makes the `kingdoms-services` Docker workflow publish
-   the **released image** `ghcr.io/merlin-pinpin/kingdoms-services:vX.Y.Z`.
+   the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`.
    Production will only ever run such released images — a commit-SHA image
    is never promoted to prod by re-tagging; a release is cut instead.
 

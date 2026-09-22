@@ -13,7 +13,7 @@ written as GitHub task-list checkboxes:
 **Depends on:**
 
 - [ ] kingdoms-services#4
-- [ ] merlin-pinpin/kingdoms-infra#2
+- [ ] merlin-pinpin-org/kingdoms-infra#2
 ```
 
 Closing one of the checkboxes (or closing the referenced issue) updates the
@@ -50,7 +50,7 @@ partial data.
    when an issue's `priority/*` label no longer matches its critical-path
    slack; it never edits issues. Fix the labels and re-run:
    ```bash
-   gh issue edit <n> --repo merlin-pinpin/<repo> \
+   gh issue edit <n> --repo merlin-pinpin-org/<repo> \
      --remove-label priority/P1 --add-label priority/P2
    ```
    Rules (slack = points by which an issue can slip without delaying the
@@ -72,7 +72,7 @@ partial data.
 - Every open issue **must** have exactly one `size/*` and one `priority/*`
   label, and a `## Dependencies` section (even if "Depends on: none").
 - Cross-repo dependencies use fully qualified references
-  (`merlin-pinpin/kingdoms-infra#2`), same-repo ones the short form (`#4`).
+  (`merlin-pinpin-org/kingdoms-infra#2`), same-repo ones the short form (`#4`).
 - Dependencies are build-order constraints ("cannot start before"),
   not mere relations; soft relations stay in `## Related`.
 - When creating a new issue, add its dependencies and both labels, then
