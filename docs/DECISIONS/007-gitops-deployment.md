@@ -36,7 +36,8 @@ production).
 
 **Deployment mechanism (2026 revision, kingdoms-infra#2):** CD jobs run
 on a **GitHub Actions self-hosted runner installed on the VPS** (chosen
-over SSH-from-Actions and cron-pull: it keeps secrets on the VPS,
+over SSH-from-Actions and cron-pull: it injects secrets from the GitHub
+environment secrets at deploy time instead of storing them on the VPS,
 attaches deployment to the merge event, and needs no inbound SSH
 exposure). The runner carries the labels `self-hosted, kingdoms, env-test`
 (one runner — one VPS — per environment; each future environment VPS
