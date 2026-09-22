@@ -24,9 +24,9 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   are common); never pick a number already in use.
 - Mods documentation lives in `docs/MODS/<mod-name>/` and follows the template in `templates/mod-template/`.
 - **Never commit secrets** (tokens, passwords, API keys, private keys,
-  `.env` values): real credentials live only in GitHub secrets or in
-  host-provisioned `.env` files; repositories carry `.env.example`
-  placeholders only. Before making any repository public, scan the full
+  `.env` values): real credentials live only in GitHub **environment
+  secrets**, injected by the CD runner at deploy time (nothing secret is
+  stored on the VPS); repositories carry `.env.example` placeholders only. Before making any repository public, scan the full
   git history for leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`).
 - Merge approvals and required checks are enforced by the `main` ruleset
   of each repository; do not document person-based permissions here.
