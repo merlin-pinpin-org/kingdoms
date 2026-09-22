@@ -23,10 +23,18 @@ Implement a **GitOps** workflow:
 - Manual approval for production
 - Automated testing before deployment
 
-Environment policy: `test` deploys **on demand** — by a vibe-coding
-session (agent dispatch) or the `/deploy-test` PR comment, with the
-PR-built image tagged by its commit SHA; test-config changes on `main`
-also redeploy. `prod` deploys only from **released tags** (`vX.Y.Z`,
+Environment policy: `test` deploys **on demand** — by the
+`/deploy-test` PR comment (posted by a vibe-coding session or any
+authorized user), with the PR-built image tagged by its commit SHA;
+test-config changes on `main` also redeploy. The cross-repo dispatch
+(the comment lives on `kingdoms-services`, the deploy workflow on
+`kingdoms-infra`) uses the **kingdoms-deployer GitHub App**: installed
+on `kingdoms-infra` only, single `Actions: write` permission,
+ephemeral tokens minted per run — chosen over a permanent PAT (no
+long-lived credential, centrally revocable, unable to touch the
+non-dispatchable prod workflow); a workflow execution ruleset further
+restricts the dispatch to that app alone (setup:
+kingdoms-infra docs/DEPLOY-TEST-APP.md). `prod` deploys only from **released tags** (`vX.Y.Z`,
 pinned image), run manually by identified production deployers gated by
 GitHub rulesets (see [VIBEWORKFLOW.md](../VIBEWORKFLOW.md)). The former
 `dev` environment is renamed `test`: it is a validation environment on

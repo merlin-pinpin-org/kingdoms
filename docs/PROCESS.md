@@ -48,16 +48,18 @@ someone wants to check behavior in the real bot.
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Asks the agent (session) to deploy; plays with the bot in Discord | Same, plus the `/deploy-test` PR comment for a specific PR | Guarantees the runner is online, the `test` environment secrets exist |
+| Does | Asks the agent (session) to deploy; plays with the bot in Discord | Same, plus the `/deploy-test` PR comment for a specific PR | Guarantees the runner is online, the `test` environment secrets exist; creates the kingdoms-deployer GitHub App and its ruleset once (see kingdoms-infra docs/DEPLOY-TEST-APP.md) |
 
 **Two entry points:**
 
 - **Vibe-coding session** (the normal path for the game designer): "deploy
   this on test" — the agent posts the **`/deploy-test` comment** on the
   feature PR (the comment is the trigger; the agent does not need workflow
-  permissions), the workflow builds the PR image and deploys it, and the
-  agent **monitors the run** and reports the result with the logs analyzed
-  on failure. No human click is needed.
+  permissions), the workflow builds the PR image and dispatches the
+  kingdoms-infra Deploy test workflow through the **kingdoms-deployer
+  GitHub App** (ephemeral token, Actions: write only), and the agent
+  **monitors the run** and reports the result with the logs analyzed on
+  failure. No human click is needed.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
   mechanism, usable by anyone authorized — the PR image (tag
   `pr-<n>-sha-<sha>`) is built and deployed automatically, and the PR gets a
