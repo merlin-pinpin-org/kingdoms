@@ -173,6 +173,10 @@ An agent session (which starts with no memory of previous conversations):
   technical actions are clicks in the GitHub web UI, listed in
   [PROCESS.md](PROCESS.md). An agent session must never propose a
   human CLI step.
+- **Always include GitHub links in user-facing reports.** Every PR,
+  issue, workflow run or branch mentioned in a report to a human carries
+  its full GitHub URL: humans never open a terminal, links are their
+  only access to the artifacts.
 - All issues are written in English and are self-contained (future sessions
   have no conversation memory).
 - **PR draft status is the agent's merge-readiness signal.** The agent always
