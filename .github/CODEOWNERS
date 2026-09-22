@@ -1,15 +1,14 @@
 # Code ownership (kingdoms — source of truth).
 # Combined with the "main" ruleset (require code owner review, 1
-# approval), no change merges without a maintainer. The org team is
-# @merlin-pinpin-org/maintainers; until it exists, the fallback is
-# the individual maintainer account.
-
+# approval), no change merges without a maintainer.
+# Team: @merlin-pinpin-org/maintainers (developer + ops).
+#
 # Default: a maintainer reviews everything
-*                       @merlin-pinpin
+*                       @merlin-pinpin-org/maintainers
 
 # Governance and process docs
-/AGENTS.md              @merlin-pinpin
-/docs/DECISIONS/        @merlin-pinpin
+/AGENTS.md              @merlin-pinpin-org/maintainers
+/docs/DECISIONS/        @merlin-pinpin-org/maintainers
 
 # Sync scripts: they regenerate ROADMAP.md and docs/DEPENDENCIES.md
-/scripts/               @merlin-pinpin
+/scripts/               @merlin-pinpin-org/maintainers
