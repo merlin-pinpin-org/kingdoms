@@ -12,17 +12,36 @@ Two environments exist ([ADR-0007](DECISIONS/007-gitops-deployment.md)):
 - **prod** — deployed only from **released versions** (`vX.Y.Z`), the real
   players' environment.
 
-> **Golden rule for the game designer:** everything goes through the AI
-> agent (Mistral vibe-coding). You never run a git or shell command
-> yourself: you describe what you want, the agent does it and reports back
-> with links. Your only manual actions are **clicking** in GitHub
-> (approve/merge when granted) and **testing in Discord**.
+> **Golden rule for every human (game designer, developer, ops):** the
+> platform is a pure vibe-coding test — **nobody ever checks out a
+> repository, writes code, or runs a command**. Everything technical is
+> done by the AI agent (or by CI). The only manual technical actions are
+> **clicks in the GitHub web UI**: approving PRs, approving production
+> deployments, and the one-time administration (org teams, rulesets,
+> environments, secrets). If an agent session proposes a command to copy
+> into a terminal, push back — that is a bug in the session.
+
+## Manual actions inventory (complete)
+
+Everything a human may have to click in the GitHub web UI — and nothing
+else:
+
+| Action | Who | Frequency |
+|--------|-----|-----------|
+| Create org teams (`maintainers`, `ops`, `game-designers`) and attach them to the repos | Org owner | once |
+| Activate code-owner review + 1 approval in each repo's `main` ruleset; no bypass actors | Org owner | once |
+| Set `prod` environment required reviewers (ops) and enter environment secrets | Ops | once, then on rotation |
+| Approve a PR (code owners) | Developer or ops | per PR |
+| Approve a production deployment (`prod` environment) | Ops | per prod deploy |
+
+Everything else — issues, branches, code, PRs, CI fixes, `/deploy-test`,
+`/merge`, tags, releases, roadmap sync — is executed by the agent.
 
 ## 1. Development (feature request → merged code)
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary | Reviews the PR, requests changes or approves | Maintains the runner, VPS, secrets (GitHub environment secrets) |
+| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary; tests in Discord | Challenges the design; reviews the PR and **clicks Approve**; never codes | Same as developer, plus reviews infra changes |
 
 **Flow:**
 
@@ -33,8 +52,10 @@ Two environments exist ([ADR-0007](DECISIONS/007-gitops-deployment.md)):
    PR**; CI runs on the PR (lint, typecheck, tests, image build).
 3. The agent monitors CI and fixes failures until green, then marks the PR
    **ready for review**.
-4. **Only the developer can approve and merge** (GitHub rulesets enforce
-   required reviews; the game designer never needs merge rights).
+4. **Only the developer or ops can approve** (GitHub rulesets + CODEOWNERS
+   enforce it; the game designer never needs merge rights). After the
+   approval, anyone in the session can say `/merge` and the agent executes
+   the squash merge after checking its criteria.
 5. On merge, the PR closes its issue automatically (`Closes #N`).
 
 The game designer's feedback loop — *I want → the agent builds → I read a
@@ -63,8 +84,9 @@ someone wants to check behavior in the real bot.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
   mechanism, usable by anyone authorized — the PR image (tag
   `pr-<n>-sha-<sha>`) is built and deployed automatically, and the PR gets a
-  ✅/❌ comment with the run links. Only the PR author or a write-access
-  user may use it.
+  ✅/❌ comment with the run links. Only repository collaborators with
+  `admin`, `maintain` or `write` permission may use it; fork PRs are
+  rejected (kingdoms-services#67).
 
   Note: the agent sandbox cannot dispatch workflows directly — deploying
   **`main` with no open PR** is the one case that needs a human click on
@@ -90,7 +112,7 @@ backup → compose up → health gate → automatic rollback on failure**.
 2. Tag and release permissions are **enforced by GitHub** (rulesets); the
    agent executes, it is not granted by convention.
 3. Pushing the tag makes the `kingdoms-services` Docker workflow publish
-   the **released image** `ghcr.io/merlin-pinpin/kingdoms-services:vX.Y.Z`.
+   the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`.
    Production will only ever run such released images — a commit-SHA image
    is never promoted to prod by re-tagging; a release is cut instead.
 
@@ -102,13 +124,14 @@ Production is the most protected environment. Three gates stack:
    `KINGDOMS_BOT_IMAGE` is set to a released `vX.Y.Z` image.
 2. **GitHub environment `prod`** — required reviewers (deployment waits for
    a human approval in the GitHub UI).
-3. **Repository ruleset on the Deploy prod workflow** — only identified
-   **production deployers** (the developer) may trigger it; everyone else
-   is refused by GitHub before anything runs.
+3. **Actions policy on the Deploy prod workflow** — only **ops** team actors
+   may trigger it; everyone else is refused by GitHub before anything runs.
+   The workflow pauses on the `prod` environment protection until an ops
+   member approves the deployment in the UI.
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Nothing on prod (except validating in Discord once deployed) | Is the production deployer: triggers Deploy prod (on a released tag or manually) and approves the environment protection | Provisions the prod VPS + `env-prod` runner; sets the `prod` environment secrets; creates and maintains the ruleset |
+| Does | Nothing on prod (except validating in Discord once deployed) | Nothing on prod (cannot deploy) | Is the production deployer: ops triggers or lets the released tag trigger Deploy prod, and **clicks Approve** on the `prod` environment protection; provisions the prod VPS + `env-prod` runner; sets the `prod` environment secrets in the UI |
 
 **Current status:** the **Deploy prod** workflow intentionally fails with
 a log listing everything to create (the `prod` GitHub environment with its
@@ -124,14 +147,16 @@ idea ──▶ vibe session (Mistral agent)
           ▼ "deploy on test"
         agent comments /deploy-test on the PR → automatic build + deploy
           │
-          ▼ agent monitors → result;      Developer approves & merges
+          ▼ agent monitors → result;      Developer/ops clicks Approve,
+      then /merge (agent merges)
         test bot in Discord  ◀──── deployment on demand (SHA image)
           │
           ▼ "it works, release it"
-        tag vX.Y.Z ──▶ released image ──▶ prod deploy (developer, gated)
+        tag vX.Y.Z ──▶ released image ──▶ prod deploy (ops, gated)
 ```
 
 - One interface: **the vibe-coding session** (plus Discord to test).
-- One reviewer: **the developer** (GitHub enforces it).
-- One production gate: **released tags + protected workflow + protected
-  environment**.
+- One human click per PR: **Approve** (developer or ops — GitHub enforces
+  it); the agent executes the merge on `/merge`.
+- One production gate: **released tags + ops-only workflow policy + ops
+  environment approval**.

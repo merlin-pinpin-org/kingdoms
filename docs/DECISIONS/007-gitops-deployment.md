@@ -51,7 +51,7 @@ exposure). The runner carries the labels `self-hosted, kingdoms, env-test`
 (one runner — one VPS — per environment; each future environment VPS
 gets its own `env-*` label, and the CD jobs target the matching label).
 Full installation procedure:
-[kingdoms-infra docs/VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md).
+[kingdoms-infra docs/VPS-SETUP.md](https://github.com/merlin-pinpin-org/kingdoms-infra/blob/main/docs/VPS-SETUP.md).
 
 ## Alternatives Considered
 
