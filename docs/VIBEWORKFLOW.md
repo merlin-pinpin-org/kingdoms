@@ -66,9 +66,11 @@ Step by step:
    merge rights are enforced by the GitHub rulesets, not by this document.
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
-6. Test deployments are **on demand** (vibe-coding session or `/deploy-test`
-   PR comment — commit-SHA image tag); production deployments happen only
-   from a released tag (`vX.Y.Z`), run by identified production deployers.
+6. Test deployments are **on demand** (`/deploy-test` PR comment posted by
+   the session — commit-SHA image tag; the cross-repo dispatch uses the
+   kingdoms-deployer GitHub App, an ephemeral Actions: write-only token);
+   production deployments happen only from a released tag (`vX.Y.Z`), run
+   by identified production deployers.
    The bot runs and the game designer validates the behavior in Discord.
 
 ## Generated artifacts sync
@@ -153,11 +155,13 @@ An agent session (which starts with no memory of previous conversations):
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
   running on its self-hosted runner — installation guide:
   [VPS-SETUP.md](https://github.com/merlin-pinpin/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
-  - **test**: deployed **on demand** — by a vibe-coding session (agent
-    dispatch) or the `/deploy-test` PR comment (the PR image is built
-    with its commit SHA tag and deployed); test-config changes on `main`
-    also redeploy. It is the validation environment where the game
-    designer checks the bot in Discord
+  - **test**: deployed **on demand** — by the `/deploy-test` PR comment
+    (the PR image is built with its commit SHA tag and deployed; the
+    cross-repo trigger goes through the kingdoms-deployer GitHub App,
+    an ephemeral Actions: write token — setup guide: kingdoms-infra
+    docs/DEPLOY-TEST-APP.md); test-config changes on `main` also redeploy.
+    It is the validation environment where the game designer checks the
+    bot in Discord
   - **prod**: released only — image tagged `vX.Y.Z`, deployed manually by
     identified production deployers (GitHub rulesets gate who may run
     the Deploy prod workflow)
