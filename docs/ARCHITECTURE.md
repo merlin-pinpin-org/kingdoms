@@ -143,12 +143,13 @@ workflow payloads evolve with the game rules):
 - **`ChannelService`**: channel category management. Mods ask for a channel by
   category, never by name or ID. Resolution order: cache → database → platform
   creation.
-- **`StatusService`**: operational report (version, uptime, configured games,
-  enabled mods with their declared channels/roles, bot admins) — powers the
-  generic `/status` command.
+- **`StatusService`**: operational report (version label, uptime, configured
+  games, enabled mods with their declared channels/roles, bot admins,
+  deploy label + URL) — powers the generic `/status` command.
 - **`AdminService`** (kingdoms-services#35): distinguishes **bot admins**
   (operators, defined by the `BOT_ADMINS` environment variable — provisioned
-  via GitHub secrets in hosted environments) from **guild admins**
+  as a GitHub environment *variable*, not a secret, since user IDs are not
+  sensitive) from **guild admins**
   (guild-scoped: platform permissions or mod-declared admin roles). Bot
   admins operate the bot; guild admins administer their guild only.
 - **`WorkflowEngine`**: workflow execution. Declares nothing itself; loads
@@ -183,10 +184,13 @@ workflow payloads evolve with the game rules):
 - **`status.py`**: the generic `/status` command — bot and per-guild
   operational report (uptime, version, Discord gateway latency, deploy
   link, games, enabled mods with their declared channels/roles, and one
-  merged Admins section listing bot admins (`BOT_ADMINS`) and the
-  invoking guild's admins as Discord mentions). Not a mod: it is a
-  platform capability, gated by admin levels (kingdoms-services#35); the
-  deploy link comes from `KINGDOMS_DEPLOY_URL` (kingdoms-infra#39).
+  merged Admins bullet list of bot admins (`BOT_ADMINS`) and the invoking
+  guild's admins as Discord mentions). Not a mod: it is a platform
+  capability, gated by admin levels (kingdoms-services#35). The Version
+  field is a labeled GitHub link built from `KINGDOMS_DEPLOY_LABEL` +
+  `KINGDOMS_DEPLOY_URL`: the deployment comment permalink for a PR deploy
+  (`pr-<id>-<timestamp>-<sha>`), `main@<sha>` for a main deploy, the
+  GitHub release for `vX.Y.Z` (kingdoms-infra#39).
 
 ### `ui/`
 

@@ -30,8 +30,11 @@ breaks the one-human-click governance.
 state of that environment as a single state file per deployed service.**
 
 - The state file (`deploy/state/<env>/<service>.yml`) pins the exact image
-  reference (SHA-tagged, never a floating tag), the artifact URL shown by
-  `/status` (`KINGDOMS_DEPLOY_URL`), who requested the deploy, and when.
+  reference (never a floating tag), the version label and artifact URL
+  shown by `/status` (`KINGDOMS_DEPLOY_LABEL` + `KINGDOMS_DEPLOY_URL`), who
+  requested the deploy, and when. PR deploys are tagged
+  `pr-<id>-<timestamp>-<sha>`; main config-change deploys pin the latest
+  `sha-<sha>` image; prod deploys pin the released `vX.Y.Z` image.
 - **Deployment trigger:** a push to `deploy/<env>` deploys that environment.
   The deploy workflow reads the state file at the pushed commit; the image
   never comes from a workflow input, so it cannot be spoofed or drifted.
@@ -61,6 +64,11 @@ state of that environment as a single state file per deployed service.**
 - Every deployment is a Git commit on the environment branch: image, author,
   timestamp, artifact URL — answering "what runs where, since when, by whom"
   from Git alone.
+- State branches are cut from `main` once and evolve independently: pipeline
+  changes merged on `main` (deploy workflows, manifests, scripts) must be
+  fast-forward propagated to every state branch, or the environment keeps
+  deploying with the stale pipeline code (see kingdoms-infra
+  docs/ENVIRONMENTS.md § "Keeping the state branches current").
 - No floating image tags remain in any manifest.
 - `/deploy-test` keeps its user experience (PR comment) but now writes state
   instead of passing a `bot_image` input; the workflow's `workflow_dispatch`

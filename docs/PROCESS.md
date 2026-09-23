@@ -85,7 +85,7 @@ someone wants to check behavior in the real bot.
   failure. No human click is needed.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
   mechanism, usable by anyone authorized — the PR image (tag
-  `pr-<n>-sha-<sha>`) is built and deployed automatically, and the PR gets a
+  `pr-<id>-<timestamp>-<sha>`) is built and deployed automatically, and the PR gets a
   ✅/❌ comment with the run links. Only repository collaborators with
   `admin`, `maintain` or `write` permission may use it; fork PRs are
   rejected (kingdoms-services#67).
@@ -115,8 +115,10 @@ backup → compose up → health gate → automatic rollback on failure**.
    agent executes, it is not granted by convention.
 3. Pushing the tag makes the `kingdoms-services` Docker workflow publish
    the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`.
-   Production will only ever run such released images — a commit-SHA image
-   is never promoted to prod by re-tagging; a release is cut instead.
+   Tag creation is gated by a GitHub ruleset with the tag-name classifier
+   `v*.*.*` — strict `vX.Y.Z` releases only; other tag names are rejected,
+   and production never runs anything but a released image — a commit-SHA
+   image is never promoted to prod by re-tagging; a release is cut instead.
 
 ## 4. Production deployment (released code → prod VPS)
 
