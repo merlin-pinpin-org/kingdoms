@@ -93,11 +93,14 @@ Step by step:
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
 7. Test deployments are **on demand** (`/deploy-test` PR comment posted by
-   the session — commit-SHA image tag; the cross-repo dispatch uses the
-   kingdoms-deployer GitHub App, an ephemeral Actions: write-only token);
-   production deployments happen only from a released tag (`vX.Y.Z`),
-   gated to ops (Actions policy on the Deploy prod workflow + required
-   reviewers on the `prod` environment). The bot runs and the game
+   the session); the PR image (commit-SHA tagged) is pinned in the
+   environment **state branch** `deploy/test` by the kingdoms-deployer
+   GitHub App (ephemeral Actions: write token), and the push to
+   `deploy/test` triggers the deployment — the deploy reads the pinned
+   image from Git, never from a workflow input (ADR-0018). Production
+   deployments happen only from a released tag (`vX.Y.Z`), written to
+   `deploy/prod` by the release pipeline; its branch ruleset requires a
+   pull request, so approving a prod deployment is merging that PR. The bot runs and the game
    designer validates the behavior in Discord.
 
 ## Generated artifacts sync
@@ -192,10 +195,11 @@ An agent session (which starts with no memory of previous conversations):
   running on its self-hosted runner — installation guide:
   [VPS-SETUP.md](https://github.com/merlin-pinpin-org/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
   - **test**: deployed **on demand** — by the `/deploy-test` PR comment
-    (the PR image is built with its commit SHA tag and deployed; the
-    cross-repo trigger goes through the kingdoms-deployer GitHub App,
-    an ephemeral Actions: write token — setup guide: kingdoms-infra
-    docs/DEPLOY-TEST-APP.md); test-config changes on `main` also redeploy.
+    (the PR image, commit-SHA tagged, is pinned in the `deploy/test`
+    state branch by the kingdoms-deployer GitHub App — setup guide:
+    kingdoms-infra docs/DEPLOY-TEST-APP.md); the push to `deploy/test`
+    deploys the pinned image (ADR-0018). Test-config changes on `main`
+    also redeploy (the pipeline pins the latest `sha-<sha>` image).
     It is the validation environment where the game designer checks the
     bot in Discord
   - **prod**: released only — image tagged `vX.Y.Z`, triggered by the

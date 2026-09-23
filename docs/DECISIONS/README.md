@@ -74,3 +74,4 @@ change that reverses an ADR must produce both a new ADR and a changelog entry.
 | [015](015-webapp-api-boundary.md) | Webapp frontend and API boundary |
 | [016](016-discord-permissions-and-delivery.md) | Discord permissions & message delivery (DM vs channel, runtime role checks, channel access policies) |
 | [017](017-packaging-distribution.md) | Packaging and distribution (workspace, private index, PyPI) |
+| [018](018-environment-state-branches.md) | Per-environment state branches (GitOps deploy state) |

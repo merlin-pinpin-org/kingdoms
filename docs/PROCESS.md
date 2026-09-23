@@ -76,9 +76,11 @@ someone wants to check behavior in the real bot.
 - **Vibe-coding session** (the normal path for the game designer): "deploy
   this on test" — the agent posts the **`/deploy-test` comment** on the
   feature PR (the comment is the trigger; the agent does not need workflow
-  permissions), the workflow builds the PR image and dispatches the
-  kingdoms-infra Deploy test workflow through the **kingdoms-deployer
-  GitHub App** (ephemeral token, Actions: write only), and the agent
+  permissions), the workflow builds the PR image and pins it in the
+  `deploy/test` **state branch** through the **kingdoms-deployer
+  GitHub App** (ephemeral token; Contents: write for the state commit),
+  and the push to `deploy/test` triggers the kingdoms-infra Deploy test
+  workflow, which reads the pinned image from Git (ADR-0018). The agent
   **monitors the run** and reports the result with the logs analyzed on
   failure. No human click is needed.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
@@ -145,10 +147,10 @@ idea ──▶ vibe session (Mistral agent)
           │ issue → branch → PR → CI green → ready for review
           │
           ▼ "deploy on test"
-        agent comments /deploy-test on the PR → automatic build + deploy
+        agent comments /deploy-test on the PR → build → pin in deploy/test → deploy
           │
           ▼ agent monitors → result;      Developer/ops clicks Merge
-        test bot in Discord  ◀──── deployment on demand (SHA image)
+        test bot in Discord  ◀──── deployment on demand (pinned SHA image, ADR-0018)
           │
           ▼ "it works, release it"
         tag vX.Y.Z ──▶ released image ──▶ prod deploy (ops, gated)
