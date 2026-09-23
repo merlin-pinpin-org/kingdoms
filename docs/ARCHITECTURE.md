@@ -186,11 +186,14 @@ workflow payloads evolve with the game rules):
   link, games, enabled mods with their declared channels/roles, and one
   merged Admins bullet list of bot admins (`BOT_ADMINS`) and the invoking
   guild's admins as Discord mentions). Not a mod: it is a platform
-  capability, gated by admin levels (kingdoms-services#35). The Version
-  field is a labeled GitHub link built from `KINGDOMS_DEPLOY_LABEL` +
-  `KINGDOMS_DEPLOY_URL`: the deployment comment permalink for a PR deploy
-  (`pr-<id>-<timestamp>-<sha>`), `main@<sha>` for a main deploy, the
-  GitHub release for `vX.Y.Z` (kingdoms-infra#39).
+  capability, gated by admin levels (kingdoms-services#35). Every link is
+  rendered with a short label, never a bare URL. The Version field is a
+  labeled GitHub link built from `KINGDOMS_DEPLOY_LABEL` +
+  `KINGDOMS_DEPLOY_URL`: the services source tree at the deployed commit
+  for PR and main deploys (`pr-<id>-<timestamp>-<sha>`, `main@<sha>`), the
+  GitHub release for `vX.Y.Z` (kingdoms-infra#39). The Deploy field links
+  the kingdoms-infra deploy job itself (`KINGDOMS_DEPLOY_RUN_URL`, label
+  `deploy run`), falling back to the artifact link.
 
 ### `ui/`
 
