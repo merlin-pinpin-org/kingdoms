@@ -181,10 +181,12 @@ workflow payloads evolve with the game rules):
 - **`cogs/`**: Discord mods (`register.py`, `ladder.py`, ...). Each cog maps
   commands and interactions to core services; no game logic lives in cogs.
 - **`status.py`**: the generic `/status` command — bot and per-guild
-  operational report (uptime, version, Discord gateway latency, games,
-  enabled mods with their declared channels/roles, bot admins, guild
-  admins). Not a mod: it is a platform capability, gated by admin levels
-  (kingdoms-services#35).
+  operational report (uptime, version, Discord gateway latency, deploy
+  link, games, enabled mods with their declared channels/roles, and one
+  merged Admins section listing bot admins (`BOT_ADMINS`) and the
+  invoking guild's admins as Discord mentions). Not a mod: it is a
+  platform capability, gated by admin levels (kingdoms-services#35); the
+  deploy link comes from `KINGDOMS_DEPLOY_URL` (kingdoms-infra#39).
 
 ### `ui/`
 
