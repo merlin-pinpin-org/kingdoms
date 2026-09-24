@@ -19,7 +19,7 @@ covers what is specific to working *in this repo*.
 | `docs/PROCESS.md`, `docs/WORKFLOWS.md` | Delivery process, CI/CD workflows |
 | `docs/DECISIONS/` | Architecture decision records |
 | `docs/MODS/<mod-name>/` | Mods documentation (`README.md`, `RULES.md`, `ENVIRONMENT.md`) |
-| `docs/SKILLS/` | Recipes: roadmap sync, dependencies sync |
+| `docs/SKILLS/` | Recipes: roadmap sync, dependencies sync, PR restack, stuck-deploy diagnosis |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
 | `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |
 | `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
