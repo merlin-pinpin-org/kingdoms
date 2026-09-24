@@ -381,8 +381,9 @@ def main() -> int:
     )
     parser.add_argument(
         "--token",
-        default=os.environ.get("GITHUB_TOKEN"),
-        help="GitHub API token (default: the GITHUB_TOKEN environment variable)",
+        default=os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN"),
+        help="GitHub API token (default: the GH_TOKEN or GITHUB_TOKEN"
+        " environment variable)",
     )
     parser.add_argument(
         "--roadmap",

@@ -27,6 +27,7 @@ Total: **52 pts**. Critical path:
 
 ```mermaid
 flowchart LR
+    ks_100["#100 [Task] Make the repo accessible to human contributors without an AI agent"]
     ks_58["#58 Sub-task: On-demand role & channel sync (admin command, idempotent)"]
     ks_57["#57 Sub-task: Channel access policies per category + drift alerting"]
     ks_56["#56 Sub-task: DM vs channel message policy (personalized DMs, public-only channel content)"]
@@ -53,6 +54,7 @@ flowchart LR
     ks_7["#7 [Phase 2] Create enumerations"]
     ks_5["#5 [Phase 2] Implement ChannelService"]
     ks_3["#3 [Phase 2] Implement IPlatform"]
+    ki_71["#71 [Task] Make the repo accessible to human contributors without an AI agent"]
     ki_5["#5 [Phase 2] Configure monitoring"]
     ki_3["#3 [Phase 2] Add infrastructure documentation"]
     ks_5 --> ks_58
@@ -135,6 +137,8 @@ worked on in parallel.
 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | `S` (3) | `P0` | 0 |
 | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | `S` (3) | `P3` | 49 |
 | [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) — [Phase 2] Add infrastructure documentation | `XS` (1) | `P3` | 51 |
+| [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) — [Task] Make the repo accessible to human contributors without an AI agent | `XS` (1) | `P3` | 51 |
+| [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) — [Task] Make the repo accessible to human contributors without an AI agent | `XS` (1) | `P3` | 51 |
 | [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) — [Phase 2] Create enumerations | `XS` (1) | `P1` | 2 |
 
 **Wave 1**
@@ -201,6 +205,7 @@ worked on in parallel.
 | ----- | ----- | ---- | -------- | ----- | ---------- |
 | [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) — [Phase 2] Add infrastructure documentation | 2 | `XS` | `P3` | 51 | — |
 | [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 47 | — |
+| [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) — [Task] Make the repo accessible to human contributors without an AI agent | ? | `XS` | `P3` | 51 | — |
 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | 2 | `S` | `P0` | 0 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) — [Phase 2] Implement ChannelService | 2 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅ |
 | [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) — [Phase 2] Create enumerations | 2 | `XS` | `P1` | 2 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
@@ -227,3 +232,4 @@ worked on in parallel.
 | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) — Sub-task: DM vs channel message policy (personalized DMs, public-only channel content) | 3 | `M` | `P0` | 0 | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) |
 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | 3 | `M` | `P3` | 18 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) |
 | [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | 3 | `M` | `P3` | 24 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35)~~ ✅ |
+| [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) — [Task] Make the repo accessible to human contributors without an AI agent | ? | `XS` | `P3` | 51 | — |
