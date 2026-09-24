@@ -194,6 +194,12 @@ workflow payloads evolve with the game rules):
   GitHub release for `vX.Y.Z` (kingdoms-infra#39). The Deploy field links
   the kingdoms-infra deploy job itself (`KINGDOMS_DEPLOY_RUN_URL`, label
   `deploy run`), falling back to the artifact link.
+- **`admin.py`**: the generic `/admin` command — an operator panel built
+  as a Components V2 `LayoutView` (ADR-0009): a container with a text
+  header and a section whose button reacts live. The first concrete use
+  of the layout system in a shipped command (kingdoms-services#102):
+  further admin features reuse the section + accessory button pattern
+  and the `<mod>:<component>:<payload>` custom-id convention.
 
 ### `ui/`
 
