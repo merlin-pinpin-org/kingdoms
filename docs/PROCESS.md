@@ -114,11 +114,19 @@ backup → compose up → health gate → automatic rollback on failure**.
 2. Tag and release permissions are **enforced by GitHub** (rulesets); the
    agent executes, it is not granted by convention.
 3. Pushing the tag makes the `kingdoms-services` Docker workflow publish
-   the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`.
+   the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`
+   and then pin it on `deploy/test` (dispatch to the infra `Pin state`
+   workflow, written by the kingdoms-deployer App) — the release is
+   **validated on the test environment** before any production deploy.
    Tag creation is gated by a GitHub ruleset with the tag-name classifier
    `v*.*.*` — strict `vX.Y.Z` releases only; other tag names are rejected,
    and production never runs anything but a released image — a commit-SHA
    image is never promoted to prod by re-tagging; a release is cut instead.
+4. Production promotion is a separate, human-triggered step: once the
+   release is validated in Discord on test, an authorized collaborator
+   runs the `Promote release` workflow on `kingdoms-services`
+   (`workflow_dispatch` with the tag), which pins the released image on
+   `deploy/prod`.
 
 ## 4. Production deployment (released code → prod VPS)
 
@@ -128,19 +136,20 @@ Production is the most protected environment. Three gates stack:
    `KINGDOMS_BOT_IMAGE` is set to a released `vX.Y.Z` image.
 2. **GitHub environment `prod`** — required reviewers (deployment waits for
    a human approval in the GitHub UI).
-3. **Actions policy on the Deploy prod workflow** — only **ops** team actors
-   may trigger it; everyone else is refused by GitHub before anything runs.
-   The workflow pauses on the `prod` environment protection until an ops
-   member approves the deployment in the UI.
+3. **Human-triggered promotion** — the released image is pinned on
+   `deploy/test` by the tag push and validated in Discord **before** any
+   prod pin; the `Promote release` workflow (write-access collaborators)
+   is the only path to `deploy/prod`, followed by the `prod` environment
+   approval in the deploy run.
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Nothing on prod (except validating in Discord once deployed) | Nothing on prod (cannot deploy) | Is the production deployer: ops triggers or lets the released tag trigger Deploy prod, and **clicks Approve** on the `prod` environment protection; provisions the prod VPS + `env-prod` runner; sets the `prod` environment secrets in the UI |
+| Does | Validates the release in Discord on the test environment | Nothing on prod (cannot deploy) | Runs the `Promote release` workflow for the validated tag and **clicks Approve** on the `prod` environment protection; provisions the prod VPS + `env-prod` runner; sets the `prod` environment secrets in the UI |
 
-**Current status:** the **Deploy prod** workflow intentionally fails with
-a log listing everything to create (the `prod` GitHub environment with its
-variables, the ruleset, the `env-prod` runner). It becomes functional once
-those exist; nothing else changes.
+**Current status:** the prod deploy chain is functional (env `prod`,
+`env-prod` runner, `deploy/prod` state branch with its ruleset); the `prod`
+environment has **no reviewers yet** — the approval gate becomes active
+once ops adds them.
 
 ## The game designer's feedback loop (summary)
 
