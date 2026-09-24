@@ -52,6 +52,11 @@ validation.
    it can be merged (checks green, implementation complete, self-review
    done, docs updated); keep or return it to draft (`gh pr ready --undo`)
    while work remains. Never leave a PR in draft when asking for a merge.
+   **Checks are verified on the head commit, completed** — never ask for a
+   merge while a check is pending or only the previous commit is green
+   (the 2026-09-24 SC2046 incident: the merge landed between the push of
+   a doc commit and its lint conclusion). Admins can merge with pending
+   checks, so the discipline is the agent's, not GitHub's.
 2. **A user-facing change is validated live first.** Deploy the PR to the
    test environment (the `/deploy` PR comment on `kingdoms-services`) and
    let the human check the behavior in Discord — only then mark the PR
