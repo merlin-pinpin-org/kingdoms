@@ -22,7 +22,7 @@ covers what is specific to working *in this repo*.
 | `docs/SKILLS/` | Recipes: roadmap sync, dependencies sync |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
 | `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |
-| `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py` |
+| `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
 | `templates/mod-template/` | Template for a new mod's documentation |
 
 ## Checks
@@ -35,6 +35,12 @@ python3 scripts/validate_docs.py --check \
   --source <kingdoms-services>/src/kingdoms \
   --config <kingdoms-services>/config
 ```
+
+The full session checklist (docs validation + roadmap drift +
+dependency-graph drift) runs with `make session-check`; the synced
+artefacts regenerate with `make sync-artifacts` (commit the result to the
+open PR branch). `make restack-<repo>` restacks the stacked PRs of a
+repository (see the [Restack stacked PRs](SKILLS/restack-prs.md) skill).
 
 It validates: mod docs completeness, Python docstrings in the
 kingdoms-services source, Mermaid block syntax. Fail-closed: it refuses to

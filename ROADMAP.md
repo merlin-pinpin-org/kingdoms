@@ -74,7 +74,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | MockDiscord framework | [kingdoms-services#24](https://github.com/merlin-pinpin-org/kingdoms-services/issues/24) | todo |
 | Registration DM flow | [kingdoms-services#25](https://github.com/merlin-pinpin-org/kingdoms-services/issues/25) | todo |
 | Channel/role mgmt | [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) | todo |
-| Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) | todo |
+| Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) | done |
 | Runtime permission checks | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) | todo |
 | DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | todo |
 | Channel access + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
@@ -113,3 +113,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-21 | auto-sync: [kingdoms#59](https://github.com/merlin-pinpin-org/kingdoms/issues/59) in-review->done; [kingdoms#60](https://github.com/merlin-pinpin-org/kingdoms/issues/60) in-review->done; [kingdoms#61](https://github.com/merlin-pinpin-org/kingdoms/issues/61) in-review->done; [kingdoms#62](https://github.com/merlin-pinpin-org/kingdoms/issues/62) in-review->done; [kingdoms#65](https://github.com/merlin-pinpin-org/kingdoms/issues/65) in-review->done; (+4 more) |
 | 2026-09-21 | auto-sync: [kingdoms#68](https://github.com/merlin-pinpin-org/kingdoms/issues/68) in-review->done |
 | 2026-09-22 | auto-sync: [kingdoms-services#54](https://github.com/merlin-pinpin-org/kingdoms-services/issues/54) in-review->done |
+| 2026-09-24 | auto-sync: [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) todo->done |
