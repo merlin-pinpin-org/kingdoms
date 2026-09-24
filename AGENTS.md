@@ -43,6 +43,11 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms Discord
   review only when, from your point of view, it can be merged (checks
   green, implementation complete, self-review done, docs updated); keep or
   return it to draft (`gh pr ready --undo`) while work remains.
+- **Validate a user-facing change in Discord before asking for a merge:**
+  deploy the PR to the test environment (the `/deploy` PR comment on
+  kingdoms-services) and let the human check the live behavior in Discord
+  first; only then ask for the merge. Never present a PR as ready to
+  merge while its live validation is still pending.
 - **Humans never check out, write code, or run scripts.** This platform is
   a pure vibe-coding test: the AI agent does 100% of the technical work.
   Never propose a solution that requires a human to run a CLI command, a
