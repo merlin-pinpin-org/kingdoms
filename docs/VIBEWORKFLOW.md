@@ -226,8 +226,11 @@ An agent session (which starts with no memory of previous conversations):
 
 ## Cross-references
 
-- [AGENTS.md](../AGENTS.md) — repo rules for AI agents (all 3 repos link back
+- [AGENTS.md](../AGENTS.md) — agent entry points (all 3 repos link back
   to this document)
+- [CONVENTIONS.md](CONVENTIONS.md) — conventions shared by the three
+  repositories (language, secrets, PR lifecycle, issues, checks)
+- [DEVELOPER.md](DEVELOPER.md) — developer guide for this repo
 - [WORKFLOWS.md](WORKFLOWS.md) — user-facing game workflows
 - [PROCESS.md](PROCESS.md) — the four processes (development, test
   deployment, release, production) per role: game designer, developer, ops
