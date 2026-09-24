@@ -103,6 +103,22 @@ Step by step:
    pull request, so approving a prod deployment is merging that PR. The bot runs and the game
    designer validates the behavior in Discord.
 
+## PR conventions (agent rules, developer-mandated)
+
+These conventions are binding for the agent; they keep the human merge
+flow frictionless:
+
+1. **Never leave a PR in draft when asking for a merge.** A PR the agent
+   asks the developer to merge is *ready for review* first (checks green,
+   implementation complete, docs updated).
+2. **Stack sequential PRs on the same repository.** When several PRs are
+   open on one repo, later ones are rebased on their predecessors so the
+   developer can merge them in order without conflicts (merge PR 1, then
+   PR 2 rebases cleanly, and so on).
+3. **Group related issues into one PR when the scope is coherent.**
+   One focused PR per coherent scope beats one PR per sub-issue; the PR
+   body lists the covered issues.
+
 ## Generated artifacts sync
 
 `ROADMAP.md` and `docs/DEPENDENCIES.md` are generated artifacts kept in
