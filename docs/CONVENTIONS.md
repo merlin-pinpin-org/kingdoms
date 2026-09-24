@@ -118,3 +118,24 @@ silently skipped. **Sandbox limits are covered by GitHub Actions**:
 anything that cannot run in the dev sandbox must be exercised by a CI
 workflow instead — when a check cannot run locally, add or extend the
 workflow that validates it; never leave it unverified.
+
+## Diagnose before blaming the infrastructure
+
+When a deployment is stuck, run the diagnosis tooling before reporting a
+cause: `make doctor` / `make diagnose-deploy-<env>` in `kingdoms-infra`
+([Diagnose a stuck deploy](SKILLS/diagnose-deploy.md) skill). The most
+common trap: a run left `waiting` for an environment approval holds the
+`deploy-<env>` concurrency group forever, and every newer run stays
+`pending` silently — no notification, and the runner is never even asked.
+Never report "the runner is the problem" without the diagnose output; a
+stuck-deploy report to a human carries the diagnose output and the links
+of every stale run to cancel.
+
+## Automate or learn, never one-off
+
+Every recurring operation met during a session becomes a committed script,
+Makefile target or workflow in the repo it belongs to ("learn it or drop
+it") — never a one-off command that lives only in the session transcript.
+Human contributors without an agent and future agent sessions must be able
+to replay every operation from the repository alone; document it for both
+(the script header for humans, a SKILLS entry when it is a session recipe).
