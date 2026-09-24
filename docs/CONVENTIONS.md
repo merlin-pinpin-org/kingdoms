@@ -59,7 +59,10 @@ validation.
    draft. Doc-only and infrastructure-only changes skip this step.
 3. **Stack sequential PRs on the same repository.** When several PRs are
    open on one repo, later ones are rebased on their predecessors so the
-   developer can merge them in order without conflicts.
+   developer can merge them in order without conflicts. Run
+   `make restack-<repo>` (the [Restack stacked PRs](SKILLS/restack-prs.md)
+   skill) after each merge in a stack and before opening a new PR on a
+   repo that already has open ones.
 4. **Group related issues into one PR when the scope is coherent.** One
    focused PR per coherent scope beats one PR per sub-issue; the PR body
    lists the covered issues.

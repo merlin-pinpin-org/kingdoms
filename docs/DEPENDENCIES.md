@@ -32,7 +32,6 @@ flowchart LR
     ks_56["#56 Sub-task: DM vs channel message policy (personalized DMs, public-only channel content)"]
     ks_55["#55 Sub-task: Runtime permission checks for component actions (role-based)"]
     ks_52["#52 Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys)"]
-    ks_35["#35 Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets)"]
     ks_28["#28 Set up Conventional Changelog (semantic release)"]
     ks_27["#27 Sub-task: AoE2 game microservice (generic IGameProvider)"]
     ks_26["#26 Sub-task: Generic channel/role management per mod"]
@@ -58,7 +57,6 @@ flowchart LR
     ki_3["#3 [Phase 2] Add infrastructure documentation"]
     ks_5 --> ks_58
     ks_26 --> ks_58
-    ks_35 --> ks_58
     ks_55 --> ks_58
     ks_57 --> ks_58
     ks_3 --> ks_57
@@ -69,7 +67,6 @@ flowchart LR
     ks_55 --> ks_56
     ks_3 --> ks_55
     ks_26 --> ks_55
-    ks_26 --> ks_35
     ks_8 --> ks_27
     ks_15 --> ks_27
     ks_3 --> ks_26
@@ -163,7 +160,6 @@ worked on in parallel.
 | ----- | ---- | -------- | ----- |
 | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) — Sub-task: Runtime permission checks for component actions (role-based) | `M` (5) | `P0` | 0 |
 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | `M` (5) | `P3` | 18 |
-| [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | `S` (3) | `P3` | 26 |
 
 **Wave 4**
 
@@ -226,9 +222,8 @@ worked on in parallel.
 | [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) — Sub-task: Generic channel/role management per mod | 3 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) — Sub-task: AoE2 game microservice (generic IGameProvider) | 3 | `L` | `P0` | 0 | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8), [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) |
 | [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 49 | — |
-| [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) — Bot admins vs guild admins (AdminService, BOT_ADMINS via env/GitHub secrets) | 3 | `S` | `P3` | 26 | [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26), ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
 | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) — Bot startup announcement in a dedicated channel with the PR link (CI/CD deploys) | 3 | `S` | `P3` | 49 | ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#34](https://github.com/merlin-pinpin-org/kingdoms-services/issues/34)~~ ✅ |
 | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) — Sub-task: Runtime permission checks for component actions (role-based) | 3 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) |
 | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) — Sub-task: DM vs channel message policy (personalized DMs, public-only channel content) | 3 | `M` | `P0` | 0 | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) |
 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | 3 | `M` | `P3` | 18 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) |
-| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | 3 | `M` | `P3` | 24 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26), [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) |
+| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | 3 | `M` | `P3` | 24 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35)~~ ✅ |
