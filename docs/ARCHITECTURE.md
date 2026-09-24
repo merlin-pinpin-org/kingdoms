@@ -64,7 +64,7 @@ flowchart TD
 - `kingdoms` (docs) describes rules and decisions; `kingdoms-services`
   implements them; `kingdoms-infra` deploys the implementation.
 - Any code change in `kingdoms-services` or `kingdoms-infra` must come with — or
-  be followed by — a doc update in this repo (see [AGENTS.md](../AGENTS.md)).
+  be followed by — a doc update in this repo (see [docs/CONVENTIONS.md](CONVENTIONS.md)).
 - Technical docs are generated **in the repository hosting the sources**:
   the pydoc of `kingdoms-services` is produced by that repo itself
   (`scripts/generate_pydoc.py`, `make docs`) and freshness-checked on every
@@ -361,4 +361,5 @@ All three are **frontends** over one application layer
 - [WORKFLOWS.md](WORKFLOWS.md) — game workflow documentation
 - [MODS/](MODS/) — per-mod documentation
 - [DECISIONS/](DECISIONS/) — architecture decision records
-- [AGENTS.md](../AGENTS.md) — repo rules for AI agents
+- [AGENTS.md](../AGENTS.md) — agent entry points (all 3 repos)
+- [docs/CONVENTIONS.md](CONVENTIONS.md) — conventions shared by the three repositories
