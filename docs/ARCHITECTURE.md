@@ -190,7 +190,7 @@ workflow payloads evolve with the game rules):
   rendered with a short label, never a bare URL. The Version field is a
   labeled GitHub link built from `KINGDOMS_DEPLOY_LABEL` +
   `KINGDOMS_DEPLOY_URL`: the services source tree at the deployed commit
-  for PR and main deploys (`pr-<id>-<timestamp>-<sha>`, `main@<sha>`), the
+  for PR and main deploys (`pr-<id>-<timestamp>-<sha7>`, `main@<sha>`), the
   GitHub release for `vX.Y.Z` (kingdoms-infra#39). The Deploy field links
   the kingdoms-infra deploy job itself (`KINGDOMS_DEPLOY_RUN_URL`, label
   `deploy run`), falling back to the artifact link.
