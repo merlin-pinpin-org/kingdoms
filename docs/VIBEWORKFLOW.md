@@ -92,7 +92,7 @@ Step by step:
    GitHub rulesets keep the enforcement.
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
-7. Test deployments are **on demand** (`/deploy-test` PR comment posted by
+7. Test deployments are **on demand** (`/deploy [env]` PR comment posted by
    the session); the PR image (commit-SHA tagged) is pinned in the
    environment **state branch** `deploy/test` by the kingdoms-deployer
    GitHub App (ephemeral Actions: write token), and the push to
@@ -210,7 +210,7 @@ An agent session (which starts with no memory of previous conversations):
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
   running on its self-hosted runner — installation guide:
   [VPS-SETUP.md](https://github.com/merlin-pinpin-org/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
-  - **test**: deployed **on demand** — by the `/deploy-test` PR comment
+  - **test**: deployed **on demand** — by the `/deploy [env]` PR comment
     (the PR image, commit-SHA tagged, is pinned in the `deploy/test`
     state branch by the kingdoms-deployer GitHub App — setup guide:
     kingdoms-infra docs/DEPLOY-TEST-APP.md); the push to `deploy/test`

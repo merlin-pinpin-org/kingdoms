@@ -34,7 +34,7 @@ else:
 | Merge a ready PR (review it, then click Merge) | Developer or ops | per PR |
 | Approve a production deployment (`prod` environment) | Ops | per prod deploy |
 
-Everything else — issues, branches, code, PRs, CI fixes, `/deploy-test`,
+Everything else — issues, branches, code, PRs, CI fixes, `/deploy`,
 tags, releases, roadmap sync — is executed by the agent.
 
 ## 1. Development (feature request → merged code)
@@ -69,12 +69,12 @@ someone wants to check behavior in the real bot.
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Asks the agent (session) to deploy; plays with the bot in Discord | Same, plus the `/deploy-test` PR comment for a specific PR | Guarantees the runner is online, the `test` environment secrets exist; creates the kingdoms-deployer GitHub App and its ruleset once (see kingdoms-infra docs/DEPLOY-TEST-APP.md) |
+| Does | Asks the agent (session) to deploy; plays with the bot in Discord | Same, plus the `/deploy` PR comment for a specific PR | Guarantees the runner is online, the `test` environment secrets exist; creates the kingdoms-deployer GitHub App and its ruleset once (see kingdoms-infra docs/DEPLOY-TEST-APP.md) |
 
 **Two entry points:**
 
 - **Vibe-coding session** (the normal path for the game designer): "deploy
-  this on test" — the agent posts the **`/deploy-test` comment** on the
+  this on test" — the agent posts the **`/deploy` comment** on the
   feature PR (the comment is the trigger; the agent does not need workflow
   permissions), the workflow builds the PR image and pins it in the
   `deploy/test` **state branch** through the **kingdoms-deployer
@@ -83,7 +83,7 @@ someone wants to check behavior in the real bot.
   workflow, which reads the pinned image from Git (ADR-0018). The agent
   **monitors the run** and reports the result with the logs analyzed on
   failure. No human click is needed.
-- **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
+- **PR comment `/deploy`** (any PR on `kingdoms-services`): same
   mechanism, usable by anyone authorized — the PR image (tag
   `pr-<id>-<timestamp>-<sha7>`) is built and deployed automatically, and the PR gets a
   ✅/❌ comment with the run links. Only repository collaborators with
@@ -149,7 +149,7 @@ idea ──▶ vibe session (Mistral agent)
           │ issue → branch → PR → CI green → ready for review
           │
           ▼ "deploy on test"
-        agent comments /deploy-test on the PR → build → pin in deploy/test → deploy
+        agent comments /deploy on the PR → build → pin in deploy/test → deploy
           │
           ▼ agent monitors → result;      Developer/ops clicks Merge
         test bot in Discord  ◀──── deployment on demand (pinned SHA image, ADR-0018)

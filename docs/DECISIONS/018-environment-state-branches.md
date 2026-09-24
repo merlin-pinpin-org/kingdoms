@@ -41,7 +41,7 @@ state of that environment as a single state file per deployed service.**
 - **Writers:** only the pipelines commit to state branches — never a human
   and never the deploy workflow itself (which would re-trigger itself):
   - `deploy/test`: the `kingdoms-deployer` GitHub App, from the
-    `/deploy-test` PR comment (PR image + PR URL + commenter) or from a
+    `/deploy [env]` PR comment (PR image + PR URL + commenter) or from a
     merged main-branch config change (pinned latest `sha-<sha>` image).
   - `deploy/prod`: the prod release pipeline (released `vX.Y.Z` image);
     the branch ruleset requires a pull request, so **approving a production
@@ -70,7 +70,7 @@ state of that environment as a single state file per deployed service.**
   deploying with the stale pipeline code (see kingdoms-infra
   docs/ENVIRONMENTS.md § "Keeping the state branches current").
 - No floating image tags remain in any manifest.
-- `/deploy-test` keeps its user experience (PR comment) but now writes state
+- `/deploy [env]` keeps its user experience (PR comment) but now writes state
   instead of passing a `bot_image` input; the workflow's `workflow_dispatch`
   image input disappears.
 - The runner-side deploy script reads the pinned image from the state file;

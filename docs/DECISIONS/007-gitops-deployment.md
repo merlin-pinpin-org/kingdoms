@@ -24,7 +24,7 @@ Implement a **GitOps** workflow:
 - Automated testing before deployment
 
 Environment policy: `test` deploys **on demand** — by the
-`/deploy-test` PR comment (posted by a vibe-coding session or any
+`/deploy [env]` PR comment (posted by a vibe-coding session or any
 authorized user), with the PR-built image tagged by its commit SHA;
 test-config changes on `main` also redeploy. The cross-repo dispatch
 (the comment lives on `kingdoms-services`, the deploy workflow on
@@ -84,7 +84,7 @@ flowchart TD
     C --> D["GitHub Actions"]
     D --> E["Build Docker Image"]
     E --> F["Push to Registry"]
-    F --> G["Deploy to Test (on demand: /deploy-test or session)"]
+    F --> G["Deploy to Test (on demand: /deploy or session)"]
     G --> H["Validate in Discord"]
     H -->|"Pass"| I["Manual Approval (production deployers)"]
     I --> J["Deploy to Production"]
