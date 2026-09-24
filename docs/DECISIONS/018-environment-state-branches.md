@@ -43,9 +43,13 @@ state of that environment as a single state file per deployed service.**
   - `deploy/test`: the `kingdoms-deployer` GitHub App, from the
     `/deploy [env]` PR comment (PR image + PR URL + commenter) or from a
     merged main-branch config change (pinned latest `sha-<sha>` image).
-  - `deploy/prod`: the prod release pipeline (released `vX.Y.Z` image);
-    the branch ruleset requires a pull request, so **approving a production
-    deployment is merging a PR** — one human click, consistent with the
+  - `deploy/prod`: the `Promote release` workflow of `kingdoms-services`
+    (human-triggered `workflow_dispatch` with the released tag, after the
+    release was validated on the test environment — the tag push pins the
+    released image on `deploy/test` first); the pin push is allowed by the
+    kingdoms-deployer App bypass on the state-branch ruleset, and the human
+    gates are the **workflow trigger** and the **`prod` environment
+    approval** in the deploy run — human clicks, consistent with the
     governance model.
 - **Protection:** per-branch rulesets (no force-push, no deletion; PR
   required on `deploy/prod`). The `main` ruleset is untouched: state branches
