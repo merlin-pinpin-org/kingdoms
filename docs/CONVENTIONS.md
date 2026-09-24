@@ -25,6 +25,47 @@ humans. When a GitHub admin action is needed that the agent cannot perform,
 point the human at the exact web UI page — never at a terminal or a command
 to copy.
 
+**Human GitHub scope (developer-mandated, exhaustive):** on GitHub, humans
+accept to do exactly two recurring things — **merge PRs** and **approve
+production deployments** — plus the one-time bootstrapping (org teams,
+rulesets, environments, secrets, runner install). Anything else (issues,
+branches, releases, tags, workflow dispatches the agent cannot perform,
+cherry-picks, backports) is the agent's job, executed through automation.
+If a session concludes that another manual step is unavoidable, that is a
+bug in the automation: fix the automation, not the process.
+
+## Everything is automation — no one-off commands
+
+Nothing in this platform is done by a one-off shell command, by humans *or*
+by agent sessions. Every recurring operation exists as a committed,
+reusable artifact:
+
+- **Makefile target** — the entry point of anything a session runs more
+  than once (`make lint`, `make test`, `make session-check`,
+  `make watch-deploy`, `make release`…). Long or multi-step logic lives
+  under it, not inline in a session.
+- **Committed script** (`scripts/*.py`, `scripts/*.sh`) — the reusable
+  implementation, fail-closed, no partial writes; shell scripts pass
+  `bash -n` (and shellcheck when available) before pushing.
+- **GitHub Actions workflow** — anything that must run even when no
+  session is open, or that needs permissions a session lacks (releases,
+  deploy pins, scheduled sync); sandbox-limited checks are exercised by
+  CI workflows, never left unverified.
+
+**Learn it or drop it (developer-mandated).** Whenever a session types a
+shell command or writes a helper script for its own convenience, it must
+ask: *will this be useful again?* If yes — even plausibly — **commit it**:
+wrap the command in a Makefile target or a script in the repo it belongs
+to, with the session's learning (pitfalls, pre-flight checks) baked in.
+Sessions have no conversation memory: a command that is not committed is
+knowledge lost. If the answer is genuinely no, the command stays ephemeral
+and is never presented to a human. See the
+[Automate or learn](SKILLS/automate-or-learn.md) skill for the procedure.
+
+A session must never ask a human to run anything, and must never leave a
+recurring operation existing only in a past session's transcript — both
+are bugs in the session.
+
 ## Never handle secrets
 
 Never commit secrets (tokens, passwords, API keys, private keys, `.env`
@@ -39,7 +80,8 @@ leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`).
 
 The agent never merges: it prepares PRs to be merge-ready (ready for
 review, checks green, docs updated, issue linked) and reports the PR URL;
-the developer or ops clicks **Merge** in the GitHub web UI. The `main`
+the developer or ops clicks **Merge** in the GitHub web UI — one of the two
+recurring human actions (see *Human GitHub scope* above). The `main`
 rulesets of each repository enforce the hard gate (required checks,
 required review, squash only). GitHub automerge is intentionally not used:
 it merges as soon as checks land, ignoring the game designer's Discord

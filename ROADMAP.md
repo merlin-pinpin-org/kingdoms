@@ -89,6 +89,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin-org/kingdoms/issues/61) | done |
 | ADR-0015 webapp frontend & API | [kingdoms#62](https://github.com/merlin-pinpin-org/kingdoms/issues/62) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin-org/kingdoms/issues/8) | done |
+| Docs: automation mandate | [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) | todo |
 
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin-org/kingdoms-services/issues/18)
