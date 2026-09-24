@@ -33,7 +33,7 @@ state of that environment as a single state file per deployed service.**
   reference (never a floating tag), the version label and artifact URL
   shown by `/status` (`KINGDOMS_DEPLOY_LABEL` + `KINGDOMS_DEPLOY_URL`), who
   requested the deploy, and when. PR deploys are tagged
-  `pr-<id>-<timestamp>-<sha>`; main config-change deploys pin the latest
+  `pr-<id>-<timestamp>-<sha7>`; main config-change deploys pin the latest
   `sha-<sha>` image; prod deploys pin the released `vX.Y.Z` image.
 - **Deployment trigger:** a push to `deploy/<env>` deploys that environment.
   The deploy workflow reads the state file at the pushed commit; the image

@@ -85,7 +85,7 @@ someone wants to check behavior in the real bot.
   failure. No human click is needed.
 - **PR comment `/deploy-test`** (any PR on `kingdoms-services`): same
   mechanism, usable by anyone authorized — the PR image (tag
-  `pr-<id>-<timestamp>-<sha>`) is built and deployed automatically, and the PR gets a
+  `pr-<id>-<timestamp>-<sha7>`) is built and deployed automatically, and the PR gets a
   ✅/❌ comment with the run links. Only repository collaborators with
   `admin`, `maintain` or `write` permission may use it; fork PRs are
   rejected (kingdoms-services#67).
