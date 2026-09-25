@@ -89,10 +89,10 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin-org/kingdoms/issues/61) | done |
 | ADR-0015 webapp frontend & API | [kingdoms#62](https://github.com/merlin-pinpin-org/kingdoms/issues/62) | done |
 | discord.py guide | [kingdoms#8](https://github.com/merlin-pinpin-org/kingdoms/issues/8) | done |
-| Docs: automation mandate | [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) | in-review |
+| Docs: automation mandate | [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) | done |
 | Docs: human-contributor onboarding | [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) | in-review |
-| services: human-contributor onboarding | [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) | in-review |
-| infra: human-contributor onboarding | [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) | in-review |
+| services: human-contributor onboarding | [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) | done |
+| infra: human-contributor onboarding | [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) | done |
 
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin-org/kingdoms-services/issues/18)
@@ -120,3 +120,5 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-24 | auto-sync: [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) todo->done |
 | 2026-09-24 | auto-sync: [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) todo->in-review |
 | 2026-09-24 | auto-sync: [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) todo->in-review; [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) todo->in-review; [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) todo->in-review |
+| 2026-09-25 | auto-sync: [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) in-review->done; [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) in-review->done; [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) in-review->todo |
+| 2026-09-25 | auto-sync: [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) todo->done |
