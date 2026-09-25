@@ -92,9 +92,12 @@ Step by step:
    rules backed by the `main` rulesets) reads the PR and **clicks Merge**
    in the GitHub web UI — one human click, the trust anchor of the model.
    The agent never merges (an earlier `/merge` agent-executed convention
-   was abandoned: the agent opens PRs under the developer's identity,
-   GitHub forbids author self-approval, and the session platform blocks
-   agent-executed merges). **GitHub automerge is intentionally not
+   was abandoned: GitHub forbids author self-approval, and the session
+   platform blocks agent-executed merges). The agent commits as
+   `Mistral AI <noreply@mistral.ai>` and **never adds a `Co-authored-by`
+   naming the human** — a trailer would make the human a co-author of
+   the PR and block their own approval (see the *Git identity of agent
+   sessions* rule in CONVENTIONS.md). **GitHub automerge is intentionally not
    used**: it merges as soon as checks and the required approval land,
    ignoring the game designer's Discord validation. The agent keeps its
    merge-readiness judgment (draft status, checks, docs, validation) and
