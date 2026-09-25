@@ -47,6 +47,7 @@ kingdoms/
 ├── AGENTS.md                      # Rules for AI coding agents
 ├── docs/
 │   ├── ARCHITECTURE.md            # Technical architecture (Mermaid diagrams)
+│   ├── GAME-DESIGN.md             # The game designer's guide (in French)
 │   ├── WORKFLOWS.md               # Game workflows (registration, ladder, ...)
 │   ├── MODS/                      # Mods documentation
 │   │   ├── register/              # Registration mod (rules, environment)
@@ -60,6 +61,9 @@ kingdoms/
 
 ## Key documents
 
+- [docs/GAME-DESIGN.md](docs/GAME-DESIGN.md) — **the game designer's guide**:
+  how to describe an idea, follow its delivery, test it in Discord, read
+  the bot's `/status` — no tooling involved
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
 - [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
   by `scripts/sync_roadmap.py`; see the
