@@ -32,3 +32,9 @@ documentation, generated roadmap and dependency graph).
   `kingdoms-infra` — a code change without its doc update here is
   incomplete.
 - Issue templates: `## Summary` / `## Details` (blank issues disabled).
+- **No one-off automation:** every recurring operation is a committed
+  Makefile target, script or workflow, and every improvised-but-useful
+  command is committed ("learned") — see the
+  [Automate or learn](docs/SKILLS/automate-or-learn.md) skill and
+  [docs/CONVENTIONS.md](docs/CONVENTIONS.md), *Human GitHub scope* and
+  *Everything is automation*.

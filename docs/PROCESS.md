@@ -19,7 +19,10 @@ Two environments exist ([ADR-0007](DECISIONS/007-gitops-deployment.md)):
 > **clicks in the GitHub web UI**: approving PRs, approving production
 > deployments, and the one-time administration (org teams, rulesets,
 > environments, secrets). If an agent session proposes a command to copy
-> into a terminal, push back — that is a bug in the session.
+> into a terminal, push back — that is a bug in the session. On GitHub,
+your scope is exactly two recurring clicks: **Merge** (PRs) and
+**Approve** (production deployments) — anything else should already have
+> been automated; if it was not, that is a bug to report to the agent.
 
 ## Manual actions inventory (complete)
 
@@ -34,8 +37,18 @@ else:
 | Merge a ready PR (review it, then click Merge) | Developer or ops | per PR |
 | Approve a production deployment (`prod` environment) | Ops | per prod deploy |
 
+That table is the exhaustive human GitHub scope, as mandated by the
+developer: **two recurring actions only — merging PRs and approving
+production deployments — plus the one-time bootstrapping.** Anything
+beyond it is the agent's job, executed through automation. If a session
+concludes that another manual step is unavoidable, that is a bug in the
+automation: fix the automation, not the process.
+
 Everything else — issues, branches, code, PRs, CI fixes, `/deploy`,
-tags, releases, roadmap sync — is executed by the agent.
+tags, releases, roadmap sync — is executed by the agent. And the agent
+itself works the same way: no one-off shell commands, every recurring
+operation committed as a Makefile target, script or workflow (see
+[CONVENTIONS.md](CONVENTIONS.md), *Everything is automation*).
 
 ## 1. Development (feature request → merged code)
 
