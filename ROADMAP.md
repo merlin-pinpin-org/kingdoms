@@ -42,7 +42,7 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | services: config system | [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) | todo |
 | services: i18n | [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) | todo |
 | infra: CI/CD | [kingdoms-infra#2](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/2) | done |
-| infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) | todo |
+| infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) | done |
 | infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/4) | done |
 | infra: monitoring | [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) | todo |
 | kingdoms: ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin-org/kingdoms/issues/59) | done |
@@ -123,3 +123,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-25 | auto-sync: [kingdoms#92](https://github.com/merlin-pinpin-org/kingdoms/issues/92) in-review->done; [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) in-review->done; [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) in-review->todo |
 | 2026-09-25 | auto-sync: [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) todo->done |
 | 2026-09-25 | auto-sync: [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) in-review->done |
+| 2026-09-25 | auto-sync: [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) todo->done |
