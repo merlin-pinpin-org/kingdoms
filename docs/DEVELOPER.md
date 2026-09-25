@@ -19,7 +19,7 @@ covers what is specific to working *in this repo*.
 | `docs/PROCESS.md`, `docs/WORKFLOWS.md` | Delivery process, CI/CD workflows |
 | `docs/DECISIONS/` | Architecture decision records |
 | `docs/MODS/<mod-name>/` | Mods documentation (`README.md`, `RULES.md`, `ENVIRONMENT.md`) |
-| `docs/SKILLS/` | Recipes: roadmap sync, dependencies sync, automate-or-learn, restack, stuck-deploy diagnosis |
+| `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, restack-prs, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
 | `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |
 | `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
@@ -40,7 +40,7 @@ The full session checklist (docs validation + roadmap drift +
 dependency-graph drift) runs with `make session-check`; the synced
 artefacts regenerate with `make sync-artifacts` (commit the result to the
 open PR branch). `make restack-<repo>` restacks the stacked PRs of a
-repository (see the [Restack stacked PRs](SKILLS/restack-prs.md) skill).
+repository (see the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md) skill).
 
 It validates: mod docs completeness, Python docstrings in the
 kingdoms-services source, Mermaid block syntax. Fail-closed: it refuses to
@@ -81,8 +81,8 @@ files.
 `ROADMAP.md` and `docs/DEPENDENCIES.md` are regenerated, never hand-edited:
 
 - Change the **issue state** or its `## Dependencies` section instead, then
-  run the sync scripts ([Update roadmap](SKILLS/update-roadmap.md),
-  [Update dependencies](SKILLS/update-dependencies.md)) and commit the
+  run the sync scripts ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
+  [Update dependencies](../.agents/skills/update-dependencies/SKILL.md)) and commit the
   regenerated files to your open PR branch.
 - Statuses needing human judgment (`in-progress`, `blocked`) are set
   manually and preserved by the script.
