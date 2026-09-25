@@ -1,85 +1,86 @@
-# Guide du game designer — décrire une idée, la voir livrée
+# The game designer's guide — describing an idea, following its delivery
 
-Cette page est le point d'entrée du **game designer** : elle explique comment
-transformer une idée en fonctionnalité visible dans Discord, sans jamais
-toucher à un outil technique. Tout le travail technique est fait par l'agent
-(agent sessions) ou par CI — voir [VIBEWORKFLOW.md](VIBEWORKFLOW.md) pour le
-modèle complet et [PROCESS.md](PROCESS.md) pour le détail par rôle.
+> **Français :[le guide du game designer est ici](GAME-DESIGN.fr.md).**
+> The bot speaks English and French (`config/locales/`); this guide is
+> available in both too. This page is the English version.
 
-## Ce que vous faites, concrètement
+This page is the **game designer's** entry point: it explains how to turn
+an idea into a feature visible in Discord, without ever touching a
+technical tool. All the technical work is done by the agent (agent
+sessions) or by CI — see [VIBEWORKFLOW.md](VIBEWORKFLOW.md) for the full
+operating model and [PROCESS.md](PROCESS.md) for the per-role detail.
 
-1. **Vous décrivez l'idée dans une session agent** (Discord ou session).
-   Pas besoin d'un format précis pour commencer — l'agent vous pose des
-   questions et transforme la discussion en **issue GitHub** structurée
-   (objectif, contexte, critères d'acceptation) que vous relisez et validez.
-2. **L'agent implémente et ouvre une PR.** Vous ne suivez pas la PR elle-même :
-   quand l'agent annonce que le déploiement de test est prêt, **vous testez
-   dans Discord** sur le serveur de test.
-3. **Vous validez le comportement** en jouant. C'est votre unique critère de
-   qualité fonctionnelle : est-ce que le bot fait ce que vous aviez en tête ?
-4. **Le développeur (ou ops) relit et fusionne la PR.** Vous n'avez pas besoin
-   de droits de fusion — c'est volontaire.
-5. Pour que la fonctionnalité arrive chez les vrais joueurs, elle doit faire
-   partie d'une **version publiée** (`vX.Y.Z`) — demandez simplement à
-   l'agent « on publie une version ? » et suivez le fil.
+## What you actually do
 
-## Comment bien décrire une idée
+1. **You describe the idea in an agent session** (Discord or session).
+   No format needed to start — the agent asks questions and turns the
+   discussion into a structured **GitHub issue** (objective, context,
+   acceptance criteria) that you re-read and validate.
+2. **The agent implements and opens a PR.** You don't follow the PR
+   itself: when the agent announces the test deployment is ready, **you
+   test in Discord** on the test server.
+3. **You validate the behavior** by playing. This is your only
+   functional quality criterion: does the bot do what you had in mind?
+4. **The developer (or ops) reviews and merges the PR.** You don't need
+   merge rights — that is deliberate.
+5. For the feature to reach real players, it must be part of a
+   **published version** (`vX.Y.Z`) — just ask the agent "shall we
+   publish a version?" and follow along.
 
-Une idée bien décrite économise un aller-retour. Les éléments qui aident
-l'agent (dans n'importe quel ordre, en langage courant) :
+## How to describe an idea well
 
-- **Le résultat attendu vu par un joueur** : « quand un joueur tape
-  `/royaume`, il voit son château et ses ressources ».
-- **Les règles du jeu** : chiffres, durées, limites, ce qui est permis ou
-  interdit. Si une règle vous semble floue, dites-le — l'agent vous aidera
-  à la rendre précise et automatisable.
-- **Un exemple de scénario** : « le joueur A attaque, le joueur B défend,
-  voici ce qui devrait se passer ».
-- **Ce qui ne doit pas changer** : les interactions existantes à préserver.
+A well-described idea saves a round-trip. The elements that help the
+agent (in any order, in plain language):
 
-L'agent **challenge** systématiquement la conception : il peut proposer une
-variante plus simple à automatiser, soulever une contradiction entre deux
-règles, ou découper une grosse idée en étapes livrables une par une. C'est
-normal et voulu — répondez simplement en langage courant.
+- **The expected outcome as a player sees it**: "when a player types
+  `/kingdom`, they see their castle and resources".
+- **The game rules**: numbers, durations, limits, what is allowed or
+  forbidden. If a rule feels fuzzy to you, say so — the agent will help
+  make it precise and automatable.
+- **An example scenario**: "player A attacks, player B defends, here is
+  what should happen".
+- **What must not change**: the existing interactions to preserve.
 
-## Où tester : le serveur de test
+The agent systematically **challenges** the design: it may propose a
+simpler variant to automate, raise a contradiction between two rules,
+or split a big idea into steps deliverable one by one. That is normal
+and intended — just answer in plain language.
 
-- Les fonctionnalités en cours de développement tournent sur le serveur
-  Discord de **test** ; la production (les vrais joueurs) ne reçoit que
-  les versions publiées.
-- Quand un déploiement de test est en cours, la PR porte un **commentaire
-  de suivi** qui affiche sa progression : 🟡 building → 🔵 deploying →
-  🟢 deployed (ou ❌ failed). Si vous voyez ❌, signalez-le simplement à
-  l'agent — le diagnostic est son travail, pas le vôtre.
+## Where to test: the test server
 
-## Lire le /status du bot
+- Features under development run on the **test** Discord server;
+  production (real players) only receives published versions.
+- When a test deployment is in progress, the PR carries a **tracking
+  comment** showing its progress: 🟡 building → 🔵 deploying →
+  🟢 deployed (or ❌ failed). If you see ❌, just report it to the
+  agent — diagnosing is its job, not yours.
 
-La commande `/status` est votre tableau de bord en Discord. En langage
-courant :
+## Reading the bot's /status
 
-- **Version** — la build en cours d'exécution : un lien vers la PR de test,
-  le commit ou la release qui a produit le bot que vous avez sous les yeux.
-- **Infra** — le pipeline qui a déployé cette build (lien vers le run) :
-  preuve que ce que vous testez est bien la dernière livraison.
-- **Admins** — les opérateurs du bot et les admins du serveur : vers qui
-  se tourner si quelque chose ne marche pas.
-- **Games / Mods** — les jeux configurés et les modules actifs.
+The `/status` command is your dashboard in Discord. In plain language:
 
-## Quand quelque chose coince
+- **Version** — the running build: a link to the test PR, the commit or
+  the release that produced the bot you are looking at.
+- **Infra** — the pipeline that deployed this build (link to the run):
+  proof that what you test is the latest delivery.
+- **Admins** — the bot operators and server admins: who to turn to when
+  something does not work.
+- **Games / Mods** — the configured games and active modules.
 
-- **Une commande ne répond pas** : vérifiez `/status` (le bot est-il à
-  jour ?), puis signalez à un admin listé dans le rapport.
-- **Un déploiement échoue** (❌ sur la PR) : l'agent diagnostique avec le
-  runbook prévu — signalez-le, rien à faire de votre côté.
-- **Une idée vous revient** : demandez simplement à l'agent d'ouvrir une
-  issue pour ne pas la perdre ; les issues sont le carnet de bord du
-  projet.
+## When something is stuck
 
-## Ce que vous ne ferez jamais
+- **A command does not respond**: check `/status` (is the bot
+  up to date?), then report to an admin listed in the report.
+- **A deployment fails** (❌ on the PR): the agent diagnoses with the
+  dedicated runbook — report it, nothing to do on your side.
+- **An idea comes back to you**: just ask the agent to open an issue so
+  it is not lost; issues are the project's logbook.
 
-- Écrire ou fusionner du code, lancer des commandes, ouvrir un terminal.
-- Manipuler des secrets, des environnements ou des permissions GitHub.
-- Approuver un déploiement de production (c'est le rôle d'ops).
+## What you will never do
 
-Si une session agent vous propose une commande à copier dans un terminal,
-refusez : c'est un bug de la session, signalez-le.
+- Write or merge code, run commands, open a terminal.
+- Handle secrets, environments or GitHub permissions.
+- Approve a production deployment (that is ops' role).
+
+If an agent session offers you a command to paste in a terminal, refuse:
+it is a bug in the session — report it.
