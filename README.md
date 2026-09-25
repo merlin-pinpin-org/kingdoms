@@ -89,16 +89,28 @@ The `Check Docs` workflow (`scripts/validate_docs.py`) runs on every PR.
 
 ## Contributing
 
-Contributions are made through the vibe-coding workflow:
+You do not need an AI agent to contribute to Kingdoms. The human path:
 
-1. Work is tracked in [GitHub issues](https://github.com/merlin-pinpin-org/kingdoms/issues).
-2. Each issue is developed on a dedicated `vibe/<short-slug>` branch.
-3. A draft pull request is opened for every issue and reviewed before merge.
-4. Documentation must be in **English**; game-related examples may be in French
-   for i18n purposes.
+1. Pick or create an issue (templates are mandatory; blank issues are
+   disabled).
+2. Clone this repo and [`kingdoms-services`](https://github.com/merlin-pinpin-org/kingdoms-services)
+   side by side, create a branch from `main`.
+3. Edit the documentation, then run `make session-check
+   KINGDOMS_SERVICES=../kingdoms-services` — the same validation CI runs
+   on every PR.
+4. If you created or closed issues, regenerate the synced artifacts with
+   `make sync-artifacts` (`ROADMAP.md` and `docs/DEPENDENCIES.md` are
+   generated — never edit them by hand).
+5. Open a pull request; the maintainer merges.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guide and
-the CLA process.
+Documentation must be in **English**; game-related examples may be in
+French for i18n purposes.
+
+The project is primarily built through the vibe-coding workflow (an AI
+agent implements issues on `vibe/<short-slug>` branches — see
+[AGENTS.md](AGENTS.md)), but human contributions follow exactly the same
+checks. See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide and the
+CLA process.
 
 ## License
 

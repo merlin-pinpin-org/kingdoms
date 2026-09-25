@@ -5,7 +5,17 @@
 
 KINGDOMS_SERVICES ?= ../kingdoms-services
 
-.PHONY: session-check sync-artifacts restack-% validate
+.PHONY: help session-check sync-artifacts restack-% validate
+
+# List the available targets (human entry point).
+help:
+	@echo "Kingdoms docs repo — available targets:"
+	@echo "  make help                        — show this help"
+	@echo "  make session-check               — full validation (docs + roadmap + dependencies)"
+	@echo "  make validate                    — docs validation only"
+	@echo "  make sync-artifacts              — regenerate ROADMAP.md and docs/DEPENDENCIES.md"
+	@echo "  make restack-<repo>              — restack the open PRs of a repository"
+	@echo "  KINGDOMS_SERVICES=<path>          — where the kingdoms-services clone lives (default: ../kingdoms-services)"
 
 # Mechanical session checklist: docs validation, roadmap drift,
 # dependency-graph drift. Fails closed with the exact artefacts to fix.
