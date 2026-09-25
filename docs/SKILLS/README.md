@@ -22,7 +22,6 @@ the skills there).
 | [release-flow](../../.agents/skills/release-flow/SKILL.md) | Cut a release (tag, GitHub release, prod pin) on request |
 | [shape-game-designer-idea](../../.agents/skills/shape-game-designer-idea/SKILL.md) | Turn a game designer idea into an automatable issue |
 | [ci-monitoring](../../.agents/skills/ci-monitoring/SKILL.md) | Monitor CI, find root causes, push focused fixes |
-| [discord-ui](../../.agents/skills/discord-ui/SKILL.md) | Build any Discord message through the kingdoms-services UI SDK — bricks, archetypes, navigation-in-buttons rule |
 
 This directory is kept as the documentation entry point; do not add new
 skill pages here — create `.agents/skills/<name>/SKILL.md` instead.
