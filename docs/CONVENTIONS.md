@@ -149,6 +149,13 @@ human carries its full GitHub URL (e.g.
 terminal, so links are their only way to reach the artifacts. A report
 without links is a bug in the session.
 
+**The session hands over the links unprompted (developer-mandated).**
+Whenever the human asks "give me the links", "what do I do next", or any
+question about artifacts, the answer is a **clickable list**: PR URLs,
+release URL, run URLs, state-branch pins — formatted as Markdown links
+with descriptive labels, not bare URLs. The human never has to ask twice
+for the same link.
+
 ## Documentation is part of the change
 
 `kingdoms` is the source of truth: a change in `kingdoms-services` or
