@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  actionlint:
+    name: Lint workflows (actionlint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install actionlint
+        run: |
+          # bash installer from the actionlint releases (checksum-verified
+          # by the script itself); it extracts the binary into the given
+          # directory, so that directory goes on PATH.
+          mkdir -p "$HOME/.local/bin"
+          bash <(curl -fsSL https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash) latest "$HOME/.local/bin"
+          "$HOME/.local/bin/actionlint" --version
+      - name: Run actionlint
+        run: actionlint -color
+
+  services-docs:
+    name: Generate kingdoms-services pydoc
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve the kingdoms-services ref matching this branch
+        run: |
+          # Branch-adaptive source ref: if kingdoms-services carries a branch
+          # with the same name, document that one; otherwise fall back to main.
+          CANDIDATE_REF="${GITHUB_HEAD_REF:-main}"
+          if git ls-remote --exit-code --heads \
+            "https://github.com/merlin-pinpin-org/kingdoms-services.git" \
+            "${CANDIDATE_REF}" >/dev/null 2>&1; then
+            echo "SERVICES_REF=${CANDIDATE_REF}" >> "$GITHUB_ENV"
+          else
+            echo "SERVICES_REF=main" >> "$GITHUB_ENV"
+          fi
+      - name: Checkout kingdoms-services (read-only)
+        uses: actions/checkout@v4
+        with:
+          repository: merlin-pinpin-org/kingdoms-services
+          ref: ${{ env.SERVICES_REF }}
+          path: kingdoms-services
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: "3.12.14"
+      - name: Install dependencies
+        working-directory: kingdoms-services
+        run: uv sync --frozen
+      - name: Generate pydoc
+        working-directory: kingdoms-services
+        run: |
+          uv run python scripts/generate_pydoc.py \
+            --source src/kingdoms \
+            --output "${GITHUB_WORKSPACE}/pydoc-out"
+      - name: Upload pydoc artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kingdoms-services-pydoc
+          path: pydoc-out/
+          retention-days: 30
