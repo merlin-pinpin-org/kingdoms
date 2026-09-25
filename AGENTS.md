@@ -35,6 +35,14 @@ documentation, generated roadmap and dependency graph).
 - **No one-off automation:** every recurring operation is a committed
   Makefile target, script or workflow, and every improvised-but-useful
   command is committed ("learned") — see the
-  [Automate or learn](docs/SKILLS/automate-or-learn.md) skill and
+  [Automate or learn](.agents/skills/automate-or-learn/SKILL.md) skill and
   [docs/CONVENTIONS.md](docs/CONVENTIONS.md), *Human GitHub scope* and
   *Everything is automation*.
+- **Skills** live in [`.agents/skills/`](.agents/skills/) (Agent Skills
+  open standard: one directory per skill, `SKILL.md` with YAML
+  frontmatter). Read a skill's `SKILL.md` when a task matches its
+  description: deploy-and-validate, ci-monitoring, diagnose-deploy,
+  release-flow, shape-game-designer-idea, restack-prs, update-roadmap,
+  update-dependencies. New procedural knowledge goes there — when you
+  learn something new, propose persisting it (see the *Propose to
+  memorize new knowledge* rule in CONVENTIONS.md).

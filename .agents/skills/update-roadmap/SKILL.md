@@ -1,4 +1,9 @@
-# Skill: Update roadmap
+---
+name: update-roadmap
+description: Keep ROADMAP.md in sync with the actual GitHub issue states across the three Kingdoms repos. Use at the end of a session, when issues were created/closed/re-labelled, or when the session-check Makefile target reports roadmap drift.
+---
+
+# Update roadmap
 
 Keep `ROADMAP.md` (repo root) in sync with the actual GitHub issue states
 across the three Kingdoms repos.
@@ -19,7 +24,6 @@ inferred from GitHub state; set them manually — the script preserves them.
    gh issue list --repo merlin-pinpin-org/<repo> --state all --limit 200 \
      --json number,title,state,stateReason
    ```
-
 2. **Run the sync script** from the repo root:
    ```bash
    python3 scripts/sync_roadmap.py
@@ -45,19 +49,15 @@ inferred from GitHub state; set them manually — the script preserves them.
    closing keyword in the PR description (`Closes #N` same-repo,
    `Closes owner/repo#N` cross-repo): this populates the GitHub
    "Development" section and closes the issue on merge.
-
 3. **Fix what the script reports** — it fails (or warns) on: unreadable
    repository (exit 2), open issue missing from the roadmap, unknown
    repository reference, issue not found on GitHub, Out-of-Scope drift
    (exit 3). Re-run until clean.
-
 4. **Verify "Current Phase"**: the lowest phase that still has non-`done`
    issues. Sub-tasks do not affect the phase calculation. The script updates
    it automatically — check it matches intent.
-
 5. **Check the Change Log**: the script appends a dated row whenever a status
    changed or issues were added/removed.
-
 6. **Commit and open a PR** with the title `docs(roadmap): sync with GitHub
    issues` — or commit to the branch of an existing open PR that needs
    the synced roadmap. Review the diff like any PR change.
@@ -78,8 +78,8 @@ inferred from GitHub state; set them manually — the script preserves them.
 
 ## See also
 
-- [../../ROADMAP.md](../../ROADMAP.md) — the roadmap this skill maintains
-- [../../scripts/sync_roadmap.py](../../scripts/sync_roadmap.py) — the
+- [ROADMAP.md](../../../ROADMAP.md) — the roadmap this skill maintains
+- [sync_roadmap.py](../../../scripts/sync_roadmap.py) — the
   automation backing this process (run with `--check` to preview drift)
-- [../../AGENTS.md](../../AGENTS.md) — the rule that triggers this skill at
+- [AGENTS.md](../../../AGENTS.md) — the rule that triggers this skill at
   the end of every session

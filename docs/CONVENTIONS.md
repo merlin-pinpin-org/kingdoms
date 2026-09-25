@@ -60,7 +60,21 @@ to, with the session's learning (pitfalls, pre-flight checks) baked in.
 Sessions have no conversation memory: a command that is not committed is
 knowledge lost. If the answer is genuinely no, the command stays ephemeral
 and is never presented to a human. See the
-[Automate or learn](SKILLS/automate-or-learn.md) skill for the procedure.
+[Automate or learn](../.agents/skills/automate-or-learn/SKILL.md) skill
+for the procedure.
+
+**Propose to memorize new knowledge (developer-mandated).** When a session
+learns to do something new — a procedure, a workaround, a pitfall, a
+command it improvised — it must **propose to the human** to persist it for
+future sessions, stating the destination: a Makefile target or script in
+the repo it belongs to (executable knowledge), a GitHub Actions workflow
+(runs without a session or needs permissions the session lacks), a skill
+page in `.agents/skills/<name>/SKILL.md` (procedural know-how and
+pitfalls), or a rule in `docs/CONVENTIONS.md` / `docs/VIBEWORKFLOW.md`
+(binding convention). On approval (or by default at the end of a session,
+committed to a PR), the knowledge is committed and wired into the docs so
+future sessions discover it. Learning something new and staying silent
+about it is a bug in the session.
 
 A session must never ask a human to run anything, and must never leave a
 recurring operation existing only in a past session's transcript — both
@@ -116,7 +130,7 @@ validation.
 4. **Stack sequential PRs on the same repository.** When several PRs are
    open on one repo, later ones are rebased on their predecessors so the
    developer can merge them in order without conflicts. Run
-   `make restack-<repo>` (the [Restack stacked PRs](SKILLS/restack-prs.md)
+   `make restack-<repo>` (the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md)
    skill) after each merge in a stack and before opening a new PR on a
    repo that already has open ones.
 5. **Group related issues into one PR when the scope is coherent.** One
@@ -179,7 +193,7 @@ workflow that validates it; never leave it unverified.
 
 When a deployment is stuck, run the diagnosis tooling before reporting a
 cause: `make doctor` / `make diagnose-deploy-<env>` in `kingdoms-infra`
-([Diagnose a stuck deploy](SKILLS/diagnose-deploy.md) skill). The most
+([Diagnose a stuck deploy](../.agents/skills/diagnose-deploy/SKILL.md) skill). The most
 common trap: a run left `waiting` for an environment approval holds the
 `deploy-<env>` concurrency group forever, and every newer run stays
 `pending` silently — no notification, and the runner is never even asked.

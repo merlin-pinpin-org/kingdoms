@@ -63,7 +63,7 @@ kingdoms/
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
 - [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
   by `scripts/sync_roadmap.py`; see the
-  [Update roadmap](docs/SKILLS/update-roadmap.md) skill)
+  [Update roadmap](.agents/skills/update-roadmap/SKILL.md) skill)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture
 - [docs/WORKFLOWS.md](docs/WORKFLOWS.md) — game workflows
 - [docs/DECISIONS/](docs/DECISIONS/) — architecture decision records
@@ -72,8 +72,8 @@ kingdoms/
 ## Automation
 
 Generated artifacts (`ROADMAP.md`, `docs/DEPENDENCIES.md`) are refreshed by
-the sync skills ([Update roadmap](docs/SKILLS/update-roadmap.md),
-[Update dependencies](docs/SKILLS/update-dependencies.md)): run
+the sync skills ([Update roadmap](.agents/skills/update-roadmap/SKILL.md),
+[Update dependencies](.agents/skills/update-dependencies/SKILL.md)): run
 `scripts/sync_roadmap.py` / `scripts/sync_dependencies.py` locally and
 commit the result to the PR branch — no rolling automation PR, no ghost PR.
 

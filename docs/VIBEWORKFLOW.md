@@ -123,7 +123,7 @@ the repos. **Learn it or drop it:** whenever a session improvises a command
 or helper script that could be useful again, it commits it — wrapped in a
 Makefile target or script, with the session's learnings baked in. The
 procedure and placement rules live in the
-[Automate or learn](SKILLS/automate-or-learn.md) skill.
+[Automate or learn](../.agents/skills/automate-or-learn/SKILL.md) skill.
 
 ## PR conventions (agent rules, developer-mandated)
 
@@ -157,8 +157,8 @@ flow frictionless:
 ## Generated artifacts sync
 
 `ROADMAP.md` and `docs/DEPENDENCIES.md` are generated artifacts kept in
-sync by the sync skills ([Update roadmap](SKILLS/update-roadmap.md),
-[Update dependencies](SKILLS/update-dependencies.md)): the agent runs the
+sync by the sync skills ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
+[Update dependencies](../.agents/skills/update-dependencies/SKILL.md)): the agent runs the
 sync script locally (`scripts/sync_roadmap.py`,
 `scripts/sync_dependencies.py`), fixes what the script reports, and
 **commits the regenerated artifact to the current PR branch** — never a
@@ -199,7 +199,7 @@ An agent session (which starts with no memory of previous conversations):
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
-   [Update roadmap](SKILLS/update-roadmap.md) skill) and commit the synced
+   [Update roadmap](../.agents/skills/update-roadmap/SKILL.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.
 
 ## Rules

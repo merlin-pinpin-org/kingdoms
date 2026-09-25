@@ -1,4 +1,9 @@
-# Skill: Diagnose a stuck deploy
+---
+name: diagnose-deploy
+description: Diagnose a stuck or pending deployment on kingdoms-infra (test or prod) before suspecting the VPS or runner. Use when a Deploy environment run stays pending/queued for a long time, when a deployment never finishes, or when the developer reports a stuck deploy.
+---
+
+# Diagnose a stuck deploy
 
 A deployment that never finishes is almost never the runner's fault. Run
 the diagnosis tooling **before** suspecting the VPS: in the 2026-09-24 prod
