@@ -201,6 +201,12 @@ An agent session (which starts with no memory of previous conversations):
 6. Report the PR URL; the human reviewer clicks Merge (or asks for changes
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.
+7. **Enrich the docs and skills on your own** (developer-mandated, see
+   *Documentation is part of the change* in
+   [CONVENTIONS.md](CONVENTIONS.md)): when the session's work taught a
+   rule, pitfall or pattern, update the matching skill page, convention
+   or repo `AGENTS.md` entry as part of the change — never wait to
+   be asked.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](../.agents/skills/update-roadmap/SKILL.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.

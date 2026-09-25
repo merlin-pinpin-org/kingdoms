@@ -31,6 +31,11 @@ documentation, generated roadmap and dependency graph).
 - Keep the docs in sync with any change made in `kingdoms-services` or
   `kingdoms-infra` — a code change without its doc update here is
   incomplete.
+- **Enrich the docs and skills proactively** (developer-mandated,
+  CONVENTIONS.md *Documentation is part of the change*): when a
+  session's work teaches a rule, pitfall or pattern, update the
+  matching skill page, convention or AGENTS.md entry as part of the
+  change — never wait to be asked.
 - Issue templates: `## Summary` / `## Details` (blank issues disabled).
 - **No one-off automation:** every recurring operation is a committed
   Makefile target, script or workflow, and every improvised-but-useful
