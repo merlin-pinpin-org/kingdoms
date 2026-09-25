@@ -1,7 +1,7 @@
 # Kingdoms Roadmap
 
 > Single source of truth for project progress. Updated via the
-> [Update roadmap](docs/SKILLS/update-roadmap.md) skill.
+> [Update roadmap](.agents/skills/update-roadmap/SKILL.md) skill.
 
 Status values: `todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`.
 

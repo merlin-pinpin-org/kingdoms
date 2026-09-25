@@ -5,7 +5,7 @@ Queries the GitHub REST API for the three Kingdoms repositories, maps issue
 states to roadmap statuses and rewrites ROADMAP.md in place: milestone table
 rows, "Current Phase", "Out of Scope" and the change log.
 
-Status mapping (docs/SKILLS/update-roadmap.md):
+Status mapping (.agents/skills/update-roadmap/SKILL.md):
 - closed as completed   -> done
 - closed as not planned  -> dropped (row moved to "Out of Scope")
 - open with a linked PR   -> in-review

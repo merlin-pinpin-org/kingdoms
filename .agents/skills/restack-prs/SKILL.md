@@ -1,7 +1,12 @@
-# Skill: Restack stacked PRs
+---
+name: restack-prs
+description: Keep the open pull requests of one repository stacked on each other (rebased on their predecessors) so the developer can merge them in order without conflicts. Use before opening a new PR on a repo that already has open PRs, after a merge in a stack, or when the developer reports a conflict between stacked PRs.
+---
+
+# Restack stacked PRs
 
 Keep the open PRs of one repository stacked on each other (the stacking
-convention of [docs/CONVENTIONS.md](../CONVENTIONS.md)): sequential PRs on
+convention of [docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md)): sequential PRs on
 the same repo are rebased on their predecessors so the developer can merge
 them in order without conflicts.
 
@@ -20,6 +25,7 @@ make restack-kingdoms              # rare: stacked PRs on the docs repo
 ```
 
 Run it:
+
 - **before opening a new PR** on a repo that already has open PRs (the new
   PR branches off the top of the stack);
 - **after a merge** in the stack, so the remaining PRs rebase on the new
