@@ -32,6 +32,10 @@ documentation, generated roadmap and dependency graph).
   `kingdoms-infra` — a code change without its doc update here is
   incomplete.
 - Issue templates: `## Summary` / `## Details` (blank issues disabled).
+- **Issue references** are GitHub autolinks: same-repo `#N`, cross-repo
+  `owner/repo#N` (e.g. `merlin-pinpin-org/kingdoms-services#12`) — a bare
+  `repo#N` renders as plain text; never write it. See CONVENTIONS.md,
+  *Documentation is part of the change*.
 - **No one-off automation:** every recurring operation is a committed
   Makefile target, script or workflow, and every improvised-but-useful
   command is committed ("learned") — see the
