@@ -13,6 +13,23 @@ described in [VIBEWORKFLOW.md](VIBEWORKFLOW.md) — read it first.
 All code, comments, documentation, commit messages, PR titles and PR
 descriptions are written in **English**.
 
+## Git identity of agent sessions (developer-mandated)
+
+Every commit an agent session pushes carries the agent identity —
+`Mistral AI <noreply@mistral.ai>` — and **never a `Co-authored-by`
+trailer naming the human** (the 2026-09-25 #99 incident: the trailer
+made GitHub count the developer as co-author of the PR and blocked the
+approval — the human's Approve/Merge is the trust anchor, it must stay
+possible). Configure it in each clone before the first commit:
+
+```bash
+git config user.name "Mistral AI"
+git config user.email "noreply@mistral.ai"
+```
+
+The human's own commits (rare, bootstrapping) keep the human identity;
+releases, pins and PRs authored by sessions are the agent's.
+
 ## Humans never code
 
 This platform is a pure vibe-coding test: the agent does 100% of the
