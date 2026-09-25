@@ -23,7 +23,13 @@ pure vibe-coding test. Every human technical action is a **click in the
 GitHub web UI**: approving PRs, approving production deployments, and the
 one-time administration (org teams, rulesets, environments, secrets).
 There is deliberately no human CLI step anywhere in the model; agents must
-never propose one (see `AGENTS.md`).
+never propose one (see `AGENTS.md`).**Human GitHub scope (developer-mandated, exhaustive):** humans accept to
+do exactly two recurring things on GitHub — **merge PRs** and **approve
+production deployments** — plus the one-time bootstrapping (org teams,
+rulesets, environments, secrets, runner install). Everything else is the
+agent's job, done through automation. When a session hits a step that
+seems to require another manual action, fix the automation instead (see
+CONVENTIONS.md, *Human GitHub scope*).
 
 The three roles map to GitHub org teams (created once in the web UI by the
 org owner):
@@ -102,6 +108,19 @@ Step by step:
    `deploy/prod` by the release pipeline; its branch ruleset requires a
    pull request, so approving a prod deployment is merging that PR. The bot runs and the game
    designer validates the behavior in Discord.
+
+## Automation mandate (developer-mandated)
+
+**Everything is automation, on both sides of the table.** Humans never
+run commands (above), and sessions never leave recurring operations as
+one-off shell commands: every operation that will be needed again exists
+as a committed Makefile target, script, or GitHub Actions workflow, so
+future sessions (which have no conversation memory) rediscover it from
+the repos. **Learn it or drop it:** whenever a session improvises a command
+or helper script that could be useful again, it commits it — wrapped in a
+Makefile target or script, with the session's learnings baked in. The
+procedure and placement rules live in the
+[Automate or learn](SKILLS/automate-or-learn.md) skill.
 
 ## PR conventions (agent rules, developer-mandated)
 
