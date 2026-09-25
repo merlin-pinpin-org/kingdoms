@@ -5,11 +5,30 @@ description: Cut a release of the Kingdoms bot (tag vX.Y.Z, GitHub release, depl
 
 # Release flow
 
-Releasing is a human-requested, agent-executed pipeline: the agent runs
-`make release` on kingdoms-services, which tags `vX.Y.Z`, and the Docker
-workflow publishes the image, creates the GitHub release and pins it on
-`deploy/prod` (prod-like environments deploy released images only — never
-a PR image).
+Releasing is a human-requested, agent-executed pipeline: the agent tags
+`vX.Y.Z` on `main` (annotated, notes from `scripts/release_notes.sh`), and
+the Docker workflow publishes the image, creates the GitHub release and
+pins it on `deploy/test`; the promotion to prod pins it on `deploy/prod`.
+Prod-like environments deploy released images only — never a PR image.
+
+## The session cannot trigger workflows (developer-mandated)
+
+**An agent session can never launch a GitHub Actions workflow**
+(`workflow_dispatch` and `repository_dispatch` return 403 for the session
+token — this is the trust design, not a permission bug). The **Git push
+is the official path** for everything a session must trigger:
+
+- **tag release** → push the tag: the Docker workflow runs on the tag
+  push and pins the image on `deploy/test`;
+- **promote to prod** → push the pin commit directly on the
+  `deploy/prod` state branch (see *Promotion* below) — the push triggers
+  the `Deploy environment` workflow, which waits for the required
+  reviewers' approval (human click);
+- **deploy a PR to test** → the `/deploy` PR comment (the comment event,
+  not a dispatch, triggers it).
+
+Never report "I cannot deploy because I cannot trigger the workflow":
+use the Git path.
 
 ## Preconditions
 
@@ -32,13 +51,20 @@ a PR image).
 3. **The workflows do the rest**: build and push
    `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z` (plus `sha-<sha>`
    and `main` tags), create the GitHub release, pin the released image on
-   `deploy/prod` (the pin push triggers the prod deploy on the prod
-   runner, gated by the prod environment's required reviewers).
-4. **Watch the prod deploy** with `make watch-deploy` (kingdoms-services)
+   `deploy/test` — the pin push triggers the test deploy.
+4. **Promote to prod (Git path — the official way for sessions)**: the
+   human validates the release in Discord on test, then the session
+   updates `envs/prod/state/kingdoms-bot.yml` on the `deploy/prod` state
+   branch (merge `origin/main` in first, mirroring the Pin state
+   workflow: image, version_label, deploy_url, deploy_ref,
+   deploy_tree_url, deploy_ts, deployed_by, deployed_at), commits with
+   `deploy(prod): pin vX.Y.Z`, and pushes the branch. The push triggers
+   the prod `Deploy environment` run, which **waits for the required
+   reviewers' approval** — link the run to the human, who clicks
+   *Approve and deploy*.
+5. **Watch the prod deploy** with `make watch-deploy` (kingdoms-services)
    — or the kingdoms-infra `make doctor` if anything stays pending (see
-   the [diagnose-deploy](../diagnose-deploy/SKILL.md) skill). Prod
-   deploys need the required reviewers' approval: link the run to the
-   human, who clicks *Approve and deploy*.
+   the [diagnose-deploy](../diagnose-deploy/SKILL.md) skill).
 5. **Post-release**: the game designer validates the release in Discord;
    `/status` shows the release link. Keep the roadmap and dependency
    artifacts in sync (the closed issues change the graph).
