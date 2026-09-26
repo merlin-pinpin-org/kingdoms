@@ -183,6 +183,11 @@ freshness-checked there.
   (`Closes #N` same-repo, `Closes owner/repo#N` cross-repo) — this populates
   the GitHub "Development" section, drives `in-review` detection, and closes
   the issue on merge.
+- **Issue references everywhere** (bodies, comments, `## Dependencies`
+  checkboxes): same-repo as `#N`, cross-repo as `owner/repo#N` (e.g.
+  `merlin-pinpin-org/kingdoms-infra#78`) — GitHub renders both as clickable
+  links with backlinks. A bare `repo#N` (no owner) is plain text on GitHub:
+  never write it, and never use the pre-rename owner `merlin-pinpin/...`.
 
 The `Check Docs` required check runs `scripts/validate_docs.py` on every PR
 — documentation validation never depends on a manual command.

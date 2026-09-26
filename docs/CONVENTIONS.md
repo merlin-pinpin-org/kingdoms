@@ -176,9 +176,15 @@ for the same link.
 ## Documentation is part of the change
 
 `kingdoms` is the source of truth: a change in `kingdoms-services` or
-`kingdoms-infra` without its doc update there is incomplete. Reference
-issues with full repo-qualified identifiers (e.g. `kingdoms-services#12`)
-since cross-repo references are common.
+`kingdoms-infra` without its doc update there is incomplete.
+
+**Issue references use GitHub autolink formats only:** same-repo references
+as `#12`, cross-repo references as `owner/repo#12` (e.g.
+`merlin-pinpin-org/kingdoms-services#12`) — GitHub renders both as links
+with backlinks and timeline entries. A bare `repo#12` (no owner) is **plain
+text**: no link, no backlink — never write it. Never reference the
+pre-rename owner `merlin-pinpin/...` (now a user account) — always
+`merlin-pinpin-org/...`.
 
 ## Issues
 
