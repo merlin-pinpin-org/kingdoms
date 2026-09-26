@@ -167,3 +167,49 @@ The SDK rejects, with a clear `UILayoutError` before anything is sent:
 6. Guard every privileged callback at click time
    (`require_admin(interaction, bot_admins, roles_service)`) —
    visibility is never authorization.
+
+## Localization (one catalog, every surface)
+
+Every user-facing string renders through the shared `MessageCatalog`
+(`config/locales/<locale>.yaml`, one top-level section per surface).
+Slash command names/description go through `locale_str` markers plus
+the `CatalogTranslator` (`kingdoms.discord.commands_i18n`) — the yaml
+`commands.<name>_name` / `commands.<name>_description` keys are the
+only source; never a hardcoded localization dict.
+
+The locale resolution rules:
+
+- **guild messages** — the per-guild language set in `/admin`
+  (`LogService.get_locale`); announcements, lifecycle events, panels;
+- **DMs** — the per-user language set in `/admin` in DM
+  (`user_settings`); DMs follow the user, not a guild;
+- **command entries** — the Discord client locale, through the
+  translator, not the guild's.
+
+Adding a screen or message, the checklist (never skip the sweep):
+
+1. every visible string — labels, hints, placeholders, button labels,
+   select options, section titles — resolves through the catalog:
+   add the keys to **both** `en.yaml` and `fr.yaml` in the same change;
+2. sweep the touched module for hardcoded strings that escaped
+   previous passes (`grep` the literals) — a "Visibility" left in
+   English in a French panel is the classic regression;
+3. render through `MessageCatalog.render`/`section` with the resolved
+   locale — never parse a yaml file from a feature module (one loader);
+4. the parity test: `section()` fills missing locale keys with
+   English, and a new key in one locale only is a bug — keep the
+   key sets identical.
+
+## Views organization (adding a screen)
+
+- one module per surface in `kingdoms/discord/` (admin.py, status.py…):
+  the builders, the callbacks and the command registration together;
+- the layout composition lives in `ui/screens.py` when the shape is
+  reusable (an archetype), in the surface module when it is not;
+- custom IDs keep the `<mod>:<component>:<payload>` convention (the
+  mod is the surface: `admin:`, `status:`, …);
+- labels and urls: prefer an emoji + a short generic label on buttons
+  (🔍 Files, 📦 Image, 🌿 Branch); the full values (sha, tags, ids) ride
+  the text blocks next to the buttons, timestamps render as Discord
+  relative times (`<t:…:R>`) — the footer stays empty or minimal, it
+  never repeats the body.
