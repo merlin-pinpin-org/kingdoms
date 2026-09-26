@@ -144,7 +144,12 @@ flow frictionless:
    while a test deployment is running or can be re-run; the human's
    Discord check is the final acceptance, not a precondition for ready.
    Doc-only or infra-only changes with nothing to redeploy skip the
-   deployment step.
+   deployment step. **The ready transition is not optional and never
+   waits for a reminder** (developer-mandated): as soon as the checks
+   are green, the PR is deployed to test and the agent has verified
+   the deployment, it flips the PR to *ready for review* and files its
+   explicit review/test/merge request — a green, tested PR left in
+   draft is an agent bug.
 3. **Never overwrite another PR's test deployment.** One image runs on
    test at a time: if a different PR is pinned on `deploy/test` under
    validation, don't deploy on top of it. After a merge, re-align test
@@ -206,6 +211,12 @@ An agent session (which starts with no memory of previous conversations):
 6. Report the PR URL; the human reviewer clicks Merge (or asks for changes
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.
+7. **Enrich the docs and skills on your own** (developer-mandated, see
+   *Documentation is part of the change* in
+   [CONVENTIONS.md](CONVENTIONS.md)): when the session's work taught a
+   rule, pitfall or pattern, update the matching skill page, convention
+   or repo `AGENTS.md` entry as part of the change — never wait to
+   be asked.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](../.agents/skills/update-roadmap/SKILL.md) skill) and commit the synced
    `ROADMAP.md` to the current PR branch.

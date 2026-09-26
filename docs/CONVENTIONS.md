@@ -186,6 +186,20 @@ text**: no link, no backlink — never write it. Never reference the
 pre-rename owner `merlin-pinpin/...` (now a user account) — always
 `merlin-pinpin-org/...`.
 
+**Enrich the docs and skills proactively (developer-mandated).** A session
+updates `AGENTS.md`, the vibe-coding docs (`docs/CONVENTIONS.md`,
+`docs/VIBEWORKFLOW.md`, `docs/DEVELOPER.md`…) and the skill pages
+(`.agents/skills/<name>/SKILL.md`) **on its own when the work teachessomething** — a rule, a pitfall, a procedure, a new pattern — withoutbeing asked, as part of the change that taught it. Waiting for the humanto request the doc update is a bug in the session; the knowledge livesin the docs and skills, not in a past session's transcript. Pick the righthome for the knowledge:
+
+- a **skill page** for procedural know-how, pitfalls and usage rules
+  (e.g. `.agents/skills/discord-ui/SKILL.md`);
+- a **convention** in `docs/CONVENTIONS.md` / `docs/VIBEWORKFLOW.md` for
+  binding rules every session must follow;
+- a **repo `AGENTS.md` / `docs/DEVELOPER.md`** entry for repo-local
+  discovery (one-liner plus a link to the skill/convention, no
+  duplication);
+- never the same rule in three places — one home, links elsewhere.
+
 ## Issues
 
 - **Issue templates are mandatory** in all three repos: blank issues are

@@ -49,6 +49,9 @@ precondition for ready.
    [diagnose-deploy](../diagnose-deploy/SKILL.md) skill), fix, redeploy.
 5. **Mark ready and hand over**: `gh pr ready <n>`, then report the PR URL
    and the deployed image and ask the human to test in Discord and merge.
+   This transition is mandatory and never waits for a reminder
+   (developer-mandated): a green, deployed, self-validated PR left in
+   draft is an agent bug.
 
 ## After a merge: re-align test to main?
 
