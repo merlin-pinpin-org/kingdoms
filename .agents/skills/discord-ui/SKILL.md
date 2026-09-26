@@ -66,14 +66,38 @@ In Components V2 text blocks — and **worst in sub-texts / footers
 
 ## Interactive items
 
-- `Action(label, custom_id, on_click, style=…)` — button with an async
-  callback. The custom_id **must** follow
+- `Action(label, custom_id, on_click, style=…, disabled=False)` — button
+  with an async callback. The custom_id **must** follow
   `<mod>:<component>:<payload>` (e.g. `admin:ping:`, `ranking:page:next`);
   the convention is enforced at build time.
 - `SelectMenu(custom_id, options, on_choose, …)` — the callback
   receives `(interaction, chosen_values)`; no digging through
   `interaction.data` in feature code.
 - `Row` holds 1–5 items; a `SelectMenu` sits alone in its row.
+- `disabled=True` renders the button greyed out — for the steps that
+  exist in the design but not yet in the code; a disabled button never
+  wires its callback.
+
+## Runtime permission checks (the click-time mandate)
+
+**Never assume that seeing a button means being allowed to click it.**
+Discord components are visible to whoever can read the channel —
+permissions drift, role removals and channel moves happen between
+render and click. Rules:
+
+- every interactive item behind a privilege validates the interaction
+  **at click time**, through the shared guards
+  (`kingdoms.discord.guards`: `require_admin` / `is_admin`);
+- the admin identity is: `BOT_ADMINS` (env-sourced operators), guild
+  administrators (live Discord permissions), or the `bot-admins` guild
+  role (resolved live through the RolesService, cache-aside Redis);
+- `@app_commands.default_permissions(administrator=True)` only **hides**
+  the command entry in the client UI — it never replaces the runtime
+  check;
+- a denial is answered ephemerally with the reason, and the callback
+  returns immediately;
+- the guard is the one place the check lives: a feature never
+  re-implements it, never caches its result across clicks.
 
 ## Screen archetypes (`screens.py`)
 
@@ -124,3 +148,6 @@ The SDK rejects, with a clear `UILayoutError` before anything is sent:
    never hardcoded.
 5. Assert the wire structure in tests (`to_components()`), and the
    click journey in SimCord for anything interactive.
+6. Guard every privileged callback at click time
+   (`require_admin(interaction, bot_admins, roles_service)`) —
+   visibility is never authorization.
