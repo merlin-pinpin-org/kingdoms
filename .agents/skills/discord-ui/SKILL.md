@@ -99,6 +99,22 @@ render and click. Rules:
 - the guard is the one place the check lives: a feature never
   re-implements it, never caches its result across clicks.
 
+## The admin surface (transparency rule)
+
+Admin messages with actions live in the guild's `🛡-bot-admins`
+channel — never scattered in gameplay channels, never ephemeral-only:
+
+- the channel is provisioned by the AdminChannelService (cache-aside:
+  Redis → Mongo → adoption → creation), visible to the `bot-admins`
+  role, guild administrators and the bot only;
+- the BOT_ADMINS are synced **into** the role — the operator roster is
+  public knowledge, and the role is its visible form;
+- privileges never depend on the role: the guards check `BOT_ADMINS`
+  first (environment-sourced, impossible to strip from Discord);
+  removing the role costs the visibility, not the rights;
+- the sync is one-way (add, never remove) and re-applied at every
+  channel resolution — a manual un-sync never survives.
+
 ## Screen archetypes (`screens.py`)
 
 Prefer a ready-made shape over raw composition:
