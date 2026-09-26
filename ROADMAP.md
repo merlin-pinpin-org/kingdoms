@@ -6,9 +6,17 @@
 Status values: `todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`.
 
 ## Current Phase
-Phase 2 — Foundations (repos structure, architecture docs)
+Phase 3 — MVP v0.3.0 (structural lot + registration mod, milestone [v0.3.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1))
+
+Product plan (post-pivot): see the living document [kingdoms#109](https://github.com/merlin-pinpin-org/kingdoms/issues/109) and epics A→J ([#110](https://github.com/merlin-pinpin-org/kingdoms/issues/110)–[#118](https://github.com/merlin-pinpin-org/kingdoms/issues/118)).
 
 ## Milestones
+
+### Release milestones (kingdoms-services)
+| Milestone | Scope |
+|-----------|-------|
+| [v0.3.0 — Mod registration (MVP)](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10, config #16, ChannelService #5, roles #26, DiscordPlatform #11, UI #13, permission checks #55, DM policy #56, core tests #22) + registration mod #14 — first release with a real mod |
+| [Backlog — post-pivot](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/2) | Valid issues awaiting re-qualification into epics A→J |
 
 ### Phase 1 — Foundations
 | Track | Issue | Status |
@@ -124,3 +132,4 @@ Phase 2 — Foundations (repos structure, architecture docs)
 | 2026-09-25 | auto-sync: [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) todo->done |
 | 2026-09-25 | auto-sync: [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) in-review->done |
 | 2026-09-25 | auto-sync: [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) todo->done |
+| 2026-09-26 | Plan restructure with the game designer: living document kingdoms#109 + epics A→J (#110-#118); milestones v0.3.0 (MVP lot) and Backlog post-pivot created in kingdoms-services; #28 conventional changelog raised to P0 with amended scope (feeds release notes); invalid-labeled issues #3/#5/#7/#8/#11/#22 rehabilitated; current phase 2->3 |
