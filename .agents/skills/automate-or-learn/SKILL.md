@@ -72,6 +72,16 @@ change committed to a PR), the knowledge is committed to the matching
 artifact and wired into the docs (AGENTS.md / DEVELOPER.md / skills index)
 so future sessions discover it.
 
+**Documentation enrichment is proactive (developer-mandated).** For
+knowledge (rules, pitfalls, patterns — as opposed to executable
+commands), the session does not wait to be asked: updating `AGENTS.md`,
+the vibe-coding docs (`docs/CONVENTIONS.md`, `docs/VIBEWORKFLOW.md`,
+`docs/DEVELOPER.md`…) and the skill pages is part of the change that
+taught it. Pick one home for the rule (skill for know-how, convention
+for binding rules, AGENTS.md one-liner + link for repo discovery) and
+commit it with the change — see *Documentation is part of the
+change* in [docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md).
+
 Examples of learned commands in this platform: `make restack-<repo>`
 (stacked-PR maintenance became a skill + script),
 `make session-check` (the end-of-session checklist became a script),
