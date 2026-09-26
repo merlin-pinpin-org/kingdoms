@@ -214,7 +214,12 @@ Run the repo's checks before pushing (see each repo's
 `docs/DEVELOPER.md`): they require public clones only, no credentials —
 keep it that way. **A required status check never uses a `paths:` filter**:
 it must report on every PR, or GitHub blocks the merge of the PRs it
-silently skipped. **Sandbox limits are covered by GitHub Actions**:
+silently skipped. **Never rename a workflow or a workflow job backing a
+required status check**: rulesets match check contexts by exact name, so a
+rename leaves the ruleset waiting for a check that never reports and
+silently blocks every merge — update the live rulesets (admin) and the
+docs/audit lists in the same change, or don't rename. **Sandbox limits are
+covered by GitHub Actions**:
 anything that cannot run in the dev sandbox must be exercised by a CI
 workflow instead — when a check cannot run locally, add or extend the
 workflow that validates it; never leave it unverified.
