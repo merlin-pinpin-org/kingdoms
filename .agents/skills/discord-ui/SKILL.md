@@ -142,6 +142,23 @@ The SDK rejects, with a clear `UILayoutError` before anything is sent:
 - a `custom_id` that breaks the `<mod>:<component>:<payload>`
   convention.
 
+## The V2 wire rule (no `content` on a LayoutView message)
+
+A Components V2 message **cannot carry `content`, `embeds`, `stickers`
+or `poll`** — Discord rejects the request outright (SimCord mirrors
+this with `ComponentValidationError`). The rule:
+
+- **every visible text lives in a `Text` block of the layout**, never
+  in the `send_message(content=...)` argument — sending
+  `content="Clan recruitment"` + `view=LayoutView` raises a 400 at send
+  time, not at build time, so the SDK cannot catch it;
+- the panel title is therefore a `Text("# …")` block, and a journey
+  that needs body text adds it as the first block of the container;
+- the only acceptable `send_message` shape for V2 is
+  `send_message(view=layout_view)` — no `content`, no `embeds`;
+- embeds (`UIEmbed`) are the reverse: they ride `embeds=`, never a
+  `LayoutView`.
+
 ## Testing
 
 - Unit: assert on the serialized wire (`view.to_components()`), with
