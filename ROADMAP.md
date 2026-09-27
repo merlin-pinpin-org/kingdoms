@@ -15,7 +15,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 ### Release milestones (kingdoms-services)
 | Milestone | Scope |
 |-----------|-------|
-| [Lot 1 — Structural](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10 ✱re-raised P0, config #16 ✅, enums #7 ✅, i18n #17 ✅, ChannelService #5, roles #26, UI #13, permission checks #55, DM policy #56, core tests #22 ✅) — unlocks everything downstream, no player-facing mod. Superseded by the seam pivot: DiscordPlatform #11 ✅ (dead skeleton removed) |
+| [Lot 1 — Structural](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10 ✱re-raised P0, config #16 ✅, enums #7 ✅, i18n #17 ✅, ChannelService #5, roles #26, UI #13, permission checks #55, DM policy #56, persistent views #122, core tests #22 ✅) — unlocks everything downstream, no player-facing mod. Superseded by the seam pivot: DiscordPlatform #11 ✅ (dead skeleton removed) |
 | [v0.4.0 — First mods & generic registration](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | Game & data access (AoE2 #27, adapters #8) → channel access policies #57 (✱pulled forward P1 — blocks ladder/clans) → first mods (clans/social #19, ladder #15, tournament 80% #120) → generic mod-registration mechanic #14 (+ DM flow #25) — release when all validated |
 | [Backlog — post-pivot](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/2) | Valid issues awaiting re-qualification into epics A→J |
 
@@ -104,6 +104,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) | done |
 | Runtime permission checks | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) | in-review |
 | DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | in-review |
+| Persistent views & state reconstruction | [kingdoms-services#122](https://github.com/merlin-pinpin-org/kingdoms-services/issues/122) | todo |
 | Channel access + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
 | On-demand role/channel sync | [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) | todo |
 | Deploy announcement | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
