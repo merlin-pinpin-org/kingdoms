@@ -6,7 +6,7 @@
 Status values: `todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`.
 
 ## Current Phase
-Phase 3 — MVP v0.3.0 (structural lot + registration mod, milestone [v0.3.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1))
+Phase 2 — MVP v0.3.0 (structural lot + registration mod, milestone [v0.3.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1))
 
 Product plan (post-pivot): see the living document [kingdoms#109](https://github.com/merlin-pinpin-org/kingdoms/issues/109) and epics A→J ([#110](https://github.com/merlin-pinpin-org/kingdoms/issues/110)–[#118](https://github.com/merlin-pinpin-org/kingdoms/issues/118)).
 
@@ -53,6 +53,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | infra: infra docs | [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) | done |
 | infra: deployment scripts | [kingdoms-infra#4](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/4) | done |
 | infra: monitoring | [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) | todo |
+| infra: post-deploy battery & auto rollback | [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) | todo |
 | kingdoms: ADR-0012 taxonomy & repo strategy | [kingdoms#59](https://github.com/merlin-pinpin-org/kingdoms/issues/59) | done |
 | kingdoms: ADR-0013 cross-platform identity | [kingdoms#60](https://github.com/merlin-pinpin-org/kingdoms/issues/60) | done |
 | kingdoms: ADR-0014 RBAC permissions | [kingdoms#61](https://github.com/merlin-pinpin-org/kingdoms/issues/61) | done |
@@ -72,7 +73,22 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: admin mod | [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) | todo |
 | services: deployment scripts | [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) | todo |
 | services: semantic release | [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) | todo |
-| services: startup announcement (PR link) | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | todo |
+| services: startup announcement (PR link) | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
+
+### Phase 4 — Post-pivot epics (product plan kingdoms#109)
+
+| Track | Issue | Status |
+|-------|-------|--------|
+| kingdoms: product plan (living doc) | [kingdoms#109](https://github.com/merlin-pinpin-org/kingdoms/issues/109) | in-progress |
+| kingdoms: Epic A — Core domain | [kingdoms#110](https://github.com/merlin-pinpin-org/kingdoms/issues/110) | todo |
+| kingdoms: Epic B — Tournament machine | [kingdoms#111](https://github.com/merlin-pinpin-org/kingdoms/issues/111) | todo |
+| kingdoms: Epic C — Game data & drafts | [kingdoms#112](https://github.com/merlin-pinpin-org/kingdoms/issues/112) | todo |
+| kingdoms: Epic D — Ratings & stars | [kingdoms#113](https://github.com/merlin-pinpin-org/kingdoms/issues/113) | todo |
+| kingdoms: Epic E — Presence | [kingdoms#114](https://github.com/merlin-pinpin-org/kingdoms/issues/114) | todo |
+| kingdoms: Epic F — Team maker | [kingdoms#115](https://github.com/merlin-pinpin-org/kingdoms/issues/115) | todo |
+| kingdoms: Epic H — Monetization | [kingdoms#116](https://github.com/merlin-pinpin-org/kingdoms/issues/116) | todo |
+| kingdoms: Epic I — Review & coaching marketplace | [kingdoms#117](https://github.com/merlin-pinpin-org/kingdoms/issues/117) | todo |
+| kingdoms: Epic J — Social & moderation | [kingdoms#118](https://github.com/merlin-pinpin-org/kingdoms/issues/118) | todo |
 
 ### Sub-tasks
 | Sub-task | Parent | Status |
@@ -87,7 +103,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | todo |
 | Channel access + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
 | On-demand role/channel sync | [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) | todo |
-| Deploy announcement | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | todo |
+| Deploy announcement | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
 | AoE2 game service | [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) | todo |
 | On-demand test deployments | [kingdoms-services#54](https://github.com/merlin-pinpin-org/kingdoms-services/issues/54) | done |
 | Docs architecture | [kingdoms#7](https://github.com/merlin-pinpin-org/kingdoms/issues/7) | done |
@@ -133,3 +149,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-25 | auto-sync: [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) in-review->done |
 | 2026-09-25 | auto-sync: [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) todo->done |
 | 2026-09-26 | Plan restructure with the game designer: living document kingdoms#109 + epics A→J (#110-#118); milestones v0.3.0 (MVP lot) and Backlog post-pivot created in kingdoms-services; #28 conventional changelog raised to P0 with amended scope (feeds release notes); invalid-labeled issues #3/#5/#7/#8/#11/#22 rehabilitated; current phase 2->3 |
+| 2026-09-27 | auto-sync: [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) todo->done; current phase 3->2 |
