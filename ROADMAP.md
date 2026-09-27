@@ -102,7 +102,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Registration DM flow | [kingdoms-services#25](https://github.com/merlin-pinpin-org/kingdoms-services/issues/25) | todo |
 | Channel/role mgmt | [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) | in-review |
 | Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) | done |
-| Runtime permission checks | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) | todo |
+| Runtime permission checks | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) | in-review |
 | DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | todo |
 | Channel access + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
 | On-demand role/channel sync | [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) | todo |
@@ -156,3 +156,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) todo->done; [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) todo->in-review |
+| 2026-09-27 | auto-sync: [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) todo->in-review |
