@@ -302,6 +302,38 @@ Why this matters for Kingdoms: the leaderboard channel can have dozens of page
 buttons; a single `DynamicItem` class handles them all, including after
 restarts.
 
+### 3b. State reconstruction contract (binding)
+
+A restart wipes every view instance in memory; Discord keeps the messages.
+The bot must therefore **reconstruct every persistent view and its state
+from the `custom_id` alone**. This contract is binding for every mod:
+
+1. **`timeout=None` + explicit `custom_id`** on every persistent component —
+   a view with a timeout or a generated custom_id dies with its process.
+2. **All state lives in the `custom_id` payload or the database** — never in
+   view/item attributes read by a callback. The only object a callback may
+   trust after a restart is the interaction and what the `custom_id` carries.
+3. **Registration at startup**: persistent views are re-registered with
+   `bot.add_view(...)` and dynamic item classes with
+   `bot.add_dynamic_items(...)` in `setup_hook` — a view the factory does not
+   re-register is dead UI after the next deploy.
+4. **Regex templates extend the convention**: a `DynamicItem` template must
+   keep the `<mod>:<component>:<payload>` shape
+   (e.g. `r"clans:join:(?P<clan_id>[0-9a-f]+)"`) so the component router and
+   the runtime permission checks keep working; the payload group must accept
+   the **100-character custom_id limit** (keep payloads compact — IDs, not
+   text).
+5. **Callbacks stay policy-blind**: rendering (`render_for`, #56) and
+   authorization (`require_permission`, #55) are derived at interaction
+   time from the `custom_id` and the declared policy — a reconstructed view
+   never re-applies destination policies on its own.
+
+A corollary for the archetypes (`PaginationView` & co.): views carrying
+**ephemeral session state** (the current page in memory) are fine for
+in-place navigation during one session, but must not be used for panels
+meant to survive restarts; a persistent pager encodes the page in the
+payload (`ladder:page:3`) and reconstructs it via `from_custom_id`.
+
 ## 4. Modals (text input forms)
 
 ```python
