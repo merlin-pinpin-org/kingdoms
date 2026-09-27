@@ -230,3 +230,63 @@ Adding a screen or message, the checklist (never skip the sweep):
   the text blocks next to the buttons, timestamps render as Discord
   relative times (`<t:…:R>`) — the footer stays empty or minimal, it
   never repeats the body.
+
+## Proactivity mandate (know the whole discord.py surface)
+
+The game designer and the developer are **not always aware of what
+Discord offers**. The session is the expert of the platform surface:
+it must know everything available in discord.py (verified against the
+installed version), **propose** features that use it when relevant,
+and document what exists before documenting how to use it. When a
+game-design idea maps to a native Discord capability, propose it
+first — a native feature costs less and behaves better than a
+hand-rolled one.
+
+Rule: at the start of any UI/feature design discussion, sweep this
+inventory for what fits; mention the candidates to the designer even
+when unasked. New capabilities discovered mid-session are added here
+(announce the memorization to the user — they can veto it).
+
+## Untapped capabilities inventory (discord.py 2.7.1, verified)
+
+Capabilities available but not yet used by the platform. Each becomes
+a "How to use" section the day a feature needs it:
+
+- **Polls** — `discord.Poll(question, duration=timedelta, multiple=…)`
+  with `.add_answer(text=…, emoji=…)`, sent via `Message.poll` /
+  `send(poll=…)`; `Message.end_poll()` closes it; results via
+  `PollAnswer.voters` fetch. Native multi-choice votes (map pools,
+  rule votes, MVP elections) — no hand-rolled reaction counting.
+- **Threads** — public/private/archived, `TextChannel.create_thread`,
+  `Message.create_thread(name, auto_archive_duration=…)`,
+  `Thread.add_member`/`remove_member`, slowmode per thread.
+  Per-match or per-tournament discussion spaces without channel
+  sprawl; `per_instance` mod channels can be threads.
+- **Forum channels** — `ForumChannel.create_thread` with tags
+  (`ForumTag`), required tags, layout. Clan recruitment boards,
+  tournament announcements, report queues with categories.
+- **Scheduled events** — `Guild.create_scheduled_event`
+  (stage/voice/external, start/end times, image, recurrence via
+  the API), subscribers listing. Tournament sessions, match
+  schedules, season openings with native RSVP + reminders.
+- **Voice / stage** — `Guild.create_voice_channel`, `create_stage_channel`,
+  `Member.move_to`, mute/deafen, `VoiceChannel.connect` (the bot can
+  speak). Tournament casting stages, team voice pickups.
+- **Webhooks** — `Webhook`/`PartialWebhook` follow (channels can
+  relay), `TextChannel.create_webhook(name, avatar)` posting with a
+  custom identity per message. Match feeds posting as "AOE2 Bot",
+  clan channels posting as the clan.
+- **AutoMod** — `AutoModRule` (block/flag/timeout on keyword/mention/
+  spam patterns, per-channel/rule exemptions). Tournament channel
+  anti-spam without custom message scanning.
+- **Reactions** — `Message.add_reaction`, `Reaction.users`, reaction
+  removal; cheap RSVP/interest markers where a poll is overkill.
+- **Guild membership screening / onboarding** — `Guild.onboarding`
+  (prompts, default channels/roles), `membership_screening` fields.
+  Newcomer routing to the registration flow.
+- **Message attributes** — pinning (`pin()`), crossposting
+  (`Message.publish` in announcement channels), `Message.edit`
+  (component refresh in place), bulk delete (`purge`).
+
+Anything missing from this list that a session uses must be added
+here in the same change (the sweep is a loop, not a one-shot).
