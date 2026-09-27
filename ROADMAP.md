@@ -15,7 +15,8 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 ### Release milestones (kingdoms-services)
 | Milestone | Scope |
 |-----------|-------|
-| [v0.3.0 — Mod registration (MVP)](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10, config #16, ChannelService #5, roles #26, DiscordPlatform #11, UI #13, permission checks #55, DM policy #56, core tests #22) + registration mod #14 — first release with a real mod |
+| [Lot 1 — Structural](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10, config #16, ChannelService #5, roles #26, DiscordPlatform #11, UI #13, permission checks #55, DM policy #56, core tests #22) — unlocks everything downstream, no player-facing mod |
+| [v0.4.0 — First mods & generic registration](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | Game & data access (AoE2 #27, adapters #8) → first mods (clans/social #19, ladder #15, automated tournament #120) → generic mod-registration mechanic #14 (+ DM flow #25) — release when all validated |
 | [Backlog — post-pivot](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/2) | Valid issues awaiting re-qualification into epics A→J |
 
 ### Phase 1 — Foundations
@@ -69,10 +70,11 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) | todo |
 | services: registration mod | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) | todo |
 | services: ladder mod | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) | todo |
+| services: automated tournament mod | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) | todo |
 | services: clans mod | [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19) | todo |
 | services: admin mod | [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) | todo |
 | services: deployment scripts | [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) | todo |
-| services: semantic release | [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) | todo |
+| services: semantic release | [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) | in-review |
 | services: startup announcement (PR link) | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
 
 ### Phase 4 — Post-pivot epics (product plan kingdoms#109)
@@ -150,3 +152,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-25 | auto-sync: [kingdoms-infra#3](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/3) todo->done |
 | 2026-09-26 | Plan restructure with the game designer: living document kingdoms#109 + epics A→J (#110-#118); milestones v0.3.0 (MVP lot) and Backlog post-pivot created in kingdoms-services; #28 conventional changelog raised to P0 with amended scope (feeds release notes); invalid-labeled issues #3/#5/#7/#8/#11/#22 rehabilitated; current phase 2->3 |
 | 2026-09-27 | auto-sync: [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) todo->done; current phase 3->2 |
+| 2026-09-27 | auto-sync: [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) todo->in-review |
