@@ -39,9 +39,9 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 ### Phase 2 — Core
 | Track | Issue | Status |
 |-------|-------|--------|
-| services: IPlatform | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) | todo |
+| services: IPlatform | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) | done |
 | services: DB models | [kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4) | done |
-| services: ChannelService | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) | todo |
+| services: ChannelService | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) | in-review |
 | services: WorkflowEngine | [kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6) | done |
 | services: enums | [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) | todo |
 | services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) | todo |
@@ -154,3 +154,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-26 | Plan restructure with the game designer: living document kingdoms#109 + epics A→J (#110-#118); milestones v0.3.0 (MVP lot) and Backlog post-pivot created in kingdoms-services; #28 conventional changelog raised to P0 with amended scope (feeds release notes); invalid-labeled issues #3/#5/#7/#8/#11/#22 rehabilitated; current phase 2->3 |
 | 2026-09-27 | auto-sync: [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) todo->done; current phase 3->2 |
 | 2026-09-27 | auto-sync: [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) todo->in-review |
+| 2026-09-27 | auto-sync: [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) todo->done; [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) todo->in-review |
