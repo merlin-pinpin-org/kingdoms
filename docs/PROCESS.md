@@ -122,15 +122,24 @@ backup → compose up → health gate → automatic rollback on failure**.
 
 **Flow:**
 
-1. The game designer says "release this" in a session; the agent prepares
-   the version (changelog summary, tag `vX.Y.Z`, GitHub release).
+1. The game designer says "release this" in a session; the agent runs
+   `make release` (or `make pre-release` for a validation cycle) — the
+   version is **computed by the conventional changelog** from the commits
+   since the last release (`feat` → minor, `fix` → patch, `BREAKING` →
+   major), never hand-picked; a pre-release appends the first free
+   `-rc<n>` classifier on the same base and the final release drops the
+   classifier on the base the rc cycle validated.
 2. Tag and release permissions are **enforced by GitHub** (rulesets); the
    agent executes, it is not granted by convention.
 3. Pushing the tag makes the `kingdoms-services` Docker workflow publish
    the **released image** `ghcr.io/merlin-pinpin-org/kingdoms-services:vX.Y.Z`
-   and then pin it on `deploy/test` (dispatch to the infra `Pin state`
-   workflow, written by the kingdoms-deployer App) — the release is
-   **validated on the test environment** before any production deploy.
+   (or `vX.Y.Z-rc<n>` for a pre-release) and then pin it on `deploy/test`
+   (dispatch to the infra `Pin state` workflow, written by the
+   kingdoms-deployer App) — the release is **validated on the test
+   environment** before any production deploy. Pre-releases headline as
+   `Pre-release` in `/status`; a final release is celebrated (🎉 Version).
+   A `-rc` tag is **never promotable to prod** — the `Promote release`
+   workflow refuses it; cutting the final release is the only path.
    Tag creation is gated by a GitHub ruleset with the tag-name classifier
    `v*.*.*` — strict `vX.Y.Z` releases only; other tag names are rejected,
    and production never runs anything but a released image — a commit-SHA
