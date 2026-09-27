@@ -323,6 +323,7 @@ flowchart LR
 | RBAC grants | **Uniform rights** — one permission model enforced in the application layer for every frontend | [ADR-0014](DECISIONS/014-rbac-permissions.md) |
 | Webapp API boundary | **Single business path** — webapp is a request/response frontend over the application layer, not an `IPlatform` | [ADR-0015](DECISIONS/015-webapp-api-boundary.md) |
 | Packaging trajectory | **Boundaries as packages** — uv workspace now, private index on first external consumer, public PyPI only by explicit decision | [ADR-0017](DECISIONS/017-packaging-distribution.md) |
+| Modular monolith + extraction contracts | **No premature microservices** — one runtime until an ADR-0012 trigger fires; seams stay network-ready (serializable, own state, typed errors, idempotent) | [ADR-0019](DECISIONS/019-modular-monolith-extraction-contracts.md) |
 | MongoDB | **Flexibility** — dynamic schemas for evolving workflow payloads | — |
 | Redis + MongoDB state split | **Responsiveness** — hot state in Redis, durability in MongoDB | [ADR-0002](DECISIONS/002-workflow-engine.md) |
 | Channel categories | **Portability** — same mod on any server without code changes | [ADR-0003](DECISIONS/003-channel-categories.md) |
