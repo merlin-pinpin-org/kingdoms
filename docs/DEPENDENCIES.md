@@ -19,9 +19,9 @@ Sizes (`size/XS..XL`) map to points (1, 3, 5, 8, 13).
 
 ## Critical path
 
-Total: **60 pts**. Critical path:
+Total: **37 pts**. Critical path:
 
-[kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) -> [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) -> [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) -> [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) -> [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) -> [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) -> [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) -> [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) -> [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) -> [kingdoms-services#121](https://github.com/merlin-pinpin-org/kingdoms-services/issues/121)
+[kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) -> [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) -> [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) -> [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) -> [kingdoms-services#121](https://github.com/merlin-pinpin-org/kingdoms-services/issues/121)
 
 ## Dependency graph
 
@@ -31,95 +31,32 @@ flowchart LR
     ks_120["#120 Implement the automated tournament mod (Epic B, zero-admin tournaments)"]
     ks_58["#58 Sub-task: On-demand role & channel sync (admin command, idempotent)"]
     ks_57["#57 Sub-task: Channel access policies per category + drift alerting"]
-    ks_56["#56 Sub-task: DM vs channel message policy (personalized DMs, public-only channel content)"]
-    ks_55["#55 Sub-task: Runtime permission checks for component actions (role-based)"]
-    ks_28["#28 Set up Conventional Changelog (semantic release)"]
     ks_27["#27 Sub-task: AoE2 game microservice (generic IGameProvider)"]
-    ks_26["#26 Sub-task: Generic channel/role management per mod"]
     ks_25["#25 Sub-task: Registration DM enrollment flow"]
-    ks_24["#24 Sub-task: MockDiscord full test framework"]
-    ks_23["#23 Sub-task: MongoDB + Redis caching integration"]
-    ks_22["#22 Sub-task: Unit tests for core services"]
     ks_21["#21 [Phase 3] Implement admin mod"]
     ks_20["#20 [Phase 1] Create deployment scripts"]
     ks_19["#19 [Phase 3] Implement clans mod"]
-    ks_17["#17 [Phase 2] Implement i18n system"]
-    ks_16["#16 [Phase 2] Create config system"]
     ks_15["#15 [Phase 3] Implement ladder mod"]
     ks_14["#14 [Phase 3] Implement registration mod"]
-    ks_13["#13 [Phase 3] Create UI components"]
-    ks_11["#11 [Phase 3] Implement DiscordPlatform"]
-    ks_10["#10 [Phase 2] Create exception handling system"]
     ks_8["#8 [Phase 3] Create adapters"]
-    ks_7["#7 [Phase 2] Create enumerations"]
-    ks_5["#5 [Phase 2] Implement ChannelService"]
-    ks_3["#3 [Phase 2] Implement IPlatform"]
     ki_78["#78 [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback"]
     ki_5["#5 [Phase 2] Configure monitoring"]
     ks_120 --> ks_121
-    ks_5 --> ks_120
     ks_15 --> ks_120
     ks_27 --> ks_120
-    ks_5 --> ks_58
-    ks_26 --> ks_58
-    ks_55 --> ks_58
     ks_57 --> ks_58
-    ks_3 --> ks_57
-    ks_5 --> ks_57
-    ks_26 --> ks_57
-    ks_13 --> ks_56
-    ks_17 --> ks_56
-    ks_55 --> ks_56
-    ks_3 --> ks_55
-    ks_26 --> ks_55
     ks_8 --> ks_27
     ks_15 --> ks_27
-    ks_3 --> ks_26
-    ks_5 --> ks_26
-    ks_5 --> ks_25
     ks_14 --> ks_25
-    ks_17 --> ks_25
-    ks_55 --> ks_25
-    ks_56 --> ks_25
-    ks_3 --> ks_24
-    ks_3 --> ks_22
-    ks_5 --> ks_22
     ks_14 --> ks_21
-    ks_16 --> ks_21
-    ks_17 --> ks_21
-    ks_55 --> ks_21
     ks_57 --> ks_21
     ks_58 --> ks_21
-    ks_5 --> ks_19
-    ks_16 --> ks_19
-    ks_17 --> ks_19
-    ks_55 --> ks_19
-    ks_56 --> ks_19
     ks_57 --> ks_19
-    ks_16 --> ks_17
-    ks_5 --> ks_15
-    ks_10 --> ks_15
-    ks_55 --> ks_15
-    ks_56 --> ks_15
     ks_57 --> ks_15
     ks_15 --> ks_14
     ks_19 --> ks_14
-    ks_5 --> ks_14
-    ks_13 --> ks_14
-    ks_16 --> ks_14
-    ks_17 --> ks_14
-    ks_55 --> ks_14
-    ks_56 --> ks_14
-    ks_11 --> ks_13
-    ks_55 --> ks_13
-    ks_3 --> ks_11
-    ks_7 --> ks_11
-    ks_8 --> ks_11
-    ks_3 --> ks_8
-    ks_3 --> ks_5
-    ks_7 --> ks_5
     classDef critical fill:#ffe0e0,stroke:#d43d51,stroke-width:3px;
-    class ks_3,ks_5,ks_26,ks_55,ks_13,ks_56,ks_15,ks_27,ks_120,ks_121 critical
+    class ks_57,ks_15,ks_27,ks_120,ks_121 critical
 ```
 
 ## Waves (parallelisable batches)
@@ -131,68 +68,28 @@ worked on in parallel.
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 55 |
-| [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | `M` (5) | `P2` | 55 |
-| [kingdoms-services#23](https://github.com/merlin-pinpin-org/kingdoms-services/issues/23) — Sub-task: MongoDB + Redis caching integration | `M` (5) | `P3` | 55 |
-| [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) — [Phase 2] Create exception handling system | `S` (3) | `P3` | 25 |
-| [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) — [Phase 2] Create config system | `S` (3) | `P3` | 17 |
-| [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 57 |
-| [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | `S` (3) | `P3` | 57 |
-| [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | `S` (3) | `P0` | 0 |
-| [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) — [Phase 2] Create enumerations | `XS` (1) | `P1` | 2 |
+| [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 32 |
+| [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | `M` (5) | `P2` | 32 |
+| [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | `M` (5) | `P1` | 0 |
+| [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) — [Phase 3] Create adapters | `M` (5) | `P2` | 8 |
+| [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 34 |
 
 **Wave 1**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
-| [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) — [Phase 2] Implement ChannelService | `M` (5) | `P0` | 0 |
-| [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) — [Phase 3] Create adapters | `M` (5) | `P2` | 5 |
-| [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) — [Phase 2] Implement i18n system | `S` (3) | `P3` | 17 |
-| [kingdoms-services#24](https://github.com/merlin-pinpin-org/kingdoms-services/issues/24) — Sub-task: MockDiscord full test framework | `S` (3) | `P3` | 54 |
-
-**Wave 2**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
-| [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11) — [Phase 3] Implement DiscordPlatform | `M` (5) | `P2` | 5 |
-| [kingdoms-services#22](https://github.com/merlin-pinpin-org/kingdoms-services/issues/22) — Sub-task: Unit tests for core services | `M` (5) | `P3` | 47 |
-| [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) — Sub-task: Generic channel/role management per mod | `M` (5) | `P0` | 0 |
-
-**Wave 3**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
-| [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) — Sub-task: Runtime permission checks for component actions (role-based) | `M` (5) | `P0` | 0 |
-| [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | `M` (5) | `P2` | 10 |
-
-**Wave 4**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
-| [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) — [Phase 3] Create UI components | `M` (5) | `P0` | 0 |
-| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | `M` (5) | `P3` | 32 |
-
-**Wave 5**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
-| [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) — Sub-task: DM vs channel message policy (personalized DMs, public-only channel content) | `M` (5) | `P0` | 0 |
-
-**Wave 6**
-
-| Issue | Size | Priority | Slack |
-| ----- | ---- | -------- | ----- |
 | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) — [Phase 3] Implement ladder mod | `L` (8) | `P0` | 0 |
 | [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19) — [Phase 3] Implement clans mod | `M` (5) | `P2` | 14 |
+| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | `M` (5) | `P3` | 22 |
 
-**Wave 7**
+**Wave 2**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
 | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) — [Phase 3] Implement registration mod | `L` (8) | `P0` | 11 |
 | [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) — Sub-task: AoE2 game microservice (generic IGameProvider) | `L` (8) | `P0` | 0 |
 
-**Wave 8**
+**Wave 3**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
@@ -200,7 +97,7 @@ worked on in parallel.
 | [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) — [Phase 3] Implement admin mod | `M` (5) | `P2` | 11 |
 | [kingdoms-services#25](https://github.com/merlin-pinpin-org/kingdoms-services/issues/25) — Sub-task: Registration DM enrollment flow | `M` (5) | `P2` | 11 |
 
-**Wave 9**
+**Wave 4**
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
@@ -210,32 +107,17 @@ worked on in parallel.
 
 | Issue | Phase | Size | Priority | Slack | Depends on |
 | ----- | ----- | ---- | -------- | ----- | ---------- |
-| [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 55 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-infra#2](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/2)~~ ✅ |
-| [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | 2 | `M` | `P2` | 55 | — |
-| [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) — [Phase 2] Implement IPlatform | 2 | `S` | `P0` | 0 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
-| [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) — [Phase 2] Implement ChannelService | 2 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅ |
-| [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) — [Phase 2] Create enumerations | 2 | `XS` | `P1` | 2 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
-| [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) — [Phase 3] Create adapters | 3 | `M` | `P2` | 5 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) |
-| [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) — [Phase 2] Create exception handling system | 2 | `S` | `P3` | 25 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
-| [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11) — [Phase 3] Implement DiscordPlatform | 3 | `M` | `P2` | 5 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7), [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅ |
-| [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) — [Phase 3] Create UI components | 3 | `M` | `P0` | 0 | [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) |
-| [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) — [Phase 3] Implement registration mod | 3 | `L` | `P0` | 11 | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15), [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13), [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56), ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) — [Phase 3] Implement ladder mod | 3 | `L` | `P0` | 0 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) — [Phase 2] Create config system | 2 | `S` | `P3` | 17 | ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
-| [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) — [Phase 2] Implement i18n system | 2 | `S` | `P3` | 17 | [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16), ~~[kingdoms-services#1](https://github.com/merlin-pinpin-org/kingdoms-services/issues/1)~~ ✅ |
-| [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19) — [Phase 3] Implement clans mod | 3 | `M` | `P2` | 14 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | 1 | `S` | `P3` | 57 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) — [Phase 3] Implement admin mod | 3 | `M` | `P2` | 11 | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14), [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58), ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
-| [kingdoms-services#22](https://github.com/merlin-pinpin-org/kingdoms-services/issues/22) — Sub-task: Unit tests for core services | 2 | `M` | `P3` | 47 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), ~~[kingdoms-services#2](https://github.com/merlin-pinpin-org/kingdoms-services/issues/2)~~ ✅, ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅ |
-| [kingdoms-services#23](https://github.com/merlin-pinpin-org/kingdoms-services/issues/23) — Sub-task: MongoDB + Redis caching integration | 2 | `M` | `P3` | 55 | ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅ |
-| [kingdoms-services#24](https://github.com/merlin-pinpin-org/kingdoms-services/issues/24) — Sub-task: MockDiscord full test framework | 3 | `S` | `P3` | 54 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), ~~[kingdoms-services#2](https://github.com/merlin-pinpin-org/kingdoms-services/issues/2)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅ |
-| [kingdoms-services#25](https://github.com/merlin-pinpin-org/kingdoms-services/issues/25) — Sub-task: Registration DM enrollment flow | 3 | `M` | `P2` | 11 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56), ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅ |
-| [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) — Sub-task: Generic channel/role management per mod | 3 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
+| [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | 2 | `M` | `P3` | 32 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-infra#2](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/2)~~ ✅ |
+| [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | 2 | `M` | `P2` | 32 | — |
+| [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) — [Phase 3] Create adapters | 3 | `M` | `P2` | 8 | ~~[kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3)~~ ✅ |
+| [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) — [Phase 3] Implement registration mod | 3 | `L` | `P0` | 11 | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15), [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19), ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13)~~ ✅, ~~[kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16)~~ ✅, ~~[kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅, ~~[kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56)~~ ✅ |
+| [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) — [Phase 3] Implement ladder mod | 3 | `L` | `P0` | 0 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9)~~ ✅, ~~[kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅, ~~[kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56)~~ ✅ |
+| [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19) — [Phase 3] Implement clans mod | 3 | `M` | `P2` | 14 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#4](https://github.com/merlin-pinpin-org/kingdoms-services/issues/4)~~ ✅, ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16)~~ ✅, ~~[kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅, ~~[kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56)~~ ✅ |
+| [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | 1 | `S` | `P3` | 34 | ~~[kingdoms-infra#1](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/1)~~ ✅, ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅ |
+| [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) — [Phase 3] Implement admin mod | 3 | `M` | `P2` | 11 | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58), ~~[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)~~ ✅, ~~[kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16)~~ ✅, ~~[kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅ |
+| [kingdoms-services#25](https://github.com/merlin-pinpin-org/kingdoms-services/issues/25) — Sub-task: Registration DM enrollment flow | 3 | `M` | `P2` | 11 | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14), ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6)~~ ✅, ~~[kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅, ~~[kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56)~~ ✅ |
 | [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) — Sub-task: AoE2 game microservice (generic IGameProvider) | 3 | `L` | `P0` | 0 | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8), [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) |
-| [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) — Set up Conventional Changelog (semantic release) | 2 | `S` | `P3` | 57 | ~~[kingdoms-infra#2](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/2)~~ ✅ |
-| [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) — Sub-task: Runtime permission checks for component actions (role-based) | 3 | `M` | `P0` | 0 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) |
-| [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) — Sub-task: DM vs channel message policy (personalized DMs, public-only channel content) | 3 | `M` | `P0` | 0 | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13), [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) |
-| [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | 3 | `M` | `P2` | 10 | [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3), [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) |
-| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | 3 | `M` | `P3` | 32 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26), [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55), [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35)~~ ✅ |
-| [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) — Implement the automated tournament mod (Epic B, zero-admin tournaments) | 3 | `L` | `P0` | 0 | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5), [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15), [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27) |
+| [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | 3 | `M` | `P1` | 0 | ~~[kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3)~~ ✅, ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26)~~ ✅ |
+| [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) — Sub-task: On-demand role & channel sync (admin command, idempotent) | 3 | `M` | `P3` | 22 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57), ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅, ~~[kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26)~~ ✅, ~~[kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35)~~ ✅, ~~[kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55)~~ ✅ |
+| [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) — Implement the automated tournament mod (Epic B, zero-admin tournaments) | 3 | `L` | `P0` | 0 | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15), [kingdoms-services#27](https://github.com/merlin-pinpin-org/kingdoms-services/issues/27), ~~[kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5)~~ ✅ |
 | [kingdoms-services#121](https://github.com/merlin-pinpin-org/kingdoms-services/issues/121) — Full-auto tournament mode (auto rounds, auto seeding, scheduled seasons — after the 80% mode is proven) | 3 | `L` | `P3` | 0 | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) |
