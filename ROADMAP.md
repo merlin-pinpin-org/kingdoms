@@ -67,7 +67,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 |-------|-------|--------|
 | services: DiscordPlatform | [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11) | todo |
 | services: Bot structure | [kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12) | done |
-| services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) | todo |
+| services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) | in-review |
 | services: registration mod | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) | todo |
 | services: ladder mod | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) | todo |
 | services: tournament mod (80% operator-assisted) | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) | todo |
@@ -157,3 +157,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#3](https://github.com/merlin-pinpin-org/kingdoms-services/issues/3) todo->done; [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) todo->in-review |
+| 2026-09-27 | auto-sync: [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) todo->in-review |
