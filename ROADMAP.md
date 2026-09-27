@@ -16,7 +16,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Milestone | Scope |
 |-----------|-------|
 | [Lot 1 — Structural](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10, config #16, ChannelService #5, roles #26, DiscordPlatform #11, UI #13, permission checks #55, DM policy #56, core tests #22) — unlocks everything downstream, no player-facing mod |
-| [v0.4.0 — First mods & generic registration](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | Game & data access (AoE2 #27, adapters #8) → first mods (clans/social #19, ladder #15, automated tournament #120) → generic mod-registration mechanic #14 (+ DM flow #25) — release when all validated |
+| [v0.4.0 — First mods & generic registration](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | Game & data access (AoE2 #27, adapters #8) → first mods (clans/social #19, ladder #15, tournament 80% #120) → generic mod-registration mechanic #14 (+ DM flow #25) — release when all validated |
 | [Backlog — post-pivot](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/2) | Valid issues awaiting re-qualification into epics A→J |
 
 ### Phase 1 — Foundations
@@ -70,7 +70,8 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) | todo |
 | services: registration mod | [kingdoms-services#14](https://github.com/merlin-pinpin-org/kingdoms-services/issues/14) | todo |
 | services: ladder mod | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) | todo |
-| services: automated tournament mod | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) | todo |
+| services: tournament mod (80% operator-assisted) | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) | todo |
+| services: full-auto tournament mode | [kingdoms-services#121](https://github.com/merlin-pinpin-org/kingdoms-services/issues/121) | todo |
 | services: clans mod | [kingdoms-services#19](https://github.com/merlin-pinpin-org/kingdoms-services/issues/19) | todo |
 | services: admin mod | [kingdoms-services#21](https://github.com/merlin-pinpin-org/kingdoms-services/issues/21) | todo |
 | services: deployment scripts | [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) | todo |
