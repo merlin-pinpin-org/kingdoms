@@ -153,6 +153,27 @@ validation.
 5. **Group related issues into one PR when the scope is coherent.** One
    focused PR per coherent scope beats one PR per sub-issue; the PR body
    lists the covered issues.
+5-bis. **One active PR per repo per vibe-coding session
+   (developer-mandated).** A session opens a single PR per repo and
+   grows it as the session progresses: new work is amended into clean,
+   coherent, sequential commits (`git rebase` the branch and re-commit
+   by logical unit) instead of piling up "fixup" commits. The PR's
+   commit list reads like the squashed PRs of the old flow — each
+   commit is a self-contained logical unit that passes the checks on
+   its own, ordered so the story reads sequentially. The session
+   merges only at the end; mid-session is amend/rebase, never merge.
+   A partial merge stays possible on demand: open a separate PR for
+   the part to ship, wait for it to be merged, then continue on the
+   session's main PR (rebased). Two scopes in one session means two
+   conversations (two Mistral sessions), two PRs, advanced in parallel
+   without stepping on each other.
+
+   **PR title convention (developer-mandated):** the session PR title
+   mirrors the conversation title — `vibe[<user>] <conversation title>`
+   — e.g. `vibe[merlin-pinpin] Bot logs & admin surface`. `<user>` is
+   the GitHub login of the human who ran the session; the session name
+   comes from the conversation title. The branch keeps the
+   `vibe/<short-slug>-55618a` shape.
 6. **Link the PR to its issue** with a closing keyword in the description
    (`Closes <owner>/<repo>#N`): this populates the GitHub "Development"
    section and closes the issue on merge. Omit it when no tracked issue
