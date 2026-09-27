@@ -103,7 +103,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Channel/role mgmt | [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) | in-review |
 | Bot vs guild admins | [kingdoms-services#35](https://github.com/merlin-pinpin-org/kingdoms-services/issues/35) | done |
 | Runtime permission checks | [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) | in-review |
-| DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | todo |
+| DM vs channel message policy | [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) | in-review |
 | Channel access + drift alerting | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
 | On-demand role/channel sync | [kingdoms-services#58](https://github.com/merlin-pinpin-org/kingdoms-services/issues/58) | todo |
 | Deploy announcement | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
@@ -159,3 +159,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#55](https://github.com/merlin-pinpin-org/kingdoms-services/issues/55) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) todo->done; [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) todo->done; [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) todo->done; [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11) todo->done; [kingdoms-services#22](https://github.com/merlin-pinpin-org/kingdoms-services/issues/22) todo->done; (+2 more) |
+| 2026-09-27 | auto-sync: [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) todo->in-review |
