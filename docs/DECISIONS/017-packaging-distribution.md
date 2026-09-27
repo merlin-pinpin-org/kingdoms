@@ -67,6 +67,15 @@ consumers, not by dates.
   public semantic versioning and issue handling.
 - If taken, `kingdoms-sdk` (and possibly `kingdoms-core`) are the public
   surface; mods and games stay private until individually decided.
+- **Data providers as community assets** (noted with the game designer):
+  well-built data providers (`aoe2lobby`, `librematch`) would have real
+  value beyond this project — the surrounding community has no equivalent
+  reusable libraries. They are strong Stage 3 candidates, published under
+  their own decision and versioning, once external users exist. Until
+  then they follow the normal trajectory (Stage 1 workspace packages,
+  first in the [ADR-0019](019-modular-monolith-extraction-contracts.md)
+  extraction order), so their seams stay publishable without committing
+  early.
 
 ## Alternatives Considered
 
