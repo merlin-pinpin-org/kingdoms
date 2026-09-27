@@ -46,7 +46,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: enums | [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) | done |
 | services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) | todo |
 | services: StateService | [kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9) | done |
-| services: exceptions | [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) | todo |
+| services: exceptions | [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) | in-review |
 | services: Protocol interfaces | [kingdoms-services#41](https://github.com/merlin-pinpin-org/kingdoms-services/issues/41) | done |
 | services: config system | [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) | done |
 | services: i18n | [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) | done |
@@ -162,3 +162,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) todo->done; [kingdoms-services#16](https://github.com/merlin-pinpin-org/kingdoms-services/issues/16) todo->done; [kingdoms-services#17](https://github.com/merlin-pinpin-org/kingdoms-services/issues/17) todo->done; [kingdoms-services#11](https://github.com/merlin-pinpin-org/kingdoms-services/issues/11) todo->done; [kingdoms-services#22](https://github.com/merlin-pinpin-org/kingdoms-services/issues/22) todo->done; (+2 more) |
 | 2026-09-27 | auto-sync: [kingdoms-services#56](https://github.com/merlin-pinpin-org/kingdoms-services/issues/56) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#122](https://github.com/merlin-pinpin-org/kingdoms-services/issues/122) todo->in-review |
+| 2026-09-27 | auto-sync: [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) todo->in-review |
