@@ -19,6 +19,7 @@ covers what is specific to working *in this repo*.
 | `docs/PROCESS.md`, `docs/WORKFLOWS.md` | Delivery process, CI/CD workflows |
 | `docs/DECISIONS/` | Architecture decision records |
 | `docs/MODS/<mod-name>/` | Mods documentation (`README.md`, `RULES.md`, `ENVIRONMENT.md`) |
+| `docs/GUIDES/` | Audience entry points: mod developer, game provider developer, vibe coder (AI session), game designer |
 | `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, restack-prs, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
 | `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |

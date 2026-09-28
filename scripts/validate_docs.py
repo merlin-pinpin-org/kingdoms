@@ -82,6 +82,8 @@ def iter_python_files(source_root: Path):
     for path in sorted(source_root.rglob("*.py")):
         if any(part.startswith(".") for part in path.parts):
             continue
+        if "rpc_generated" in path.parts:
+            continue  # generated gRPC stubs (ADR-0020): never hand-documented
         yield path
 
 

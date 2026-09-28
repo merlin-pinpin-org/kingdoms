@@ -1,0 +1,25 @@
+# Guides — by audience
+
+Who reads what. Each guide is the entry point for one audience; it
+links to the authoritative documents instead of duplicating them.
+
+| Audience | Guide | You want to… |
+|---|---|---|
+| Mod developer (human or AI) | [mod-developer.md](mod-developer.md) | Build a new mod on the Kingdoms core |
+| Game provider developer | [game-provider.md](game-provider.md) | Integrate a new game and its external data providers |
+| Vibe coder (AI agent session) | [vibe-coder.md](vibe-coder.md) | Run a work session: issues → branch → PR → CI |
+| Game designer | [game-designer.md](game-designer.md) | Design a feature and get it built without coding |
+| Platform developer (maintainer) | [DEVELOPER.md](../DEVELOPER.md) + [CONVENTIONS.md](../CONVENTIONS.md) | Review, challenge, approve |
+
+## Reading order by goal
+
+- **"I want a new game feature"** → game-designer.md, then the AI agent
+  reads mod-developer.md.
+- **"I want to add a game"** → game-provider.md (the developer reviews).
+- **"I am an AI session starting work"** → vibe-coder.md first, then the
+  issue at hand.
+
+Authoritative references for everyone:
+[ARCHITECTURE](../ARCHITECTURE.md) · [CONVENTIONS](../CONVENTIONS.md) ·
+[VIBEWORKFLOW](../VIBEWORKFLOW.md) · [MODS](../MODS/README.md) ·
+[DECISIONS](../DECISIONS/DECISIONS.md) (ADRs) · [ROADMAP](../../ROADMAP.md)
