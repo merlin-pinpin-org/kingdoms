@@ -1,57 +1,71 @@
 # Ladder mod — Environment
 
+> Adapted from the JeanJack V2.0 reference (§2, §7.1) to the Kingdoms
+> stack. Exhaustive field-level definitions live in the
+> [reference](../../PLANS/reference/ladder-1v1-jeanjack-v2.md).
+
 ## Discord requirements
 
-- Bot permissions: send messages, send DMs, view channels, manage messages
-  (refresh standings posts)
-- Channels declared by the mod (provisioned automatically by the core via
-  `ModRegistry`, kingdoms-services#26):
-  - `ladder:ladder_admin` — admin notifications (disputes, moderation)
-  - `ladder:ladder_rankings` — standings and match results
-  - `ladder:ladder_info` — rules, matchmaking info, announcements
-- Platform-level categories used: `REPORTS` (disputes)
-- Roles declared by the mod (logical keys, resolved by `RoleService`):
-  - `ladder_participant` — registered players only (the register mod's game roles)
-  - `ladder_admin`
+- Bot permissions: send messages, send DMs, view channels, manage
+  messages, manage roles (for ladder roles), use components v2.
+- Mod-declared surfaces (provisioned by the core via ChannelService,
+  keys resolved per reference §7.1):
+  - `ladder:play` — persistent menu message (PlayView)
+  - `ladder:leaderboard` — persistent standings message
+  - `ladder:matches` — match feed / match surfaces timeline
+  - `ladder:players` — player sheets
+  - `ladder:admins` — admin notifications (disputes, alerts)
+- Roles declared by the mod (RoleService): `ladder_player`,
+  `ladder_admin`.
+- Persistent message IDs are stored in the **platform message registry**
+  by `(platform, message_key, entity_id)` — never in the mod's
+  collections.
 
-## Database requirements
+## Process placement (ADR-0020)
 
-- Collections:
-  - `users` (ELO per game stored on UserModel)
-  - `matches` (match records and status)
-  - `ladder` (ranking snapshots per game)
-  - `workflow_states` (match confirmation workflows)
-- Indexes:
-  - `matches.game + matches.status` — queue and pending match lookups
-  - `users.games + users.elo` — ranking computation
+- Domain core: `mods/ladder` in **svc-core** (owns the collections
+  below).
+- Discord surface: in **bot-discord** (talks to svc-core over gRPC).
+- Game data/results: **ext-librematch** / **ext-aoe2lobby** provider
+  processes (gRPC streams + calls), behind the `games/aoe2` module.
+
+## Database requirements (MongoDB, mod-owned)
+
+| Collection | Content |
+|---|---|
+| `ladders` | Ladder config: owner_ref, game_key, settings, active_map_pool_id, season fields |
+| `players` | Per-ladder players: rating (+ system block: RD/volatility for glicko2), W/L/streak, fav/ban map refs, queue state |
+| `matches` | Match records, state machine fields, game block (opaque match_ref, participants, factions), rating_applied |
+| `rating_history` | Source of truth for every rating change (MATCH_RESULT / MANUAL_ADJUSTMENT / RESET) |
+| `maps` / `map_pools` / `map_pool_history` | Game-data catalog entities scoped by game_key |
+| `admin_audit` | Every admin mutation with payload diff |
+
+Indexes: unique `(ladder_id, user_id)` on players; unique
+`(game_key, name)` on maps (excluding archived); unique sparse
+`game.match_ref` on matches; `(ladder_id, status)` and
+`(ladder_id, rating)` on matches/players query paths.
 
 ## Redis keys
 
-- `ladder:queue:{game}` — matchmaking queue (list, FIFO)
-- `ladder:lock:{match_id}` — match result write lock
-- `workflow:{user_id}:ladder-confirm` — confirmation hot state, TTL =
-  `LADDER_TIMEOUT`
+| Key | Type | Role |
+|---|---|---|
+| `ladder:{id}:queue` | ZSET (score = queued_at) | Queue mirror of `players.queued_at` |
+| `ladder:{id}:mm_lock` | SET NX EX | Matchmaking pass lock |
+| `ladder:{id}:settings` | HASH | Settings cache (invalidated on update) |
+| `ladder:{id}:rank` | ZSET (score = rating) | Fast leaderboard |
 
-## Configuration options
+## Background tasks (svc-core)
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| enabled | bool | true | Enable/disable the mod |
-| starting_elo | int | 1000 | Initial ELO for new ladder players |
-| k_factor | int | 32 | ELO K-factor |
-| min_elo | int | 100 | ELO floor |
-| max_queue_size | int | 10 | Maximum players per game queue |
-| dispute_window_hours | int | 24 | Result dispute window |
+| Task | Cadence | Role |
+|---|---|---|
+| Matchmaking tick | `matchmaking_tick_interval` (default 5 s) | Pairing + deadline expiry, under lock |
+| Surface cleanup | 300 s | Ask platform to delete old finished match surfaces |
+| Auto-report | on-demand post RESULT_PENDING (5 s × 30 s) | Poll provider for result |
+| Rank recompute | after confirmation + 60 s | Leaderboard ZSET |
 
-## Environment variables
+## Configuration
 
-```ini
-# Required (shared with the platform)
-DISCORD_TOKEN=your_token
-MONGO_URI=mongodb://localhost:27017
-REDIS_URI=redis://localhost:6379
-
-# Optional (ladder mod)
-LADDER_TIMEOUT=300
-MAX_QUEUE_SIZE=10
-```
+Mod YAML (`config/mods/ladder.yaml`): `enabled`, declared channels/roles,
+default settings template. Per-ladder settings (matchmaking thresholds,
+rating system + constants, fav/ban counts, cleanup delay,
+auto-confirm) are admin-editable from Discord (reference §2 defaults).
