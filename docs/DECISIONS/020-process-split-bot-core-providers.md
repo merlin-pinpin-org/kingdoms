@@ -126,3 +126,38 @@ flowchart LR
 - [ADR-0011 Protocol interfaces](011-protocol-interfaces.md)
 - [ADR-0010 Redis hosting](010-redis-hosting.md)
 - Milestone: kingdoms-services milestone 3 (v0.4.0)
+
+---
+
+## Annex — RPC transport (decided 2026-09-28, delegated to the developer)
+
+**gRPC over protobuf** is the transport for both seams
+(`bot-discord ↔ svc-core`, `svc-core ↔ ext-*`).
+
+Rationale:
+
+1. **Contracts as artifacts.** The `.proto` files are the executable
+   version of the ADR-0011 seams; CI can check wire-compatibility
+   between process versions, extending the existing dependency-matrix
+   enforcement to the network boundary.
+2. **Streaming matches the domain.** Provider lifecycle events
+   (`lobby_opened`, `game_started`, `game_ended`) are server streams;
+   matchmaking/queue updates to the bot are server streams. Request/
+   response alone would force polling.
+3. **Error taxonomy mapping.** The typed exception hierarchy
+   (kingdoms-services#10) maps onto gRPC status codes + structured
+   `details`; each seam method documents its error surface, and a
+   transport failure never bypasses the taxonomy (rule 3 above).
+4. **Deadline/timeout semantics** are first-class per call, which the
+   provider calls (external APIs) need.
+
+Mitigations for the costs: proto codegen is confined to a
+`contracts/` package owned by the developer; pydantic models remain the
+in-process source of truth and are converted at the seam (no business
+code touches protobuf types); game designers never see proto files —
+they interact only with YAML mod configs and Discord surfaces.
+
+Process-level notes: all four processes are Python asyncio; each
+process serves its gRPC server and holds clients with retry/jitter
+policies configured per seam; message-size limits and reflection are
+enabled in dev only.
