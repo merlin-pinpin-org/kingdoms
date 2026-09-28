@@ -39,7 +39,7 @@ API_BASE = "https://api.github.com"
 OWNER = "merlin-pinpin-org"
 REPOS = ("kingdoms", "kingdoms-services", "kingdoms-infra")
 PER_PAGE = 100
-MANUAL_STATUSES = ("in-progress", "blocked")
+MANUAL_STATUSES = ("in-progress", "blocked", "backlog")
 STATUSES = ("todo", "in-progress", "in-review", "done", "blocked", "dropped")
 
 ISSUE_URL = f"https://github.com/{OWNER}/" + "{repo}/issues/{num}"

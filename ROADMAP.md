@@ -44,7 +44,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: ChannelService | [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) | done |
 | services: WorkflowEngine | [kingdoms-services#6](https://github.com/merlin-pinpin-org/kingdoms-services/issues/6) | done |
 | services: enums | [kingdoms-services#7](https://github.com/merlin-pinpin-org/kingdoms-services/issues/7) | done |
-| services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) | todo |
+| services: adapters | [kingdoms-services#8](https://github.com/merlin-pinpin-org/kingdoms-services/issues/8) | done |
 | services: StateService | [kingdoms-services#9](https://github.com/merlin-pinpin-org/kingdoms-services/issues/9) | done |
 | services: exceptions | [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) | done |
 | services: Protocol interfaces | [kingdoms-services#41](https://github.com/merlin-pinpin-org/kingdoms-services/issues/41) | done |
@@ -70,6 +70,9 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: UI components | [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) | done |
 | services: registration + profile validation | [kingdoms-services#133](https://github.com/merlin-pinpin-org/kingdoms-services/issues/133) | todo |
 | services: ladder mod (core #134 + surface #135) | [kingdoms-services#15](https://github.com/merlin-pinpin-org/kingdoms-services/issues/15) | todo |
+| services: ladder domain core | [kingdoms-services#134](https://github.com/merlin-pinpin-org/kingdoms-services/issues/134) | todo |
+| services: ladder Discord surface | [kingdoms-services#135](https://github.com/merlin-pinpin-org/kingdoms-services/issues/135) | todo |
+| services: OCI image descriptions | [kingdoms-services#144](https://github.com/merlin-pinpin-org/kingdoms-services/issues/144) | todo |
 | services: process split + gRPC seams (ADR-0020) | [kingdoms-services#128](https://github.com/merlin-pinpin-org/kingdoms-services/issues/128) | todo |
 | services: games/aoe2 + ext-librematch/ext-aoe2lobby | [kingdoms-services#129](https://github.com/merlin-pinpin-org/kingdoms-services/issues/129) | todo |
 | services: identity, message registry, surfaces | [kingdoms-services#130](https://github.com/merlin-pinpin-org/kingdoms-services/issues/130) | todo |
