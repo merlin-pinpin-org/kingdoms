@@ -77,6 +77,12 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: seasons (rotations, optional reset) | [kingdoms-services#132](https://github.com/merlin-pinpin-org/kingdoms-services/issues/132) | todo |
 | services: Discord-first admin surface (game data, pools, seasons, rating) | [kingdoms-services#136](https://github.com/merlin-pinpin-org/kingdoms-services/issues/136) | todo |
 | services: E2E acceptance + AoE2 seeding + rollout rehearsal | [kingdoms-services#137](https://github.com/merlin-pinpin-org/kingdoms-services/issues/137) | todo |
+| services: channel access policies (#130/#135 dependency) | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) | todo |
+| services: Discord delivery backpressure | [kingdoms-services#140](https://github.com/merlin-pinpin-org/kingdoms-services/issues/140) | todo |
+| services: ladder creation UI (mono-guild) | [kingdoms-services#141](https://github.com/merlin-pinpin-org/kingdoms-services/issues/141) | todo |
+| services: rating switch via history replay | [kingdoms-services#142](https://github.com/merlin-pinpin-org/kingdoms-services/issues/142) | todo |
+| services: JeanJack data migration | [kingdoms-services#138](https://github.com/merlin-pinpin-org/kingdoms-services/issues/138) | todo |
+| services: blanket test mandate (CI properties) | [kingdoms-services#139](https://github.com/merlin-pinpin-org/kingdoms-services/issues/139) | todo |
 | infra: 4-process deploy + gRPC networking | [kingdoms-infra#89](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/89) | todo |
 | infra: cross-process observability | [kingdoms-infra#90](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/90) | todo |
 | services: tournament mod (80% operator-assisted) | [kingdoms-services#120](https://github.com/merlin-pinpin-org/kingdoms-services/issues/120) | backlog |
@@ -174,3 +180,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) todo->in-review |
 | 2026-09-27 | auto-sync: [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) in-review->done; [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) in-review->done; [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) in-review->done; [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) in-review->done; [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) in-review->done; (+3 more) |
 | 2026-09-28 | v0.4.0 rework with the game designer: AoE2 ladder slice (JeanJack V2.0 reference archived); ADR-0020 process split (bot-discord/svc-core/ext-*) supersedes ADR-0019, gRPC seams; issues kingdoms-services#128–#137, kingdoms-infra#89–#90; #27/#8/#14/#25 closed as superseded; #19/#120 moved to Backlog; docs/MODS/ladder rewritten; pluggable rating (Elo+Glicko-2), blossom matchmaking, seasons with optional reset |
+| 2026-09-28 | v0.4.0 scope challenge: new issues #138–#142 (migration, test mandate, backpressure, ladder creation UI, rating replay switch); #134 split into sub-PRs; #130 replaces #122 mechanism; providers = priority chantier; scoping locked (mono-guild ladders, multi-guild identities, dev-run milestone); anti-abus → post-milestone |
