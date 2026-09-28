@@ -78,6 +78,33 @@ In Components V2 text blocks — and **worst in sub-texts / footers
   exist in the design but not yet in the code; a disabled button never
   wires its callback.
 
+## The 3-second rule (defer, then followup)
+
+**Discord invalidates an interaction ~3 seconds after it fires.** A
+command or a component callback that answers later than that gets
+`NotFound 10062 (Unknown interaction)` — the user sees "This interaction
+failed" and the crash reporter gets noise. Reading a database, calling an
+external service or building a heavy layout routinely exceeds 3s.
+
+Rules:
+
+- the first await on a command path is **always**
+  `interaction.response.defer(ephemeral=...)` (or an immediate
+  `send_message` when nothing precedes the answer); the real answer then
+  rides `interaction.followup.send(...)`;
+- a deferred interaction stays answerable for **15 minutes** — the
+  followup owns the slow reads;
+- component callbacks re-rendering after a service read follow the same
+  pattern: defer, read, `followup.edit_message(...)` / `edit_message`;
+- **no slow call before the defer** — the defer is the very first
+  statement, before any `await` on a service or database;
+- an expired interaction (NotFound / HTTP 403-404 on the answer) is
+  classified benign (`is_benign_interaction_error`): a warning log line,
+  never a full crash report;
+- every command test asserts `result.deferred` (simcord) or
+  `interaction.response.deferred` (discord_mock) so a regression fails
+  CI, not the users.
+
 ## Runtime permission checks (the click-time mandate)
 
 **Never assume that seeing a button means being allowed to click it.**
