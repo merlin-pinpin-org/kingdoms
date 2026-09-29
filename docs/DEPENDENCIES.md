@@ -27,6 +27,7 @@ Total: **29 pts**. Critical path:
 
 ```mermaid
 flowchart LR
+    ks_147["#147 [v0.4.0][AoE2] Live test dashboard: channel + /live command (providers & game-aoe2 validation)"]
     ks_144["#144 Add OCI image descriptions (labels + registry) — rule applies to every future process image"]
     ks_142["#142 [v0.4.0][Rating] Rating-system switch via deterministic history replay"]
     ks_141["#141 [v0.4.0][Ladder] Ladder creation & configuration UI (Discord-first, mono-guild)"]
@@ -92,6 +93,7 @@ worked on in parallel.
 | [kingdoms-services#141](https://github.com/merlin-pinpin-org/kingdoms-services/issues/141) — [v0.4.0][Ladder] Ladder creation & configuration UI (Discord-first, mono-guild) | `L` (8) | `P1` | 21 |
 | [kingdoms-services#142](https://github.com/merlin-pinpin-org/kingdoms-services/issues/142) — [v0.4.0][Rating] Rating-system switch via deterministic history replay | `L` (8) | `P1` | 21 |
 | [kingdoms-services#144](https://github.com/merlin-pinpin-org/kingdoms-services/issues/144) — Add OCI image descriptions (labels + registry) — rule applies to every future process image | `L` (8) | `P1` | 21 |
+| [kingdoms-services#147](https://github.com/merlin-pinpin-org/kingdoms-services/issues/147) — [v0.4.0][AoE2] Live test dashboard: channel + /live command (providers & game-aoe2 validation) | `L` (8) | `P1` | 21 |
 | [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 24 |
 | [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | `M` (5) | `P2` | 24 |
 | [kingdoms-infra#90](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/90) — [v0.4.0] Cross-process observability — correlation ids, dashboards, degradation alerts | `M` (5) | `P2` | 24 |
@@ -151,3 +153,4 @@ worked on in parallel.
 | [kingdoms-services#141](https://github.com/merlin-pinpin-org/kingdoms-services/issues/141) — [v0.4.0][Ladder] Ladder creation & configuration UI (Discord-first, mono-guild) | ? | `L` | `P1` | 21 | — |
 | [kingdoms-services#142](https://github.com/merlin-pinpin-org/kingdoms-services/issues/142) — [v0.4.0][Rating] Rating-system switch via deterministic history replay | ? | `L` | `P1` | 21 | — |
 | [kingdoms-services#144](https://github.com/merlin-pinpin-org/kingdoms-services/issues/144) — Add OCI image descriptions (labels + registry) — rule applies to every future process image | ? | `L` | `P1` | 21 | — |
+| [kingdoms-services#147](https://github.com/merlin-pinpin-org/kingdoms-services/issues/147) — [v0.4.0][AoE2] Live test dashboard: channel + /live command (providers & game-aoe2 validation) | ? | `L` | `P1` | 21 | — |
