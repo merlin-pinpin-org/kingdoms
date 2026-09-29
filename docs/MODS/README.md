@@ -79,6 +79,30 @@ Planned: register (kingdoms-services#14), ladder
 [register/](register/) and [ladder/](ladder/) — they describe the target
 behavior, not shipped code.
 
+## Mod ideas (backlog)
+
+Game-designer ideas that have been shaped into issues but are **not
+committed for implementation yet**. An idea moves out of this section
+when a milestone picks it up. Each entry is one line: the mod's purpose
+and its tracking issue (self-contained — the issue holds all decisions).
+
+- **coaching** — connect coaches/reviewers with players wanting pro
+  feedback: coach pool (level, reputation, freely-set price), booking
+  flow with dynamic views, per-request coach pool, session workspace
+  (thread + temporary voice), post-session ratings and reputation,
+  indicative commission ledger (no payment handling by the bot in v1).
+  Tracked in kingdoms-services#151. Related: monetization research
+  (kingdoms-services#152, deferred) and app-verification readiness
+  (kingdoms-services#154).
+
+### How to add an idea here
+
+1. Shape the idea with an agent session (challenge toward automatable,
+   simply explainable rules — see the AGENTS.md skills).
+2. Create the tracking issue in `kingdoms-services` (Feature template,
+   self-contained, checkable acceptance criteria).
+3. Add one line to this section linking the issue.
+
 ## Mod version history
 
 Mod rule and environment changes are tracked per mod (`register/CHANGELOG.md`)
