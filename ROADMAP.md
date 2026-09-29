@@ -16,7 +16,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Milestone | Scope |
 |-----------|-------|
 | [Lot 1 — Structural](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/1) | Structural lot (changelog #28, exceptions #10 ✱re-raised P0, config #16 ✅, enums #7 ✅, i18n #17 ✅, ChannelService #5, roles #26, UI #13, permission checks #55, DM policy #56, persistent views #122, core tests #22 ✅) — unlocks everything downstream, no player-facing mod. Superseded by the seam pivot: DiscordPlatform #11 ✅ (dead skeleton removed) |
-| [v0.4.0 — AoE2 ladder](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | AoE2 ladder vertical slice (JeanJack migration, ADR-0020 process split): gRPC seams #128 → games/aoe2 + providers #129 → identity/message-registry/surfaces #130 → game data (maps/civs/rules/pools/packs) #131 → seasons #132 → registration + profile validation #133 → ladder core #134 (blossom matchmaking, pluggable Elo/Glicko-2) → ladder Discord surface #135 → Discord-first admin surface #136 → E2E acceptance + rollout rehearsal #137. Infra: kingdoms-infra#89, #90. Out of scope: clans #19, tournament #120 (Backlog) |
+| [v0.4.0 — AoE2 ladder](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3) | AoE2 ladder vertical slice (JeanJack migration, ADR-0020 process split): gRPC seams #128 → games/aoe2 + providers #129 → identity/message-registry/surfaces #130 → game data (maps/civs/rules/pools/packs) #131 → seasons #132 → registration + profile validation #133 → ladder core #134 (blossom matchmaking, pluggable Elo/Glicko-2) → ladder Discord surface #135 → Discord-first admin surface #136 → E2E acceptance + rollout rehearsal #137. Live test dashboard #147 (providers & game-aoe2 validation tool). Infra: kingdoms-infra#89, #90. Out of scope: clans #19, tournament #120 (Backlog) |
 | [Backlog — post-pivot](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/2) | Valid issues awaiting re-qualification into epics A→J |
 
 ### Phase 1 — Foundations
@@ -75,6 +75,7 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: OCI image descriptions | [kingdoms-services#144](https://github.com/merlin-pinpin-org/kingdoms-services/issues/144) | todo |
 | services: process split + gRPC seams (ADR-0020) | [kingdoms-services#128](https://github.com/merlin-pinpin-org/kingdoms-services/issues/128) | todo |
 | services: games/aoe2 + ext-librematch/ext-aoe2lobby | [kingdoms-services#129](https://github.com/merlin-pinpin-org/kingdoms-services/issues/129) | todo |
+| services: live test dashboard (channel + /live) | [kingdoms-services#147](https://github.com/merlin-pinpin-org/kingdoms-services/issues/147) | todo |
 | services: identity, message registry, surfaces | [kingdoms-services#130](https://github.com/merlin-pinpin-org/kingdoms-services/issues/130) | todo |
 | services: game data catalog (maps/civs/rules/pools/packs) | [kingdoms-services#131](https://github.com/merlin-pinpin-org/kingdoms-services/issues/131) | todo |
 | services: seasons (rotations, optional reset) | [kingdoms-services#132](https://github.com/merlin-pinpin-org/kingdoms-services/issues/132) | todo |
