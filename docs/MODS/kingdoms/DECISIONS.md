@@ -57,3 +57,78 @@
   cet instant.
 - **À définir** : cette limite de temps est-elle une valeur unique
   partagée avec l'exploration (D5) ou deux valeurs séparées ?
+
+## D7 — Défense : n'importe quel seigneur
+
+- Face à une attaque contre son royaume, **n'importe quel seigneur du
+  royaume défenseur** peut défendre (pas seulement le propriétaire du
+  territoire).
+
+## D8 — Absence de défenseur : paramètre admin
+
+- Si aucun défenseur ne répond dans le délai, le comportement est un
+  **paramètre d'administration** à deux valeurs :
+  1. **victoire automatique** de l'attaquant (territoire capturé sans
+     jouer) ;
+  2. **partie contre l'IA** : la rencontre se joue en multijoueur sur
+     la map indiquée contre l'IA, selon les paramètres IA du royaume.
+
+## D9 — Technologies : coûts paramétrables
+
+- **Tous les coûts des technologies sont paramétrables** ; les valeurs
+  de la référence (Embuscade 2, Traquenard 1, Patrouille 2,
+  Contre-espionnage 2, Sabotage 1, Explorateur 2, Jeu d'armes 1,
+  Mariage arrangé 3, Corruption 4, Garde Royale 1) sont les
+  **valeurs par défaut**.
+
+## D10 — Embuscade
+
+- Un royaume disposant de la technologie Embuscade obtient une
+  **attaque supplémentaire** ; le royaume attaqué peut défendre **sans
+  dépenser son point de défense** (c'est une attaque d'embuscade).
+
+## D11 — Contre-espionnage
+
+- Disponible si le royaume possède la technologie. Lors de la
+  déclaration d'une attaque sur un territoire, une **option
+  supplémentaire** permet d'indiquer le nom d'un autre seigneur —
+  existant et jouant la partie — de n'importe quel royaume (la
+  couverture). **X temps avant le lancement de la partie**
+  (paramétrable par l'admin), l'identité du **vrai attaquant** est
+  révélée.
+
+## D12 — Sabotage
+
+- Utilisable **en attaque ou en défense**, **avant le début de la
+  partie**, uniquement dans les attaques **seigneur contre seigneur**
+  (royaume contre royaume) — **indisponible contre Gaïa**.
+- Phase de snipe : chaque camp **retire de la liste des civilisations**
+  une civilisation que son adversaire ne pourra pas jouer (et
+  réciproquement). Maximum **2 par partie**.
+
+## D13 — Explorateur
+
+- Le royaume **reçoit la map gratuitement et immédiatement** (territoire
+  de Gaïa, sans déclaration d'attaque, sans partie).
+
+## D14 — Garde Royale
+
+- Protège un territoire **sur une durée** : rend l'attaque du
+  territoire impossible.
+- La protection est de **24h**, prolongeable : dépenser **1 point de
+  technologie ajoute 24h** supplémentaires.
+
+## D15 — Corruption
+
+- Permet d'obtenir un territoire **de n'importe quel royaume ou de
+  Gaïa** en dépensant **4 points technologiques** (défaut).
+- Le territoire obtient un statut **inattaquable** — et les autres
+  joueurs ne peuvent pas non plus le **corrompre** — **jusqu'au cycle
+  prochain**.
+
+## D16 — Victoire de saison : Conquête
+
+- Le royaume vainqueur est celui disposant du **plus de territoires** à
+  la fin de la saison — type de victoire nommé **« Conquête »**.
+- La règle pourra évoluer par la suite (autres types de victoire
+  envisageables plus tard).
