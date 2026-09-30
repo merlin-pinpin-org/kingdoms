@@ -303,3 +303,65 @@
 
 - Gestion **humaine** (admin) ; des règles de comportement seront
   ajoutées au règlement (document à part).
+
+## D41 — Garnison : confirmée en pause
+
+- Renforts et garnisons sont **mis de côté** ; réintroduits plus
+  tard. Le combat d'attaque contre un royaume joueur est donc
+  **1 attaquant vs 1 défenseur**, sans renforts.
+
+## D42 — Attaques simultanées
+
+- Un territoire avec une déclaration d'attaque **en cours ne peut pas
+  être ciblé** par une nouvelle attaque.
+- Un royaume peut **subir plusieurs attaques simultanées** sur des
+  territoires différents.
+
+## D43 — Patrouille
+
+- Permet à un royaume de **refuser un créneau horaire d'agression**
+  (ex. minuit–2h) : impossible pour les autres royaumes d'attaquer
+  dans cette tranche. Application **immédiate** ; une attaque déclarée
+  **avant** l'application dans cette tranche **n'est pas annulée**,
+  mais aucune nouvelle attaque n'y sera possible ensuite.
+- Un royaume peut **modifier sa tranche**, applicable **au cycle
+  prochain**.
+- **Maximum 2 patrouilles par royaume et par saison**, donc 4h de
+  tranquillité au total si les deux sont possédées.
+
+## D44 — Limite de temps : uniquement l'exploration
+
+- **Pas de limite de temps** pour les attaques contre Gaïa.
+- La **limite de temps paramétrable** s'applique **uniquement au FFA
+  du samedi (exploration)** : au bout de X, le vainqueur est le
+  joueur au plus gros score.
+
+## D45 — Mariage arrangé vs mariage standard
+
+- Le mariage arrangé donne **l'exclusivité** d'une civilisation,
+  **appliquée instantanément**.
+- Le mariage standard s'obtient **gratuitement via les âges/époques** ;
+  la règle **d'un mariage par seigneur ne peut pas être contournée**
+  (même par le mariage arrangé).
+- « Si le seigneur meurt » = **perd un combat**, même logique que D34.
+
+## D46 — Cadastre et conditions de civilisations
+
+- Fournis par le game designer (Saison II) : effet de chaque map au
+  Jour du Seigneur ([CADASTRE.md](CADASTRE.md)) et conditions
+  d'obtention de chaque civilisation
+  ([CIVILIZATIONS.md](CIVILIZATIONS.md)).
+- Types d'effets de cadastre observés : offrir une technologie
+  ponctuelle (par jour/semaine/dimanche), un point de technologie,
+  une civilisation, un mariage, une embuscade, un sabotage, un
+  contre-espionnage, une exploration, réduire/augmenter des délais
+  d'agression, augmenter la capacité de patrouille, offrir une
+  garnison (garnisons en pause — D41), ou une map désignée /
+  points de technologie au choix.
+- **À valider/traduire en grammaire** : certaines conditions de
+  civilisations sont référentielles (Hongrois = « appartenir au
+  Royaume des HeN », Shu/Wei/Wu = posséder « Chinois ») et plusieurs
+  comportent des seuils paramétrables (nombre de maps, types
+  d'environnement) ; les types de maps (eaux, ouverte, nomade,
+  désert/sable, montagne/colline, marais, lacs, dorée/or, start
+  wall) doivent être saisis dans le catalogue de maps de l'admin.
