@@ -132,3 +132,44 @@
   la fin de la saison — type de victoire nommé **« Conquête »**.
 - La règle pourra évoluer par la suite (autres types de victoire
   envisageables plus tard).
+
+## D17 — Partie non jouée contre un royaume joueur
+
+- Si l'attaquant ne s'est pas présenté, **l'attaque est consommée**.
+- **Exception admin** : selon son appréciation, l'admin peut
+  **réattribuer le point d'attaque** si l'absence a une excuse valable.
+
+## D18 — Échelle numérique de l'IA
+
+- Échelle validée : **1=Facile, 2=Standard, 3=Intermédiaire,
+  4=Difficile, 5=Extrême** ; les effets se combinent avec plancher 1
+  et plafond 5.
+- **La progression d'IA liée aux époques ne concerne que Gaïa**
+  (Âge sombre=2, Féodal=3, Châteaux=5, Impérial=5) — **pas** les
+  royaumes joueurs.
+- Pour qu'un royaume dispose d'une IA plus forte (défense contre les
+  bots), il faut utiliser **Jeu d'armes** : effet **permanent** (+1
+  niveau).
+- **Traquenard** réduit le niveau de l'IA **d'un royaume joueur ou de
+  Gaïa** — effet **temporaire (une seule fois par utilisation)**,
+  contrairement à Jeu d'armes. Traquenard **peut se cumuler** si le
+  joueur en dispose plusieurs, à sa guise.
+
+## D19 — Traités : paramètres de vote
+
+- Qui vote : **paramétrable** — uniquement les Rois, ou tous les
+  seigneurs.
+- Majorité : **paramétrable** — 50%+1, ou unanimité.
+- Si le vote est positif, un message annonce que **les Dieux ont
+  entendu leurs paroles** ; l'application est **soit au cycle
+  prochain, soit à la saison suivante** (selon la demande).
+- La **durée dépend de la demande**.
+- **Un seul traité par saison**.
+
+## D20 — Validation des résultats
+
+- Les joueurs valident le résultat, qui est **retrouvé
+  automatiquement** : AoE2 respecte le **game contract** — le cœur de
+  la plateforme gère déjà la récupération des résultats
+  (`games/aoe2` + providers ext-librematch / ext-aoe2lobby, ADR-0020).
+- En cas de litige, **l'admin tranche**.
