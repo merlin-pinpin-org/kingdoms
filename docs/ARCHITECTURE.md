@@ -143,6 +143,25 @@ workflow payloads evolve with the game rules):
 - **`ChannelService`**: channel category management. Mods ask for a channel by
   category, never by name or ID. Resolution order: cache → database → platform
   creation.
+- **`IdentityService`** (kingdoms-services#130): internal `user_id` ↔
+  platform account resolution. Identities are multi-platform by design — one
+  Kingdoms user may be bound to accounts on several platforms; the binding
+  lives in its own `platform_identities` collection, never in mod data. Mods
+  reference users by `user_id` only. Cache-aside (Redis → MongoDB), idempotent
+  `get_or_create_user` per `(platform, platform_user_id)`.
+- **`MessageRegistryService`** (kingdoms-services#130): the **only** place
+  platform message IDs ever live — `(platform, message_key, entity_id)` →
+  `(channel_id, message_id)`. Mods register persistent messages by logical key
+  and resolve them back to re-render in place; re-registration replaces
+  (messages are recreated, not patched). Mod collections never store message or
+  channel IDs. Complements the `custom_id` state reconstruction
+  (§ *Persistent components*): reconstruction survives component clicks, the
+  registry lets a mod find its own message back.
+- **`SurfaceService`** (kingdoms-services#130): named surfaces — a mod's
+  declared channel categories resolved through the ChannelService seam
+  (`surface_channel`), and surface permission queries (« is ladder
+  admin/player ») delegated to the runtime PermissionService
+  (`has_surface_role` — failure denies, never opens).
 - **`StatusService`**: operational report (version label, uptime, configured
   games, enabled mods with their declared channels/roles, bot admins,
   deploy label + URL) — powers the generic `/status` command.
