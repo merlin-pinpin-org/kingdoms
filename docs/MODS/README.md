@@ -68,40 +68,19 @@ flowchart TD
 
 ## Available mods
 
-None implemented yet. The repo provides the generic mod tooling only:
-the `config/mods/_example.yaml` declaration template and the
-`ModRegistry` (kingdoms-services#26). Each mod lands with its own issue,
-implementation and documentation set.
+The repo provides the generic mod tooling: the `config/mods/_example.yaml`
+declaration template and the `ModRegistry` (kingdoms-services#26). Each mod
+lands with its own issue, implementation and documentation set.
 
-Planned: register (kingdoms-services#14), ladder
-(kingdoms-services#15), clans (kingdoms-services#19), admin
-(kingdoms-services#21). Design docs for planned mods live under
-[register/](register/) and [ladder/](ladder/) — they describe the target
-behavior, not shipped code.
+## Mod catalogue
 
-## Mod ideas (backlog)
-
-Game-designer ideas that have been shaped into issues but are **not
-committed for implementation yet**. An idea moves out of this section
-when a milestone picks it up. Each entry is one line: the mod's purpose
-and its tracking issue (self-contained — the issue holds all decisions).
-
-- **coaching** — connect coaches/reviewers with players wanting pro
-  feedback: coach pool (level, reputation, freely-set price), booking
-  flow with dynamic views, per-request coach pool, session workspace
-  (thread + temporary voice), post-session ratings and reputation,
-  indicative commission ledger (no payment handling by the bot in v1).
-  Tracked in kingdoms-services#151. Related: monetization research
-  (kingdoms-services#152, deferred) and app-verification readiness
-  (kingdoms-services#154).
-
-### How to add an idea here
-
-1. Shape the idea with an agent session (challenge toward automatable,
-   simply explainable rules — see the AGENTS.md skills).
-2. Create the tracking issue in `kingdoms-services` (Feature template,
-   self-contained, checkable acceptance criteria).
-3. Add one line to this section linking the issue.
+Every mod — developed, scoped, specified, shaped or a vague idea — is listed
+with its maturity level, categories and links in the
+[**mod catalogue**](CATALOGUE.md). The catalogue is the game designers'
+entry point for browsing and **prioritizing** ideas; the linked issue or doc
+holds the decisions. The register, ladder and kingdoms design docs live
+under [register/](register/), [ladder/](ladder/) and [kingdoms/](kingdoms/) —
+they describe the target behavior, not shipped code.
 
 ## Mod version history
 
