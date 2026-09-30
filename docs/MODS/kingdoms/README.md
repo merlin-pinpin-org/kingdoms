@@ -39,7 +39,8 @@ enforces attack/defense budgets, and applies diplomacy.
 ## Usage
 
 ```text
-/kingdoms …      — joueur : inscription, royaume, actions
+/kingdoms …      — jo
+ueur : inscription, royaume, actions
 /kingdoms-admin … — admin : saison, paramètres, maps, interventions
 ```
 
