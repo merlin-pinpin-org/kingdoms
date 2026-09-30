@@ -140,6 +140,11 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Docs: human-contributor onboarding | [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) | done |
 | services: human-contributor onboarding | [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) | done |
 | infra: human-contributor onboarding | [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) | done |
+| kingdoms: mod meta-game (Saison II docs) | [kingdoms#129](https://github.com/merlin-pinpin-org/kingdoms/issues/129) | todo |
+| services: app verification readiness | [kingdoms-services#154](https://github.com/merlin-pinpin-org/kingdoms-services/issues/154) | todo |
+| services: Discord monetization research | [kingdoms-services#152](https://github.com/merlin-pinpin-org/kingdoms-services/issues/152) | todo |
+| services: coaching mod | [kingdoms-services#151](https://github.com/merlin-pinpin-org/kingdoms-services/issues/151) | todo |
+| services: /drasah greeting command | [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) | in-review |
 
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin-org/kingdoms-services/issues/18)
@@ -185,3 +190,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) in-review->done; [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) in-review->done; [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) in-review->done; [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) in-review->done; [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) in-review->done; (+3 more) |
 | 2026-09-28 | v0.4.0 rework with the game designer: AoE2 ladder slice (JeanJack V2.0 reference archived); ADR-0020 process split (bot-discord/svc-core/ext-*) supersedes ADR-0019, gRPC seams; issues kingdoms-services#128–#137, kingdoms-infra#89–#90; #27/#8/#14/#25 closed as superseded; #19/#120 moved to Backlog; docs/MODS/ladder rewritten; pluggable rating (Elo+Glicko-2), blossom matchmaking, seasons with optional reset |
 | 2026-09-28 | v0.4.0 scope challenge: new issues #138–#142 (migration, test mandate, backpressure, ladder creation UI, rating replay switch); #134 split into sub-PRs; #130 replaces #122 mechanism; providers = priority chantier; scoping locked (mono-guild ladders, multi-guild identities, dev-run milestone); anti-abus → post-milestone |
+| 2026-09-30 | auto-sync: [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) todo->in-review |

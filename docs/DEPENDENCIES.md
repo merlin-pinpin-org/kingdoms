@@ -27,6 +27,10 @@ Total: **29 pts**. Critical path:
 
 ```mermaid
 flowchart LR
+    ks_154["#154 [Task] App verification readiness: privacy policy, terms of service, app identity (team + Stripe)"]
+    ks_152["#152 [Task] Research: Discord App Monetization (SKUs) — feasibility & design for coaching payments (recorded decision"]
+    ks_151["#151 [Feature] Coaching mod: coach/reviewer pool, booking flow, session workspace, ratings & reputation, commission ledger"]
+    ks_148["#148 Add /drasah medieval greeting command"]
     ks_147["#147 [v0.4.0][AoE2] Live test dashboard: channel + /live command (providers & game-aoe2 validation)"]
     ks_144["#144 Add OCI image descriptions (labels + registry) — rule applies to every future process image"]
     ks_142["#142 [v0.4.0][Rating] Rating-system switch via deterministic history replay"]
@@ -76,6 +80,7 @@ worked on in parallel.
 
 | Issue | Size | Priority | Slack |
 | ----- | ---- | -------- | ----- |
+| [kingdoms-services#151](https://github.com/merlin-pinpin-org/kingdoms-services/issues/151) — [Feature] Coaching mod: coach/reviewer pool, booking flow, session workspace, ratings & reputation, commission ledger | `XL` (13) | `P2` | 16 |
 | [kingdoms-infra#89](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/89) — [v0.4.0] Deploy 4 processes (bot-discord, svc-core, ext-librematch, ext-aoe2lobby) + gRPC networking | `L` (8) | `P1` | 21 |
 | [kingdoms-services#128](https://github.com/merlin-pinpin-org/kingdoms-services/issues/128) — [v0.4.0][Architecture] Process split bot-discord / svc-core / ext-* with gRPC seams (ADR-0020) | `L` (8) | `P1` | 21 |
 | [kingdoms-services#129](https://github.com/merlin-pinpin-org/kingdoms-services/issues/129) — [v0.4.0][AoE2] games/aoe2 module + ext-librematch & ext-aoe2lobby provider processes | `L` (8) | `P1` | 21 |
@@ -97,7 +102,10 @@ worked on in parallel.
 | [kingdoms-infra#5](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/5) — [Phase 2] Configure monitoring | `M` (5) | `P3` | 24 |
 | [kingdoms-infra#78](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/78) — [Task] Post-deploy battery: identity checks, prioritized report, automatic rollback | `M` (5) | `P2` | 24 |
 | [kingdoms-infra#90](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/90) — [v0.4.0] Cross-process observability — correlation ids, dashboards, degradation alerts | `M` (5) | `P2` | 24 |
+| [kingdoms-services#152](https://github.com/merlin-pinpin-org/kingdoms-services/issues/152) — [Task] Research: Discord App Monetization (SKUs) — feasibility & design for coaching payments (recorded decision | `M` (5) | `P3` | 24 |
+| [kingdoms-services#154](https://github.com/merlin-pinpin-org/kingdoms-services/issues/154) — [Task] App verification readiness: privacy policy, terms of service, app identity (team + Stripe) | `M` (5) | `P3` | 24 |
 | [kingdoms-services#57](https://github.com/merlin-pinpin-org/kingdoms-services/issues/57) — Sub-task: Channel access policies per category + drift alerting | `M` (5) | `P1` | 0 |
+| [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) — Add /drasah medieval greeting command | `S` (3) | `P3` | 26 |
 | [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) — [Phase 1] Create deployment scripts | `S` (3) | `P3` | 26 |
 
 **Wave 1**
@@ -154,3 +162,7 @@ worked on in parallel.
 | [kingdoms-services#142](https://github.com/merlin-pinpin-org/kingdoms-services/issues/142) — [v0.4.0][Rating] Rating-system switch via deterministic history replay | ? | `L` | `P1` | 21 | — |
 | [kingdoms-services#144](https://github.com/merlin-pinpin-org/kingdoms-services/issues/144) — Add OCI image descriptions (labels + registry) — rule applies to every future process image | ? | `L` | `P1` | 21 | — |
 | [kingdoms-services#147](https://github.com/merlin-pinpin-org/kingdoms-services/issues/147) — [v0.4.0][AoE2] Live test dashboard: channel + /live command (providers & game-aoe2 validation) | ? | `L` | `P1` | 21 | — |
+| [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) — Add /drasah medieval greeting command | ? | `S` | `P3` | 26 | — |
+| [kingdoms-services#151](https://github.com/merlin-pinpin-org/kingdoms-services/issues/151) — [Feature] Coaching mod: coach/reviewer pool, booking flow, session workspace, ratings & reputation, commission ledger | ? | `XL` | `P2` | 16 | — |
+| [kingdoms-services#152](https://github.com/merlin-pinpin-org/kingdoms-services/issues/152) — [Task] Research: Discord App Monetization (SKUs) — feasibility & design for coaching payments (recorded decision | ? | `M` | `P3` | 24 | — |
+| [kingdoms-services#154](https://github.com/merlin-pinpin-org/kingdoms-services/issues/154) — [Task] App verification readiness: privacy policy, terms of service, app identity (team + Stripe) | ? | `M` | `P3` | 24 | — |
