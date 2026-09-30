@@ -428,3 +428,23 @@
   délai, **l'opportunité est perdue**.
 - Le vote suit les paramètres D19 (Rois ou tous les seigneurs ;
   50%+1 ou unanimité).
+
+## D52 — Heure de fin de saison
+
+- La saison se termine **lundi minuit**, après le Jour du Seigneur du
+  4e cycle (en cohérence avec D37, fin de la protection Corruption).
+
+## D53 — Mariages : durée et budget
+
+- Un mariage est **permanent** jusqu'à ce que le seigneur marié
+  **perde un combat** (il perd alors le mariage, effet retiré au
+  cycle prochain — D34).
+- **Chaque seigneur peut se marier une seule fois** ; les « +1
+  mariage » d'époque augmentent la **capacité de mariages du
+  royaume** (nombre de seigneurs pouvant être mariés au total).
+
+## D54 — Liste des promises (en attente)
+
+- La liste des personnalités historiques (promises par civilisation)
+  est **RP uniquement** ; elle sera déposée dans le mod dès
+  réception.
