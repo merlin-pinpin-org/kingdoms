@@ -6,7 +6,7 @@
 Status values: `todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`.
 
 ## Current Phase
-Phase 3 — v0.4.0 AoE2 ladder (process split + first game + ladder mod, milestone [v0.4.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3)); ADR-0020 supersedes ADR-0019 for bot/core/providers
+Phase 2 — v0.4.0 AoE2 ladder (process split + first game + ladder mod, milestone [v0.4.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3)); ADR-0020 supersedes ADR-0019 for bot/core/providers
 
 Product plan (post-pivot): see the living document [kingdoms#109](https://github.com/merlin-pinpin-org/kingdoms/issues/109) and epics A→J ([#110](https://github.com/merlin-pinpin-org/kingdoms/issues/110)–[#118](https://github.com/merlin-pinpin-org/kingdoms/issues/118)).
 
@@ -96,6 +96,18 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | services: deployment scripts | [kingdoms-services#20](https://github.com/merlin-pinpin-org/kingdoms-services/issues/20) | todo |
 | services: semantic release | [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) | done |
 | services: startup announcement (PR link) | [kingdoms-services#52](https://github.com/merlin-pinpin-org/kingdoms-services/issues/52) | done |
+| kingdoms: Mod Kingdoms (Saison II) docs & tracking | [kingdoms#129](https://github.com/merlin-pinpin-org/kingdoms/issues/129) | todo |
+| services: Mod Kingdoms T1 — mod foundations | [kingdoms-services#156](https://github.com/merlin-pinpin-org/kingdoms-services/issues/156) | in-review |
+| services: Mod Kingdoms T2 — season & enrollment | [kingdoms-services#157](https://github.com/merlin-pinpin-org/kingdoms-services/issues/157) | todo |
+| services: Mod Kingdoms T3 — territories & maps | [kingdoms-services#163](https://github.com/merlin-pinpin-org/kingdoms-services/issues/163) | todo |
+| services: Mod Kingdoms T4 — attacks & defenses | [kingdoms-services#158](https://github.com/merlin-pinpin-org/kingdoms-services/issues/158) | todo |
+| services: Mod Kingdoms T5 — weekly events | [kingdoms-services#159](https://github.com/merlin-pinpin-org/kingdoms-services/issues/159) | todo |
+| services: Mod Kingdoms T6 — diplomacy & marriages | [kingdoms-services#160](https://github.com/merlin-pinpin-org/kingdoms-services/issues/160) | todo |
+| services: Mod Kingdoms T7 — economic technologies | [kingdoms-services#161](https://github.com/merlin-pinpin-org/kingdoms-services/issues/161) | todo |
+| services: Mod Kingdoms T8 — season end | [kingdoms-services#162](https://github.com/merlin-pinpin-org/kingdoms-services/issues/162) | todo |
+| services: /drasah greeting command | [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) | in-review |
+| services: coaching mod (booking, sessions, reputation) | [kingdoms-services#151](https://github.com/merlin-pinpin-org/kingdoms-services/issues/151) | todo |
+| services: app verification readiness (privacy, ToS, identity) | [kingdoms-services#154](https://github.com/merlin-pinpin-org/kingdoms-services/issues/154) | todo |
 
 ### Phase 4 — Post-pivot epics (product plan kingdoms#109)
 
@@ -108,9 +120,8 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | kingdoms: Epic D — Ratings & stars | [kingdoms#113](https://github.com/merlin-pinpin-org/kingdoms/issues/113) | todo |
 | kingdoms: Epic E — Presence | [kingdoms#114](https://github.com/merlin-pinpin-org/kingdoms/issues/114) | todo |
 | kingdoms: Epic F — Team maker | [kingdoms#115](https://github.com/merlin-pinpin-org/kingdoms/issues/115) | todo |
-| kingdoms: Epic H — Monetization | [kingdoms#116](https://github.com/merlin-pinpin-org/kingdoms/issues/116) | todo |
-| kingdoms: Epic I — Review & coaching marketplace | [kingdoms#117](https://github.com/merlin-pinpin-org/kingdoms/issues/117) | todo |
 | kingdoms: Epic J — Social & moderation | [kingdoms#118](https://github.com/merlin-pinpin-org/kingdoms/issues/118) | todo |
+| kingdoms: Epic K — Vibe-coding mod platform | [kingdoms#136](https://github.com/merlin-pinpin-org/kingdoms/issues/136) | todo |
 
 ### Sub-tasks
 | Sub-task | Parent | Status |
@@ -140,11 +151,13 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | Docs: human-contributor onboarding | [kingdoms#94](https://github.com/merlin-pinpin-org/kingdoms/issues/94) | done |
 | services: human-contributor onboarding | [kingdoms-services#100](https://github.com/merlin-pinpin-org/kingdoms-services/issues/100) | done |
 | infra: human-contributor onboarding | [kingdoms-infra#71](https://github.com/merlin-pinpin-org/kingdoms-infra/issues/71) | done |
+| kingdoms: CLA check re-run on /cla comment | [kingdoms#134](https://github.com/merlin-pinpin-org/kingdoms/issues/134) | todo |
 
 ## Out of Scope
 - Report mod (`/report` command) — dropped, see [kingdoms-services#18](https://github.com/merlin-pinpin-org/kingdoms-services/issues/18)
   (closed as not planned)
 - Twitch platform — architecture-ready (`IPlatform`), not implemented
+- Monetization epics (former kingdoms#116 and kingdoms#117, deleted) — parked under glass, see [docs/PLANS/monetization.md](docs/PLANS/monetization.md)
 
 ## Change Log
 | Date | Change |
@@ -185,3 +198,4 @@ Product plan (post-pivot): see the living document [kingdoms#109](https://github
 | 2026-09-27 | auto-sync: [kingdoms-services#5](https://github.com/merlin-pinpin-org/kingdoms-services/issues/5) in-review->done; [kingdoms-services#10](https://github.com/merlin-pinpin-org/kingdoms-services/issues/10) in-review->done; [kingdoms-services#13](https://github.com/merlin-pinpin-org/kingdoms-services/issues/13) in-review->done; [kingdoms-services#28](https://github.com/merlin-pinpin-org/kingdoms-services/issues/28) in-review->done; [kingdoms-services#26](https://github.com/merlin-pinpin-org/kingdoms-services/issues/26) in-review->done; (+3 more) |
 | 2026-09-28 | v0.4.0 rework with the game designer: AoE2 ladder slice (JeanJack V2.0 reference archived); ADR-0020 process split (bot-discord/svc-core/ext-*) supersedes ADR-0019, gRPC seams; issues kingdoms-services#128–#137, kingdoms-infra#89–#90; #27/#8/#14/#25 closed as superseded; #19/#120 moved to Backlog; docs/MODS/ladder rewritten; pluggable rating (Elo+Glicko-2), blossom matchmaking, seasons with optional reset |
 | 2026-09-28 | v0.4.0 scope challenge: new issues #138–#142 (migration, test mandate, backpressure, ladder creation UI, rating replay switch); #134 split into sub-PRs; #130 replaces #122 mechanism; providers = priority chantier; scoping locked (mono-guild ladders, multi-guild identities, dev-run milestone); anti-abus → post-milestone |
+| 2026-09-30 | auto-sync: [kingdoms-services#156](https://github.com/merlin-pinpin-org/kingdoms-services/issues/156) todo->in-review; [kingdoms-services#148](https://github.com/merlin-pinpin-org/kingdoms-services/issues/148) todo->in-review; current phase 3->2 |
