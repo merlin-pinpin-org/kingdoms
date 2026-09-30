@@ -365,3 +365,54 @@
   d'environnement) ; les types de maps (eaux, ouverte, nomade,
   désert/sable, montagne/colline, marais, lacs, dorée/or, start
   wall) doivent être saisis dans le catalogue de maps de l'admin.
+
+## D47 — Garde Royale : compléments
+
+- **Pas de cumul** : impossible de poser plusieurs Gardes Royales sur
+  le même territoire.
+- Achat : **24h de protection** sans autre dépense ; **prolongation :
+  1 point de technologie pour 3h** (et non 24h).
+
+## D48 — Explorateur : correction
+
+- Le royaume reçoit une **map aléatoire qui n'est pas encore sortie**
+  (pas une map possédée par Gaïa) — tirée parmi la **liste des maps
+  possibles** (autorisées), donc jamais protégée par Corruption ou
+  Garde Royale.
+- **Consommable** : après usage, l'effet ne peut plus être réactivé —
+  il faut relancer une nouvelle acquisition (expédition).
+- La map reçue devient un **territoire du royaume immédiatement**.
+
+## D49 — Ordre Royal = traité (une seule mécanique)
+
+- Avec l'âge requis (Âge féodal), le royaume ayant le plus
+  d'**alliances** obtient l'**Ordre Royal**, qui lui donne le droit de
+  **proposer le traité** de la saison (un seul traité par saison —
+  D19). Ordre Royal et traité ne sont donc **qu'une seule et même
+  mécanique** : le porteur de l'Ordre Royal propose, les participants
+  votent (paramètres D19), et si voté, l'application suit la demande
+  (cycle prochain ou saison suivante).
+- **À DÉFINIR** : si le porteur de l'Ordre Royal ne propose rien,
+  l'Ordre Royal reste-t-il au même royaume toute la saison ou se
+  réévalue-t-il à chaque fin de cycle (selon les alliances) ?
+
+## D50 — ShowMatch PA2 (égalité finale)
+
+- **PA2 = Play All 2** : les joueurs doivent jouer **les deux
+  matchs obligatoirement** (contrairement au Best-Of) — le vainqueur
+  d'une manche PA2 est désigné **au score sur l'ensemble des deux
+  matchs**.
+- **Format : 1v1 PA2 successifs**. Premier duel entre un joueur de
+  chaque royaume : si **2-0**, son royaume remporte la manche ; si
+  **1-1**, un **autre seigneur** de chaque royaume enchaîne un
+  nouveau PA2, et ainsi de suite jusqu'à un **2-0**.
+- **Choix des maps et civilisations** : chaque royaume choisit ses
+  maps **parmi ses propres territoires** et ses civilisations
+  disponibles ; **aucune map ni civilisation ne peut être
+  réutilisée** au cours du ShowMatch.
+- **Repli** : si un royaume n'a plus de civilisations ou de
+  territoires disponibles, la suite se joue sur **Megarandom en
+  civilisation aléatoire**.
+- **Suite du ShowMatch** : on continue jusqu'à une victoire ; si tous
+  les 1v1 ont eu lieu, le format passe en **2v2, puis 3v3**, et ainsi
+  de suite.
