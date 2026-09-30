@@ -52,11 +52,9 @@
   l'IA.
 - **Un seul gagnant** : le vainqueur de la partie remporte la victoire
   **et le territoire pour son royaume**. Pas de cas multi-gagnants.
-- **Limite de temps paramétrable** (admin) : au bout de X, la partie
-  s'arrête et le vainqueur est le joueur avec le **plus gros score** à
-  cet instant.
-- **À définir** : cette limite de temps est-elle une valeur unique
-  partagée avec l'exploration (D5) ou deux valeurs séparées ?
+- **Pas de limite de temps** pour les attaques contre Gaïa (la limite
+  de temps paramétrable s'applique uniquement à l'exploration —
+  décision D44).
 
 ## D7 — Défense : n'importe quel seigneur
 
@@ -104,7 +102,10 @@
   (royaume contre royaume) — **indisponible contre Gaïa**.
 - Phase de snipe : chaque camp **retire de la liste des civilisations**
   une civilisation que son adversaire ne pourra pas jouer (et
-  réciproquement). Maximum **2 par partie**.
+  réciproquement).
+- **Maximum 2 sabotages par seigneur et par rencontre** ; le compteur
+  repart à zéro à la rencontre suivante (un seigneur peut détenir
+  plusieurs sabotages, sans limite de stock).
 
 ## D13 — Explorateur
 
@@ -291,7 +292,7 @@
 ## D38 — Fin de saison
 
 - La saison se termine **le lundi qui suit le dimanche du 4e cycle**
-  (après les 4 cycles) — à préciser : heure exacte (minuit ? cf. D37).
+  (après les 4 cycles), à minuit — précisé par D52.
 
 ## D39 — Litiges techniques en partie
 
@@ -392,9 +393,9 @@
   mécanique** : le porteur de l'Ordre Royal propose, les participants
   votent (paramètres D19), et si voté, l'application suit la demande
   (cycle prochain ou saison suivante).
-- **À DÉFINIR** : si le porteur de l'Ordre Royal ne propose rien,
-  l'Ordre Royal reste-t-il au même royaume toute la saison ou se
-  réévalue-t-il à chaque fin de cycle (selon les alliances) ?
+- Si le porteur ne propose rien dans son délai (D51), **l'opportunité
+  est perdue** : il n'existe qu'un Ordre Royal par saison, sans
+  réévaluation.
 
 ## D50 — ShowMatch PA2 (égalité finale)
 
@@ -443,13 +444,7 @@
   mariage » d'époque augmentent la **capacité de mariages du
   royaume** (nombre de seigneurs pouvant être mariés au total).
 
-## D54 — Liste des promises (en attente)
-
-- La liste des personnalités historiques (promises par civilisation)
-  est **RP uniquement** ; elle sera déposée dans le mod dès
-  réception.
-
-## D54 — Liste des promises (reçue)
+## D54 — Liste des promises
 
 - La liste des personnalités historiques (promises par civilisation)
   est déposée dans [PROMISES.md](PROMISES.md) — **RP uniquement**.
