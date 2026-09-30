@@ -416,3 +416,15 @@
 - **Suite du ShowMatch** : on continue jusqu'à une victoire ; si tous
   les 1v1 ont eu lieu, le format passe en **2v2, puis 3v3**, et ainsi
   de suite.
+
+## D51 — Ordre Royal : attribution et délai
+
+- **Alliance = civilisation** (le royaume ayant le plus de
+  civilisations).
+- Attribué **au passage d'Âge féodal (mercredi minuit)** ; il n'en
+  existe **qu'un seul** par saison, manifesté au féodal.
+- Le Roi porteur de l'Ordre Royal dispose de **24h pour faire sa
+  proposition de traité** (délai paramétrable par l'admin) ; passé ce
+  délai, **l'opportunité est perdue**.
+- Le vote suit les paramètres D19 (Rois ou tous les seigneurs ;
+  50%+1 ou unanimité).
