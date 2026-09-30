@@ -105,12 +105,35 @@ players first), legal framing, community consultation.
 Using Discord's native App Monetization (**Premium Apps / SKUs**) as an
 alternative collection channel for coaching payments.
 
-Research captured:
+Research captured (official Discord docs, July 2026):
+
 - Native SKUs would require **Discord App Verification** (public privacy
   policy, public terms of service, complete app identity) — useful anyway to
-  scale past 100 servers.
-- Discord takes a share of SKU revenue; payouts and refunds follow Discord's
-  rules, not the platform's.
+  scale past 100 servers. Readiness work is tracked in
+  merlin-pinpin-org/kingdoms-services#154.
+- **Economics**: Discord keeps a **15% platform fee** on the first $1M
+  cumulative gross sales (10% after), on top of payment-processing and
+  transaction fees; the first payout only happens after **$100** collective
+  earnings; purchases through the iOS/Android apps add a **15–30% store
+  fee**; Developer Policy requires the Discord price to be **no higher**
+  than the same offering sold elsewhere.
+- Payouts go to the **developer team's** Stripe account, never to individual
+  coaches/reviewers — redistributing to them would recreate internal payment
+  management (and its tax/legal burden), which is exactly what v1 avoids.
+- Raw SKUs have **fixed prices set in the Developer Portal**: they cannot
+  represent a per-coach freely-set price. Two candidate designs fit:
+  - *Design A — consumable credit SKUs* (fixed price points, e.g. 10/25/50
+    credits; players spend credits, coaches price in credits; the platform
+    pays coaches out of team payouts — manual, ledgered).
+  - *Design B — coach listing subscription* (one monthly user-subscription
+    SKU: paying coaches appear in the coach pool and its filters; session
+    money stays player↔coach direct). Design B is the simplest and most
+    compliant: one SKU, one entitlement check, nothing to redistribute.
+    Drawbacks: the fee share on small recurring revenue, the $100 payout
+    threshold, and the risk that good unsubscribed coaches impoverish the
+    pool (hidden vs. visible-not-bookable vs. bookable-out-of-filters —
+    undecided).
+- Payouts and refunds follow Discord's rules, not the platform's.
 
 Open questions:
 - Revenue share comparison: Discord SKUs vs. own PSP (Mangopay/Stripe).
@@ -142,5 +165,9 @@ elsewhere. The SKU decision is parked.
   coaching marketplace) designed with the game designers; Phase 4 target.
 - Research task on Discord App Monetization (SKUs) recorded for the coaching
   mod.
+- Decision with the game designers: the coaching mod itself ships **v1
+  subscription-free, no payment handling** (indicative commission ledger
+  only); monetization stays out of scope until the coach market justifies
+  the verification programme.
 - Epics and research issue deleted from the tracker; content preserved here,
   subject parked until community consultation.
