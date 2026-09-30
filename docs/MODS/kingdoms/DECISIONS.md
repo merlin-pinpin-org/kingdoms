@@ -13,8 +13,10 @@
 - La bascule du cycle a lieu au **Jour du Seigneur (dimanche 23h30)**,
   dernier événement de la semaine ; les attaques/défenses se
   rechargent à la bascule.
-- **À confirmer** : publication d'un bilan hebdomadaire du cycle dans
-  `📣-géopolitique` (proposé, pas encore validé).
+- À chaque bascule, le bot publie **la Gazette** dans
+  `📣-géopolitique` : le résumé hebdomadaire du cycle (territoires par
+  royaume, alliances, technologies dépensées). Validé par le game
+  designer.
 
 ## D2 — Technologies = monnaie
 
