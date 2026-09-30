@@ -448,3 +448,11 @@
 - La liste des personnalités historiques (promises par civilisation)
   est **RP uniquement** ; elle sera déposée dans le mod dès
   réception.
+
+## D54 — Liste des promises (reçue)
+
+- La liste des personnalités historiques (promises par civilisation)
+  est déposée dans [PROMISES.md](PROMISES.md) — **RP uniquement**.
+- Elle couvre plus de civilisations que les 50 conditions documentées
+  (Danois, Magyars, Mapuche, Muisca, Saxons, Tupi, Varègues…) :
+  promises disponibles dès qu'une civilisation est obtenue.
