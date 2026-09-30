@@ -173,3 +173,133 @@
   la plateforme gère déjà la récupération des résultats
   (`games/aoe2` + providers ext-librematch / ext-aoe2lobby, ADR-0020).
 - En cas de litige, **l'admin tranche**.
+
+## D21 — Nom de royaume
+
+- Validé par **l'admin** ; longueur et caractères autorisés
+  **paramétrables** par l'admin. L'admin peut aussi **imposer les
+  noms** des royaumes (mode royaumes imposés).
+- Hors périmètre actuel (version ultérieure) : bonus particuliers
+  attribués à chaque royaume.
+
+## D22 — Effectif des royaumes
+
+- Un royaume peut démarrer avec **un Roi seul** ; les limites du
+  nombre de seigneurs requis sont **paramétrables** par l'admin.
+
+## D23 — File d'attente, départ et remplacement
+
+- Des joueurs peuvent s'inscrire **sans royaume** (en **attente**),
+  pour des raisons d'équilibrage.
+- Un joueur peut **quitter la saison en cours** (option avec motif
+  indiqué) ; l'admin peut alors affecter un **joueur en attente**.
+- Le remplaçant **reprend l'état d'attaque/défense de la semaine** du
+  joueur sortant : si celui-ci avait déjà attaqué, le remplaçant ne
+  peut pas non plus attaquer (anti-abus).
+
+## D24 — Échange de joueurs entre royaumes
+
+- Uniquement **en fin de cycle → nouveau cycle** : des joueurs peuvent
+  être **intervertis** entre royaumes. Les **liens de mariages suivent
+  la position** : si A (marié à l'Éthiopie) échange sa place avec B,
+  B devient marié à l'Éthiopie.
+
+## D25 — Remplacement d'un seigneur parti
+
+- Un remplaçant ne récupère **que le mariage lié à la personne** ;
+  les **territoires et les points sont communs** aux seigneurs du
+  même royaume (donc rien à transférer).
+
+## D26 — Remplacement du Roi
+
+- Le Roi peut être **remplacé par un seigneur du même royaume**.
+
+## D27 — Qui déclare une attaque
+
+- **N'importe quel seigneur** peut déclarer une attaque (pas besoin de
+  l'accord du Roi).
+
+## D28 — Sabotage & Contre-espionnage : saisie
+
+- **Sabotage** : les joueurs indiquent **sur Discord dans la fenêtre
+  d'attaque/défense** s'ils font usage d'un sabotage, **juste avant la
+  rencontre**.
+- **Contre-espionnage** : proposé **lors de la déclaration
+  d'attaque** — le joueur peut déclarer l'attaque **au nom d'un autre
+  joueur** (cf. D11).
+
+## D29 — Égalité à l'exploration
+
+- En cas d'égalité, **le gain est attribué aux deux joueurs**.
+
+## D30 — Exploration : aucun ou un seul participant
+
+- **Aucun participant** : la map est ajoutée au royaume de Gaïa.
+- **Un seul participant** : il obtient **automatiquement la map avec
+  le lot du 1er**, sans nécessité de la jouer.
+
+## D31 — Jour du Seigneur : épuisement des maps
+
+- Improbable en pratique ; règle de repli : **lorsque Gaïa ne peut
+  plus disposer de 8 nouvelles maps, la partie (saison) s'arrête
+  automatiquement**.
+
+## D32 — Alliances & civilisations
+
+- Correspondance **map → civilisations** fournie par l'admin (le
+  game designer fournira la table) ; l'obtention de certaines
+  civilisations répond à des **pré-requis fournis par l'admin**.
+- En début de saison, chaque royaume reçoit **X civilisations**
+  (paramétrable par l'admin). **À la fin de chaque cycle**, les
+  alliances s'actualisent **en fonction des mariages et des
+  territoires conquis** ; on peut obtenir des civilisations au début
+  puis **les perdre ensuite**.
+
+## D33 — Choix des civilisations en partie
+
+- Le bot **actualise automatiquement** la liste des civilisations
+  jouables par royaume ; chaque seigneur choisit sa civilisation à sa
+  convenance, à condition d'y **avoir accès** et qu'elle ne soit pas
+  **sabotée** (un seigneur ne peut pas empêcher l'autre d'obtenir sa
+  civilisation).
+
+## D34 — Mariages
+
+- Chaque seigneur peut se marier **une fois** ; la promise est une
+  reine, princesse ou autre personnalité **ayant réellement existé**
+  par civilisation (liste fournie par le game designer) — rôle **RP
+  uniquement**, sans importance mécanique.
+- Si le seigneur **perd un combat**, il perd le mariage : **au cycle
+  prochain** il perdra l'effet du mariage.
+
+## D35 — Traquenard / Jeu d'armes : durée des effets
+
+- **Traquenard** expire **à la fin du combat**.
+- **Jeu d'armes** s'active **automatiquement** à l'obtention et reste
+  **jusqu'à la fin de la saison**.
+
+## D36 — Achat multiple de technologies
+
+- Un royaume peut acheter **plusieurs fois la même technologie** si
+  les conditions sont respectées ; chaque technologie a un
+  **paramètre de limite d'obtention**.
+
+## D37 — Corruption : fin de protection
+
+- La protection tombe **lundi minuit** (après le dimanche du cycle).
+
+## D38 — Fin de saison
+
+- La saison se termine **le lundi qui suit le dimanche du 4e cycle**
+  (après les 4 cycles) — à préciser : heure exacte (minuit ? cf. D37).
+
+## D39 — Litiges techniques en partie
+
+- Le joueur utilise une **sauvegarde du jeu** pour continuer la
+  partie ; **l'admin se réserve le droit de trancher**. La règle sera
+  ajoutée au règlement.
+
+## D40 — Fair-play & sanctions
+
+- Gestion **humaine** (admin) ; des règles de comportement seront
+  ajoutées au règlement (document à part).
