@@ -1,6 +1,6 @@
 ---
 name: update-dependencies
-description: Regenerate docs/DEPENDENCIES.md (dependency graph, critical path, waves, priorities) from the ## Dependencies sections of open GitHub issues. Use when issues or their dependencies change, when the session-check target reports drift, or at the end of a session.
+description: Local dry-run regeneration of docs/DEPENDENCIES.md (the sync-generated workflow publishes the real one on the sync/generated-artifacts branch). Use to preview what the workflow will change; never commit the output.
 ---
 
 # Update dependencies
@@ -29,7 +29,7 @@ from the graph but still shown (struck through) in the tables.
 
 **Generated artifacts:**
 
-- [docs/DEPENDENCIES.md](../../../docs/DEPENDENCIES.md) — Mermaid graph, critical
+- [docs/DEPENDENCIES.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/docs/DEPENDENCIES.md) (sync/generated-artifacts branch) — Mermaid graph, critical
   path, waves, per-issue priority table
 - `priority/P0-P3` labels on every issue (critical-path slack)
 - `size/XS-XL` labels (set manually: XS=1, S=3, M=5, L=8, XL=13 points)

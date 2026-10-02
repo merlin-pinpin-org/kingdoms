@@ -23,7 +23,7 @@ links to the authoritative documents instead of duplicating them.
 Authoritative references for everyone:
 [ARCHITECTURE](../ARCHITECTURE.md) · [CONVENTIONS](../CONVENTIONS.md) ·
 [VIBEWORKFLOW](../VIBEWORKFLOW.md) · [MODS](../MODS/README.md) ·
-[DECISIONS](../DECISIONS/README.md) (ADRs) · [ROADMAP](../../ROADMAP.md)
+[DECISIONS](../DECISIONS/README.md) (ADRs) · [ROADMAP](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md)
 - [your-test-env.md](your-test-env.md) — what it takes to run your own
   test environment (Discord bot + server, GitHub secrets, agent does the
   rest) — for every vibe coder getting their personal env.

@@ -67,7 +67,7 @@ kingdoms/
   delivery, test it in Discord, read the bot's `/status` — no tooling
   involved; in English and French, like the bot's own locales
 - [AGENTS.md](AGENTS.md) — rules every AI coding agent must follow in this repo
-- [ROADMAP.md](ROADMAP.md) — project phases and issue status (kept in sync
+- [ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md) — project phases and issue status (kept in sync
   by `scripts/sync_roadmap.py`; see the
   [Update roadmap](.agents/skills/update-roadmap/SKILL.md) skill)
 - [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — technical architecture

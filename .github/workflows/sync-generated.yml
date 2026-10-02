@@ -1,7 +1,8 @@
 # Regenerate the synced artifacts (ROADMAP.md, docs/DEPENDENCIES.md)
-# on main only — never in PRs, never by an agent's hand. The merge that
-# closes an issue (or any doc/issue change) is the signal that the
-# roadmap may have moved; this workflow is the single writer.
+# and publish them on the sync/generated-artifacts branch — never in
+# PRs, never by an agent's hand, never on main. The merge that closes
+# an issue (or any doc/issue change) is the signal that the roadmap may
+# have moved; this workflow is the single writer.
 #
 # Triggers:
 #   push on main          — the post-merge sync wave (every merge)
@@ -9,10 +10,10 @@
 #                           cross-repo issue changes that no push saw)
 #   workflow_dispatch     — the on-demand run
 #
-# The commit is pushed through the kingdoms-deployer App token (the
-# same single-writer identity as the state branches); the App must be
-# a bypass actor on the main ruleset (AGENTS.md — setup list).
-# If the regeneration produces no diff, nothing is committed.
+# The push targets a dedicated branch, not main: GitHub Apps cannot be
+# ruleset bypass actors, and the zero-click requirement means no PR and
+# no review — so the generated files left main's tree entirely.
+# If the regeneration produces no diff, nothing is pushed.
 name: Sync generated artifacts
 
 on:
@@ -54,16 +55,20 @@ jobs:
           python3 scripts/sync_roadmap.py
           python3 scripts/sync_dependencies.py
 
-      - name: Commit and push when the artifacts moved
+      - name: Publish the regenerated artifacts on the sync branch
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           if git diff --quiet -- ROADMAP.md docs/DEPENDENCIES.md; then
-            echo "artifacts up to date — nothing to commit"
+            echo "artifacts up to date — nothing to do"
             exit 0
           fi
           git config user.name "kingdoms-deployer[bot]"
           git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
+          # The generated artifacts live on sync/generated-artifacts
+          # (always current, rebuilt from main): main never carries them,
+          # so no ruleset review is ever asked and no human ever clicks.
+          git checkout -B sync/generated-artifacts
           git add ROADMAP.md docs/DEPENDENCIES.md
           git commit -m "chore(sync): regenerate ROADMAP.md + docs/DEPENDENCIES.md"
-          git push origin main
+          git push --force origin sync/generated-artifacts

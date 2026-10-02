@@ -6,7 +6,10 @@ three Kingdoms repositories:
 
 - docs validation: scripts/validate_docs.py --check (mods docs, docstrings,
   Mermaid syntax) against the kingdoms-services clone;
-- roadmap drift: scripts/sync_roadmap.py --check (issue states vs ROADMAP.md);
+- roadmap drift: scripts/sync_roadmap.py --check (issue states vs the
+  generated ROADMAP.md — the sync-generated workflow publishes it on the
+  sync/generated-artifacts branch; a local mismatch only means the
+  workflow has not run since the issue change, it is NOT a session error);
 - dependency-graph drift: scripts/sync_dependencies.py --dry-run against the
   committed docs/DEPENDENCIES.md (open issues, size/priority labels).
 
@@ -84,7 +87,17 @@ def main() -> int:
         capture_output=True,
         text=True,
     )
-    committed = (root / "docs" / "DEPENDENCIES.md").read_text()
+    dep_path = root / "docs" / "DEPENDENCIES.md"
+    if dep_path.exists():
+        committed = dep_path.read_text()
+    else:
+        # The generated dependency graph lives on the sync/generated-artifacts
+        # branch (main carries no generated files); read it from there.
+        import subprocess
+        committed = subprocess.run(
+            ["git", "show", "origin/sync/generated-artifacts:docs/DEPENDENCIES.md"],
+            cwd=root, capture_output=True, text=True, check=True,
+        ).stdout
     generated = deps_out.read_text() if deps_out.exists() else ""
     deps_out.unlink(missing_ok=True)
     if deps_result.returncode == 0 and generated == committed:
