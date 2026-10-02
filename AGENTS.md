@@ -6,6 +6,8 @@ documentation, generated roadmap and dependency graph).
 
 ## Read first
 
+- [docs/INDEX.md](docs/INDEX.md) — the router: question → page. Find the
+  answer without reading the whole docs tree.
 - [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions shared by the
   three repositories (language, humans-never-code, secrets, PR lifecycle,
   issues, checks).
@@ -27,10 +29,12 @@ documentation, generated roadmap and dependency graph).
 
 - Run `python3 scripts/validate_docs.py --check --source <kingdoms-services>/src/kingdoms --config <kingdoms-services>/config`
   before opening any PR (the `Check Docs` required check re-runs it).
-- Never edit `ROADMAP.md` or `docs/DEPENDENCIES.md` by hand — change the
-  issue state or its `## Dependencies` section and run the sync scripts
-  (`scripts/sync_roadmap.py`, `scripts/sync_dependencies.py`), committing
-  the regenerated files to your open PR branch.
+- Never edit `ROADMAP.md` or `docs/DEPENDENCIES.md`, and never regenerate
+  them: the `sync-generated` workflow owns both files. It runs on every
+  merge to main, daily at 06:00 UTC and on demand — the merge that closes
+  the issue re-syncs the roadmap. A session changes the issue state (or its
+  `## Dependencies` section) and lets the workflow regenerate; a freshness
+  mismatch on a PR is expected to resolve at merge.
 - **Contributors roster is the org's source of truth** (`CONTRIBUTORS.md`,
   maintainer-owned): teams, memberships, per-repo grants and roles are
   declared there and synchronized to GitHub by the `contributors-sync`

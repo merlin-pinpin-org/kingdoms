@@ -25,6 +25,19 @@ runner is never asked**. The zombie may even run an older or deleted
 workflow version (its labels and file were baked at creation), so fixing
 the workflow does not unblock it. Only cancelling the zombie does.
 
+## First reflex on a failed deployment: read the logs
+
+Comment `/logs [env] [--service S] [--since 30m] [--from <iso>] [--to
+<iso>] [--tail N]` on the PR (or the bug issue): the `ops-commands`
+workflow (kingdoms-services) gates it against the roster authority
+matrix (capability `env-logs` — ops, or dev on test), dispatches the
+`env-logs` workflow on kingdoms-infra, and the environment's own runner
+dumps the filtered `docker compose logs` back into the thread (full dump
+as a private artifact). Use it **before** any hypothesis: the bot's
+own traceback names the failing service more often than any inference.
+Filters are docker-native: `--since 30m`, `--from`/`--to` ISO8601
+windows, `--service kingdoms-bot` to isolate one process.
+
 ## Procedure
 
 ```bash

@@ -93,6 +93,8 @@ the session checks its human's agent-scope before acting):
 | ------------------------------- | ----------------- | ---- |
 | `/deploy [env]` — deploy a PR to a non-prod env | `vibe` (any contributor with a roster entry) | Never on prod-like envs; the requestor's roster entry must exist; the PR author's agent-scope must allow deploys |
 | `/restart`, `/status`, `/stop`, `/start` — control a running env (env-control workflow) | `ops`, or `dev` on `test` | Prod control additionally requires the GitHub environment approval |
+| `/logs [env] [--service S] [--since 30m] [--from iso] [--to iso] [--tail N]` — dump an env's logs (read-only) | `ops`, or `dev` on `test` | Read-only; posted back on the thread, full dump as a private artifact |
+| `/dump-db [env]` — dump an env's databases | `ops` | mongodump + Redis snapshot; VPS archive + private artifact; also runs daily on cron (04:30 UTC) |
 | `/release` — tag and release | `dev` or `platform` | Released tags only; prod deployment stays a separate ops approval |
 | `/rollback <env>` — revert a pin | `ops` | Prod reverts go through the revert PR + environment gate |
 | `/sync-teams` — run the roster sync | `platform` | Same as the scheduled sync |

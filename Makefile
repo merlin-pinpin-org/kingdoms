@@ -25,7 +25,9 @@ session-check:
 	python3 scripts/session_check.py --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config
 
 # Regenerate the synced artefacts (ROADMAP.md, docs/DEPENDENCIES.md) —
-# commit the result to the current PR branch, never edit them by hand.
+# local dry-run only: the sync-generated workflow owns the real
+# regeneration (post-merge, daily 06:00 UTC, on demand). Never commit
+# the output to a PR branch.
 sync-artifacts:
 	python3 scripts/sync_roadmap.py
 	python3 scripts/sync_dependencies.py
