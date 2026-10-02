@@ -22,7 +22,7 @@ covers what is specific to working *in this repo*.
 | `docs/GUIDES/` | Audience entry points: mod developer, game provider developer, vibe coder (AI session), game designer |
 | `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, restack-prs, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
-| `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |
+| `generated/ROADMAP.md`, `generated/DEPENDENCIES.md` | Generated artifacts — never edit manually |
 | `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
 | `templates/mod-template/` | Template for a new mod's documentation |
 
@@ -79,7 +79,7 @@ files.
 
 ## Generated artifacts
 
-`ROADMAP.md` and `docs/DEPENDENCIES.md` are regenerated, never hand-edited:
+`generated/ROADMAP.md` and `generated/DEPENDENCIES.md` are regenerated, never hand-edited:
 
 - Change the **issue state** or its `## Dependencies` section instead, then
   run the sync scripts ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),

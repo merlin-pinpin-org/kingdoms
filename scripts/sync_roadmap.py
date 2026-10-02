@@ -388,7 +388,7 @@ def main() -> int:
     parser.add_argument(
         "--roadmap",
         type=Path,
-        default=repo_root() / "ROADMAP.md",
+        default=repo_root() / "generated" / "ROADMAP.md",
         help="path to ROADMAP.md (default: the repository root)",
     )
     args = parser.parse_args()

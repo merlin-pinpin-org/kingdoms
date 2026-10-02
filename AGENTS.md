@@ -29,7 +29,7 @@ documentation, generated roadmap and dependency graph).
 
 - Run `python3 scripts/validate_docs.py --check --source <kingdoms-services>/src/kingdoms --config <kingdoms-services>/config`
   before opening any PR (the `Check Docs` required check re-runs it).
-- Never edit or regenerate `ROADMAP.md` or `docs/DEPENDENCIES.md`: the
+- Never edit or regenerate `generated/ROADMAP.md` or `generated/DEPENDENCIES.md`: the
   `sync-generated` workflow owns both files and publishes them on the
   `sync/generated-artifacts` branch (main carries neither). It runs on
   every merge to main, daily at 06:00 UTC and on demand — the merge that

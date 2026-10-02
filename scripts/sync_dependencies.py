@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regenerate docs/DEPENDENCIES.md from GitHub issue dependencies.
+"""Regenerate generated/DEPENDENCIES.md from GitHub issue dependencies.
 
 Reads the `## Dependencies` section of every open issue in
 `kingdoms-services` and `kingdoms-infra` (written as GitHub task-list
@@ -41,7 +41,7 @@ DEP_LINE_OWNER = re.compile(
     r"^-\s+\[([ x])\]\s+merlin-pinpin-org/(kingdoms-services|kingdoms-infra)#(\d+)$"
 )
 DEPS_SECTION = re.compile(r"(?s)## Dependencies\n(.*?)(?=\n## |\Z)")
-DOCS_URL = "https://github.com/merlin-pinpin-org/kingdoms/blob/main/docs/DEPENDENCIES.md"
+DOCS_URL = "https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/DEPENDENCIES.md"
 
 
 def gh_api(path: str) -> dict | list:
@@ -302,7 +302,7 @@ def report_priority_drift(issues: list[dict], a: dict) -> None:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true")
-    ap.add_argument("--out", default="docs/DEPENDENCIES.md")
+    ap.add_argument("--out", default="generated/DEPENDENCIES.md")
     args = ap.parse_args()
     issues = load_issues()
     fail_on_missing(issues)
