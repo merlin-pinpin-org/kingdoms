@@ -37,7 +37,13 @@ jobs:
       - name: Roster dry-run (report only)
         env:
           GITHUB_TOKEN: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN }}
-        run: python scripts/sync_contributors.py --check
+        run: |
+          if [ -z "$GITHUB_TOKEN" ]; then
+            echo "::notice::CONTRIBUTORS_SYNC_TOKEN is not set — the roster dry-run is skipped."
+            echo "An org admin must add the secret (Settings → Secrets and variables → Actions) for the sync to run."
+            exit 0
+          fi
+          python scripts/sync_contributors.py --check
 
   sync:
     if: github.event_name != 'pull_request'
