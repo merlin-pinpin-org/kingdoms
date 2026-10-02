@@ -78,7 +78,7 @@ inferred from GitHub state; set them manually — the script preserves them.
 
 ## See also
 
-- [ROADMAP.md](../../../ROADMAP.md) — the roadmap this skill maintains
+- [ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md) — the roadmap this skill maintains
 - [sync_roadmap.py](../../../scripts/sync_roadmap.py) — the
   automation backing this process (run with `--check` to preview drift)
 - [AGENTS.md](../../../AGENTS.md) — the rule that triggers this skill at

@@ -85,7 +85,7 @@ they describe the target behavior, not shipped code.
 ## Mod version history
 
 Mod rule and environment changes are tracked per mod (`register/CHANGELOG.md`)
-and in the [roadmap](../../ROADMAP.md).
+and in the [roadmap](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md).
 
 ## See also
 

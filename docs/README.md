@@ -18,7 +18,7 @@ to the right page, for humans and agents alike.
 - [GUIDES/](GUIDES/README.md) — per-role entry points (game designer, mod dev, provider dev, vibe coder, rulesets)
 - [MODS/](MODS/README.md) — mods documentation · [DEVELOPER.md](DEVELOPER.md) — this repo's layout
 - [../CONTRIBUTORS.md](../CONTRIBUTORS.md) — the contributor roster and authority matrix (maintainer-owned)
-- [../ROADMAP.md](../ROADMAP.md) / [DEPENDENCIES.md](DEPENDENCIES.md) — **generated**, never edited by hand
+- [../ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md) / [DEPENDENCIES.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/docs/DEPENDENCIES.md) — **generated**, never edited by hand
 
 ## The generated files
 
