@@ -1,0 +1,62 @@
+name: Authorize PR command
+# Roster-based authorization gate for PR-comment keywords (the authority
+# matrix in CONTRIBUTORS.md is the source of truth). Any keyword workflow
+# (deploy, env-control, release...) calls this reusable workflow first:
+# it parses the roster on main, resolves the requestor's entry and the
+# PR author's agent-scope, and fails closed with the exact matrix rule.
+#
+# Keywords and their capability (see the authority matrix):
+#   /deploy [env]     -> deploy      (any rostered vibe+; never prod-like)
+#   /env <cmd> <env>  -> env-control  (ops; dev on test)
+#   /release          -> release      (dev/platform)
+#   /rollback <env>   -> rollback     (ops)
+#   /sync-teams       -> sync-teams   (platform)
+on:
+  workflow_call:
+    inputs:
+      capability:
+        description: "Capability to check (deploy, env-control, release, rollback, sync-teams)"
+        required: true
+        type: string
+      environment:
+        description: "Target environment, empty if not env-scoped"
+        required: false
+        default: ""
+        type: string
+      requestor:
+        description: "Login of the human who posted the command"
+        required: true
+        type: string
+      pr-author:
+        description: "Login of the PR author (agent-scope check), empty to skip"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    name: Roster gate (${{ inputs.capability }})
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the roster (kingdoms main — the source of truth)
+        uses: actions/checkout@v4
+        with:
+          repository: merlin-pinpin-org/kingdoms
+          ref: main
+          sparse-checkout: |
+            CONTRIBUTORS.md
+            scripts/roster.py
+
+      - name: Apply the authority matrix
+        run: |
+          set -euo pipefail
+          result="$(python3 scripts/roster.py \
+            "${{ inputs.requestor }}" \
+            "${{ inputs.capability }}" \
+            --env "${{ inputs.environment }}" \
+            ${{ inputs.pr-author != '' && format('--pr-author {0}', inputs.pr-author) || '' }})"
+          echo "$result"
+          echo "$result" >> "$GITHUB_STEP_SUMMARY"
