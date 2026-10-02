@@ -47,7 +47,7 @@ org owner):
 | Ideas, rules, environments | `kingdoms` docs (`docs/MODS/`) | Game designer (via agent) |
 | Work items | GitHub issues (3 repos) | Agent creates |
 | Implementation | Feature branches `vibe/<slug>` → PRs | Agent |
-| Approvals & merges | PR review, GitHub rulesets | Developer and ops — one **Merge** click in the GitHub web UI |
+| Approvals & merges | PR review, GitHub rulesets | CODEOWNERS review; GitHub automerges the ready PR (rebase-only — see [GUIDES/rulesets.md](GUIDES/rulesets.md)) |
 | Versions | Git tags + GitHub releases | Agent executes on request; permissions enforced by GitHub |
 | Deployment | `kingdoms-infra` GitOps (test / prod, self-hosted runner on the VPS) | Agent via CI/CD; ops approves prod |
 
@@ -97,10 +97,11 @@ Step by step:
    a named owner: the mod's designer reviews their mod's PRs (no
    platform review), the maintainer/dev/ops teams review the core,
    platform and infra. Once the owners have approved and the checks are
-   green, GitHub merges the ready PR automatically. The session commits
-   as `Mistral AI <noreply@mistral.ai>` and **never adds a
-   `Co-authored-by` naming the human** — a trailer would make the human
-   a co-author of the PR and block their own approval (see the *Git
+   green, GitHub merges the ready PR automatically. The session
+   commits as the **vibe coder** (the human who ran it, per the
+   CONTRIBUTORS.md roster — alias and contact email used verbatim)
+   and adds the agent as co-author via
+   `Co-authored-by: Mistral AI <noreply@mistral.ai>` (see the *Git
    identity of agent sessions* rule in CONVENTIONS.md).
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.

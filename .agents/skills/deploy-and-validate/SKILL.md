@@ -6,10 +6,13 @@ description: Deploy a pull request to the test environment and validate it yours
 # Deploy to test and validate before ready
 
 The developer-mandated PR lifecycle (see *PR lifecycle* in
-[docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md)): a PR the agent asks
-a human to merge has been **deployed to test and validated by the agent
-itself** first. The human's Discord check is the final acceptance, not a
-precondition for ready.
+[docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md)): a PR is flipped
+to **ready** only after it has been **deployed to test and validated by
+the agent itself** — then GitHub automerges it once the CODEOWNERS
+reviews land (rebase-only, see
+[docs/GUIDES/rulesets.md](../../../docs/GUIDES/rulesets.md)). The
+human's Discord check is the final acceptance, not a precondition for
+ready.
 
 ## Preconditions (all required before deploying)
 
@@ -47,11 +50,12 @@ precondition for ready.
    A crash loop, an exited container or a failed healthcheck → the PR
    stays in draft, diagnose (see the
    [diagnose-deploy](../diagnose-deploy/SKILL.md) skill), fix, redeploy.
-5. **Mark ready and hand over**: `gh pr ready <n>`, then report the PR URL
-   and the deployed image and ask the human to test in Discord and merge.
-   This transition is mandatory and never waits for a reminder
-   (developer-mandated): a green, deployed, self-validated PR left in
-   draft is an agent bug.
+5. **Mark ready and hand over**: `gh pr ready <n>` + `gh pr merge <n>
+   --auto --rebase` (automerge; the rebase method is the only one the
+   rulesets allow), then report the PR URL and the deployed image and
+   ask the human to test in Discord. This transition is mandatory and
+   never waits for a reminder (developer-mandated): a green, deployed,
+   self-validated PR left in draft is an agent bug.
 
 ## After a merge: re-align test to main?
 

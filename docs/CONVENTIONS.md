@@ -15,20 +15,27 @@ descriptions are written in **English**.
 
 ## Git identity of agent sessions (developer-mandated)
 
-Every commit an agent session pushes carries the agent identity —
-`Mistral AI <noreply@mistral.ai>` — and **never a `Co-authored-by`
-trailer naming the human** (the 2026-09-25 #99 incident: the trailer
-made GitHub count the developer as co-author of the PR and blocked the
-approval — the human's Approve/Merge is the trust anchor, it must stay
-possible). Configure it in each clone before the first commit:
+Every commit an agent session pushes carries the **vibe coder's
+identity as author** — the human who ran the session, per the
+[CONTRIBUTORS.md](../CONTRIBUTORS.md) roster (login, alias, contact
+email) — with the agent as co-author via the trailer
+`Co-authored-by: Mistral AI <noreply@mistral.ai>`. Example for a session
+run by merlin (`@merlin-pinpin`, `merlin.pp@pm.me`):
 
 ```bash
-git config user.name "Mistral AI"
-git config user.email "noreply@mistral.ai"
+git config user.name "merlin"
+git config user.email "merlin.pp@pm.me"
+# and on every commit:
+git commit --trailer "Co-authored-by: Mistral AI <noreply@mistral.ai>"
 ```
 
-The human's own commits (rare, bootstrapping) keep the human identity;
-releases, pins and PRs authored by sessions are the agent's.
+The roster is the source of truth: the session reads the human's alias
+and email there and uses them verbatim — never invents a name, never
+falls back to a default. The agent co-author trailer is the machine's
+signature; the author is always the delegating human (work done on
+their behalf must be attributable to them). Required reviews come
+from CODEOWNERS paths, not from authorship — the trailer does not
+satisfy or break any review requirement.
 
 ## Humans never code
 
@@ -138,6 +145,13 @@ for review* — and GitHub automerges when everything converges:
    owner approvals are in (repo setting *Allow auto-merge*, enabled
    once at bootstrapping). The session enables automerge when it flips
    the PR to ready.
+
+**Merge method: rebase only** — every `main` ruleset allows only the
+`rebase` merge method (merge commits and squash are disabled repo-wide).
+Stacked, logical-commit PRs survive the merge as-is and automerge never
+has a squash-or-rebase question to answer. The full ruleset reference
+and policy live in
+[GUIDES/rulesets.md](GUIDES/rulesets.md).
 
 A PR touching **mod-only code** (a mod's `src/kingdoms/mods/<mod>/`,
 its YAML declaration, its docs, its tests) is reviewed by the mod's
