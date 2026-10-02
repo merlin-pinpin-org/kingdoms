@@ -77,7 +77,12 @@ jobs:
           else
             echo "sync branch absent — bootstrapping from the last main revisions"
             mkdir -p generated
-            base=$(git rev-list --all --max-count=1 -- ROADMAP.md || true)
+            # The last commit touching ROADMAP.md may be the removal commit;
+            # walk back until a revision that actually contains the file.
+            base=""
+            for c in $(git rev-list --all -- ROADMAP.md); do
+              if git cat-file -e "$c":ROADMAP.md 2>/dev/null; then base=$c; break; fi
+            done
             [ -n "$base" ] || { echo "no previous ROADMAP.md found anywhere"; exit 1; }
             git show "$base":ROADMAP.md > generated/ROADMAP.md
             git show "$base":docs/DEPENDENCIES.md > generated/DEPENDENCIES.md
