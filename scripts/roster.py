@@ -45,7 +45,6 @@ CAPABILITY_RULES: dict[str, dict] = {
 class Person:
     login: str
     alias: str = ""
-    email: str = ""
     cla: str = "none"
     teams: list[str] = field(default_factory=list)
     roles: list[str] = field(default_factory=list)
@@ -67,18 +66,18 @@ def parse_roster(path: str) -> dict[str, Person]:
             if section != "Contributors" or not MEMBER_ROW.match(line):
                 continue
             cells = [c.strip() for c in line.strip().strip("|").split("|")]
-            if len(cells) < 9 or cells[0].lstrip("@") == "Login":
+            # columns: login | alias | since | cla | github-teams | roles | owns | agent-scope
+            if len(cells) < 8 or cells[0].lstrip("@") == "Login":
                 continue
             login = cells[0].lstrip("@")
             people[login] = Person(
                 login=login,
                 alias=cells[1],
-                email=cells[2],
-                cla=cells[4],
-                teams=[t.strip().strip("`") for t in cells[5].split(",") if t.strip()],
-                roles=[r.strip() for r in re.split(r",(?![^(]*\))", cells[6]) if r.strip()],
-                owns=cells[7],
-                agent_scope=cells[8],
+                cla=cells[3],
+                teams=[t.strip().strip("`") for t in cells[4].split(",") if t.strip()],
+                roles=[r.strip() for r in re.split(r",(?![^(]*\))", cells[5]) if r.strip()],
+                owns=cells[6],
+                agent_scope=cells[7],
             )
     return people
 
