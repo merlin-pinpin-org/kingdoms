@@ -10,6 +10,7 @@ links to the authoritative documents instead of duplicating them.
 | Vibe coder (AI agent session) | [vibe-coder.md](vibe-coder.md) | Run a work session: issues → branch → PR → CI |
 | Game designer | [game-designer.md](game-designer.md) | Design a feature and get it built without coding |
 | Platform developer (maintainer) | [DEVELOPER.md](../DEVELOPER.md) + [CONVENTIONS.md](../CONVENTIONS.md) | Review, challenge, approve |
+| Org admin (one-time setup) | [rulesets.md](rulesets.md) | Create and maintain the GitHub rulesets |
 
 ## Reading order by goal
 
