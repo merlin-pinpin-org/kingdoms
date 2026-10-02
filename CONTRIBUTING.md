@@ -99,8 +99,15 @@ exactly the path above — no agent required.
 
 - First-time contributors must accept the CLA before their PR can be
   merged.
-- Comment `/cla` on your PR or follow the CLA workflow.
-- A CLA check runs on every PR from external contributors.
+- **Send the CLA by email**: read [CLA.md](CLA.md), sign it and email it
+  to a maintainer (see [CONTRIBUTORS.md](CONTRIBUTORS.md) for the
+  maintainers).
+- The maintainer adds your line to [CONTRIBUTORS.md](CONTRIBUTORS.md)
+  (`cla: accepted`) in a maintainer-reviewed PR — that entry is the CLA
+  record, and it triggers the contributor sync workflow (teams and
+  memberships follow the roster).
+- A CLA check runs on every PR from contributors whose `cla` is not
+  `accepted` in the roster.
 
 ## License
 
