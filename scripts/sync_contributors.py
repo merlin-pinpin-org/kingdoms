@@ -150,6 +150,7 @@ class GitHub:
 TEAM_ROW = re.compile(r"^\|\s*`([a-z0-9-]+)`\s*\|")
 MEMBER_ROW = re.compile(r"^\|\s*@([A-Za-z0-9-]+)\s*\|")
 GRANT = re.compile(r"([a-z-]+):\s*`(read|write|maintain|admin|triage)`")
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 
 
 def parse_roster(path: str) -> tuple[dict[str, Team], dict[str, Contributor]]:
@@ -165,6 +166,13 @@ def parse_roster(path: str) -> tuple[dict[str, Team], dict[str, Contributor]]:
                 cells = [c.strip() for c in line.strip().strip("|").split("|")]
                 if len(cells) < 4 or cells[0].strip("`") == "Team slug":
                     continue
+                if EMAIL.search(line):
+                    sys.exit(
+                        f"CONTRIBUTORS.md team row contains an email address "
+                        f"({line.strip()!r}) — personal emails are forbidden "
+                        f"in the roster (public repo; privacy incident "
+                        f"prevention). Remove it."
+                    )
                 slug = cells[0].strip("`")
                 parent = cells[1].strip("` ").strip("—-")
                 parent = parent or None
@@ -174,8 +182,16 @@ def parse_roster(path: str) -> tuple[dict[str, Team], dict[str, Contributor]]:
                 cells = [c.strip() for c in line.strip().strip("|").split("|")]
                 if len(cells) < 6 or cells[0].lstrip("@") == "Login":
                     continue
+                if EMAIL.search(line):
+                    sys.exit(
+                        f"CONTRIBUTORS.md contributor row contains an email "
+                        f"address ({line.strip()!r}) — personal emails are "
+                        f"forbidden in the roster (public repo; privacy "
+                        f"incident prevention). Remove it."
+                    )
                 login = cells[0].lstrip("@")
-                declared = [t.strip().strip("`") for t in cells[5].split(",")]
+                # columns: login | alias | since | cla | github-teams | ...
+                declared = [t.strip().strip("`") for t in cells[4].split(",")]
                 contributors[login] = Contributor(login=login, teams=[t for t in declared if t])
     return teams, contributors
 

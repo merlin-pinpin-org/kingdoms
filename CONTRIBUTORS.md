@@ -134,24 +134,29 @@ workflow materializes it on GitHub (team creation, repo grants).
 ## Contributors
 
 Each entry carries an **alias** (the short name sessions and humans use in
-conversation and commit/PR references) and a **contact email** (the CLA
-address and the session's escalation channel), plus **since** (the date the
+conversation and commit/PR references) plus **since** (the date the
 contributor joined the roster). Sessions **must materialize these**: address
-the human by their alias, use the email for CLA-related exchanges, and check
-the roster before assuming who does what.
+the human by their alias and check the roster before assuming who does what.
+
+**No personal email in this file — ever.** The roster lives in a public
+repo; a personal address would leak (this happened once — the history had
+to be rewritten). The CLA address stays in the maintainers' private channel
+from the CLA email exchange; it is never committed here. The
+`sync_contributors.py` check rejects any roster row containing an email
+address.
 
 **The alias is the working name everywhere** — conversation, PR titles
 (`vibe[<alias>]`), workflow verdicts and reports use it; the GitHub login
 is resolved from the roster only when an API call needs it.
 
-| Login | Alias | Email | Since | CLA | GitHub teams | Platform roles | Owns | Agent scope |
-| ----- | ----- | ----- | ----- | --- | ------------ | -------------- | ---- | ----------- |
-| @merlin-pinpin | Merlin | merlin.pp@pm.me | 2024-02-05 | accepted 2026-09 | maintainers, ops, game-designers, vibe-coders | dev, platform, ops, vibe | The whole platform (core, platform, infra); production approvals | Sessions act fully on their behalf except production approvals, CLA and role changes |
-| @Drasahaoe | Drasah | — | 2025-08-19 | accepted 2026-09 | game-designers, vibe-coders | mod (kingdoms, marriage), vibe | The `kingdoms` and `marriage` mods (CODEOWNERS paths in kingdoms and kingdoms-services); their rules and environments | Sessions build, test, deploy to test and drive to ready; they review their mod's PRs and validate on the test Discord; never asked to merge or run anything |
+| Login | Alias | Since | CLA | GitHub teams | Platform roles | Owns | Agent scope |
+| ----- | ----- | ----- | --- | ------------ | -------------- | ---- | ----------- |
+| @merlin-pinpin | Merlin | 2024-02-05 | accepted 2026-09 | maintainers, ops, game-designers, vibe-coders | dev, platform, ops, vibe | The whole platform (core, platform, infra); production approvals | Sessions act fully on their behalf except production approvals, CLA and role changes |
+| @Drasahaoe | Drasah | 2025-08-19 | accepted 2026-09 | game-designers, vibe-coders | mod (kingdoms, marriage), vibe | The `kingdoms` and `marriage` mods (CODEOWNERS paths in kingdoms and kingdoms-services); their rules and environments | Sessions build, test, deploy to test and drive to ready; they review their mod's PRs and validate on the test Discord; never asked to merge or run anything |
 
-> **Maintainers**: fill or confirm the email entries via a roster PR — the
-> email is the CLA channel and must stay accurate. The `since` date is the
-> GitHub account creation date at first entry.
+> **Maintainers**: the roster is the CLA record (the `cla` column); the CLA
+> email exchange stays private — never commit an address here. The `since`
+> date is the GitHub account creation date at first entry.
 
 ## Sync workflow
 
