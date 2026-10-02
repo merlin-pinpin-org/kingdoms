@@ -22,7 +22,7 @@ covers what is specific to working *in this repo*.
 | `docs/GUIDES/` | Audience entry points: mod developer, game provider developer, vibe coder (AI session), game designer |
 | `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, restack-prs, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
-| `ROADMAP.md`, `docs/DEPENDENCIES.md` | Generated artifacts — never edit manually |
+| `sync/generated-artifacts` branch | The generated artifacts (`ROADMAP.md`, `docs/DEPENDENCIES.md`) live **only** on this branch, published by the `sync-generated` workflow — never edit, never regenerate by hand |
 | `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
 | `templates/mod-template/` | Template for a new mod's documentation |
 
@@ -38,9 +38,11 @@ python3 scripts/validate_docs.py --check \
 ```
 
 The full session checklist (docs validation + roadmap drift +
-dependency-graph drift) runs with `make session-check`; the synced
-artefacts regenerate with `make sync-artifacts` (commit the result to the
-open PR branch). `make restack-<repo>` restacks the stacked PRs of a
+dependency-graph drift) runs with `make session-check` (the drift halves
+read the generated artifacts from the `sync/generated-artifacts` branch —
+a local mismatch only means the workflow has not run since the last issue
+change, it is not a session error). `make sync-artifacts` is a local
+dry-run preview of the regeneration; never commit its output. `make restack-<repo>` restacks the stacked PRs of a
 repository (see the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md) skill).
 
 It validates: mod docs completeness, Python docstrings in the
@@ -79,12 +81,18 @@ files.
 
 ## Generated artifacts
 
-`ROADMAP.md` and `docs/DEPENDENCIES.md` are regenerated, never hand-edited:
+`ROADMAP.md` and `docs/DEPENDENCIES.md` are regenerated, never hand-edited,
+and live **only on the `sync/generated-artifacts` branch** (main carries
+neither):
 
-- Change the **issue state** or its `## Dependencies` section instead, then
-  run the sync scripts ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
-  [Update dependencies](../.agents/skills/update-dependencies/SKILL.md)) and commit the
-  regenerated files to your open PR branch.
+- Change the **issue state** or its `## Dependencies` section instead; the
+  `sync-generated` workflow republishes the artifacts on every merge to
+  main, daily at 06:00 UTC and on demand. Nobody reviews or merges the
+  sync — it is a branch push, not a PR.
+- `make sync-artifacts` ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
+  [Update dependencies](../.agents/skills/update-dependencies/SKILL.md)) is
+  a local dry-run to preview what the workflow will change; never commit
+  the output.
 - Statuses needing human judgment (`in-progress`, `blocked`) are set
   manually and preserved by the script.
 - Priorities (`priority/P0-P3` labels) come from critical-path analysis
