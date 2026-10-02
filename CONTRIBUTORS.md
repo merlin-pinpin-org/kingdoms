@@ -138,6 +138,10 @@ contributor joined the roster). Sessions **must materialize these**: address
 the human by their alias, use the email for CLA-related exchanges, and check
 the roster before assuming who does what.
 
+**The alias is the working name everywhere** — conversation, PR titles
+(`vibe[<alias>]`), workflow verdicts and reports use it; the GitHub login
+is resolved from the roster only when an API call needs it.
+
 | Login | Alias | Email | Since | CLA | GitHub teams | Platform roles | Owns | Agent scope |
 | ----- | ----- | ----- | ----- | --- | ------------ | -------------- | ---- | ----------- |
 | @merlin-pinpin | merlin | merlin.pp@pm.me | 2024-02-05 | accepted 2026-09 | maintainers, ops, game-designers, vibe-coders | dev, platform, ops, vibe | The whole platform (core, platform, infra); production approvals | Sessions act fully on their behalf except production approvals, CLA and role changes |
