@@ -70,13 +70,13 @@ jobs:
           # previous generated state. It lives on the sync branch; when
           # the branch does not exist yet (first run), bootstrap from
           # the last main revision that still carried the files.
+          mkdir -p generated
           if git fetch origin sync/generated-artifacts \
               && git show origin/sync/generated-artifacts:generated/ROADMAP.md > generated/ROADMAP.md 2>/dev/null \
               && git show origin/sync/generated-artifacts:generated/DEPENDENCIES.md > generated/DEPENDENCIES.md 2>/dev/null; then
             echo "restored the generated state from sync/generated-artifacts"
           else
             echo "sync branch absent — bootstrapping from the last main revisions"
-            mkdir -p generated
             # The last commit touching ROADMAP.md may be the removal commit;
             # walk back until a revision that actually contains the file.
             base=""
@@ -87,6 +87,10 @@ jobs:
             git show "$base":ROADMAP.md > generated/ROADMAP.md
             git show "$base":docs/DEPENDENCIES.md > generated/DEPENDENCIES.md
           fi
+          # Stage the restored state so the publish step can diff against
+          # it (the regenerated files are otherwise untracked and the
+          # no-diff test would always pass).
+          git add generated/
 
       - name: Regenerate the artifacts
         working-directory: kingdoms
@@ -108,7 +112,7 @@ jobs:
         run: |
           git config user.name "kingdoms-deployer[bot]"
           git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
-          if git diff --quiet -- generated/; then
+          if git diff --quiet --cached -- generated/ && git diff --quiet -- generated/; then
             echo "artifacts up to date — nothing to do"
             exit 0
           fi
