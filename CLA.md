@@ -60,9 +60,17 @@ Project's copies of your work.
 
 ## 6. Acceptance
 
-Acceptance is recorded by commenting `/cla` on your pull request (the CLA
-check workflow keeps the acknowledgment) or by submitting a signed copy of
-this agreement to the maintainers. The record of acceptance is the PR comment
-and the `legal/CLA-SIGNERS.md` log, as applicable.
+To accept this agreement, **email a signed copy (CLA.md or CLA.pdf) to a
+maintainer** — merlin.pp@pm.me or any maintainer of the
+merlin-pinpin-org organization — with the signed document attached,
+stating that you accept this CLA **for your GitHub account** (indicate
+the exact username, e.g. "I accept the Kingdoms CLA for the GitHub
+account @Drasahaoe").
+
+The maintainer records your acceptance with a roster pull request on
+`CONTRIBUTORS.md` (a `cla: accepted <date>` entry for your login) — the
+roster is the single record of acceptance; there is no comment or
+click-through flow. From the moment the roster PR merges, your PRs pass
+the CLA check automatically.
 
 Effective date of this agreement: 2026-09-18.

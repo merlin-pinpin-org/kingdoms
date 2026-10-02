@@ -91,26 +91,26 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
 
     if "roles" in rule:
         if not roles & set(rule["roles"]):
-            return False, f"{person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs one of {rule['roles']}, per the authority matrix)"
+            return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs one of {rule['roles']}, per the authority matrix)"
         if env == "prod" and "test_only_roles" in rule:
             if roles & set(rule["test_only_roles"]) and not roles & (set(rule["roles"]) - set(rule["test_only_roles"])):
                 return False, f"'{capability}' on prod requires ops (the authority matrix)"
     elif "min" in rule:
         granted = any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS[rule["min"]] for r in roles)
         if not granted:
-            return False, f"{person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs {rule['min']}+, per the authority matrix)"
+            return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs {rule['min']}+, per the authority matrix)"
 
     # CLA is a precondition for any mutating action
     if not person.cla.lower().startswith("accepted"):
-        return False, f"{person.login} has no accepted CLA on record (roster says: {person.cla})"
+        return False, f"{person.alias or person.login} has no accepted CLA on record (roster says: {person.cla})"
 
     # Agent-mediated actions: the PR author's agent-scope must cover it too
     if pr_author is not None:
         scope = pr_author.agent_scope.lower()
         if capability in ("deploy", "rollback", "env-control", "release", "sync-teams"):
             if "fully on their behalf" not in scope and capability in ("deploy", "env-control") and "deploy" not in scope and "drive" not in scope:
-                return False, f"PR author {pr_author.login}'s agent-scope does not cover '{capability}': \"{pr_author.agent_scope}\""
-    return True, f"{person.login} ({', '.join(sorted(roles)) or 'no roles'}) may '{capability}'{f' on {env}' if env else ''}"
+                return False, f"PR author {pr_author.alias or pr_author.login}'s agent-scope does not cover '{capability}': \"{pr_author.agent_scope}\""
+    return True, f"{person.alias or person.login} ({', '.join(sorted(roles)) or 'no roles'}) may '{capability}'{f' on {env}' if env else ''}"
 
 
 def main() -> int:
@@ -129,7 +129,7 @@ def main() -> int:
         env=args.env,
         pr_author=roster.get(args.pr_author) if args.pr_author else None,
     )
-    print(json.dumps({"allowed": ok, "reason": reason}))
+    print(json.dumps({"allowed": ok, "reason": reason, "alias": roster[args.login].alias if args.login in roster else args.login}))
     return 0 if ok else 1
 
 

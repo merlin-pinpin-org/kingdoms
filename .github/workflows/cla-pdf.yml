@@ -1,0 +1,40 @@
+name: CLA PDF
+# Regenerates CLA.pdf from CLA.md whenever the CLA changes on main, and
+# commits the result — the PDF is the printable/emailable rendition of
+# the canonical CLA.md (the doc is the truth; the PDF is derived, never
+# hand-edited). Contributors sign either; the record is the roster.
+on:
+  push:
+    branches: [main]
+    paths: ["CLA.md"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cla-pdf
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN || github.token }}
+      - name: Install pandoc + LaTeX
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq pandoc texlive-latex-recommended texlive-latex-extra >/dev/null
+      - name: Render CLA.md -> CLA.pdf
+        run: pandoc CLA.md -o CLA.pdf --pdf-engine=pdflatex -V geometry:margin=2.5cm -V fontsize=11pt
+      - name: Commit the rendered PDF
+        run: |
+          git config user.name "merlin"
+          git config user.email "merlin.pp@pm.me"
+          git remote set-url origin "https://x-access-token:${{ secrets.CONTRIBUTORS_SYNC_TOKEN || github.token }}@github.com/merlin-pinpin-org/kingdoms.git"
+          if git diff --quiet CLA.pdf; then
+            echo "CLA.pdf already up to date."
+            exit 0
+          fi
+          git add CLA.pdf
+          git commit --trailer "Co-authored-by: Mistral AI <noreply@mistral.ai>" -m "docs(cla): regenerate CLA.pdf from CLA.md"
+          git push origin main
