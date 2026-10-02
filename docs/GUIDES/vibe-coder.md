@@ -13,7 +13,7 @@ This page is your boot checklist; the repo is the source of truth.
    state.
 4. Find the work: the issue at hand (milestone
    [v0.4.0](https://github.com/merlin-pinpin-org/kingdoms-services/milestone/3)),
-   its dependencies, and the ROADMAP for context.
+   its dependencies, and the generated roadmap for context.
 
 ## Working rules (from the decisions taken with the developer)
 

@@ -1,12 +1,14 @@
-# Regenerate the synced artifacts (ROADMAP.md, docs/DEPENDENCIES.md)
-# and publish them on the sync/generated-artifacts branch — never in
-# PRs, never by an agent's hand, never on main. The merge that closes
-# an issue (or any doc/issue change) is the signal that the roadmap may
-# have moved; this workflow is the single writer.
+# Regenerate the synced artifacts (generated/ROADMAP.md,
+# generated/DEPENDENCIES.md, generated/pydoc/ — the kingdoms-services
+# Python API doc, copied from that repo's committed pydoc which its own
+# CI keeps fresh) and publish them on the sync/generated-artifacts
+# branch — never in PRs, never by an agent's hand, never on main. The
+# merge that closes an issue (or any doc/issue change) is the signal
+# that the roadmap may have moved; this workflow is the single writer.
 #
 # Triggers:
 #   push on main          — the post-merge sync wave (every merge)
-#   schedule 06:00 UTC    — the daily catch-up (label/mileage edits,
+#   schedule 06:00 UTC    — the daily catch-up (label/milestone edits,
 #                           cross-repo issue changes that no push saw)
 #   workflow_dispatch     — the on-demand run
 #
@@ -32,7 +34,7 @@ concurrency:
 
 jobs:
   sync:
-    name: Regenerate ROADMAP.md + docs/DEPENDENCIES.md
+    name: Regenerate generated/ (roadmap, dependencies, pydoc)
     runs-on: ubuntu-latest
     steps:
       - name: Mint the kingdoms-deployer App token (single writer)
@@ -42,33 +44,68 @@ jobs:
           app-id: ${{ secrets.KINGDOMS_DEPLOYER_APP_ID }}
           private-key: ${{ secrets.KINGDOMS_DEPLOYER_APP_PRIVATE_KEY }}
           owner: merlin-pinpin-org
-          repositories: kingdoms
+          repositories: kingdoms,kingdoms-services
 
-      - name: Check out main
+      - name: Check out kingdoms (main)
         uses: actions/checkout@v4
         with:
           ref: main
+          path: kingdoms
           token: ${{ steps.app-token.outputs.token }}
 
-      - name: Regenerate the artifacts
-        run: |
-          python3 scripts/sync_roadmap.py
-          python3 scripts/sync_dependencies.py
+      - name: Check out kingdoms-services (main, pydoc source)
+        uses: actions/checkout@v4
+        with:
+          repository: merlin-pinpin-org/kingdoms-services
+          ref: main
+          path: kingdoms-services
+          token: ${{ steps.app-token.outputs.token }}
 
-      - name: Publish the regenerated artifacts on the sync branch
+      - name: Restore the previous generated state (bootstrap included)
+        working-directory: kingdoms
+        run: |
+          # sync_roadmap rewrites the file in place, so it needs the
+          # previous generated state. It lives on the sync branch; when
+          # the branch does not exist yet (first run), bootstrap from
+          # the last main revision that still carried the files.
+          if git fetch origin sync/generated-artifacts \
+              && git show origin/sync/generated-artifacts:generated/ROADMAP.md > generated/ROADMAP.md 2>/dev/null \
+              && git show origin/sync/generated-artifacts:generated/DEPENDENCIES.md > generated/DEPENDENCIES.md 2>/dev/null; then
+            echo "restored the generated state from sync/generated-artifacts"
+          else
+            echo "sync branch absent — bootstrapping from the last main revisions"
+            mkdir -p generated
+            base=$(git rev-list --all --max-count=1 -- ROADMAP.md || true)
+            [ -n "$base" ] || { echo "no previous ROADMAP.md found anywhere"; exit 1; }
+            git show "$base":ROADMAP.md > generated/ROADMAP.md
+            git show "$base":docs/DEPENDENCIES.md > generated/DEPENDENCIES.md
+          fi
+
+      - name: Regenerate the artifacts
+        working-directory: kingdoms
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
-          if git diff --quiet -- ROADMAP.md docs/DEPENDENCIES.md; then
+          python3 scripts/sync_roadmap.py
+          python3 scripts/sync_dependencies.py
+          # pydoc: kingdoms-services commits its own generated pydoc and
+          # its CI (docs.yml) fails when it is stale — copying it is both
+          # cheaper and always as fresh as that repo's main.
+          rm -rf generated/pydoc
+          cp -r ../kingdoms-services/docs/DEVELOPMENT/pydoc generated/pydoc
+
+      - name: Publish the regenerated artifacts on the sync branch
+        working-directory: kingdoms
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "kingdoms-deployer[bot]"
+          git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
+          if git diff --quiet -- generated/; then
             echo "artifacts up to date — nothing to do"
             exit 0
           fi
-          git config user.name "kingdoms-deployer[bot]"
-          git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
-          # The generated artifacts live on sync/generated-artifacts
-          # (always current, rebuilt from main): main never carries them,
-          # so no ruleset review is ever asked and no human ever clicks.
-          git checkout -B sync/generated-artifacts
-          git add ROADMAP.md docs/DEPENDENCIES.md
-          git commit -m "chore(sync): regenerate ROADMAP.md + docs/DEPENDENCIES.md"
+          git checkout -q -B sync/generated-artifacts
+          git add generated/
+          git commit -m "chore(sync): regenerate generated/ (roadmap, dependencies, pydoc)"
           git push --force origin sync/generated-artifacts

@@ -13,7 +13,7 @@ help:
 	@echo "  make help                        — show this help"
 	@echo "  make session-check               — full validation (docs + roadmap + dependencies)"
 	@echo "  make validate                    — docs validation only"
-	@echo "  make sync-artifacts              — regenerate ROADMAP.md and docs/DEPENDENCIES.md"
+	@echo "  make sync-artifacts              — regenerate generated/ROADMAP.md and generated/DEPENDENCIES.md"
 	@echo "  make restack-<repo>              — restack the open PRs of a repository"
 	@echo "  make contributors-check          — roster dry-run (report org drift, no mutation)"
 	@echo "  make contributors-sync           — reconcile the org with CONTRIBUTORS.md (mutates)"
@@ -24,7 +24,7 @@ help:
 session-check:
 	python3 scripts/session_check.py --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config
 
-# Regenerate the synced artefacts (ROADMAP.md, docs/DEPENDENCIES.md) —
+# Regenerate the synced artefacts (generated/ROADMAP.md, generated/DEPENDENCIES.md) —
 # local dry-run only: the sync-generated workflow owns the real
 # regeneration (post-merge, daily 06:00 UTC, on demand). Never commit
 # the output to a PR branch.

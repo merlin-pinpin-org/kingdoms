@@ -173,7 +173,7 @@ flow frictionless:
 
 ## Generated artifacts sync
 
-`ROADMAP.md` and `docs/DEPENDENCIES.md` are generated artifacts kept in
+`generated/ROADMAP.md` and `generated/DEPENDENCIES.md` are generated artifacts kept in
 sync by the sync skills ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
 [Update dependencies](../.agents/skills/update-dependencies/SKILL.md)): the agent runs the
 sync script locally (`scripts/sync_roadmap.py`,
@@ -228,7 +228,7 @@ An agent session (which starts with no memory of previous conversations):
    be asked.
 8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
    [Update roadmap](../.agents/skills/update-roadmap/SKILL.md) skill) and commit the synced
-   `ROADMAP.md` to the current PR branch.
+   `generated/ROADMAP.md` to the current PR branch.
 
 ## Rules
 

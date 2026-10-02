@@ -61,5 +61,5 @@ Levels legend: 1 vague · 2 shaped · 3 specified · 4 scoped · 5 developed.
 ## See also
 
 - [README.md](README.md) — how mods work (config, registry, lifecycle)
-- [../ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md) — global roadmap (issues, milestones, waves)
+- [../ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/ROADMAP.md) — global roadmap (issues, milestones, waves)
 - [TEMPLATE/](TEMPLATE/) — template for new mod documentation

@@ -1,85 +1,74 @@
 ---
 name: update-roadmap
-description: Keep ROADMAP.md in sync with the actual GitHub issue states across the three Kingdoms repos. Use at the end of a session, when issues were created/closed/re-labelled, or when the session-check Makefile target reports roadmap drift.
+description: Check generated/ROADMAP.md for drift against the actual GitHub issue states across the three Kingdoms repos, and trigger the sync workflow when needed. The roadmap is generated — agents never write it.
 ---
 
 # Update roadmap
 
-Keep `ROADMAP.md` (repo root) in sync with the actual GitHub issue states
-across the three Kingdoms repos.
+`generated/ROADMAP.md` is a **generated artifact**: the
+`sync-generated` workflow (kingdoms repo) is its single writer. It
+regenerates and publishes it on the `sync/generated-artifacts` branch
+on every merge to main, daily at 06:00 UTC, or on demand. **Agents and
+humans never edit or regenerate it by hand.**
 
-**Mechanism:** run `scripts/sync_roadmap.py` locally, then commit the updated
-`ROADMAP.md` to the PR branch (or open a dedicated PR). The script reads all
-three repositories through `gh api`; since they are public, no custom secret
-is required. It fails closed when a repository is unreadable — roadmap
-statuses for `kingdoms-infra` can never silently go stale.
+## What a session does
 
-Statuses that require human judgment (`in-progress`, `blocked`) cannot be
-inferred from GitHub state; set them manually — the script preserves them.
-
-## Procedure
-
-1. **Collect issue states** — the script does this itself via `gh api`:
+1. **Detect drift** — from the kingdoms repo root:
    ```bash
-   gh issue list --repo merlin-pinpin-org/<repo> --state all --limit 200 \
-     --json number,title,state,stateReason
+   python3 scripts/sync_roadmap.py --check
    ```
-2. **Run the sync script** from the repo root:
+   `--check` reports what would change without writing anything. The
+   session-check target runs it too.
+
+2. **If drift is reported**, trigger the single writer:
    ```bash
-   python3 scripts/sync_roadmap.py
+   gh workflow run sync-generated.yml --repo merlin-pinpin-org/kingdoms
    ```
-   It maps each issue referenced in `ROADMAP.md` to a status:
+   The workflow restores the previous state from the sync branch,
+   regenerates `generated/ROADMAP.md` + `generated/DEPENDENCIES.md` +
+   `generated/pydoc/`, and pushes the result to
+   `sync/generated-artifacts` — no PR, no review, no human click.
 
-   | GitHub state | Roadmap status |
-   | ------------ | --------------- |
-   | open + linked PR | `in-review` |
-   | open + assignee actively working | `in-progress` |
-   | open + no PR | `todo` |
-   | open + blocked dependency | `blocked` |
-   | closed as completed | `done` |
-   | closed as not planned | `dropped` (move the row to "Out of Scope") |
+3. **If the script fails on content** (unreadable repository, unknown
+   reference, an open issue missing from the roadmap, Out-of-Scope
+   drift), that is a real content problem: fix the underlying cause
+   (usually the roadmap source data or an issue label) — the workflow
+   alone cannot fix a broken reference. Report the failure to the
+   human if it is not something the session can fix.
 
-   Issue references are written as Markdown links:
-   `[kingdoms-services#12](https://github.com/merlin-pinpin-org/kingdoms-services/issues/12)`.
-   The sync script migrates plain `repo#N` codes automatically, but new rows
-   should be written linked from the start.
+## Status inference
 
-   `in-review` detection uses closing keywords in open PR bodies, matching
-   the script's `CLOSING_REF_RE`. PRs are linked to their issue with a
-   closing keyword in the PR description (`Closes #N` same-repo,
-   `Closes owner/repo#N` cross-repo): this populates the GitHub
-   "Development" section and closes the issue on merge.
-3. **Fix what the script reports** — it fails (or warns) on: unreadable
-   repository (exit 2), open issue missing from the roadmap, unknown
-   repository reference, issue not found on GitHub, Out-of-Scope drift
-   (exit 3). Re-run until clean.
-4. **Verify "Current Phase"**: the lowest phase that still has non-`done`
-   issues. Sub-tasks do not affect the phase calculation. The script updates
-   it automatically — check it matches intent.
-5. **Check the Change Log**: the script appends a dated row whenever a status
-   changed or issues were added/removed.
-6. **Commit and open a PR** with the title `docs(roadmap): sync with GitHub
-   issues` — or commit to the branch of an existing open PR that needs
-   the synced roadmap. Review the diff like any PR change.
+The script maps each issue referenced in the roadmap to a status:
+
+| GitHub state | Roadmap status |
+| ------------ | --------------- |
+| open + linked PR | `in-review` |
+| open + assignee actively working | `in-progress` |
+| open + no PR | `todo` |
+| open + blocked dependency | `blocked` |
+| closed as completed | `done` |
+| closed as not planned | `dropped` (row moves to "Out of Scope") |
+
+Statuses that require human judgment (`in-progress`, `blocked`) cannot
+be inferred from GitHub state alone — the script preserves them.
 
 ## Rules
 
-- A roadmap-only change must **only touch `ROADMAP.md`**.
-- Never invent statuses: every row must reflect an actual GitHub issue state.
-- New issues discovered during the sync are added to the matching phase table
-  (or "Sub-tasks") as linked rows; issues missing from GitHub are removed.
-- Do not reorder tables; keep tracks grouped by repo.
-- The script prints a warning for open issues missing from the roadmap —
-  add them to the matching table.
-
-## Status values
-
-`todo` / `in-progress` / `in-review` / `done` / `blocked` / `dropped`
+- **Never edit, regenerate or commit `generated/ROADMAP.md`,
+  `generated/DEPENDENCIES.md` or `generated/pydoc/`** — they are not
+  on main anymore; the sync branch is workflow-owned.
+- Never invent statuses: every row must reflect an actual GitHub issue
+  state.
+- The canonical reading links are on the `sync/generated-artifacts`
+  branch:
+  [generated/ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/ROADMAP.md)
+  and
+  [generated/DEPENDENCIES.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/DEPENDENCIES.md).
 
 ## See also
 
-- [ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/ROADMAP.md) — the roadmap this skill maintains
-- [sync_roadmap.py](../../../scripts/sync_roadmap.py) — the
-  automation backing this process (run with `--check` to preview drift)
-- [AGENTS.md](../../../AGENTS.md) — the rule that triggers this skill at
-  the end of every session
+- `.github/workflows/sync-generated.yml` — the single writer
+- [sync_roadmap.py](../../../scripts/sync_roadmap.py) — the drift
+  detector (`--check`), also the generator the workflow runs
+- [AGENTS.md](../../../AGENTS.md) — the end-of-session check that
+  calls this skill

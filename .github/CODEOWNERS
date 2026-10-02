@@ -21,7 +21,7 @@
 /AGENTS.md              @merlin-pinpin-org/maintainers
 /docs/DECISIONS/        @merlin-pinpin-org/maintainers
 
-## Sync scripts: they regenerate ROADMAP.md and docs/DEPENDENCIES.md
+## Sync scripts: they regenerate generated/ROADMAP.md and generated/DEPENDENCIES.md
 /scripts/               @merlin-pinpin-org/maintainers
 
 ## Contributors roster: the source of truth for roles and teams

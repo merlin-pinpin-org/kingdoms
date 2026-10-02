@@ -11,7 +11,7 @@ three Kingdoms repositories:
   sync/generated-artifacts branch; a local mismatch only means the
   workflow has not run since the issue change, it is NOT a session error);
 - dependency-graph drift: scripts/sync_dependencies.py --dry-run against the
-  committed docs/DEPENDENCIES.md (open issues, size/priority labels).
+  committed generated/DEPENDENCIES.md (open issues, size/priority labels).
 
 Exit code is non-zero when any check fails; each failure line names the exact
 artefact to fix. The script never writes anything — it reports.
@@ -87,7 +87,7 @@ def main() -> int:
         capture_output=True,
         text=True,
     )
-    dep_path = root / "docs" / "DEPENDENCIES.md"
+    dep_path = root / "generated" / "DEPENDENCIES.md"
     if dep_path.exists():
         committed = dep_path.read_text()
     else:
@@ -95,7 +95,7 @@ def main() -> int:
         # branch (main carries no generated files); read it from there.
         import subprocess
         committed = subprocess.run(
-            ["git", "show", "origin/sync/generated-artifacts:docs/DEPENDENCIES.md"],
+            ["git", "show", "origin/sync/generated-artifacts:generated/DEPENDENCIES.md"],
             cwd=root, capture_output=True, text=True, check=True,
         ).stdout
     generated = deps_out.read_text() if deps_out.exists() else ""
@@ -105,8 +105,8 @@ def main() -> int:
     else:
         print("FAIL  dependency-graph drift")
         checks.append(
-            ["dependency-graph: docs/DEPENDENCIES.md is out of date"
-             " — run scripts/sync_dependencies.py and commit the result"]
+            ["dependency-graph: generated/DEPENDENCIES.md is out of date"
+             " — trigger the sync-generated workflow (single writer)"]
         )
 
     failures = [line for group in checks for line in group]

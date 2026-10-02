@@ -16,8 +16,8 @@ the skills there).
 | [automate-or-learn](../../.agents/skills/automate-or-learn/SKILL.md) | Where each automation belongs; the propose-to-memorize rule |
 | [diagnose-deploy](../../.agents/skills/diagnose-deploy/SKILL.md) | Diagnose a stuck/pending deploy before blaming the runner |
 | [restack-prs](../../.agents/skills/restack-prs/SKILL.md) | Keep stacked PRs conflict-free |
-| [update-roadmap](../../.agents/skills/update-roadmap/SKILL.md) | Regenerate `ROADMAP.md` from GitHub issues |
-| [update-dependencies](../../.agents/skills/update-dependencies/SKILL.md) | Regenerate `docs/DEPENDENCIES.md` from issue dependencies |
+| [update-roadmap](../../.agents/skills/update-roadmap/SKILL.md) | Regenerate `generated/ROADMAP.md` from GitHub issues |
+| [update-dependencies](../../.agents/skills/update-dependencies/SKILL.md) | Regenerate `generated/DEPENDENCIES.md` from issue dependencies |
 | [deploy-and-validate](../../.agents/skills/deploy-and-validate/SKILL.md) | Deploy a PR to test and validate it before ready |
 | [release-flow](../../.agents/skills/release-flow/SKILL.md) | Cut a release (tag, GitHub release, prod pin) on request |
 | [shape-game-designer-idea](../../.agents/skills/shape-game-designer-idea/SKILL.md) | Turn a game designer idea into an automatable issue |

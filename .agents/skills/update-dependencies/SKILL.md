@@ -1,6 +1,6 @@
 ---
 name: update-dependencies
-description: Local dry-run regeneration of docs/DEPENDENCIES.md (the sync-generated workflow publishes the real one on the sync/generated-artifacts branch). Use to preview what the workflow will change; never commit the output.
+description: Local dry-run regeneration of generated/DEPENDENCIES.md (the sync-generated workflow publishes the real one on the sync/generated-artifacts branch). Use to preview what the workflow will change; never commit the output.
 ---
 
 # Update dependencies
@@ -49,7 +49,7 @@ partial data.
    ```
    It fails loudly on missing `size/*`/`priority/*` labels, unknown or
    still-open checked dependencies, cycles, and unreadable repositories,
-   then rewrites `docs/DEPENDENCIES.md`. Use `--dry-run` to preview.
+   then rewrites `generated/DEPENDENCIES.md`. Use `--dry-run` to preview.
 2. **Fix label drift.** The script prints a **priority-label drift report**
    when an issue's `priority/*` label no longer matches its critical-path
    slack; it never edits issues. Fix the labels and re-run:
