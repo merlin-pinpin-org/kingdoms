@@ -1,0 +1,69 @@
+# Regenerate the synced artifacts (ROADMAP.md, docs/DEPENDENCIES.md)
+# on main only — never in PRs, never by an agent's hand. The merge that
+# closes an issue (or any doc/issue change) is the signal that the
+# roadmap may have moved; this workflow is the single writer.
+#
+# Triggers:
+#   push on main          — the post-merge sync wave (every merge)
+#   schedule 06:00 UTC    — the daily catch-up (label/mileage edits,
+#                           cross-repo issue changes that no push saw)
+#   workflow_dispatch     — the on-demand run
+#
+# The commit is pushed through the kingdoms-deployer App token (the
+# same single-writer identity as the state branches); the App must be
+# a bypass actor on the main ruleset (AGENTS.md — setup list).
+# If the regeneration produces no diff, nothing is committed.
+name: Sync generated artifacts
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-generated
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    name: Regenerate ROADMAP.md + docs/DEPENDENCIES.md
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mint the kingdoms-deployer App token (single writer)
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.KINGDOMS_DEPLOYER_APP_ID }}
+          private-key: ${{ secrets.KINGDOMS_DEPLOYER_APP_PRIVATE_KEY }}
+          owner: merlin-pinpin-org
+          repositories: kingdoms
+
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Regenerate the artifacts
+        run: |
+          python3 scripts/sync_roadmap.py
+          python3 scripts/sync_dependencies.py
+
+      - name: Commit and push when the artifacts moved
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          if git diff --quiet -- ROADMAP.md docs/DEPENDENCIES.md; then
+            echo "artifacts up to date — nothing to commit"
+            exit 0
+          fi
+          git config user.name "kingdoms-deployer[bot]"
+          git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
+          git add ROADMAP.md docs/DEPENDENCIES.md
+          git commit -m "chore(sync): regenerate ROADMAP.md + docs/DEPENDENCIES.md"
+          git push origin main

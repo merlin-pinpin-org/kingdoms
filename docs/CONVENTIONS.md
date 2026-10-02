@@ -100,6 +100,14 @@ reusable artifact:
   deploy pins, scheduled sync); sandbox-limited checks are exercised by
   CI workflows, never left unverified.
 
+**Script the second repetition (developer-mandated).** The trigger is
+not "is this useful again?" in the abstract: the **second time** a session
+performs the same operation, it must exist as a committed Makefile target
+or script — the first time may be exploration, the second is a pattern.
+And when the operation is useful to a **human** (not just to agents),
+explain it where the human will look: the matching guide page or
+CONVENTIONS.md section, not just the script header.
+
 **Learn it or drop it (developer-mandated).** Whenever a session types a
 shell command or writes a helper script for its own convenience, it must
 ask: *will this be useful again?* If yes — even plausibly — **commit it**:
@@ -272,6 +280,16 @@ with descriptive labels, not bare URLs. The human never has to ask twice
 for the same link.
 
 ## Documentation is part of the change
+
+**Docs quality is a standing priority for every agent (developer-mandated).**
+The docs are the platform's **single source of truth** — no session has
+memory, so an unreadable doc is a broken platform. Every doc change, new
+or edited, must keep the docs **simple, understandable, non-redundant,
+structured, up to date and complete**. Concretely: one home per rule
+(never duplicate — link), plain short sentences, a reader must find the
+answer without reading everything (see `docs/INDEX.md`), and a doc that
+contradicts the code is a bug in the doc. When in doubt: delete the
+redundancy, not the reader's patience.
 
 `kingdoms` is the source of truth: a change in `kingdoms-services` or
 `kingdoms-infra` without its doc update there is incomplete.
