@@ -43,8 +43,10 @@ Every contributor entry declares:
 1. **The invite** — a maintainer invites the account into the org (web
    UI, one-time bootstrapping action) and into the teams matching
    their contribution.
-2. **The CLA** — the contributor sends the CLA (`/cla` on a PR or the
-   CLA workflow); the entry stays `pending` until the check passes.
+2. **The CLA** — the contributor signs [CLA.md](CLA.md) and **emails
+   it to a maintainer** (no GitHub comment flow); the maintainer files
+   the roster PR with `cla: accepted` — the roster entry is the CLA
+   record.
 3. **This file** — a PR adds the contributor's entry (roles, teams,
    ownership). Maintainers review it — this is the authorization record.
 4. **CODEOWNERS** — if the contributor owns a mod, the mod's CODEOWNERS
@@ -52,7 +54,9 @@ Every contributor entry declares:
    their reviews are required on their mod from day one.
 5. **The sync workflow** — once merged, the workflow reconciles GitHub
    with this file: adds missing org memberships/team memberships for
-   declared contributors, and **flags** (never silently removes)
+   declared contributors (the roster edit **triggers the team
+   additions** — no manual team management), and **flags** (never
+   silently removes)
    GitHub members or team memberships absent from the doc — the
    discrepancy lands as a workflow annotation or an issue for the
    maintainers to resolve.
