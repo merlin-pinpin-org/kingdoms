@@ -99,7 +99,8 @@ Step by step:
    platform and infra. Once the owners have approved and the checks are
    green, GitHub merges the ready PR automatically. The session
    commits as the **vibe coder** (the human who ran it, per the
-   CONTRIBUTORS.md roster — alias and contact email used verbatim)
+   CONTRIBUTORS.md roster — alias used verbatim; personal emails are
+   forbidden in the roster)
    and adds the agent as co-author via
    `Co-authored-by: Mistral AI <noreply@mistral.ai>` (see the *Git
    identity of agent sessions* rule in CONVENTIONS.md).
