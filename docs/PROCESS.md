@@ -54,7 +54,7 @@ operation committed as a Makefile target, script or workflow (see
 
 | | Game designer | Developer | Ops |
 |--|--|--|--|
-| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary; tests in Discord | Challenges the design; reviews the ready PR and **clicks Merge**; never codes | Same as developer, plus reviews infra changes |
+| Does | Describes the idea to the agent (Discord or session); validates the proposed design; reads the agent's summary; tests in Discord | Challenges the design; reviews and approves the PRs that touch core/platform code (per CODEOWNERS) — merges are automated; never codes | Same as developer, plus reviews infra changes |
 
 **Flow:**
 
@@ -65,10 +65,11 @@ operation committed as a Makefile target, script or workflow (see
    PR**; CI runs on the PR (lint, typecheck, tests, image build).
 3. The agent monitors CI and fixes failures until green, then marks the PR
    **ready for review**.
-4. **Only the developer or ops can merge** (GitHub rulesets + CODEOWNERS
-   enforce it; the game designer never needs merge rights). The agent
-   prepares the PR to merge-ready and never merges; the human reviews and
-   clicks **Merge** (squash) — one click.
+4. **Nobody clicks Merge — the PR automerges.** The session marks the PR
+   ready and enables automerge; CODEOWNERS decide the required review
+   (mod-only PRs need none — the designer's session owns them end to end;
+   core/platform PRs need a maintainer approval). The automerge fires
+   once the checks and required approvals are in.
 5. On merge, the PR closes its issue automatically (`Closes #N`).
 
 The game designer's feedback loop — *I want → the agent builds → I read a
@@ -182,7 +183,7 @@ idea ──▶ vibe session (Mistral agent)
           ▼ "deploy on test"
         agent comments /deploy on the PR → build → pin in deploy/test → deploy
           │
-          ▼ agent monitors → result;      Developer/ops clicks Merge
+          ▼ agent monitors → result;      PR automerges (reviews via CODEOWNERS)
         test bot in Discord  ◀──── deployment on demand (pinned SHA image, ADR-0018)
           │
           ▼ "it works, release it"
