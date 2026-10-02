@@ -279,6 +279,11 @@ release URL, run URLs, state-branch pins — formatted as Markdown links
 with descriptive labels, not bare URLs. The human never has to ask twice
 for the same link.
 
+All the session↔human interaction rules (UI-select asks, live plan,
+context-before-ask, alias addressing, cadence) live in one place:
+the [human-interaction](../.agents/skills/human-interaction/SKILL.md)
+skill. They apply to every human, whatever their roster role.
+
 ## Documentation is part of the change
 
 **Docs quality is a standing priority for every agent (developer-mandated).**

@@ -23,6 +23,7 @@ page routes you to the answer. Read this page, not the whole docs tree.
 | How do I write/update a mod's docs? | [DEVELOPER.md](DEVELOPER.md) + [MODS/](MODS/README.md) |
 | Who reviews my PR? | [GUIDES/rulesets.md](GUIDES/rulesets.md) (rulesets) + CODEOWNERS in the target repo |
 | I am a game designer / mod dev / provider dev / vibe coder | [GUIDES/](GUIDES/README.md) — the per-role guides |
+| I want to join the platform — what do I need? | [GUIDES/join-the-platform.md](GUIDES/join-the-platform.md) — GitHub + Mistral accounts, connector, runner, CLA |
 | What is the roadmap? What depends on what? | [generated/ROADMAP.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/ROADMAP.md) + [DEPENDENCIES.md](https://github.com/merlin-pinpin-org/kingdoms/blob/sync/generated-artifacts/generated/DEPENDENCIES.md) — both **generated**, never edited |
 
 ## The three laws (if you read nothing else)

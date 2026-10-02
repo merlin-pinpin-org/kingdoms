@@ -1,5 +1,9 @@
 # Contributing to Kingdoms (documentation repository)
 
+New contributor? Read [docs/GUIDES/join-the-platform.md](docs/GUIDES/join-the-platform.md)
+first — it explains what you need (GitHub + Mistral accounts, connector,
+personal runner, signed CLA) before anything below.
+
 This repository hosts no application code — only documentation, ADRs and
 the Python scripts that validate docs and keep the generated artifacts in
 sync. You do not need an AI agent to contribute: everything below runs

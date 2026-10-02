@@ -27,3 +27,4 @@ Authoritative references for everyone:
 - [your-test-env.md](your-test-env.md) — what it takes to run your own
   test environment (Discord bot + server, GitHub secrets, agent does the
   rest) — for every vibe coder getting their personal env.
+- [join-the-platform.md](join-the-platform.md) — what a new contributor needs (accounts, connector, runner, CLA)
