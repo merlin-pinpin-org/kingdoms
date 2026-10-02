@@ -54,7 +54,7 @@ The authoritative live state is the GitHub API
 - Target: `~DEFAULT_BRANCH`, enforcement **active**
 - Rules:
   - `deletion`, `non_fast_forward`, `required_linear_history`
-  - `pull_request`: 1 approving review, **code-owner review required**,
+  - `pull_request`: 0 blanket approving reviews, **code-owner review required**,
     review threads must be resolved, **allowed merge methods: `rebase`
     only**
   - `required_status_checks`: Lint (ruff), Typecheck (mypy strict), Unit
@@ -63,16 +63,11 @@ The authoritative live state is the GitHub API
     CI/CD bot), Build and test the image, Generate and check pydoc
     freshness, Check Docs
 
-### `kingdoms-services` — `release-tags` (target: tag)
-
-- Guards tag creation (`vX.Y.Z`) — only the release pipeline may tag;
-  see [../PROCESS.md](../PROCESS.md) *Releases*.
-
 ### `kingdoms` — `main`
 
 - Target: `~DEFAULT_BRANCH`, enforcement **active**
 - Rules: `deletion`, `non_fast_forward`, `required_linear_history`,
-  `pull_request` (1 approval, code-owner review, **rebase-only**),
+  `pull_request` (0 blanket approvals, code-owner review required, **rebase-only**),
   `required_status_checks` (docs validation)
 
 ### `kingdoms-infra` — `main`
@@ -86,17 +81,84 @@ The authoritative live state is the GitHub API
   `required_status_checks`; `Deploy PROD` additionally requires a pull
   request and `required_deployments` (the `prod` environment approval) —
   **approving a prod deployment is merging that PR** (ADR-0018).
+- Bypass actors: `maintainers`, `ops` teams and the `kingdoms-deployer`
+  App (the state-branch writer). The **production gate is the GitHub
+  environment** (`environment: prod` in deploy-env.yml — required
+  reviewers, secrets, `env-prod` runner), not the workflow and not the
+  ruleset.
+- **Rollback** (`rollback.yml`): a broken deployment reverts the *pinned
+  state* (never the code on main). On `test` the revert pushes directly
+  (no PR required by the ruleset); on `prod` it opens a revert PR to
+  `deploy/prod`. The push re-triggers the Deploy environment workflow,
+  which re-applies the previous known-good image. **Known gap**: the
+  re-apply is unconditional — when the re-pinned image is already the
+  one running, the deploy still runs (tracked in kingdoms-infra — see
+  *Drift detection / known gaps* in the repo issues).
+
+### `kingdoms-services` — `release-tags` (target: tag)
+
+- Guards tag creation (`vX.Y.Z`) — only the release pipeline may tag;
+  see [../PROCESS.md](../PROCESS.md) *Releases*.
+
+### Rulesets for many environments — one ruleset per env, provisioned
+
+Rulesets target branches by **explicit ref-name conditions** (e.g.
+`refs/heads/deploy/test`): there is no wildcard over branches and no
+ruleset template in the GitHub UI. With one state branch per environment
+(`deploy/<env>`), each new environment therefore needs **its own
+`Deploy <ENV>` ruleset** — at 15 environments, that is 15 rulesets, all
+identical except the `ref_name` condition and the env name.
+
+The scalable path is provisioning, not manual copying: a ruleset is a
+plain API object (`POST /orgs/{org}/repos/{repo}/rulesets`), so a
+committed script can create the `Deploy <ENV>` ruleset for a new env from
+a single documented template (same rules as `Deploy TEST`, PR
+requirement + `required_deployments` for prod-like envs). Until the
+platform grows past `test`/`prod`, the two hand-made rulesets suffice;
+when a per-contributor environment fleet lands (see the environment
+per-user plan), the provisioning script becomes part of the environment
+bootstrap — a maintainer runs it once per env (one-time admin action).
+
+Documented expectations for every future `Deploy <ENV>` ruleset: same
+rules as `Deploy TEST`, plus the PR rule and `required_deployments` when
+the env is prod-like; bypass actors `maintainers`, `ops`,
+`kingdoms-deployer`; the gate always lives in the GitHub environment
+(required reviewers), never in the workflow.
 
 ## Ruleset parameters — exact expected state
 
-For each repository's `main` ruleset, the `pull_request` rule must
-declare: required approving reviews **1**, **require review from
-code owners**, require conversation resolution, allowed merge methods
-**["rebase"]**. Anything else in the tables above (targets, linear
-history, checks) is part of the same ruleset. The only remaining
-repository-level settings (Settings → General → Pull Requests) are the
-**user preferences**: auto-merge enabled and automatic head-branch
-deletion — everything else about merging lives in the ruleset.
+For each repository's `main` ruleset (all three are **exactly
+identical**), the `pull_request` rule declares: required approving
+reviews **0** (the code-owner requirement is what forces the review —
+CODEOWNERS names the owner of every touched path, and GitHub requires
+that owner's approval; a blanket count would double-review mod PRs),
+**require review from code owners**, require conversation resolution,
+allowed merge methods **["rebase"]**. **Bypass actors**: the
+`maintainers` team (org-wide maintainer on all three repos) — the trust
+anchor for bootstrapping and emergencies; nobody else bypasses, the agent
+included. The only remaining repository-level settings (Settings →
+General → Pull Requests) are the **user preferences**: auto-merge enabled
+and automatic head-branch deletion — everything else about merging lives
+in the ruleset.
+
+**CODEOWNERS is the review router** — the ruleset only enforces "the
+owner(s) of every touched path approved". The default rule
+(`* @merlin-pinpin-org/maintainers`) makes everything non-mod
+maintainer-reviewed; each mod's paths are delegated to its designer
+(one line per mod, added in the mod's own PR — GitHub CODEOWNERS has no
+negative/regex patterns, so per-mod lines are the mechanism; a new mod
+means adding its line, which is part of the mod's bootstrap).
+
+## Shared checks — factorized once, referenced thrice
+
+Several checks are logically identical across the three repos but exist
+as three copies (CLA Check, Auto-triage, Validate issue): GitHub runs
+workflows per repository, so the *contexts* cannot be shared, but the
+*code* can: a single reusable implementation (a script in `kingdoms` or
+a `workflow_call` workflow) with three thin per-repo wrappers keeps the
+behavior identical everywhere while the maintenance happens in one
+place. Required-check contexts stay per-repo (they match by exact
+workflow/job name) — factorization reduces drift, not check count.
 
 ## Drift detection — the ruleset check workflow
 
