@@ -7,6 +7,8 @@ name: Authorize PR command
 #
 # Keywords and their capability (see the authority matrix):
 #   /deploy [env]     -> deploy      (any rostered vibe+; never prod-like)
+#   /logs [env] ...   -> env-logs    (ops; dev on test)
+#   /dump-db [env]    -> db-dump     (ops)
 #   /env <cmd> <env>  -> env-control  (ops; dev on test)
 #   /release          -> release      (dev/platform)
 #   /rollback <env>   -> rollback     (ops)
@@ -15,7 +17,7 @@ on:
   workflow_call:
     inputs:
       capability:
-        description: "Capability to check (deploy, env-control, release, rollback, sync-teams)"
+        description: "Capability to check (deploy, env-control, env-logs, db-dump, release, rollback, sync-teams)"
         required: true
         type: string
       environment:

@@ -13,6 +13,8 @@ the maintainers review both in the same PR.
 Capabilities (from the authority matrix):
   deploy       -> requestor rostered (vibe or better); never prod-like
   env-control  -> ops (any env) or dev (test only)
+  env-logs    -> ops (any env) or dev (test only)
+  db-dump     -> ops
   release      -> dev or platform
   rollback     -> ops
   sync-teams   -> platform
@@ -31,6 +33,8 @@ ROLE_LEVELS = {"none": 0, "vibe": 1, "mod": 2, "dev": 3, "platform": 3, "ops": 3
 CAPABILITY_RULES: dict[str, dict] = {
     "deploy": {"min": "vibe", "deny_envs_prod": True, "help": "deploy a PR to a non-prod env"},
     "env-control": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "start/stop/restart/status an env"},
+    "env-logs": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "read an env's logs"},
+    "db-dump": {"roles": ["ops"], "help": "dump an env's databases"},
     "release": {"roles": ["dev", "platform"], "help": "tag and release"},
     "rollback": {"roles": ["ops"], "help": "revert a pin"},
     "sync-teams": {"roles": ["platform"], "help": "run the roster sync"},

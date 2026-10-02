@@ -1,0 +1,43 @@
+# INDEX — find the answer without reading everything
+
+You are an agent session or a human contributor with a question. This
+page routes you to the answer. Read this page, not the whole docs tree.
+
+## "I am… / I want to… — where do I look?"
+
+| Question | Answer lives in |
+| --- | --- |
+| Who am I working with? Who may do what? | [CONTRIBUTORS.md](../CONTRIBUTORS.md) — the roster (login, alias, email, teams, roles, agent scope) + the authority matrix |
+| What are the universal rules every session follows? | [CONVENTIONS.md](CONVENTIONS.md) — working language, git identity, scope guard, automation, PR lifecycle, docs quality |
+| How does the platform work end to end (roles, sessions, deploys)? | [VIBEWORKFLOW.md](VIBEWORKFLOW.md) — the operating model |
+| What does each person click (and nothing else)? | [VIBEWORKFLOW.md](VIBEWORKFLOW.md) *Human GitHub scope* + [GUIDES/rulesets.md](GUIDES/rulesets.md) |
+| What is the process for dev / test deploy / release / prod? | [PROCESS.md](PROCESS.md) |
+| Which CI/CD workflows exist and what do they do? | [WORKFLOWS.md](WORKFLOWS.md) |
+| Which PR-comment commands exist (`/deploy`, `/logs`, `/restart`, `/rollback`, `/dump-db`, `/release`…)? | [CONTRIBUTORS.md](../CONTRIBUTORS.md) authority matrix (who) + [WORKFLOWS.md](WORKFLOWS.md) (how) |
+| How do I deploy something to test? | [PROCESS.md](PROCESS.md) §Test deployment + the `deploy-and-validate` [skill](../.agents/skills/deploy-and-validate/SKILL.md) |
+| How do I debug a failed deployment / read the test logs? | `/logs [env] [--service S] [--since 30m]` PR comment (see [WORKFLOWS.md](WORKFLOWS.md)) + the `diagnose-deploy` [skill](../.agents/skills/diagnose-deploy/SKILL.md) |
+| How do I stack PRs / rebase a chain? | the `restack-prs` [skill](../.agents/skills/restack-prs/SKILL.md) |
+| How do I release / cut a version? | [PROCESS.md](PROCESS.md) §Release + the `release-flow` [skill](../.agents/skills/release-flow/SKILL.md) |
+| How do I shape a game-designer idea into an issue? | the `shape-game-designer-idea` [skill](../.agents/skills/shape-game-designer-idea/SKILL.md) |
+| What is the architecture? Why was X decided? | [ARCHITECTURE.md](ARCHITECTURE.md) + [DECISIONS/](DECISIONS/README.md) (ADRs) |
+| How do I write/update a mod's docs? | [DEVELOPER.md](DEVELOPER.md) + [MODS/](MODS/README.md) |
+| Who reviews my PR? | [GUIDES/rulesets.md](GUIDES/rulesets.md) (rulesets) + CODEOWNERS in the target repo |
+| I am a game designer / mod dev / provider dev / vibe coder | [GUIDES/](GUIDES/README.md) — the per-role guides |
+| What is the roadmap? What depends on what? | [../ROADMAP.md](../ROADMAP.md) + [DEPENDENCIES.md](DEPENDENCIES.md) — both **generated**, never edited |
+
+## The three laws (if you read nothing else)
+
+1. **The docs are the single source of truth** — keep them simple,
+   non-redundant, up to date; one home per rule, links elsewhere.
+2. **Humans never code** — everything technical is done by agents or
+   CI; human actions are GitHub web UI clicks only.
+3. **Everything is automation** — the second repetition of any
+   operation becomes a committed script, target or workflow.
+
+## Reading order for a fresh agent session
+
+1. [CONTRIBUTORS.md](../CONTRIBUTORS.md) — who you work for (scope guard)
+2. [CONVENTIONS.md](CONVENTIONS.md) — the rules
+3. [VIBEWORKFLOW.md](VIBEWORKFLOW.md) — the model
+4. The repo's `AGENTS.md` — the local mandates
+5. This index when a question comes up — never the whole tree
