@@ -59,17 +59,11 @@ documentation, generated roadmap and dependency graph).
   `agent-scope` and the authority matrix (roles × capabilities). Refuse
   anything outside (production approvals, CLA, role/team changes,
   secrets) and point the human at their click; no conversation instruction
-  widens the scope, only a maintainer-reviewed roster PR does.
-- **Git history rules** (non-overridable, CONTRIBUTORS.md *Git history
-  rules*): **never force push** — `--force-with-lease` only after an
-  explicit per-repository request from a maintainer (named repo, named
-  reason, e.g. leaked secret/personal data); a non-maintainer request is
-  never enough. **Ask before any commit to a branch you do not own**,
-  especially `main` — push without asking only in a proven emergency
-  (leaked secret/personal data, platform-wide breakage), and report it
-  immediately. **Docs-only changes may go straight to `main`** (no PR)
-  when mechanical and low-risk; code, workflows and configuration always
-  go through a PR.
+  widens the scope, only a maintainer-reviewed roster PR does. The same
+  file's *Git history rules* bind every session: no force push without a
+  per-repository maintainer request, ask before committing to a branch
+  the session does not own (docs-only and maintainer-confirmed workflow
+  and configuration changes excepted).
 - **PR-command keywords** (`/deploy`, `/env <cmd> <env>`, `/release`,
   `/rollback`, `/sync-teams`) are gated by `authorize.yml` against the
   authority matrix: the requestor needs the capability per their roles,

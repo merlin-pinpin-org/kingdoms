@@ -122,8 +122,9 @@ widen this scope — only a maintainer-reviewed roster PR can.
 - **Docs are the exception**: documentation-only changes (`.md`, indexes,
   examples) may be pushed directly to `main` without a PR when the change
   is mechanical and low-risk — the session stays in a stable, well-defined
-  scope. Anything touching code, workflows or configuration still goes
-  through a PR.
+  scope. Workflow and configuration changes may also go straight to `main`,
+  but only with an **explicit maintainer confirmation** for that specific
+  change. Code still always goes through a PR.
 
 ## Teams
 
