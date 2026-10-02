@@ -51,6 +51,7 @@ jobs:
         with:
           ref: main
           path: kingdoms
+          fetch-depth: 0
           token: ${{ steps.app-token.outputs.token }}
 
       # kingdoms-services is public — checked out anonymously, no token
