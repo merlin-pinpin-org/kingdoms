@@ -44,7 +44,7 @@ jobs:
           app-id: ${{ secrets.KINGDOMS_DEPLOYER_APP_ID }}
           private-key: ${{ secrets.KINGDOMS_DEPLOYER_APP_PRIVATE_KEY }}
           owner: merlin-pinpin-org
-          repositories: kingdoms,kingdoms-services
+          repositories: kingdoms
 
       - name: Check out kingdoms (main)
         uses: actions/checkout@v4
@@ -53,13 +53,14 @@ jobs:
           path: kingdoms
           token: ${{ steps.app-token.outputs.token }}
 
+      # kingdoms-services is public — checked out anonymously, no token
+      # needed; the App installation does not cover it.
       - name: Check out kingdoms-services (main, pydoc source)
         uses: actions/checkout@v4
         with:
           repository: merlin-pinpin-org/kingdoms-services
           ref: main
           path: kingdoms-services
-          token: ${{ steps.app-token.outputs.token }}
 
       - name: Restore the previous generated state (bootstrap included)
         working-directory: kingdoms
