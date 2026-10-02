@@ -5,7 +5,7 @@
 
 KINGDOMS_SERVICES ?= ../kingdoms-services
 
-.PHONY: help session-check sync-artifacts restack-% validate
+.PHONY: help session-check sync-artifacts restack-% validate contributors-check contributors-sync
 
 # List the available targets (human entry point).
 help:
@@ -15,6 +15,8 @@ help:
 	@echo "  make validate                    — docs validation only"
 	@echo "  make sync-artifacts              — regenerate ROADMAP.md and docs/DEPENDENCIES.md"
 	@echo "  make restack-<repo>              — restack the open PRs of a repository"
+	@echo "  make contributors-check          — roster dry-run (report org drift, no mutation)"
+	@echo "  make contributors-sync           — reconcile the org with CONTRIBUTORS.md (mutates)"
 	@echo "  KINGDOMS_SERVICES=<path>          — where the kingdoms-services clone lives (default: ../kingdoms-services)"
 
 # Mechanical session checklist: docs validation, roadmap drift,
@@ -27,6 +29,15 @@ session-check:
 sync-artifacts:
 	python3 scripts/sync_roadmap.py
 	python3 scripts/sync_dependencies.py
+
+# Roster sync: the org follows CONTRIBUTORS.md (source of truth).
+# `contributors-check` reports without mutating (what the CI runs on roster PRs);
+# `contributors-sync` adds/removes memberships, teams and repo grants to match the doc.
+contributors-check:
+	python3 scripts/sync_contributors.py --check
+
+contributors-sync:
+	python3 scripts/sync_contributors.py
 
 # Restack the open PRs of a repository on top of each other (stacking
 # convention): make restack-kingdoms-services, make restack-kingdoms-infra...

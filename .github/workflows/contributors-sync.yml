@@ -1,0 +1,92 @@
+name: Contributors sync
+# Reconciles the org's teams, memberships and team repo grants with
+# CONTRIBUTORS.md — the roster is the source of truth, GitHub follows it.
+#   - declared-but-missing membership/team/grant -> added/created/ensured
+#   - membership or grant absent from the roster  -> revoked (over-granting
+#     is corrected automatically, then reported)
+#   - undeclared team / unrostered org member      -> flagged (never deleted)
+# Anything corrected or flagged makes the run fail and opens (or updates)
+# a tracking issue for the maintainers.
+on:
+  push:
+    branches: [main]
+    paths: ["CONTRIBUTORS.md"]
+  pull_request:
+    paths: ["CONTRIBUTORS.md"]
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  issues: write
+  contents: read
+
+concurrency:
+  group: contributors-sync
+  cancel-in-progress: false
+
+jobs:
+  check:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Roster dry-run (report only)
+        env:
+          GITHUB_TOKEN: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN }}
+        run: python scripts/sync_contributors.py --check
+
+  sync:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Sync org with the roster
+        id: sync
+        env:
+          GITHUB_TOKEN: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN }}
+        run: |
+          set +e
+          python scripts/sync_contributors.py | tee sync-report.txt
+          code=${PIPESTATUS[0]}
+          echo "exitcode=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Report to maintainers (corrections or flags)
+        if: steps.sync.outputs.exitcode != '0'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('sync-report.txt', 'utf8');
+            const title = 'Contributors sync — corrections applied / discrepancies to resolve';
+            const body = `The roster sync (${context.sha.slice(0, 7)}) corrected or flagged the org state. The doc (CONTRIBUTORS.md) is the source of truth — review the corrections and resolve the flags:\n\n\`\`\`\n${report}\n\`\`\`\n\n_Automated report from the contributors-sync workflow._`;
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'contributors-sync', per_page: 1,
+            });
+            if (existing.data.length > 0) {
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number, body,
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: existing.data[0].number,
+                body: `Sync re-run on ${context.sha.slice(0, 7)}:\n\n\`\`\`\n${report}\n\`\`\``,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['contributors-sync'],
+              });
+            }
+      - name: Fail on unresolved flags
+        if: steps.sync.outputs.exitcode != '0'
+        run: exit 1

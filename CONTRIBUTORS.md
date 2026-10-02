@@ -67,6 +67,30 @@ Every contributor entry declares:
    approval requests; nobody but the declared owners is asked to
    review anything).
 
+## Teams
+
+The teams below are the **only teams the sync workflow manages** —
+anything else found in the org is flagged. Each team declares its
+**role per repository** (`read` / `write` / `maintain` / `admin`) and
+its **parent team**: members of a parent are *not* automatically
+members of the children (GitHub semantics apply as declared here,
+the doc is the truth). A login absent from a team it holds on GitHub
+is **removed automatically** (over-granting is corrected by the sync,
+then reported to the maintainers) — a login present in the doc but
+missing on GitHub is **added automatically**.
+
+| Team slug | Parent | Repos & role | Purpose |
+| --------- | ------ | ------------ | ------- |
+| `maintainers` | — | kingdoms: `maintain` · kingdoms-services: `maintain` · kingdoms-infra: `maintain` | Platform maintainers: review every non-delegated path (CODEOWNERS default), own governance docs, resolve drift |
+| `ops` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `maintain` | Infra & environments: deploy approvals, secrets, VPS runner |
+| `devs` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `write` | Platform developers: review core/platform code, challenge designs |
+| `game-designers` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `read` | Game designers: own their mods (rules, docs, environments), review their mod PRs |
+| `vibe-coders` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `read` | Anyone running vibe-coding sessions: drive PRs to ready, deploy to test |
+
+> Adding a team or changing a team's permissions is a **roster PR**:
+edit the table above in the same change as the memberships — the sync
+workflow materializes it on GitHub (team creation, repo grants).
+
 ## Contributors
 
 Each entry carries an **alias** (the short name sessions and humans use in
@@ -92,11 +116,19 @@ reconciles the org's teams through the GitHub API, using a
 `CONTRIBUTORS_SYNC_TOKEN` org secret (org admin scope):
 
 - **add** — a declared contributor missing from a declared team is
-  added;
-- **flag** — an org member or team membership with no entry here is
-  reported (workflow summary + issue for maintainers), never removed
-  automatically: the doc is the truth, but humans resolve the
-  discrepancies;
+  added (and the team's declared repo grants are ensured);
+- **remove** — a GitHub membership the doc does not declare is
+  **removed automatically** (over-granted permissions are revoked by
+  the sync, then reported); an org member with no roster entry is
+  **flagged, not removed** (removing org membership is a human
+  decision — maintainers resolve flagged members in the web UI);
+- **create/ensure teams** — a declared team missing on GitHub is
+  created with its declared parent, repo grants and description;
+  an undeclared team found on GitHub is flagged (never deleted);
+- **notify** — every correction (add, remove, create) lands in the
+  workflow summary; when anything was removed or flagged, the
+  workflow opens (or updates) a tracking issue for `maintainers` —
+  over-permissioning never passes silently;
 - the workflow runs on every change to this file and weekly
   (scheduled), and fails loudly if the doc and GitHub disagree beyond
   what it could fix.
