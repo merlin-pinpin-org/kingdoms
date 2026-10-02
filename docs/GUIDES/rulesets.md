@@ -90,40 +90,55 @@ The authoritative live state is the GitHub API
   state* (never the code on main). On `test` the revert pushes directly
   (no PR required by the ruleset); on `prod` it opens a revert PR to
   `deploy/prod`. The push re-triggers the Deploy environment workflow,
-  which re-applies the previous known-good image. **Known gap**: the
-  re-apply is unconditional — when the re-pinned image is already the
-  one running, the deploy still runs (tracked in kingdoms-infra — see
-  *Drift detection / known gaps* in the repo issues).
+  which re-applies the previous known-good image — **except when the
+  re-pinned image is already the one running**, in which case the revert
+  is pushed without re-deploying (kingdoms-infra#96: silent re-pin).
+- **Day-to-day control** (`env-control.yml` + `scripts/envctl.sh`):
+  start / stop / restart / status per environment, run on the env's
+  runner from a workflow_dispatch with two choice lists (command +
+  environment); it dumps the stack state and never deploys, pulls or
+  touches the pinned state. Prod control operations pass the
+  environment gate (required reviewers); `status` is read-only.
 
 ### `kingdoms-services` — `release-tags` (target: tag)
 
 - Guards tag creation (`vX.Y.Z`) — only the release pipeline may tag;
   see [../PROCESS.md](../PROCESS.md) *Releases*.
 
-### Rulesets for many environments — one ruleset per env, provisioned
+### Rulesets for many environments — wildcard or per-env, documented
 
-Rulesets target branches by **explicit ref-name conditions** (e.g.
-`refs/heads/deploy/test`): there is no wildcard over branches and no
-ruleset template in the GitHub UI. With one state branch per environment
-(`deploy/<env>`), each new environment therefore needs **its own
-`Deploy <ENV>` ruleset** — at 15 environments, that is 15 rulesets, all
-identical except the `ref_name` condition and the env name.
+The two live rulesets target explicit refs (`refs/heads/deploy/test`,
+`refs/heads/deploy/prod`). A ruleset condition **can match a wildcard** —
+`refs/heads/deploy/*` — which covers every current and future
+environment state branch in one ruleset, with a single set of rules
+and bypass actors.
 
-The scalable path is provisioning, not manual copying: a ruleset is a
-plain API object (`POST /orgs/{org}/repos/{repo}/rulesets`), so a
-committed script can create the `Deploy <ENV>` ruleset for a new env from
-a single documented template (same rules as `Deploy TEST`, PR
-requirement + `required_deployments` for prod-like envs). Until the
-platform grows past `test`/`prod`, the two hand-made rulesets suffice;
-when a per-contributor environment fleet lands (see the environment
-per-user plan), the provisioning script becomes part of the environment
-bootstrap — a maintainer runs it once per env (one-time admin action).
+Trade-off, documented choice:
 
-Documented expectations for every future `Deploy <ENV>` ruleset: same
-rules as `Deploy TEST`, plus the PR rule and `required_deployments` when
-the env is prod-like; bypass actors `maintainers`, `ops`,
-`kingdoms-deployer`; the gate always lives in the GitHub environment
-(required reviewers), never in the workflow.
+- **Wildcard (`deploy/*`)**: one ruleset for the whole environment
+  fleet; a new environment inherits its protection the moment its state
+  branch exists — no maintainer action per env. Limitation: the rules are
+  shared, so a prod-only rule (PR requirement, `required_deployments`)
+  would apply to test too, or the prod PR rule needs to stay a separate
+  ruleset targeting `deploy/prod` explicitly.
+- **Per-env rulesets**: rules can differ per env (the current state —
+  `deploy/test` accepts a direct push from the kingdoms-deployer App,
+  `deploy/prod` requires an approved PR + `required_deployments`);
+  at N environments that is N rulesets to create and keep aligned.
+
+Current choice: **two explicit rulesets** (test and prod differ — direct
+push vs PR + deployments gate), a split that a wildcard cannot express.
+If the fleet grows with uniform per-env rules (e.g. per-contributor
+environments, all test-like), the wildcard `Deploy *` ruleset is the
+scalable option, provisioned once; environments that need different
+rules get their own explicit ruleset (GitHub supports several rulesets
+matching the same ref — the strictest wins).
+
+Documented expectations for every future deploy ruleset: same rules as
+`Deploy TEST` for test-like envs; PR rule + `required_deployments` for
+prod-like ones; bypass actors `maintainers`, `ops`, `kingdoms-deployer`;
+the gate always lives in the GitHub environment (required reviewers),
+never in the workflow.
 
 ## Ruleset parameters — exact expected state
 
