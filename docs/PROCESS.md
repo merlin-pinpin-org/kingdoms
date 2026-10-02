@@ -65,11 +65,13 @@ operation committed as a Makefile target, script or workflow (see
    PR**; CI runs on the PR (lint, typecheck, tests, image build).
 3. The agent monitors CI and fixes failures until green, then marks the PR
    **ready for review**.
-4. **Nobody clicks Merge — the PR automerges.** The session marks the PR
-   ready and enables automerge; CODEOWNERS decide the required review
-   (mod-only PRs need none — the designer's session owns them end to end;
-   core/platform PRs need a maintainer approval). The automerge fires
-   once the checks and required approvals are in.
+4. **The session never merges; GitHub automerges.** The session marks
+   the PR ready **only when it has nothing left to do** (checks green
+   and completed, deployed to test and verified, self-review done,
+   docs updated) and enables automerge. CODEOWNERS name the owners: the
+   mod's designer reviews the mod PRs, the maintainers review the
+   core/platform. GitHub merges the ready PR once the owner approvals
+   and green checks are in.
 5. On merge, the PR closes its issue automatically (`Closes #N`).
 
 The game designer's feedback loop — *I want → the agent builds → I read a
