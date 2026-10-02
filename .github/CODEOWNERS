@@ -1,14 +1,18 @@
 # Code ownership (kingdoms — source of truth).
-# Combined with the "main" ruleset (require code owner review, 1
-# approval), no change merges without a maintainer.
-# Team: @merlin-pinpin-org/maintainers (developer + ops).
-#
-# Default: a maintainer reviews everything
+# The ruleset on main requires a code-owner review (1 approval); this file
+# decides who owns what. Mod rule/environment docs are owned by the game
+# designers (their sessions drive those PRs to automerge on their own);
+# governance, conventions and sync scripts stay maintainer-owned.
+
+## Default: a maintainer reviews everything not explicitly delegated
 *                       @merlin-pinpin-org/maintainers
 
-# Governance and process docs
+## Mod docs & mod rules: owned by the game designers
+/docs/MODS/             @merlin-pinpin-org/game-designers
+
+## Governance and process docs
 /AGENTS.md              @merlin-pinpin-org/maintainers
 /docs/DECISIONS/        @merlin-pinpin-org/maintainers
 
-# Sync scripts: they regenerate ROADMAP.md and docs/DEPENDENCIES.md
+## Sync scripts: they regenerate ROADMAP.md and docs/DEPENDENCIES.md
 /scripts/               @merlin-pinpin-org/maintainers

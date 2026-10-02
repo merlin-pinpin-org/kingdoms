@@ -43,9 +43,11 @@ point the human at the exact web UI page — never at a terminal or a command
 to copy.
 
 **Human GitHub scope (developer-mandated, exhaustive):** on GitHub, humans
-accept to do exactly two recurring things — **merge PRs** and **approve
-production deployments** — plus the one-time bootstrapping (org teams,
-rulesets, environments, secrets, runner install). Anything else (issues,
+accept to do exactly two recurring things — **review and approve the PRs
+that touch code they own** (per CODEOWNERS) and **approve production
+deployments** — plus the one-time bootstrapping (org teams, rulesets,
+environments, secrets, runner install). Merging itself is automated (see
+*The merge is automated* below). Anything else (issues,
 branches, releases, tags, workflow dispatches the agent cannot perform,
 cherry-picks, backports) is the agent's job, executed through automation.
 If a session concludes that another manual step is unavoidable, that is a
@@ -107,16 +109,32 @@ CD runner at deploy time; repositories carry `.env.example` placeholders
 only. Before making any repository public, scan the full git history for
 leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`).
 
-## The merge is one human click
+## The merge is automated — CODEOWNERS decide who reviews
 
-The agent never merges: it prepares PRs to be merge-ready (ready for
-review, checks green, docs updated, issue linked) and reports the PR URL;
-the developer or ops clicks **Merge** in the GitHub web UI — one of the two
-recurring human actions (see *Human GitHub scope* above). The `main`
-rulesets of each repository enforce the hard gate (required checks,
-required review, squash only). GitHub automerge is intentionally not used:
-it merges as soon as checks land, ignoring the game designer's Discord
-validation.
+The merge itself is **nobody's click**: PRs use GitHub **automerge**.
+What decides whether a PR can merge is the required review, and the
+review requirement derives from **CODEOWNERS** — the ownership of every
+changed path:
+
+- a PR touching **mod-only code** (a mod's `src/kingdoms/mods/<mod>/`,
+  its YAML declaration, its docs, its tests) requires no platform
+  review: a game designer's session drives it from draft to merge and
+  to a release ready for production **on its own**;
+- a PR touching **core or platform code** (`src/kingdoms/core/`,
+  `src/kingdoms/discord/` outside a mod, workflows, Docker, contracts)
+  requires a review from the owning team (`@merlin-pinpin-org/maintainers`)
+  per the CODEOWNERS rules — the agent builds the core change itself,
+  flags it in the PR, and the review lands before the automerge fires;
+- each team reviews the changes on **its own code** — the CODEOWNERS
+  file is the single source of who must review what.
+
+The session's lever is the **PR status**: **draft while working**,
+**ready for review when the work asks for a review or can merge**.
+Nobody clicks Merge; the automerge fires once the checks and the
+CODEOWNERS-required approvals are in. The merge-readiness judgment stays
+with the session (draft status, checks green and completed, docs
+updated, live validation done) — automerge merges a ready PR, never a
+draft one.
 
 ## PR lifecycle (merge-readiness)
 
@@ -124,7 +142,9 @@ validation.
    drafts; mark a PR ready for review only when, from your point of view,
    it can be merged (checks green, implementation complete, self-review
    done, docs updated); keep or return it to draft (`gh pr ready --undo`)
-   while work remains. Never leave a PR in draft when asking for a merge.
+   while work remains. Enabling automerge is part of going ready: a ready
+   PR merges itself once the checks and the CODEOWNERS-required approvals
+   land. Never leave a PR in draft when asking for a merge.
    **Checks are verified on the head commit, completed** — never ask for a
    merge while a check is pending or only the previous commit is green
    (the 2026-09-24 SC2046 incident: the merge landed between the push of
