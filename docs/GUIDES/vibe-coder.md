@@ -31,9 +31,12 @@ This page is your boot checklist; the repo is the source of truth.
   kingdoms repo updated in the same PR when rules change.
 - Before pushing: `make lint`, `make typecheck`, `make test` — all
   green, always. CI failures you caused get fixed before anything new.
-- Never click Merge yourself — mark the PR ready and enable automerge;
-  CODEOWNERS decide who reviews (mod-only PRs merge without a platform
-  review). Never force-push without approval. Never touch protected branches.
+- Never click Merge yourself. Ready = checks green + deployed to test +
+  verified + nothing left for you to do; going ready enables automerge.
+  CODEOWNERS name the owners (a mod's designer reviews their mod; the
+  maintainers review the core/platform) — GitHub merges the ready PR
+  once their approvals land. Never force-push without approval. Never
+  touch protected branches.
 - Architecture: ADRs are binding
   ([ADR-0020](../DECISIONS/020-process-split-bot-core-providers.md)
   process split; if you disagree, raise it, don't workaround it).
