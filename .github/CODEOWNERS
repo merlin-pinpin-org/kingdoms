@@ -17,3 +17,6 @@
 
 ## Sync scripts: they regenerate ROADMAP.md and docs/DEPENDENCIES.md
 /scripts/               @merlin-pinpin-org/maintainers
+
+## Contributors roster: the source of truth for roles and teams
+/CONTRIBUTORS.md      @merlin-pinpin-org/maintainers
