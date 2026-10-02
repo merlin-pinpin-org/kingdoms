@@ -23,7 +23,7 @@ email) — with the agent as co-author via the trailer
 run by merlin (`@merlin-pinpin`, `merlin.pp@pm.me`):
 
 ```bash
-git config user.name "merlin"
+git config user.name "Merlin"
 git config user.email "merlin.pp@pm.me"
 # and on every commit:
 git commit --trailer "Co-authored-by: Mistral AI <noreply@mistral.ai>"
@@ -32,7 +32,7 @@ git commit --trailer "Co-authored-by: Mistral AI <noreply@mistral.ai>"
 The roster is the source of truth: the session reads the human's alias
 and email there and uses them verbatim — never invents a name, never
 falls back to a default. **The alias is the working name everywhere**:
-sessions address and refer to humans by their alias (merlin, drasah) —
+sessions address and refer to humans by their alias (Merlin, Drasah) —
 commit authors, PR titles (`vibe[<alias>]`), verdicts, reports and
 conversation alike; the GitHub login is resolved from the roster only
 when the API needs it. The agent co-author trailer is the machine's
@@ -246,9 +246,9 @@ owners review them before the automerge fires.
 
    **PR title convention (developer-mandated):** the session PR title
    mirrors the conversation title — `vibe[<alias>] <conversation title>`
-   — e.g. `vibe[merlin] Bot logs & admin surface`. `<alias>` is the
+   — e.g. `vibe[Merlin] Bot logs & admin surface`. `<alias>` is the
    roster alias of the human who ran the session (CONTRIBUTORS.md —
-   merlin, drasah; never the raw GitHub login); the session name
+   Merlin, Drasah; never the raw GitHub login); the session name
    comes from the conversation title. The branch keeps the
    `vibe/<short-slug>-55618a` shape.
 6. **Link the PR to its issue** with a closing keyword in the description
