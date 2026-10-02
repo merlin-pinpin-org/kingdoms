@@ -135,9 +135,13 @@ flow frictionless:
 
 1. **Ready means the session has nothing left to do.** A PR goes
    *ready for review* when the checks are green and completed on the
-   head commit, the implementation is complete, the self-review is
-   done and the docs are updated — and never before. Going ready comes
-   with enabling automerge; nobody is asked to click Merge.
+   head commit, the change is **deployed to test and verified** (a
+   deployable change never goes ready without its test deployment), the
+   implementation is complete, the self-review is done and the docs
+   are updated — and never before. **Draft is the working state and it
+   comes back**: any work in progress or check in flight means the PR
+   stays in or returns to draft. Going ready comes with enabling
+   automerge; nobody is asked to click Merge.
 2. **Deploy to test, validate, then ready — in that order.** For any
    change with something to deploy: the session deploys the PR to the
    test environment, **verifies the deployment itself** (healthchecks

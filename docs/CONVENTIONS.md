@@ -116,19 +116,25 @@ session drives the PR to a terminal state it owns completely — *ready
 for review* — and GitHub automerges when everything converges:
 
 1. **The session's definition of ready (all mandatory):** every check
-   green **on the head commit and completed**, the PR deployed to the
-   test environment (`/deploy test`) when there is something to deploy,
-   the deployment verified by the session itself (healthchecks green,
-   stack healthy, no crash loop), docs updated, issue linked, and
-   nothing left for the session to do. While any of that remains, the
-   PR stays in draft.
-2. **Then the humans do their part, on GitHub and Discord:** the
+   green **on the head commit and completed**, the PR **deployed to the
+   test environment** (`/deploy test`) and the deployment verified by
+   the session itself (healthchecks green, stack healthy, no crash
+   loop) — **a deployable change never goes ready without its test
+   deployment**, doc-only/infra-only changes aside; docs updated, issue
+   linked, and nothing left for the session to do.
+2. **Draft is the working state, and it comes back.** While the session
+   has work in progress — a check running or failing, a fix being
+   pushed, a re-deployment pending — the PR **stays in or returns to
+   draft** (`gh pr ready --undo`). A PR re-enters draft the moment
+   anything about it becomes unstable again; ready is reserved for the
+   terminal, verified state described above.
+3. **Then the humans do their part, on GitHub and Discord:** the
    CODEOWNERS-required owners review the PR on GitHub, and the game
    designer validates the behavior on the test Discord. Reviews are
    the owners' — each mod's code has a named owner (CODEOWNERS maps
    every path to an owner: the mod's designer for mod code, the
    ops/dev/maintainers teams for the core, platform and infra).
-3. **GitHub automerges** the ready PR once the checks and the required
+4. **GitHub automerges** the ready PR once the checks and the required
    owner approvals are in (repo setting *Allow auto-merge*, enabled
    once at bootstrapping). The session enables automerge when it flips
    the PR to ready.
@@ -148,11 +154,13 @@ in the PR so the owners review them before the automerge fires.
    drafts; mark a PR ready for review only when, from your point of view,
    it can be merged (checks green, implementation complete, self-review
    done, docs updated); keep or return it to draft (`gh pr ready --undo`)
-   while work remains. **Ready means the session has nothing left to
-   do**: checks green and completed, deployed to test and verified
-   (when there is something to deploy), self-review done, docs updated.
-   Flipping to ready comes with enabling automerge — the PR then merges
-   itself once the owner reviews land.
+   while work remains — **draft is also where the PR returns** whenever
+   work or a check is in progress again. **Ready means the session has
+   nothing left to do**: checks green and completed, deployed to test
+   and verified (a deployable change never goes ready without its test
+   deployment), self-review done, docs updated. Flipping to ready comes
+   with enabling automerge — the PR then merges itself once the owner
+   reviews land.
    **Checks are verified on the head commit, completed** — never ask for a
    merge while a check is pending or only the previous commit is green
    (the 2026-09-24 SC2046 incident: the merge landed between the push of
