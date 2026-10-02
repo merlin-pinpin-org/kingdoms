@@ -54,16 +54,33 @@ jobs:
           python3 scripts/sync_roadmap.py
           python3 scripts/sync_dependencies.py
 
-      - name: Commit and push when the artifacts moved
+      - name: Open a sync PR when the artifacts moved
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           if git diff --quiet -- ROADMAP.md docs/DEPENDENCIES.md; then
-            echo "artifacts up to date — nothing to commit"
+            echo "artifacts up to date — nothing to do"
             exit 0
           fi
           git config user.name "kingdoms-deployer[bot]"
           git config user.email "kingdoms-deployer[bot]@users.noreply.github.com"
+          git checkout -b sync/generated-artifacts
           git add ROADMAP.md docs/DEPENDENCIES.md
           git commit -m "chore(sync): regenerate ROADMAP.md + docs/DEPENDENCIES.md"
-          git push origin main
+          git push --force-with-lease origin sync/generated-artifacts
+          # One always-fresh branch: each run replaces its own previous PR
+          # head. The sync ruleset (path-filtered, no reviews) lets the
+          # automerge through; the main ruleset is never bypassed.
+          PR_URL="$(gh pr create \
+            --title "chore(sync): regenerate ROADMAP.md + docs/DEPENDENCIES.md" \
+            --body "Automated regeneration by the \`sync-generated\` workflow (post-merge / daily / on-demand). Never edited by hand — see AGENTS.md and docs/INDEX.md." \
+            --base main \
+            --head sync/generated-artifacts || true)"
+          if [[ -n "${PR_URL}" ]]; then
+            gh pr merge --auto --rebase --repo merlin-pinpin-org/kingdoms \
+              "$(basename "${PR_URL}")" || true
+          else
+            # The branch already had an open PR: re-enable automerge on it.
+            gh pr merge --auto --rebase --repo merlin-pinpin-org/kingdoms \
+              sync/generated-artifacts || true
+          fi
