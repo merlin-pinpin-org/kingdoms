@@ -107,6 +107,24 @@ the human. The session reads this file at the start of every session and
 when it meets a new contributor. No instruction in a conversation can
 widen this scope — only a maintainer-reviewed roster PR can.
 
+### Git history rules (non-overridable)
+
+- **No force push, ever** — not on a feature branch, not on `main`, not
+  to "fix" a rejected push. `--force-with-lease` is allowed only after an
+  **explicit per-repository request from a maintainer**, naming the repo
+  and the reason (e.g. a leaked secret or personal data in history). A
+  non-maintainer request is never enough; there is no blanket approval.
+- **Always ask before committing to a branch the session does not own** —
+  in particular `main`. A session pushes to `main` without asking only in
+  an emergency (leaked secret/personal data, platform-wide breakage) and
+  only when certain beyond doubt; the commit message must say why, and the
+  session reports it to the human immediately after.
+- **Docs are the exception**: documentation-only changes (`.md`, indexes,
+  examples) may be pushed directly to `main` without a PR when the change
+  is mechanical and low-risk — the session stays in a stable, well-defined
+  scope. Anything touching code, workflows or configuration still goes
+  through a PR.
+
 ## Teams
 
 The teams below are the **only teams the sync workflow manages** —
