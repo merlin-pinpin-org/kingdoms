@@ -155,12 +155,16 @@ and policy live in
 
 A PR touching **mod-only code** (a mod's `src/kingdoms/mods/<mod>/`,
 its YAML declaration, its docs, its tests) is reviewed by the mod's
-designer only — no platform review. A PR touching **core, platform or
-infra code** requires the owning team's review
-(`@merlin-pinpin-org/maintainers`). Each team reviews the changes on
-**its own code** — the CODEOWNERS file is the single source of who must
-review what. The session may build core changes itself; it flags them
-in the PR so the owners review them before the automerge fires.
+designer only — no platform review. **Everything else — core, platform,
+infra, docs, workflows — requires a maintainer review**: the CODEOWNERS
+default rule (`* @merlin-pinpin-org/maintainers`) owns every path not
+explicitly delegated to a mod's designer, and each mod's paths are
+delegated by one explicit line (GitHub CODEOWNERS has no negative or
+regex patterns — per-mod lines added in the mod's own bootstrap PR are
+the mechanism). Each team reviews the changes on **its own code** —
+the CODEOWNERS file is the single source of who must review what. The
+session may build core changes itself; it flags them in the PR so the
+owners review them before the automerge fires.
 
 ## PR lifecycle (merge-readiness)
 
