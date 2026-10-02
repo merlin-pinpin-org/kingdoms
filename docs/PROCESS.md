@@ -193,7 +193,8 @@ idea ──▶ vibe session (Mistral agent)
 ```
 
 - One interface: **the vibe-coding session** (plus Discord to test).
-- One human click per PR: **Merge** (developer or ops — GitHub rulesets
-  enforce required checks and squash-only merges; the agent never merges).
+- Zero human click per PR: **GitHub automerges** the ready PR once the
+  CODEOWNERS-required reviews and checks are in (rebase-only merges,
+  enforced by the rulesets — see [GUIDES/rulesets.md](GUIDES/rulesets.md)).
 - One production gate: **released tags + ops-only workflow policy + ops
   environment approval**.
