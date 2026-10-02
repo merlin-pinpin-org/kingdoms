@@ -138,11 +138,19 @@ is **removed automatically** (over-granting is corrected by the sync,
 then reported to the maintainers) — a login present in the doc but
 missing on GitHub is **added automatically**.
 
+**Shared infrastructure pools**: a team may declare a `shared-infra`
+capacity — machines (VPS/RPi/runner fleet) shared by its members for
+their personal test environments, maintained by the team for its own
+members (a dev team hosting its runners, a mod team its test bots).
+Anyone can still run their own machine instead; the pool is an
+opt-in convenience, declared here so the sync keeps the matching
+self-hosted runner groups consistent with the roster.
+
 | Team slug | Parent | Repos & role | Purpose |
 | --------- | ------ | ------------ | ------- |
 | `maintainers` | — | kingdoms: `maintain` · kingdoms-services: `maintain` · kingdoms-infra: `maintain` | Platform maintainers: review every non-delegated path (CODEOWNERS default), own governance docs, resolve drift |
-| `ops` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `maintain` | Infra & environments: deploy approvals, secrets, VPS runner |
-| `devs` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `write` | Platform developers: review core/platform code, challenge designs |
+| `ops` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `maintain` | Infra & environments: deploy approvals, secrets, VPS runner. `shared-infra`: hosts the org's shared runner fleet (test envs of members without their own machine) |
+| `devs` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `write` | Platform developers: review core/platform code, challenge designs. `shared-infra`: may pool member machines as runners for the team's test envs |
 | `game-designers` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `read` | Game designers: own their mods (rules, docs, environments), review their mod PRs |
 | `vibe-coders` | — | kingdoms: `write` · kingdoms-services: `write` · kingdoms-infra: `read` | Anyone running vibe-coding sessions: drive PRs to ready, deploy to test |
 
