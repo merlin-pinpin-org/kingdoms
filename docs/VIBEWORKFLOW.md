@@ -14,9 +14,9 @@ must be able to understand the model from this page alone.
 | Role | Who | Responsibility |
 |------|-----|----------------|
 | Game designer | Non-developer, idea-rich | Defines features, game rules, environments; validates behavior in Discord |
-| Developer | Experienced, maintains the platform | Challenges the design, **reviews and approves PRs** (one click); never codes |
+| Developer | Experienced, maintains the platform | Challenges the design, **reviews and approves the PRs that touch core/platform code** (per CODEOWNERS); never codes |
 | Ops | Infrastructure owner | Everything the developer does, plus environment and secret administration in the GitHub web UI and production deployment approvals |
-| AI agent (Vibe Code) | Mistral-powered coding agent | Does 100% of the technical work: issues, code, branches, PRs, CI, test deployments, tags/releases on request. The agent never merges — the human clicks Merge |
+| AI agent (Vibe Code) | Mistral-powered coding agent | Does 100% of the technical work: issues, code, branches, PRs, CI, test deployments, tags/releases on request — core and mod alike, flagging core changes for review. Merges are automated (automerge once reviews land); the session drives draft → ready |
 
 **Humans never check out, write code, or run scripts** — this platform is a
 pure vibe-coding test. Every human technical action is a **click in the
@@ -38,7 +38,7 @@ org owner):
 |------|---------|-----------------|
 | `@merlin-pinpin-org/maintainers` | developer + ops | Write on the 3 repos; code owners (required reviewers on `main` PRs) |
 | `@merlin-pinpin-org/ops` | ops | Maintain on `kingdoms-infra` (environments + secrets), Read elsewhere; owns the `/deploy/prod/` CODEOWNERS paths |
-| `@merlin-pinpin-org/game-designers` | game designer | Write on `kingdoms` and `kingdoms-services` (open PRs, never merge — rulesets enforce it), Read on `kingdoms-infra` |
+| `@merlin-pinpin-org/game-designers` | game designer | Write on `kingdoms` and `kingdoms-services` (own and merge mod-only PRs end to end via automerge; core-touching PRs need a maintainer review per CODEOWNERS), Read on `kingdoms-infra` |
 
 ## Artifact map
 
@@ -88,18 +88,18 @@ Step by step:
    green, stack healthy, no crash loop), and only then marks the PR *ready
    for review* and asks the human to test and merge; while work or
    validation remains, the PR stays in draft.
-4. A reviewer with merge access (developer or ops, per the CODEOWNERS
-   rules backed by the `main` rulesets) reads the PR and **clicks Merge**
-   in the GitHub web UI — one human click, the trust anchor of the model.
-   The agent never merges (an earlier `/merge` agent-executed convention
-   was abandoned: GitHub forbids author self-approval, and the session
-   platform blocks agent-executed merges). The agent commits as
+4. **Nobody clicks Merge — the PR automerges.** The session flips the
+   PR to *ready for review* and enables GitHub automerge; what requires a
+   review is decided by **CODEOWNERS**: mod-only code needs no platform
+   review (the designer's session owns it end to end, up to a release
+   ready for production), core or platform code requires an approval
+   from `@merlin-pinpin-org/maintainers` — each team reviews its own
+   code. The automerge fires once the checks and the CODEOWNERS-required
+   approvals are in; a draft never automerges. The session commits as
    `Mistral AI <noreply@mistral.ai>` and **never adds a `Co-authored-by`
    naming the human** — a trailer would make the human a co-author of
    the PR and block their own approval (see the *Git identity of agent
-   sessions* rule in CONVENTIONS.md). **GitHub automerge is intentionally not
-   used**: it merges as soon as checks and the required approval land,
-   ignoring the game designer's Discord validation. The agent keeps its
+   sessions* rule in CONVENTIONS.md). The session keeps its
    merge-readiness judgment (draft status, checks, docs, validation) and
    GitHub rulesets keep the enforcement.
 5. When explicitly requested, the agent tags a version and creates the GitHub
@@ -208,7 +208,7 @@ An agent session (which starts with no memory of previous conversations):
 4. Open a draft PR, monitor CI, fix failures.
 5. Mark the PR ready for review when merge-ready (see the PR draft-status
    rule below); otherwise keep it in draft.
-6. Report the PR URL; the human reviewer clicks Merge (or asks for changes
+6. Report the PR URL; the required reviewers approve (or ask for changes) and the PR automerges
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.
 7. **Enrich the docs and skills on your own** (developer-mandated, see
