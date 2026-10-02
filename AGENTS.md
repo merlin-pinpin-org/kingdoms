@@ -31,6 +31,15 @@ documentation, generated roadmap and dependency graph).
   issue state or its `## Dependencies` section and run the sync scripts
   (`scripts/sync_roadmap.py`, `scripts/sync_dependencies.py`), committing
   the regenerated files to your open PR branch.
+- **Contributors roster is the org's source of truth** (`CONTRIBUTORS.md`,
+  maintainer-owned): teams, memberships, per-repo grants and roles are
+  declared there and synchronized to GitHub by the `contributors-sync`
+  workflow (`make contributors-check` dry-run, `make contributors-sync`
+  to reconcile). Never manage org teams or permissions by hand — edit the
+  roster; the sync adds missing access, **revokes undeclared access
+  automatically** and flags what it will not touch (unrostered org members,
+  undeclared teams). Sessions read the roster to know who they work with
+  (alias, email, teams, agent scope).
 - Keep the docs in sync with any change made in `kingdoms-services` or
   `kingdoms-infra` — a code change without its doc update here is
   incomplete.
