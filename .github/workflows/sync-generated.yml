@@ -50,6 +50,23 @@ jobs:
           ref: main
           token: ${{ steps.app-token.outputs.token }}
 
+      - name: Restore the previous generated state (bootstrap included)
+        run: |
+          # sync_roadmap rewrites the file in place, so it needs the previous
+          # generated state. It lives on the sync branch; when the branch does
+          # not exist yet (first run), bootstrap from the last main version
+          # (the files left main in #145).
+          if git fetch origin sync/generated-artifacts \
+              && git show origin/sync/generated-artifacts:ROADMAP.md > ROADMAP.md \
+              && git show origin/sync/generated-artifacts:docs/DEPENDENCIES.md > docs/DEPENDENCIES.md; then
+            echo "restored the generated state from sync/generated-artifacts"
+          else
+            echo "sync branch absent — bootstrapping from the last main revision"
+            git show $(git rev-list --all --max-count=1 -- ROADMAP.md):ROADMAP.md > ROADMAP.md \
+              || { echo "no previous ROADMAP.md found anywhere"; exit 1; }
+            git show $(git rev-list --all --max-count=1 -- docs/DEPENDENCIES.md):docs/DEPENDENCIES.md > docs/DEPENDENCIES.md \
+              || { echo "no previous docs/DEPENDENCIES.md found anywhere"; exit 1; }
+          fi
       - name: Regenerate the artifacts
         run: |
           python3 scripts/sync_roadmap.py
