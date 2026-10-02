@@ -31,13 +31,20 @@ from dataclasses import dataclass, field
 ROLE_LEVELS = {"none": 0, "vibe": 1, "mod": 2, "dev": 3, "platform": 3, "ops": 3}
 
 CAPABILITY_RULES: dict[str, dict] = {
-    "deploy": {"min": "vibe", "deny_envs_prod": True, "help": "deploy a PR to a non-prod env"},
-    "env-control": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "start/stop/restart/status an env"},
-    "env-logs": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "read an env's logs"},
-    "db-dump": {"roles": ["ops"], "help": "dump an env's databases"},
-    "release": {"roles": ["dev", "platform"], "help": "tag and release"},
-    "rollback": {"roles": ["ops"], "help": "revert a pin"},
-    "sync-teams": {"roles": ["platform"], "help": "run the roster sync"},
+    "deploy": {"min": "vibe", "deny_envs_prod": True, "help": "deploy a PR to a non-prod env",
+               "usage": "/deploy [env] — build the PR image and pin it on deploy/<env> (default test). Never prod-like envs."},
+    "env-control": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "start/stop/restart/status an env",
+                    "usage": "/restart [env] — restart the env stack in place. Also /start /stop /status via env-control."},
+    "env-logs": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "read an env's logs",
+                 "usage": "/logs [env] [--service S] [--since 30m] [--from iso] [--to iso] [--tail N] — collect logs and post them back (read-only)."},
+    "db-dump": {"roles": ["ops"], "help": "dump an env's databases",
+                "usage": "/dump-db [env] — mongodump + Redis snapshot, VPS archive + private artifact."},
+    "release": {"roles": ["dev", "platform"], "help": "tag and release",
+                "usage": "/release — cut a release from main (auto-bumped from Conventional Commits, never hand-picked)."},
+    "rollback": {"roles": ["ops"], "help": "revert a pin",
+                 "usage": "/rollback <env> — revert the last pinned image on deploy/<env> (previous known-good redeployed)."},
+    "sync-teams": {"roles": ["platform"], "help": "run the roster sync",
+                   "usage": "/sync-teams — re-sync GitHub teams/permissions from CONTRIBUTORS.md (the doc is the source of truth)."},
 }
 
 
@@ -116,16 +123,61 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
     return True, f"{person.alias or person.login} ({', '.join(sorted(roles)) or 'no roles'}) may '{capability}'{f' on {env}' if env else ''}"
 
 
+def _normalized_roles(person: Person | None) -> set[str]:
+    """Roles stripped of parenthetical qualifiers, as check() sees them."""
+    roles = {re.split(r"[(,]", r)[0].strip() for r in (person.roles if person else [])}
+    return {r for r in roles if r and r != ")"}
+
+
+def _may_use(person: Person | None, capability: str) -> bool:
+    """Role-only view of check() for /help listings (no env/CLA/scope context)."""
+    rule = CAPABILITY_RULES.get(capability)
+    if not rule or person is None:
+        return False
+    roles = _normalized_roles(person)
+    if "roles" in rule:
+        return bool(roles & set(rule["roles"]))
+    return any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS[rule["min"]] for r in roles)
+
+
+def list_capabilities(person: Person | None) -> list[dict]:
+    """The /help listing: one entry per capability the requestor may use."""
+    return [
+        {"capability": cap, "help": rule["help"], "usage": rule["usage"]}
+        for cap, rule in CAPABILITY_RULES.items()
+        if _may_use(person, cap)
+    ]
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--roster", default="CONTRIBUTORS.md")
-    parser.add_argument("login")
-    parser.add_argument("capability", choices=list(CAPABILITY_RULES))
+    parser.add_argument("login", nargs="?")
+    parser.add_argument("capability", nargs="?", choices=list(CAPABILITY_RULES))
     parser.add_argument("--env", default="")
     parser.add_argument("--pr-author", default="")
+    parser.add_argument("--list", action="store_true",
+                        help="list the capabilities the login may use")
+    parser.add_argument("--usage", default="",
+                        help="print the detailed usage line of this capability")
     args = parser.parse_args()
-
     roster = parse_roster(args.roster)
+    if args.list:
+        if not args.login:
+            print("::error::--list needs a login", file=sys.stderr)
+            return 1
+        print(json.dumps({"alias": roster[args.login].alias if args.login in roster else args.login,
+                          "capabilities": list_capabilities(roster.get(args.login))}))
+        return 0
+    if args.usage:
+        rule = CAPABILITY_RULES.get(args.usage)
+        if not rule:
+            print(f"unknown capability: {args.usage}", file=sys.stderr)
+            return 1
+        print(rule["usage"])
+        return 0
+    if not args.login or not args.capability:
+        parser.error("login and capability are required (or use --list / --usage)")
     ok, reason = check(
         roster.get(args.login),
         args.capability,
