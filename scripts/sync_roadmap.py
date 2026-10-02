@@ -229,9 +229,11 @@ def sync_roadmap(
     warnings: list[str] = []
     changes: list[str] = []
     dropped: list[tuple[str, int, str]] = []
+    missing: list[tuple[str, int, str]] = []
     phase_status: dict[int, list[str]] = defaultdict(list)
     referenced: dict[str, set[int]] = defaultdict(set)
     row_status: dict[int, str] = {}
+    subtasks_last_row = -1
 
     section: int | str | None = None
     for index, line in enumerate(lines):
@@ -250,6 +252,8 @@ def sync_roadmap(
         row = ROW_RE.match(line)
         if not row:
             continue
+        if section == "subtasks":
+            subtasks_last_row = index
         repo, num = parse_issue_ref(row["issue"])
         current = row["status"]
         if repo not in REPOS:
@@ -279,9 +283,9 @@ def sync_roadmap(
         issues, _linked = state
         for num, issue in issues.items():
             if issue.state == "open" and num not in referenced[repo]:
-                warnings.append(
-                    f"open issue {repo}#{num} ({issue.title}) is not listed in "
-                    f"ROADMAP.md; add it to the matching phase or Sub-tasks table"
+                missing.append((repo, num, issue.title))
+                changes.append(
+                    f"{issue_ref(repo, num)} added to Sub-tasks (was missing)"
                 )
 
     if not changes:
@@ -302,6 +306,23 @@ def sync_roadmap(
             in_out_of_scope = True
             out.append(line)
             continue
+        if index == subtasks_last_row and missing:
+            if index in row_status:
+                status = row_status[index]
+                if status != "dropped":
+                    row = ROW_RE.match(line)
+                    repo, num = parse_issue_ref(row["issue"])
+                    if row["status"] != status:
+                        line = f"| {row['track']} | {issue_ref(repo, num)} | {status} |"
+            out.append(line)
+            for repo, num, _title in missing:
+                out.append(f"| {_title} | {issue_ref(repo, num)} | todo |")
+            continue
+        if index in row_status:
+            status = row_status[index]
+            if status == "dropped":
+                continue
+            row = ROW_RE.match(line)
         if in_out_of_scope:
             if line.startswith("## "):
                 while out_of_scope_buffer and out_of_scope_buffer[-1] == "":
