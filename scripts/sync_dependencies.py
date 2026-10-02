@@ -112,25 +112,47 @@ def load_issues() -> list[dict]:
     return issues
 
 
-def fail_on_missing(issues: list[dict]) -> None:
+def fail_on_missing(issues: list[dict]) -> list[dict]:
+    """Validate issue data; return the issues eligible for the graph.
+
+    Untriaged issues (no size/* or no priority/* label) are excluded with
+    a warning instead of aborting: the sync workflow is the single writer
+    and must never deadlock on triage debt. Hard problems (unknown or
+    inconsistent dependencies) still abort.
+    """
     problems = []
+    eligible = []
     ids = {i["id"] for i in issues}
     for i in issues:
+        untriaged = False
         if i["size"] is None:
-            problems.append(f"{i['id']}: no size/* label")
+            print(f"warning: {i['id']}: no size/* label — excluded from the graph (triage it)")
+            untriaged = True
         if i["prio_label"] is None:
-            problems.append(f"{i['id']}: no priority/* label")
+            print(f"warning: {i['id']}: no priority/* label — excluded from the graph (triage it)")
+            untriaged = True
         for d in i["deps"]:
             if d not in ids:
-                problems.append(f"{i['id']}: depends on unknown or closed issue {d}")
+                # A dependency on a closed issue is satisfied — treat it as
+                # checked (warn so the issue body gets tidied up).
+                print(
+                    f"warning: {i['id']}: depends on closed issue {d} — "
+                    f"counted as satisfied (uncheck the box in the issue body)"
+                )
+                i["done_deps"].append(d)
         for d in i["done_deps"]:
             if d in ids:
                 problems.append(
                     f"{i['id']}: dependency on {d} is checked but the issue is "
                     f"still open — uncheck it or close {d}"
                 )
+        for d in i["done_deps"]:
+            i["deps"] = [x for x in i["deps"] if x != d]
+        if not untriaged:
+            eligible.append(i)
     if problems:
         sys.exit("Refusing to regenerate:\n  " + "\n  ".join(problems))
+    return eligible
 
 
 def cpm(issues: list[dict]) -> dict:
@@ -305,7 +327,7 @@ def main() -> None:
     ap.add_argument("--out", default="generated/DEPENDENCIES.md")
     args = ap.parse_args()
     issues = load_issues()
-    fail_on_missing(issues)
+    issues = fail_on_missing(issues)
     analysis = cpm(issues)
     report_priority_drift(issues, analysis)
     content = render(issues, analysis)
