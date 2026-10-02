@@ -38,7 +38,7 @@ org owner):
 |------|---------|-----------------|
 | `@merlin-pinpin-org/maintainers` | developer + ops | Write on the 3 repos; code owners (required reviewers on `main` PRs) |
 | `@merlin-pinpin-org/ops` | ops | Maintain on `kingdoms-infra` (environments + secrets), Read elsewhere; owns the `/deploy/prod/` CODEOWNERS paths |
-| `@merlin-pinpin-org/game-designers` | game designer | Write on `kingdoms` and `kingdoms-services` (own and merge mod-only PRs end to end via automerge; core-touching PRs need a maintainer review per CODEOWNERS), Read on `kingdoms-infra` |
+| `@merlin-pinpin-org/game-designers` | game designers | Write on `kingdoms` and `kingdoms-services`; each designer **owns and reviews their mod's code** (CODEOWNERS names them per mod), validates on the test Discord; core-touching PRs need a maintainer review per CODEOWNERS. Read on `kingdoms-infra` |
 
 ## Artifact map
 
@@ -88,20 +88,20 @@ Step by step:
    green, stack healthy, no crash loop), and only then marks the PR *ready
    for review* and asks the human to test and merge; while work or
    validation remains, the PR stays in draft.
-4. **Nobody clicks Merge — the PR automerges.** The session flips the
-   PR to *ready for review* and enables GitHub automerge; what requires a
-   review is decided by **CODEOWNERS**: mod-only code needs no platform
-   review (the designer's session owns it end to end, up to a release
-   ready for production), core or platform code requires an approval
-   from `@merlin-pinpin-org/maintainers` — each team reviews its own
-   code. The automerge fires once the checks and the CODEOWNERS-required
-   approvals are in; a draft never automerges. The session commits as
-   `Mistral AI <noreply@mistral.ai>` and **never adds a `Co-authored-by`
-   naming the human** — a trailer would make the human a co-author of
-   the PR and block their own approval (see the *Git identity of agent
-   sessions* rule in CONVENTIONS.md). The session keeps its
-   merge-readiness judgment (draft status, checks, docs, validation) and
-   GitHub rulesets keep the enforcement.
+4. **The session never merges; GitHub automerges.** The session flips
+   the PR to *ready for review* **only when it has nothing left to do**:
+   checks green and completed on the head commit, deployed to test and
+   verified (when there is something to deploy), self-review done, docs
+   updated. Flipping to ready comes with enabling GitHub automerge.
+   What requires a review is decided by **CODEOWNERS** — every path has
+   a named owner: the mod's designer reviews their mod's PRs (no
+   platform review), the maintainer/dev/ops teams review the core,
+   platform and infra. Once the owners have approved and the checks are
+   green, GitHub merges the ready PR automatically. The session commits
+   as `Mistral AI <noreply@mistral.ai>` and **never adds a
+   `Co-authored-by` naming the human** — a trailer would make the human
+   a co-author of the PR and block their own approval (see the *Git
+   identity of agent sessions* rule in CONVENTIONS.md).
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
 7. Test deployments are **on demand** (`/deploy [env]` PR comment posted by
@@ -133,23 +133,27 @@ procedure and placement rules live in the
 These conventions are binding for the agent; they keep the human merge
 flow frictionless:
 
-1. **Never leave a PR in draft when asking for a merge.** A PR the agent
-   asks the developer to merge is *ready for review* first (checks green,
-   implementation complete, docs updated).
+1. **Ready means the session has nothing left to do.** A PR goes
+   *ready for review* when the checks are green and completed on the
+   head commit, the implementation is complete, the self-review is
+   done and the docs are updated — and never before. Going ready comes
+   with enabling automerge; nobody is asked to click Merge.
 2. **Deploy to test, validate, then ready — in that order.** For any
-   change with something to deploy: the agent deploys the PR to the test
-   environment, **verifies the deployment itself** (healthchecks green,
-   stack healthy, no crash loop), marks the PR *ready for review*, and
-   only then asks the human to test and merge. The PR stays in draft
-   while a test deployment is running or can be re-run; the human's
-   Discord check is the final acceptance, not a precondition for ready.
-   Doc-only or infra-only changes with nothing to redeploy skip the
-   deployment step. **The ready transition is not optional and never
-   waits for a reminder** (developer-mandated): as soon as the checks
-   are green, the PR is deployed to test and the agent has verified
-   the deployment, it flips the PR to *ready for review* and files its
-   explicit review/test/merge request — a green, tested PR left in
-   draft is an agent bug.
+   change with something to deploy: the session deploys the PR to the
+   test environment, **verifies the deployment itself** (healthchecks
+   green, stack healthy, no crash loop), then flips the PR to *ready
+   for review* with automerge enabled. The PR stays in draft while a
+   test deployment is running or can be re-run. The human's Discord
+   check and the owner reviews happen **after** ready — they are the
+   final acceptance, not a precondition for it. Doc-only or infra-only
+   changes with nothing to redeploy skip the deployment step. **The
+   ready transition is not optional and never waits for a reminder**
+   (developer-mandated): as soon as the checks are green, the PR is
+   deployed to test and the session has verified the deployment, it
+   flips the PR to ready — a green, tested PR left in draft is a
+   session bug. From there the CODEOWNERS-named owners review on
+   GitHub, the designer validates on the test Discord, and GitHub
+   automerges once both are in.
 3. **Never overwrite another PR's test deployment.** One image runs on
    test at a time: if a different PR is pinned on `deploy/test` under
    validation, don't deploy on top of it. After a merge, re-align test

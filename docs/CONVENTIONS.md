@@ -111,30 +111,36 @@ leaked secrets (`git log -p | grep -E "ghp_|github_pat_|AKIA|PRIVATE KEY"`).
 
 ## The merge is automated — CODEOWNERS decide who reviews
 
-The merge itself is **nobody's click**: PRs use GitHub **automerge**.
-What decides whether a PR can merge is the required review, and the
-review requirement derives from **CODEOWNERS** — the ownership of every
-changed path:
+**The session never merges, and no human ever clicks Merge.** The
+session drives the PR to a terminal state it owns completely — *ready
+for review* — and GitHub automerges when everything converges:
 
-- a PR touching **mod-only code** (a mod's `src/kingdoms/mods/<mod>/`,
-  its YAML declaration, its docs, its tests) requires no platform
-  review: a game designer's session drives it from draft to merge and
-  to a release ready for production **on its own**;
-- a PR touching **core or platform code** (`src/kingdoms/core/`,
-  `src/kingdoms/discord/` outside a mod, workflows, Docker, contracts)
-  requires a review from the owning team (`@merlin-pinpin-org/maintainers`)
-  per the CODEOWNERS rules — the agent builds the core change itself,
-  flags it in the PR, and the review lands before the automerge fires;
-- each team reviews the changes on **its own code** — the CODEOWNERS
-  file is the single source of who must review what.
+1. **The session's definition of ready (all mandatory):** every check
+   green **on the head commit and completed**, the PR deployed to the
+   test environment (`/deploy test`) when there is something to deploy,
+   the deployment verified by the session itself (healthchecks green,
+   stack healthy, no crash loop), docs updated, issue linked, and
+   nothing left for the session to do. While any of that remains, the
+   PR stays in draft.
+2. **Then the humans do their part, on GitHub and Discord:** the
+   CODEOWNERS-required owners review the PR on GitHub, and the game
+   designer validates the behavior on the test Discord. Reviews are
+   the owners' — each mod's code has a named owner (CODEOWNERS maps
+   every path to an owner: the mod's designer for mod code, the
+   ops/dev/maintainers teams for the core, platform and infra).
+3. **GitHub automerges** the ready PR once the checks and the required
+   owner approvals are in (repo setting *Allow auto-merge*, enabled
+   once at bootstrapping). The session enables automerge when it flips
+   the PR to ready.
 
-The session's lever is the **PR status**: **draft while working**,
-**ready for review when the work asks for a review or can merge**.
-Nobody clicks Merge; the automerge fires once the checks and the
-CODEOWNERS-required approvals are in. The merge-readiness judgment stays
-with the session (draft status, checks green and completed, docs
-updated, live validation done) — automerge merges a ready PR, never a
-draft one.
+A PR touching **mod-only code** (a mod's `src/kingdoms/mods/<mod>/`,
+its YAML declaration, its docs, its tests) is reviewed by the mod's
+designer only — no platform review. A PR touching **core, platform or
+infra code** requires the owning team's review
+(`@merlin-pinpin-org/maintainers`). Each team reviews the changes on
+**its own code** — the CODEOWNERS file is the single source of who must
+review what. The session may build core changes itself; it flags them
+in the PR so the owners review them before the automerge fires.
 
 ## PR lifecycle (merge-readiness)
 
@@ -142,9 +148,11 @@ draft one.
    drafts; mark a PR ready for review only when, from your point of view,
    it can be merged (checks green, implementation complete, self-review
    done, docs updated); keep or return it to draft (`gh pr ready --undo`)
-   while work remains. Enabling automerge is part of going ready: a ready
-   PR merges itself once the checks and the CODEOWNERS-required approvals
-   land. Never leave a PR in draft when asking for a merge.
+   while work remains. **Ready means the session has nothing left to
+   do**: checks green and completed, deployed to test and verified
+   (when there is something to deploy), self-review done, docs updated.
+   Flipping to ready comes with enabling automerge — the PR then merges
+   itself once the owner reviews land.
    **Checks are verified on the head commit, completed** — never ask for a
    merge while a check is pending or only the previous commit is green
    (the 2026-09-24 SC2046 incident: the merge landed between the push of
