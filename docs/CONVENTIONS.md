@@ -271,6 +271,38 @@ Never report "the runner is the problem" without the diagnose output; a
 stuck-deploy report to a human carries the diagnose output and the links
 of every stale run to cancel.
 
+## Guild-level settings and the admin surface (developer-mandated)
+
+Settings that are **generic and mod-independent** — guild locale,
+reference timezone, managed channels, logs visibility, anything that
+would be identical no matter which mods are installed — belong to the
+**core**, never to a mod. A mod must never re-declare or re-administer a
+guild-level setting in its own panel: one guild, one value, one admin
+surface. Concretely:
+
+- **Locale and timezone are core guild settings.** A mod never ships its
+  own locale or timezone picker. The guild timezone lives in the core
+  guild settings, persisted once per guild — it would be the same for
+  every installed mod, so a per-mod copy is a duplication by
+  definition. If a mod needs a genuinely mod-specific tunable (a
+  gameplay constant), it goes in the mod's YAML `settings:` — data,
+  admin-overridable through the core surface, never a new panel.
+- **Times are Discord timestamps.** User-facing times are rendered with
+  Discord's native `<t:…:R>` / `<t:…>` format, so Discord localizes them
+  per viewer and no per-guild timezone preference is needed for display.
+  A stored reference timezone is only justified when the platform itself
+  computes on wall-clock boundaries (a weekly cycle switch at "Sunday
+  23:30", a 24h shield) — and then it is a core setting shared by every
+  mod, not a mod extension.
+- **One admin surface.** The pinned bot-admins panel is the single admin
+  surface of the platform. Mods extend it **at runtime** — the core
+  exposes an extension seam where each enabled mod registers its admin
+  section (label, entry point) — they never create their own parallel
+  admin panel, settings channel or timezone/locale pickers. A mod admin
+  surface that duplicates a core capability is a bug in the mod, and a
+  missing extension seam in the core is a bug in the core: fix the
+  seam, not by forking the panel.
+
 ## Automate or learn, never one-off
 
 Every recurring operation met during a session becomes a committed script,

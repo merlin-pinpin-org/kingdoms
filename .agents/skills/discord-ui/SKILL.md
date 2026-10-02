@@ -64,6 +64,23 @@ In Components V2 text blocks — and **worst in sub-texts / footers
 - embeds (`UIEmbed`) are the exception: markdown links render there
   (e.g. the `/status` embed keeps its `[label](url)` lines).
 
+## Times are Discord timestamps, never formatted strings
+
+Never render a user-facing time as a formatted string with an explicit
+or implicit timezone — always send a Unix epoch and let Discord format
+it with `<t:…:F>` (full date-time), `<t:…:R>` (relative) or the other
+`<t:…>` styles. Discord localizes the display **per viewer**, so:
+
+- a per-guild or per-mod "timezone setting" is **not needed** for
+  displaying times — a panel that offers one for display purposes is a
+  bug;
+- a stored reference timezone is justified only when the platform
+  computes on wall-clock boundaries ("Sunday 23:30", "24h shield") —
+  and then it is a **core guild setting** (see CONVENTIONS.md, *Guild-
+  level settings and the admin surface*), never a mod setting;
+- compute the epoch from the stored instant and format nothing: the
+  viewer's Discord client does the rest.
+
 ## Interactive items
 
 - `Action(label, custom_id, on_click, style=…, disabled=False)` — button
@@ -141,6 +158,22 @@ channel — never scattered in gameplay channels, never ephemeral-only:
   removing the role costs the visibility, not the rights;
 - the sync is one-way (add, never remove) and re-applied at every
   channel resolution — a manual un-sync never survives.
+
+**One admin surface, extended at runtime.** The pinned bot-admins panel
+is the platform's single admin surface. A mod never builds its own
+admin panel, settings channel or guild-level pickers (locale, timezone):
+
+- generic, mod-independent settings (locale, reference timezone, managed
+  channels) are **core guild settings** — a mod that re-declares one
+  duplicates the value by definition (one guild, one value);
+- a mod's admin needs enter the **pinned panel through the core's
+  runtime extension seam**: each enabled mod registers its admin section
+  (label, entry point) and the panel renders them dynamically. If the
+  seam is missing, **fix the core seam** — never fork the panel
+  (CONVENTIONS.md, *Guild-level settings and the admin surface*);
+- mod-specific tunables (gameplay constants) stay in the mod YAML
+  `settings:` — data admin-overridable through the core surface, not a
+  new UI.
 
 ## Screen archetypes (`screens.py`)
 
