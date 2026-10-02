@@ -7,9 +7,15 @@
 ## Default: a maintainer reviews everything not explicitly delegated
 *                       @merlin-pinpin-org/maintainers
 
-## Mod docs & rules: owned by the mod's designer
+## Mod docs & rules: owned by the mod's designer — mod-only changes never
+# require a maintainer review; each mod is delegated by one explicit line
+# (added in the mod's own bootstrap PR).
 /docs/MODS/kingdoms/     @Drasahaoe
 /docs/MODS/marriage/    @Drasahaoe
+# Unclaimed mod docs stay maintainer-reviewed until their designer is
+# onboarded and the delegation line is added:
+# /docs/MODS/ladder/     @<designer>
+# /docs/MODS/register/   @<designer>
 
 ## Governance and process docs
 /AGENTS.md              @merlin-pinpin-org/maintainers
