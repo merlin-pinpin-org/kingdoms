@@ -13,6 +13,9 @@ documentation, generated roadmap and dependency graph).
   session loop, approvals, deployment flow).
 - [docs/DEVELOPER.md](docs/DEVELOPER.md) — this repo's layout, checks,
   ADR process, mods documentation, generated artifacts.
+- [docs/GUIDES/rulesets.md](docs/GUIDES/rulesets.md) — GitHub ruleset
+  reference and policy (rebase-only merges, code-owner reviews, drift
+  check).
 
 ## Repositories
 

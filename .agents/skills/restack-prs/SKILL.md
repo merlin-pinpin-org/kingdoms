@@ -7,7 +7,7 @@ description: Keep the open pull requests of one repository stacked on each other
 
 Keep the open PRs of one repository stacked on each other (the stacking
 convention of [docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md)): sequential PRs on
-the same repo are rebased on their predecessors so the developer can merge
+the same repo are rebased on their predecessors so GitHub can automerge
 them in order without conflicts.
 
 **Mechanism:** `scripts/restack.sh` lists the open PRs of the repo (oldest
