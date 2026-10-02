@@ -70,9 +70,11 @@ jobs:
           set -e
           echo "$result"
           echo "$result" >> "$GITHUB_STEP_SUMMARY"
-          echo "verdict=$(echo "$result" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("ALLOWED" if d["allowed"] else "DENIED")')" >> "$GITHUB_OUTPUT"
-          echo "reason=$(echo "$result" | python3 -c 'import json,sys; print(json.load(sys.stdin)["reason"])')" >> "$GITHUB_OUTPUT"
-          echo "alias=$(echo "$result" | python3 -c 'import json,sys; print(json.load(sys.stdin)["alias"])')" >> "$GITHUB_OUTPUT"
+          {
+            echo "verdict=$(echo "$result" | python3 -c 'import json,sys; d=json.load(sys.stdin); print("ALLOWED" if d["allowed"] else "DENIED")')"
+            echo "reason=$(echo "$result" | python3 -c 'import json,sys; print(json.load(sys.stdin)["reason"])')"
+            echo "alias=$(echo "$result" | python3 -c 'import json,sys; print(json.load(sys.stdin)["alias"])')"
+          } >> "$GITHUB_OUTPUT"
           exit $code
       - name: Report the verdict on the PR (alias-first)
         if: always() && inputs.pr-number != ''
