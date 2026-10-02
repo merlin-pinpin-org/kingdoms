@@ -69,10 +69,21 @@ Every contributor entry declares:
 
 ## Contributors
 
-| Login | Name | CLA | GitHub teams | Platform roles | Owns | Agent scope |
-| ----- | ---- | --- | ------------ | -------------- | ---- | ----------- |
-| @merlin-pinpin | Merlin Pinpin | accepted | maintainers, ops, game-designers, vibe-coders | dev, platform, ops, vibe | The whole platform (core, platform, infra); production approvals | Sessions act fully on their behalf except production approvals, CLA and role changes |
-| @Drasahaoe | Drasahaoe | accepted | game-designers, vibe-coders | mod (kingdoms, marriage), vibe | The `kingdoms` and `marriage` mods (CODEOWNERS paths in kingdoms and kingdoms-services); their rules and environments | Sessions build, test, deploy to test and drive to ready; they review their mod's PRs and validate on the test Discord; never asked to merge or run anything |
+Each entry carries an **alias** (the short name sessions and humans use in
+conversation and commit/PR references) and a **contact email** (the CLA
+address and the session's escalation channel), plus **since** (the date the
+contributor joined the roster). Sessions **must materialize these**: address
+the human by their alias, use the email for CLA-related exchanges, and check
+the roster before assuming who does what.
+
+| Login | Alias | Email | Since | CLA | GitHub teams | Platform roles | Owns | Agent scope |
+| ----- | ----- | ----- | ----- | --- | ------------ | -------------- | ---- | ----------- |
+| @merlin-pinpin | merlin | merlin@kingdoms.example (to be confirmed by the contributor) | 2024-02-05 | accepted 2026-09 | maintainers, ops, game-designers, vibe-coders | dev, platform, ops, vibe | The whole platform (core, platform, infra); production approvals | Sessions act fully on their behalf except production approvals, CLA and role changes |
+| @Drasahaoe | drasah | mabilais.dylan@hotmail.fr | 2025-08-19 | accepted 2026-09 | game-designers, vibe-coders | mod (kingdoms, marriage), vibe | The `kingdoms` and `marriage` mods (CODEOWNERS paths in kingdoms and kingdoms-services); their rules and environments | Sessions build, test, deploy to test and drive to ready; they review their mod's PRs and validate on the test Discord; never asked to merge or run anything |
+
+> **Maintainers**: fill or confirm the email entries via a roster PR — the
+> email is the CLA channel and must stay accurate. The `since` date is the
+> GitHub account creation date at first entry.
 
 ## Sync workflow
 
