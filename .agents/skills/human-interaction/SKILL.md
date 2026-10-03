@@ -33,8 +33,11 @@ required by the authority matrix):
 Never make the human hunt for the information that would let them
 answer:
 
-- links to the involved issues, PRs, runs, docs — as descriptive
-  Markdown labels, never bare URLs;
+- **GitHub links, always** — every question, ask, validation request or
+  select, without exception, carries descriptive Markdown links to the
+  involved artifacts (issue, PR, commit, run, file). A select without
+  its links is a malformed ask: redo it. This rule is non-negotiable
+  and applies even to quick or mid-run asks;
 - what the change **will impact** (files, repos, environments) and
   what it **will fix** (the concrete failure or gap), in one or two
   lines each;

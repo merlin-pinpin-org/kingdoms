@@ -22,6 +22,6 @@ jobs:
           python-version: "3.12"
       - name: Check documentation completeness
         run: |
-          python scripts/validate_docs.py --check \
+          python .github/workflows/scripts/validate_docs.py --check \
             --source kingdoms-services/src/kingdoms \
             --config kingdoms-services/config

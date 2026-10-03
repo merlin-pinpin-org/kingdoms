@@ -21,7 +21,9 @@
 /AGENTS.md              @merlin-pinpin-org/maintainers
 /docs/DECISIONS/        @merlin-pinpin-org/maintainers
 
-## Sync scripts: they regenerate generated/ROADMAP.md and generated/DEPENDENCIES.md
+## Sync and workflow scripts: they regenerate generated/, drive the roster
+## gates and the authority matrix — maintainer-only, CODEOWNERS-protected
+## under the workflows path
 /scripts/               @merlin-pinpin-org/maintainers
 
 ## Contributors roster: the source of truth for roles and teams

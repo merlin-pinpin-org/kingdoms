@@ -177,8 +177,8 @@ flow frictionless:
 `generated/ROADMAP.md` and `generated/DEPENDENCIES.md` are generated artifacts kept in
 sync by the sync skills ([Update roadmap](../.agents/skills/update-roadmap/SKILL.md),
 [Update dependencies](../.agents/skills/update-dependencies/SKILL.md)): the agent runs the
-sync script locally (`scripts/sync_roadmap.py`,
-`scripts/sync_dependencies.py`), fixes what the script reports, and
+sync script locally (`.github/workflows/scripts/sync_roadmap.py`,
+`.github/workflows/scripts/sync_dependencies.py`), fixes what the script reports, and
 **commits the regenerated artifact to the current PR branch** — never a
 rolling `automation/*` PR, never a direct push to `main`. Generated
 technical docs (pydoc) live in `kingdoms-services` and are
@@ -204,7 +204,7 @@ freshness-checked there.
   links with backlinks. A bare `repo#N` (no owner) is plain text on GitHub:
   never write it, and never use the pre-rename owner `merlin-pinpin/...`.
 
-The `Check Docs` required check runs `scripts/validate_docs.py` on every PR
+The `Check Docs` required check runs `.github/workflows/scripts/validate_docs.py` on every PR
 — documentation validation never depends on a manual command.
 
 ## Session loop
@@ -227,7 +227,7 @@ An agent session (which starts with no memory of previous conversations):
    rule, pitfall or pattern, update the matching skill page, convention
    or repo `AGENTS.md` entry as part of the change — never wait to
    be asked.
-8. Verify the roadmap: run `scripts/sync_roadmap.py` (the
+8. Verify the roadmap: run `.github/workflows/scripts/sync_roadmap.py` (the
    [Update roadmap](../.agents/skills/update-roadmap/SKILL.md) skill) and commit the synced
    `generated/ROADMAP.md` to the current PR branch.
 

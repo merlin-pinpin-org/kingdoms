@@ -32,7 +32,7 @@ Anyone can run the local checks with public clones only (this repo and
 `kingdoms-services` side by side, no credentials):
 
 ```bash
-python3 scripts/validate_docs.py --check \
+python3 .github/workflows/scripts/validate_docs.py --check \
   --source <kingdoms-services>/src/kingdoms \
   --config <kingdoms-services>/config
 ```
@@ -88,7 +88,7 @@ files.
 - Statuses needing human judgment (`in-progress`, `blocked`) are set
   manually and preserved by the script.
 - Priorities (`priority/P0-P3` labels) come from critical-path analysis
-  maintained by `scripts/sync_dependencies.py` — do not set them by hand
+  maintained by `.github/workflows/scripts/sync_dependencies.py` — do not set them by hand
   unless the analysis is wrong.
 
 ## Testing strategy (summary)

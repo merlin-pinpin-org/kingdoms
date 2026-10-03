@@ -27,7 +27,7 @@ documentation, generated roadmap and dependency graph).
 
 ## Local rules
 
-- Run `python3 scripts/validate_docs.py --check --source <kingdoms-services>/src/kingdoms --config <kingdoms-services>/config`
+- Run `python3 .github/workflows/scripts/validate_docs.py --check --source <kingdoms-services>/src/kingdoms --config <kingdoms-services>/config`
   before opening any PR (the `Check Docs` required check re-runs it).
 - Never edit or regenerate `generated/ROADMAP.md` or `generated/DEPENDENCIES.md`: the
   `sync-generated` workflow owns both files and publishes them on the

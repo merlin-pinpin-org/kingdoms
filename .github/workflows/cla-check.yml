@@ -25,7 +25,7 @@ jobs:
           ref: main
           sparse-checkout: |
             CONTRIBUTORS.md
-            scripts/roster.py
+            .github/workflows/scripts/roster.py
 
       - name: Verify the PR author's CLA against the roster
         run: |

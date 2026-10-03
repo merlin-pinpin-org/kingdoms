@@ -43,7 +43,29 @@ jobs:
             echo "An org admin must add the secret (Settings → Secrets and variables → Actions) for the sync to run."
             exit 0
           fi
-          python scripts/sync_contributors.py --check
+          python .github/workflows/scripts/sync_contributors.py --check
+
+  ownership:
+    # Roster ↔ CODEOWNERS consistency: every mod/game has a rostered owner,
+    # and CODEOWNERS delegations match the 'owns' column. Warn-only while the
+    # existing orphan mods are being assigned (tracking issue); flip to
+    # failing once the debt is resolved.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ownership consistency (roster 'owns' vs mods/games/CODEOWNERS)
+        run: |
+          set +e
+          python .github/workflows/scripts/check_ownership.py
+          code=$?
+          if [ "$code" != 0 ]; then
+            echo "::warning::ownership violations detected — every mod and game must have a rostered owner (CONTRIBUTORS.md 'owns'); assigning orphans is maintainer work (kingdoms#151)"
+          fi
+          exit 0
 
   sync:
     if: github.event_name != 'pull_request'
@@ -59,7 +81,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CONTRIBUTORS_SYNC_TOKEN }}
         run: |
           set +e
-          python scripts/sync_contributors.py | tee sync-report.txt
+          python .github/workflows/scripts/sync_contributors.py | tee sync-report.txt
           code=${PIPESTATUS[0]}
           echo "exitcode=$code" >> "$GITHUB_OUTPUT"
           exit 0

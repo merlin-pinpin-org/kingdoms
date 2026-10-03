@@ -187,7 +187,7 @@ is resolved from the roster only when an API call needs it.
 
 ## Sync workflow
 
-`scripts/sync_contributors.py` (kingdoms repo) reads this file and
+`.github/workflows/scripts/sync_contributors.py` (kingdoms repo) reads this file and
 reconciles the org's teams through the GitHub API, using a
 `CONTRIBUTORS_SYNC_TOKEN` org secret (org admin scope):
 

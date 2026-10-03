@@ -56,14 +56,14 @@ jobs:
           ref: main
           sparse-checkout: |
             CONTRIBUTORS.md
-            scripts/roster.py
+            .github/workflows/scripts/roster.py
 
       - name: Apply the authority matrix
         id: matrix
         run: |
           set -euo pipefail
           set +e
-          result="$(python3 scripts/roster.py \
+          result="$(python3 .github/workflows/scripts/roster.py \
             "${{ inputs.requestor }}" \
             "${{ inputs.capability }}" \
             --env "${{ inputs.environment }}" \

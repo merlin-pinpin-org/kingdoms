@@ -126,7 +126,7 @@ To be loadable, a mod package must provide:
    calling only core services
 3. A documentation set in `kingdoms/docs/MODS/<mod-name>/`:
    `README.md`, `RULES.md`, `ENVIRONMENT.md` (+ `CHANGELOG.md` when rules
-   evolve) — validated by `scripts/validate_docs.py`
+   evolve) — validated by `.github/workflows/scripts/validate_docs.py`
 4. Locale entries for every user-facing string in
    `kingdoms-services/config/locales/{en,fr}.yaml`
    ([ADR-0008](../DECISIONS/008-i18n-system.md))

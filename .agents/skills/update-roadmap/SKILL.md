@@ -15,7 +15,7 @@ humans never edit or regenerate it by hand.**
 
 1. **Detect drift** — from the kingdoms repo root:
    ```bash
-   python3 scripts/sync_roadmap.py --check
+   python3 .github/workflows/scripts/sync_roadmap.py --check
    ```
    `--check` reports what would change without writing anything. The
    session-check target runs it too.
@@ -68,7 +68,7 @@ be inferred from GitHub state alone — the script preserves them.
 ## See also
 
 - `.github/workflows/sync-generated.yml` — the single writer
-- [sync_roadmap.py](../../../scripts/sync_roadmap.py) — the drift
+- [sync_roadmap.py](../../../.github/workflows/scripts/sync_roadmap.py) — the drift
   detector (`--check`), also the generator the workflow runs
 - [AGENTS.md](../../../AGENTS.md) — the end-of-session check that
   calls this skill

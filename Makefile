@@ -29,17 +29,17 @@ session-check:
 # regeneration (post-merge, daily 06:00 UTC, on demand). Never commit
 # the output to a PR branch.
 sync-artifacts:
-	python3 scripts/sync_roadmap.py
-	python3 scripts/sync_dependencies.py
+	python3 .github/workflows/scripts/sync_roadmap.py
+	python3 .github/workflows/scripts/sync_dependencies.py
 
 # Roster sync: the org follows CONTRIBUTORS.md (source of truth).
 # `contributors-check` reports without mutating (what the CI runs on roster PRs);
 # `contributors-sync` adds/removes memberships, teams and repo grants to match the doc.
 contributors-check:
-	python3 scripts/sync_contributors.py --check
+	python3 .github/workflows/scripts/sync_contributors.py --check
 
 contributors-sync:
-	python3 scripts/sync_contributors.py
+	python3 .github/workflows/scripts/sync_contributors.py
 
 # Restack the open PRs of a repository on top of each other (stacking
 # convention): make restack-kingdoms-services, make restack-kingdoms-infra...
@@ -47,4 +47,4 @@ restack-%:
 	./scripts/restack.sh merlin-pinpin-org/$*
 
 validate:
-	python3 scripts/validate_docs.py --check --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config
+	python3 .github/workflows/scripts/validate_docs.py --check --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config

@@ -196,6 +196,17 @@ the CODEOWNERS file is the single source of who must review what. The
 session may build core changes itself; it flags them in the PR so the
 owners review them before the automerge fires.
 
+**No mod, no game, without a rostered owner** — creating a mod or a
+game requires a `CONTRIBUTORS.md` entry whose `owns` column claims it
+(mods and games alike, doc and code). A session **never** bootstraps a
+mod or game directory, YAML declaration or docs for a contributor
+absent from the roster; the roster entry (and its CODEOWNERS
+delegation lines) comes first, in the mod's bootstrap PR. The
+contributors-sync workflow enforces this automatically
+(`.github/workflows/scripts/check_ownership.py`): orphan mods/games and CODEOWNERS lines
+that drift from the roster `owns` column are flagged for the
+maintainers.
+
 ## PR lifecycle (merge-readiness)
 
 1. **Draft status is the merge-readiness signal.** Always open PRs as
@@ -334,7 +345,7 @@ updates `AGENTS.md`, the vibe-coding docs (`docs/CONVENTIONS.md`,
 - Every open issue in `kingdoms-services` and `kingdoms-infra` carries
   exactly one `size/*` label (XS/S/M/L/XL), one `priority/P0-P3` label
   (critical-path slack, maintained by
-  `kingdoms/scripts/sync_dependencies.py` — do not set by hand unless the
+  `kingdoms/.github/workflows/scripts/sync_dependencies.py` — do not set by hand unless the
   analysis is wrong) and a `phase-N` label.
 - Every issue has a `## Dependencies` section: task-list checkboxes
   pointing at the issues it blocks on (fully qualified for cross-repo

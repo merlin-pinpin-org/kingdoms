@@ -34,7 +34,7 @@ from the graph but still shown (struck through) in the tables.
 - `priority/P0-P3` labels on every issue (critical-path slack)
 - `size/XS-XL` labels (set manually: XS=1, S=3, M=5, L=8, XL=13 points)
 
-**Mechanism:** run `scripts/sync_dependencies.py` locally, then commit the
+**Mechanism:** run `.github/workflows/scripts/sync_dependencies.py` locally, then commit the
 regenerated `docs/DEPENDENCIES.md` to the PR branch (or open a dedicated
 PR). The script reads all open issues via `gh api`; since all three
 repositories are public, no custom secret is required. It fails closed
@@ -45,7 +45,7 @@ partial data.
 
 1. **Run the script** from the repo root:
    ```bash
-   python3 scripts/sync_dependencies.py
+   python3 .github/workflows/scripts/sync_dependencies.py
    ```
    It fails loudly on missing `size/*`/`priority/*` labels, unknown or
    still-open checked dependencies, cycles, and unreadable repositories,
