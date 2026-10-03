@@ -58,14 +58,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Ownership consistency (roster 'owns' vs mods/games/CODEOWNERS)
-        run: |
-          set +e
-          python .github/workflows/scripts/check_ownership.py
-          code=$?
-          if [ "$code" != 0 ]; then
-            echo "::warning::ownership violations detected — every mod and game must have a rostered owner (CONTRIBUTORS.md 'owns'); assigning orphans is maintainer work (kingdoms#151)"
-          fi
-          exit 0
+        run: python .github/workflows/scripts/check_ownership.py
 
   sync:
     if: github.event_name != 'pull_request'

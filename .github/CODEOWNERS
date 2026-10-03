@@ -12,10 +12,11 @@
 # (added in the mod's own bootstrap PR).
 /docs/MODS/kingdoms/     @Drasahaoe
 /docs/MODS/marriage/    @Drasahaoe
-# Unclaimed mod docs stay maintainer-reviewed until their designer is
-# onboarded and the delegation line is added:
-# /docs/MODS/ladder/     @<designer>
-# /docs/MODS/register/   @<designer>
+# Default mod ownership: unclaimed mods belong to Merlin (the platform
+# developer) until a designer claims them — the roster 'owns' column and
+# this file stay in sync (contributors-sync ownership check)
+/docs/MODS/ladder/     @merlin-pinpin
+/docs/MODS/register/   @merlin-pinpin
 
 ## Governance and process docs
 /AGENTS.md              @merlin-pinpin-org/maintainers
