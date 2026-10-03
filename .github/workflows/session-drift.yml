@@ -93,17 +93,18 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          refs=$(grep -oE 'kingdoms(-services)?#[0-9]+' /tmp/session-check.log | sort -u | head -20)
+          grep -oE 'kingdoms(-services)?#[0-9]+' /tmp/session-check.log | sort -u | head -20 > /tmp/drift-refs.txt || true
           logins=""
-          for ref in $refs; do
-            repo=$(echo "$ref" | sed -E 's/#.*//; s/^kingdoms-services$/kingdoms-services/; s/^kingdoms$/kingdoms/')
-            num=$(echo "$ref" | grep -oE '[0-9]+$')
+          while IFS= read -r ref; do
+            [ -z "$ref" ] && continue
+            repo=${ref%%#*}
+            num=${ref##*#}
             login=$(gh issue view "$num" --repo "merlin-pinpin-org/${repo}" --json author --jq '.author.login' 2>/dev/null || true)
-            [ -n "$login" ] && logins="$logins @$login"
-          done
-          logins=$(echo $logins | tr ' ' '\n' | sort -u | tr '\n' ' ')
-          mentions="${logins:-} @merlin-pinpin-org/maintainers"
-          echo "mentions=$(echo $mentions)" >> "$GITHUB_OUTPUT"
+            [ -n "$login" ] && logins="${logins} ${login}"
+          done < /tmp/drift-refs.txt
+          mentions=$(printf '%s maintainer-fallback\n' "$logins" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+          mentions=${mentions/maintainer-fallback/@merlin-pinpin-org/maintainers}
+          printf 'mentions=%s\n' "$mentions" >> "$GITHUB_OUTPUT"
       - name: Open or update the drift issue (drift detected)
         if: steps.check.outputs.exit != '0'
         env:
