@@ -27,7 +27,7 @@ agent.
    them. See [your-test-env.md](your-test-env.md).
 4. **A signed CLA** — download [CLA.md](../../CLA.md) (or
    [CLA.pdf](../../CLA.pdf)), sign it, and **email it to a maintainer**
-   (MERLIN by default, address in the CLA). The maintainer's roster PR
+   (Merlin by default, address in the CLA). The maintainer's roster PR
    records your acceptance (`cla: accepted`) — that entry is what
    unlocks your PRs (the `cla` check reads the roster).
 
@@ -53,7 +53,7 @@ agent.
 
 ## First steps
 
-1. Contact a maintainer (MERLIN): who you are, what you want to do
+1. Contact a maintainer (Merlin): who you are, what you want to do
    (game designer, mod developer, ops...).
 2. Sign and email the CLA.
 3. The maintainer's roster PR adds you (alias, teams, roles, agent

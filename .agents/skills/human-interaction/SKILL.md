@@ -56,9 +56,9 @@ answer:
 
 ## 4. Address and report by alias
 
-- Address the human by their **roster alias** (CONTRIBUTORS.md), in
-  caps when it is a proper name (MERLIN, DRASAH); the GitHub login is
-  resolved only for API calls.
+- Address the human by their **roster alias** (CONTRIBUTORS.md),
+  capitalized as a proper name (Merlin, Drasah) — never all-caps; the
+  GitHub login is resolved only for API calls.
 - Reports use the alias too, and name the exact artifacts (PR, issue,
   commit, run URL) the human may need to look at.
 
