@@ -84,6 +84,12 @@ courant :
 - **Une idée vous revient** : demandez simplement à l'agent d'ouvrir une
   issue pour ne pas la perdre ; les issues sont le carnet de bord du
   projet.
+- **Une issue vous est assignée** (vous êtes mentionné, vous recevez un
+  mail) : c'est votre file de travail — la plateforme (surveillance de
+  dérive, décisions, autres agents) vous écrit là. Ouvrez une session et
+  dites simplement « traite mes issues assignées » ; l'agent les lit au
+  début de chaque session. Une issue non lue ne fait rien tant que
+  vous n'ouvrez pas de session.
 
 ## Ce que vous ne ferez jamais
 
