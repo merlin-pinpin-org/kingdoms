@@ -40,7 +40,7 @@ REQUIRED_MOD_FILES = ("README.md", "RULES.md", "ENVIRONMENT.md")
 
 
 def repo_root() -> Path:
-    return Path(__file__).resolve().parent.parent
+    return Path(__file__).resolve().parents[3]
 
 
 def check_mods_docs(docs_root: Path, config_root: Path | None) -> list[str]:
