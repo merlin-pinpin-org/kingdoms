@@ -33,7 +33,7 @@ jobs:
           author="${{ github.event.pull_request.user.login }}"
           python3 - "$author" <<'PY'
           import sys
-          sys.path.insert(0, "scripts")
+          sys.path.insert(0, ".github/workflows/scripts")
           from roster import parse_roster
           author = sys.argv[1]
           roster = parse_roster("CONTRIBUTORS.md")
