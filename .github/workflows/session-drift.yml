@@ -1,0 +1,155 @@
+# Session drift watchdog (docs/CONVENTIONS.md session checklist).
+#
+# The session checklist is mechanical, but nothing watched it BETWEEN
+# sessions: an issue closed with a wrong label, a milestone edit, or a
+# cross-repo change could leave the generated artifacts (roadmap,
+# dependency graph) silently stale until the next session stumbled on
+# it. This workflow closes that gap for every contributor's sessions
+# (Merlin, Drasah, ...) — drift is a platform property, not a person's.
+#
+# Triggers:
+#   schedule 06:30 UTC  — the daily watch, one hour after the
+#                         sync-generated regeneration (06:00 UTC), so
+#                         the committed artifacts on the sync branch are
+#                         already fresh when compared;
+#   workflow_dispatch    — the on-demand run.
+#
+# Drift is REPORTED, never repaired: the sync-generated workflow stays
+# the single writer of generated/. The report is a single living issue
+# labeled `session-drift`: created on first drift, commented with the
+# exact failure lines on every new drift, and closed automatically once
+# every check passes again — so the issue list is the drift dashboard.
+name: Session drift watchdog
+
+on:
+  schedule:
+    - cron: "30 6 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: session-drift
+  cancel-in-progress: false
+
+jobs:
+  watchdog:
+    name: Session checklist and drift issue
+    runs-on: ubuntu-latest
+    steps:
+      # Full history: the roadmap/dependency checks read the committed
+      # generated artifacts from origin/sync/generated-artifacts.
+      - name: Check out kingdoms (full history)
+        uses: actions/checkout@v4
+        with:
+          path: kingdoms
+          fetch-depth: 0
+      # kingdoms-services is public — checked out anonymously, no token
+      # needed (same as the sync-generated workflow).
+      - name: Check out kingdoms-services (main, docs source)
+        uses: actions/checkout@v4
+        with:
+          repository: merlin-pinpin-org/kingdoms-services
+          ref: main
+          path: kingdoms-services
+      - name: Restore the previous generated state
+        working-directory: kingdoms
+        run: |
+          # sync_roadmap rewrites ROADMAP.md in place, so it needs the
+          # previous generated state (same bootstrap as sync-generated).
+          git fetch origin sync/generated-artifacts
+          mkdir -p generated
+          git show origin/sync/generated-artifacts:generated/ROADMAP.md > generated/ROADMAP.md
+          git show origin/sync/generated-artifacts:generated/DEPENDENCIES.md > generated/DEPENDENCIES.md
+      - name: Run the session checklist
+        id: check
+        working-directory: kingdoms
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          python3 scripts/session_check.py \
+            --source ../kingdoms-services/src/kingdoms \
+            --config ../kingdoms-services/config 2>&1 | tee /tmp/session-check.log
+          echo "exit=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+          # Never fail the job here: the drift issue below is the
+          # report; a red run would just duplicate it.
+          exit 0
+      - name: Ensure the session-drift label exists
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh label create session-drift --color d93f0b --description "Generated artifacts drift vs issue state" --force --repo "$GITHUB_REPOSITORY"
+      # Notify the humans responsible for the drift (GitHub mention =
+      # notification + email by default): every author of an issue the
+      # drift report names, plus the maintainers as the fallback owner.
+      # Roster aliases never appear in mentions — GitHub notifications
+      # need the login; the roster maps alias -> login.
+      - name: Resolve the drift owners to @mention
+        id: owners
+        if: steps.check.outputs.exit != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          grep -oE 'kingdoms(-services)?#[0-9]+' /tmp/session-check.log | sort -u | head -20 > /tmp/drift-refs.txt || true
+          logins=""
+          while IFS= read -r ref; do
+            [ -z "$ref" ] && continue
+            repo=${ref%%#*}
+            num=${ref##*#}
+            login=$(gh issue view "$num" --repo "merlin-pinpin-org/${repo}" --json author --jq '.author.login' 2>/dev/null || true)
+            [ -n "$login" ] && logins="${logins} ${login}"
+          done < /tmp/drift-refs.txt
+          mentions=$(printf '%s maintainer-fallback\n' "$logins" | tr ' ' '\n' | sort -u | tr '\n' ' ')
+          mentions=${mentions/maintainer-fallback/@merlin-pinpin-org/maintainers}
+          printf 'mentions=%s\n' "$mentions" >> "$GITHUB_OUTPUT"
+      - name: Open or update the drift issue (drift detected)
+        if: steps.check.outputs.exit != '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MENTIONS: ${{ steps.owners.outputs.mentions }}
+        run: |
+          cat > /tmp/drift-body.md <<'DRIFT_HEADER'
+          ${MENTIONS} — the daily session drift watchdog found failures
+          in artefacts you own or recently changed. The exact fixes:
+
+          ```
+          DRIFT_HEADER
+          sed 's/^/  /' /tmp/session-check.log >> /tmp/drift-body.md
+          cat >> /tmp/drift-body.md <<'DRIFT_FOOTER'
+          ```
+
+          ```
+
+          Fix the underlying issue state (labels, milestones, docs), then
+          let the sync-generated workflow regenerate the artifacts — the
+          watchdog closes this issue automatically once every check
+          passes again.
+
+          _Notified: ${MENTIONS} (issue authors found in the drift report
+          plus the maintainers as fallback owner)._
+          DRIFT_FOOTER
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --label session-drift --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ] && [ "$existing" != "null" ]; then
+            echo "drift issue #$existing already open — commenting the new findings"
+            gh issue comment "$existing" --repo "$GITHUB_REPOSITORY" --body-file /tmp/drift-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" \
+              --title "Session drift: generated artifacts out of sync with issue state" \
+              --label session-drift --body-file /tmp/drift-body.md
+          fi
+      - name: Close the drift issue (all checks pass)
+        if: steps.check.outputs.exit == '0'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --label session-drift --state open --json number --jq '.[0].number')
+          if [ -n "$existing" ] && [ "$existing" != "null" ]; then
+            echo "closing drift issue #$existing — every session check passes again"
+            gh issue close "$existing" --repo "$GITHUB_REPOSITORY" \
+              --comment "All session checks pass again ([run]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)) — closing."
+          else
+            echo "no open drift issue — nothing to close"
+          fi

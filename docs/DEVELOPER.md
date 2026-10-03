@@ -43,6 +43,14 @@ artefacts regenerate with `make sync-artifacts` (commit the result to the
 open PR branch). `make restack-<repo>` restacks the stacked PRs of a
 repository (see the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md) skill).
 
+Between sessions, the **session drift watchdog**
+(`.github/workflows/session-drift.yml`) runs the same checklist daily
+(06:30 UTC) and reports drift as a single living `session-drift`
+labeled issue — created on first drift, commented with the exact
+failure lines on every new drift, and closed automatically when every
+check passes again. The sync-generated workflow stays the single writer
+of `generated/`; the watchdog reports, never repairs.
+
 It validates: mod docs completeness, Python docstrings in the
 kingdoms-services source, Mermaid block syntax. Fail-closed: it refuses to
 run without the kingdoms-services source/config. The `Check Docs` required

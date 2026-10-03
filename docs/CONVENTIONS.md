@@ -353,6 +353,16 @@ updates `AGENTS.md`, the vibe-coding docs (`docs/CONVENTIONS.md`,
   `## Related`.
 - Keep the issues you touched in sync with reality (state, acceptance
   criteria, `## Dependencies` checkboxes).
+- **The assigned issue is the inter-agent channel.** A session starts by
+  reading the issues assigned to its human (VIBEWORKFLOW.md session
+  loop). Any automation (drift watchdog, rules audit) or any other
+  session notifies a human by assigning or commenting a GitHub issue
+  that @mentions the roster login — the mention notifies in-app and by
+  email, and the next session of that human picks the issue up from
+  there. No other inter-agent channel exists: never notify through
+  external messages, PR comments aimed at no one, or untracked side
+  channels. The human stays the trigger — an issue nobody reads does
+  nothing until its owner opens a session.
 
 ## Checks must pass everywhere
 

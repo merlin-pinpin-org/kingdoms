@@ -93,7 +93,6 @@ def main() -> int:
     else:
         # The generated dependency graph lives on the sync/generated-artifacts
         # branch (main carries no generated files); read it from there.
-        import subprocess
         committed = subprocess.run(
             ["git", "show", "origin/sync/generated-artifacts:generated/DEPENDENCIES.md"],
             cwd=root, capture_output=True, text=True, check=True,

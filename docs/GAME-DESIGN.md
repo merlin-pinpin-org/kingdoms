@@ -75,6 +75,12 @@ The `/status` command is your dashboard in Discord. In plain language:
   dedicated runbook — report it, nothing to do on your side.
 - **An idea comes back to you**: just ask the agent to open an issue so
   it is not lost; issues are the project's logbook.
+- **An issue is assigned to you** (you are mentioned, you get an email):
+  that is your work queue — the platform (drift monitoring, decisions,
+  other agents) writes to you there. Open a session and just say
+  "handle my assigned issues"; your agent reads them at the start of
+  every session. An unread issue does nothing until you open a
+  session.
 
 ## What you will never do
 
