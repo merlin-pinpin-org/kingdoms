@@ -9,6 +9,13 @@ conversations**. This repo is the source of truth, so the operating model
 itself is written down here. Any future session — and any human contributor —
 must be able to understand the model from this page alone.
 
+## Modes
+
+Every contributor works in one of three modes — sandbox (vibe coder),
+pro (dev/ops) or cowboy (maintainer, explicit per operation). The mode
+decides the branch strategy, the review gate and the GitHub powers; it
+is documented on its own page: [MODES.md](MODES.md).
+
 ## Roles
 
 | Role | Who | Responsibility |
