@@ -249,9 +249,7 @@ scope of what they may do:
   the shared validation environment, and deploy to prod.
 - **Maintainer** — works like dev/ops by default. The **cowboy mode**
   (ruleset bypass, direct push to `main`) is maintainer-only, granted
-  **on demand, explicitly** — never a default. A cowboy action stays
-  visible: a commit on `main` with a clear message; it is an
-  exception, never the habit.
+  **on demand, explicitly** — never a default.
 
 **Restrictions:** users who are not maintainers have no bypass
 powers — the PR process is the default for everyone; cowboy mode is
