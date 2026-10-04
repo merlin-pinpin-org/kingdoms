@@ -82,8 +82,7 @@ for binding rules, AGENTS.md one-liner + link for repo discovery) and
 commit it with the change — see *Documentation is part of the
 change* in [docs/CONVENTIONS.md](../../../docs/CONVENTIONS.md).
 
-Examples of learned commands in this platform: `make restack-<repo>`
-(stacked-PR maintenance became a skill + script),
+Examples of learned commands in this platform:
 `make session-check` (the end-of-session checklist became a script),
 `make release` and `make watch-deploy` (release cutting and deploy
 monitoring became scripts with pre-flight checks).

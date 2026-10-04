@@ -19,8 +19,7 @@ ready.
 - All CI checks green **on the head commit, completed** (never deploy on a
   pending check).
 - The branch is up to date with its base (`gh pr view` shows
-  `mergeable: MERGEABLE`; restack first if not — see the
-  [restack-prs](../restack-prs/SKILL.md) skill).
+  `mergeable: MERGEABLE`; rebase on the base if not).
 - Nothing to redeploy (doc-only, workflow-only PRs) → skip the deployment,
   keep the rest of the lifecycle.
 

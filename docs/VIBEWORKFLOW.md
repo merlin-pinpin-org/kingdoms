@@ -80,8 +80,9 @@ Step by step:
    relevant repo, using that repo's issue templates — blank issues are
    disabled and a "Validate issue" workflow flags non-compliant issues
    `invalid`.
-3. The agent implements the issue on a `vibe/<short-slug>` branch and opens a
-   draft PR. CI runs on the PR; the agent monitors and fixes failures. When
+3. The agent implements the issue on a `vibe/<short-slug>` branch, opens a
+   draft PR against the user's integration branch `vibe/<alias>/main`
+   (CONVENTIONS.md — *Integration branches*), and consolidates there. CI runs on the PR; the agent monitors and fixes failures. When
    all checks are green, the branch is up to date and the implementation is
    complete, the agent deploys the PR to the test environment (when there is
    something to deploy), **validates the deployment itself** (healthchecks
@@ -164,11 +165,9 @@ flow frictionless:
    test at a time: if a different PR is pinned on `deploy/test` under
    validation, don't deploy on top of it. After a merge, re-align test
    to `main` only if the merged PR is the one deployed there.
-4. **Stack sequential PRs on the same repository.** When several PRs are
-   open on one repo, later ones are rebased on their predecessors so the
-   developer can merge them in order without conflicts (merge PR 1, then
-   PR 2 rebases cleanly, and so on).
-5. **Group related issues into one PR when the scope is coherent.**
+5. **Normal-size PRs.** One PR = one coherent, reviewable scope; the PR
+   body lists the covered issues. Never stack or grow session-long
+   mega-PRs.
    One focused PR per coherent scope beats one PR per sub-issue; the PR
    body lists the covered issues.
 
@@ -213,11 +212,17 @@ An agent session (which starts with no memory of previous conversations):
 
 1. Read `AGENTS.md` in the target repo, then the assigned issue in full —
    issues are self-contained, with skills tables and dependencies.
-2. Create branch `vibe/<short-slug>`.
+2. Create branch `vibe/<short-slug>` and open the PR against the user's
+   integration branch `vibe/<alias>/main` (see CONVENTIONS.md —
+   *Integration branches*).
 3. Implement, run `make lint` + `make test`.
 4. Open a draft PR, monitor CI, fix failures.
 5. Mark the PR ready for review when merge-ready (see the PR draft-status
-   rule below); otherwise keep it in draft.
+   rule below); otherwise keep it in draft. The integration branch owner
+   decides when the accumulated work is mature to open the PR to `main`
+   and follow the standard path (integration branch → personal env test →
+   PR to `main` validated by another user → test/validation deploy → RC →
+   validate → release → prod with ops check).
 6. Report the PR URL; the required reviewers approve (or ask for changes) and the PR automerges
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.

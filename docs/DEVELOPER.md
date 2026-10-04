@@ -20,10 +20,10 @@ covers what is specific to working *in this repo*.
 | `docs/DECISIONS/` | Architecture decision records |
 | `docs/MODS/<mod-name>/` | Mods documentation (`README.md`, `RULES.md`, `ENVIRONMENT.md`) |
 | `docs/GUIDES/` | Audience entry points: mod developer, game provider developer, vibe coder (AI session), game designer |
-| `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, restack-prs, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
+| `.agents/skills/` | Agent Skills (open standard, `SKILL.md` per skill): automate-or-learn, diagnose-deploy, update-roadmap, update-dependencies, deploy-and-validate, release-flow, shape-game-designer-idea, ci-monitoring |
 | `docs/CONVENTIONS.md` | Conventions shared by the three repos |
 | `generated/ROADMAP.md`, `generated/DEPENDENCIES.md` | Generated artifacts — never edit manually |
-| `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py`, `restack.sh` |
+| `scripts/` | `validate_docs.py`, `sync_roadmap.py`, `sync_dependencies.py`, `session_check.py` |
 | `templates/mod-template/` | Template for a new mod's documentation |
 
 ## Checks
@@ -40,8 +40,7 @@ python3 .github/workflows/scripts/validate_docs.py --check \
 The full session checklist (docs validation + roadmap drift +
 dependency-graph drift) runs with `make session-check`; the synced
 artefacts regenerate with `make sync-artifacts` (commit the result to the
-open PR branch). `make restack-<repo>` restacks the stacked PRs of a
-repository (see the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md) skill).
+open PR branch).
 
 It validates: mod docs completeness, Python docstrings in the
 kingdoms-services source, Mermaid block syntax. Fail-closed: it refuses to

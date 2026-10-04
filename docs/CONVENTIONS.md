@@ -207,6 +207,36 @@ contributors-sync workflow enforces this automatically
 that drift from the roster `owns` column are flagged for the
 maintainers.
 
+## Integration branches (per user)
+
+Every rostered user owns **one integration branch**: `vibe/<alias>/main`
+(alias = the roster alias, e.g. `vibe/drasah/main`). It is the base of
+all that user's PRs and the only place their work consolidates.
+
+- **One branch per user, not per mod.** All of a user's work lands on
+  their integration branch, whatever mod it belongs to.
+- **The user decides maturity.** The integration branch is never
+  auto-merged to `main`; its owner decides when the accumulated work is
+  ready and opens a PR to `main` themselves.
+- **Sync, never auto-resolve.** The sync workflow merges `main` into
+each `vibe/*/main` branch automatically; conflicts are resolved by
+  the branch owner, never automatically.
+
+### Standard path (every user)
+
+1. Consolidate on your integration branch `vibe/<alias>/main`.
+2. Test it on your personal environment.
+3. Open a PR to `main` — validated by **another user**.
+4. Deploy to test/validation.
+5. Cut an RC, validate it.
+6. Release, then deploy to prod (ops/owner check of prod).
+
+### Maintainer fast-path
+
+The maintainer (dev+ops+maintainer in one person) may merge justified
+urgent or quick fixes **directly on `main`**. Longer evolutions follow
+the standard path above. When in doubt, use the standard path.
+
 ## PR lifecycle (merge-readiness)
 
 1. **Draft status is the merge-readiness signal.** Always open PRs as
@@ -239,37 +269,19 @@ maintainers.
    there, do not deploy on top of it — wait for its cycle to finish. And
    after merging, only re-align the test environment to `main` if the
    merged PR is the one that was deployed there.
-4. **Stack sequential PRs on the same repository.** When several PRs are
-   open on one repo, later ones are rebased on their predecessors so the
-   developer can merge them in order without conflicts. Run
-   `make restack-<repo>` (the [Restack stacked PRs](../.agents/skills/restack-prs/SKILL.md)
-   skill) after each merge in a stack and before opening a new PR on a
-   repo that already has open ones.
-5. **Group related issues into one PR when the scope is coherent.** One
-   focused PR per coherent scope beats one PR per sub-issue; the PR body
-   lists the covered issues.
-5-bis. **One active PR per repo per vibe-coding session
-   (developer-mandated).** A session opens a single PR per repo and
-   grows it as the session progresses: new work is amended into clean,
-   coherent, sequential commits (`git rebase` the branch and re-commit
-   by logical unit) instead of piling up "fixup" commits. The PR's
-   commit list reads like the squashed PRs of the old flow — each
-   commit is a self-contained logical unit that passes the checks on
-   its own, ordered so the story reads sequentially. The session
-   merges only at the end; mid-session is amend/rebase, never merge.
-   A partial merge stays possible on demand: open a separate PR for
-   the part to ship, wait for it to be merged, then continue on the
-   session's main PR (rebased). Two scopes in one session means two
-   conversations (two Mistral sessions), two PRs, advanced in parallel
-   without stepping on each other.
-
-   **PR title convention (developer-mandated):** the session PR title
+4. **Normal-size PRs, always.** One PR = one coherent, reviewable scope
+   (a feature slice, a fix, a doc change). Never a session-long
+   mega-PR — oversized PRs caused the 2026-10 drifts (kingdoms#152,
+   #154, #155). When a scope grows, ship the completed part first and
+   open the next PR for the rest: small PRs merge fast and review
+   honestly. Each commit stays a self-contained logical unit that
+   passes the checks on its own; the PR body lists the covered issues.
+5. **PR title convention (developer-mandated):** the session PR title
    mirrors the conversation title — `vibe[<alias>] <conversation title>`
    — e.g. `vibe[Merlin] Bot logs & admin surface`. `<alias>` is the
    roster alias of the human who ran the session (CONTRIBUTORS.md —
-   Merlin, Drasah; never the raw GitHub login); the session name
-   comes from the conversation title. The branch keeps the
-   `vibe/<short-slug>-55618a` shape.
+   never the raw GitHub login); the branch keeps the
+   `vibe/<short-slug>-<short-suffix>` shape.
 6. **Link the PR to its issue** with a closing keyword in the description
    (`Closes <owner>/<repo>#N`): this populates the GitHub "Development"
    section and closes the issue on merge. Omit it when no tracked issue
