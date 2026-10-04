@@ -257,6 +257,22 @@ scope of what they may do:
 powers — the PR process is the default for everyone; cowboy mode is
 requested and justified explicitly, per action.
 
+### Releases and milestones: no long-lived branches
+
+**No release or milestone branches.** Three mechanisms cover the
+needs, trunk-based style:
+
+- **Milestones (GitHub)** group the planned work: several people,
+  several PRs, over time — attach PRs to the milestone and track
+  progress there; no coordination branch to maintain.
+- **Releases are tags** (`vX.Y.Z` + RC) cut from `main` when it is
+  time — `main` stays always deployable; no release branch to
+  backport or stabilize.
+- **Pre-integration (validate several PRs together before merging
+  them one by one)**: a **throwaway integration branch** — merge the
+  candidate PRs locally, deploy it to the test environment, validate,
+  then delete it. It is ephemeral and never merged to `main`.
+
 ## PR lifecycle (merge-readiness)
 
 1. **Draft status is the merge-readiness signal.** Always open PRs as
