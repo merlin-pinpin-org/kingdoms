@@ -36,7 +36,6 @@ requires the [monetization plan](../PLANS/monetization.md) gate).
 | tournament (full-auto) | 2 — Shaped | Fully automated tournaments: auto rounds, auto seeding, scheduled seasons | organizer | kingdoms-services#121 |
 | clans | 2 — Shaped | Player clans: creation, membership, clan identity | social | kingdoms-services#19 |
 | admin | 2 — Shaped | Discord-first admin surface: game data, map pools, seasons, rating admin | platform | kingdoms-services#21, kingdoms-services#136 |
-| /drasah | 4 — Scoped | Medieval greeting command | social | kingdoms-services#148 |
 | friends & feedback (Epic J) | 2 — Shaped | Friends graph, private teammate micro-feedback (matching-only), avoid-lists, graduated sanctions with appeals | social | kingdoms#118 |
 | presence (Epic E) | 2 — Shaped | Real-time player availability | platform | kingdoms#114 |
 | team maker (Epic F) | 2 — Shaped | LFG tickets, balanced teams, captain drafts | game | kingdoms#115 |
