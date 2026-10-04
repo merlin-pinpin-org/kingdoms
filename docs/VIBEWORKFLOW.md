@@ -98,7 +98,8 @@ Step by step:
    validation remains, the PR stays in draft.
 4. **The session never merges; GitHub automerges.** The session flips
    the PR to *ready for review* **only when it has nothing left to do**:
-   checks green and completed on the head commit, deployed to test and
+   checks green and completed on the head commit, deployed (the
+   requestor's personal env by default, `test` explicitly) and
    verified (when there is something to deploy), self-review done, docs
    updated. Flipping to ready comes with enabling GitHub automerge.
    What requires a review is decided by **CODEOWNERS** — every path has
@@ -114,7 +115,7 @@ Step by step:
    identity of agent sessions* rule in CONVENTIONS.md).
 5. When explicitly requested, the agent tags a version and creates the GitHub
    release — tag and release permissions are enforced by GitHub.
-7. Test deployments are **on demand** (`/deploy [env]` PR comment posted by
+7. PR deployments are **on demand** (`/deploy` PR comment posted by
    the session); the PR image (commit-SHA tagged) is pinned in the
    environment **state branch** `deploy/test` by the kingdoms-deployer
    GitHub App (ephemeral Actions: write token), and the push to
@@ -145,7 +146,7 @@ flow frictionless:
 
 1. **Ready means the session has nothing left to do.** A PR goes
    *ready for review* when the checks are green and completed on the
-   head commit, the change is **deployed to test and verified** (a
+   head commit, the change is **deployed and verified** (a
    deployable change never goes ready without its test deployment), the
    implementation is complete, the self-review is done and the docs
    are updated — and never before. **Draft is the working state and it
@@ -163,7 +164,7 @@ flow frictionless:
    changes with nothing to redeploy skip the deployment step. **The
    ready transition is not optional and never waits for a reminder**
    (developer-mandated): as soon as the checks are green, the PR is
-   deployed to test and the session has verified the deployment, it
+   deployed and the session has verified the deployment, it
    flips the PR to ready — a green, tested PR left in draft is a
    session bug. From there the CODEOWNERS-named owners review on
    GitHub, the designer validates on the test Discord, and GitHub
@@ -286,8 +287,13 @@ An agent session (which starts with no memory of previous conversations):
 - Environments (all on the Kingdoms VPS, deployed by the CD pipeline
   running on its self-hosted runner — installation guide:
   [VPS-SETUP.md](https://github.com/merlin-pinpin-org/kingdoms-infra/blob/main/docs/VPS-SETUP.md)):
-  - **test**: deployed **on demand** — by the `/deploy [env]` PR comment
-    (the PR image, commit-SHA tagged, is pinned in the `deploy/test`
+  - **personal (`<alias>`)**: deployed **on demand** — the `/deploy` PR
+    comment default (the requestor's env, from the roster alias; the PR
+    image, commit-SHA tagged, is pinned in the `deploy/<alias>` state
+    branch by the kingdoms-deployer GitHub App).
+  - **test**: deployed **on demand** — by the explicit `/deploy test` PR
+    comment (the shared validation env; the PR image, commit-SHA
+    tagged, is pinned in the `deploy/test`
     state branch by the kingdoms-deployer GitHub App — setup guide:
     kingdoms-infra docs/DEPLOY-TEST-APP.md); the push to `deploy/test`
     deploys the pinned image (ADR-0018). Test-config changes on `main`

@@ -154,8 +154,9 @@ for review* — and GitHub automerges when everything converges:
 
 1. **The session's definition of ready (all mandatory):** every check
    green **on the head commit and completed**, the PR **deployed to the
-   test environment** (`/deploy test`) and the deployment verified by
-   the session itself (healthchecks green, stack healthy, no crash
+   requestor's personal environment** (`/deploy`, the default target)
+   or the shared **test environment** (`/deploy test`), the deployment
+   verified by the session itself (healthchecks green, stack healthy, no crash
    loop) — **a deployable change never goes ready without its test
    deployment**, doc-only/infra-only changes aside; docs updated, issue
    linked, and nothing left for the session to do.
@@ -279,8 +280,8 @@ needs, trunk-based style:
    done, docs updated); keep or return it to draft (`gh pr ready --undo`)
    while work remains — **draft is also where the PR returns** whenever
    work or a check is in progress again. **Ready means the session has
-   nothing left to do**: checks green and completed, deployed to test
-   and verified (a deployable change never goes ready without its test
+   nothing left to do**: checks green and completed, deployed and
+   verified (a deployable change never goes ready without its
    deployment), self-review done, docs updated. Flipping to ready comes
    with enabling automerge — the PR then merges itself once the owner
    reviews land.
@@ -290,7 +291,8 @@ needs, trunk-based style:
    a doc commit and its lint conclusion). Admins can merge with pending
    checks, so the discipline is the agent's, not GitHub's.
 2. **A user-facing change is validated live first.** Deploy the PR to the
-   test environment (the `/deploy` PR comment on `kingdoms-services`),
+   environment (the `/deploy` PR comment on `kingdoms-services` — the
+   requestor's personal env by default, `test` explicitly),
    **verify the deployment yourself** (healthchecks green, stack
    healthy, no crash loop), **then** mark the PR ready and ask the human
    to test and merge — the human's Discord check is the final acceptance,

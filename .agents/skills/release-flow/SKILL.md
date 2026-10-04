@@ -24,7 +24,7 @@ is the official path** for everything a session must trigger:
   `deploy/prod` state branch (see *Promotion* below) — the push triggers
   the `Deploy environment` workflow, which waits for the required
   reviewers' approval (human click);
-- **deploy a PR to test** → the `/deploy` PR comment (the comment event,
+- **deploy a PR to an env** → the `/deploy` PR comment (personal env by default, `test` explicitly; the comment event,
   not a dispatch, triggers it).
 
 Never report "I cannot deploy because I cannot trigger the workflow":

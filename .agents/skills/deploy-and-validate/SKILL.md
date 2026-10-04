@@ -25,27 +25,31 @@ ready.
 
 ## Procedure (kingdoms-services PRs)
 
-1. **Check the test environment is free**: read the pinned image on the
+1. **Know your target**: your personal env (the default — no
+   overwrite risk, it is yours) or the shared `test` env (explicit
+   `/deploy test`). For `test`, first read the pinned image on the
    `deploy/test` state branch —
-   `git show origin/deploy/test:envs/test/state/kingdoms-bot.yml`.
-   If a **different** PR is pinned there and still under validation, do
-   not deploy on top of it: wait for its cycle to finish (never overwrite
-   another PR's test deployment).
+   `git show origin/deploy/test:envs/test/state/kingdoms-bot.yml`;
+   if a **different** PR is pinned there and still under validation, do
+   not deploy on top of it: wait for its cycle to finish (never
+   overwrite another PR's shared-env deployment).
 2. **Deploy**: comment `/deploy` on the PR
-   (`gh pr comment <n> --repo merlin-pinpin-org/kingdoms-services --body "/deploy"`).
+   (`gh pr comment <n> --repo merlin-pinpin-org/kingdoms-services --body "/deploy"` —
+   no argument: the workflow targets your personal env from your roster
+   alias; add `test` explicitly for the shared validation env).
    Only collaborators with write+ may trigger it; forks are rejected.
 3. **Follow the pipeline**: the `Deploy PR (comment)` workflow builds the
    image (`pr-<id>-<timestamp>-<sha>`), pushes it to GHCR, then dispatches
-   the `Pin state` workflow on kingdoms-infra which pins it on
-   `deploy/test`; the pin push triggers `Deploy environment`, which runs on
-   the env's self-hosted runner.
+   the `Pin state` workflow on kingdoms-infra which pins it on the target's
+   `deploy/<env>` state branch; the pin push triggers `Deploy environment`,
+   which runs on the env's self-hosted runner.
 4. **Validate the deployment yourself** — all of:
    - `Deploy PR (comment)` run: conclusion `success`;
    - `Pin state` + `Deploy environment` runs: `success`;
-   - Deploy environment logs end with `deployment to 'test' applied and
+   - Deploy environment logs end with `deployment to '<env>' applied and
      healthy` — kingdoms-bot, kingdoms-mongo and kingdoms-redis all
      report healthy (the bot healthcheck probes `/healthz`);
-   - the pinned image on `deploy/test` matches the PR head sha.
+   - the pinned image on `deploy/<env>` matches the PR head sha.
    A crash loop, an exited container or a failed healthcheck → the PR
    stays in draft, diagnose (see the
    [diagnose-deploy](../diagnose-deploy/SKILL.md) skill), fix, redeploy.
@@ -56,13 +60,14 @@ ready.
    never waits for a reminder (developer-mandated): a green, deployed,
    self-validated PR left in draft is an agent bug.
 
-## After a merge: re-align test to main?
+## After a merge: re-align the shared test env to main?
 
-Only if the merged PR is the one deployed on test. Merging to `main` never
-re-pins test automatically (test is pinned by `/deploy` comments and by
-tag releases); re-aligning is a deliberate action, done by deploying the
-`main` state or the next release — never on top of another PR's
-validation run.
+Only if the merged PR is the one deployed on `test`. Merging to `main`
+never re-pins an environment automatically (state branches are pinned by
+`/deploy` comments and by tag releases); re-aligning is a deliberate
+action, done by deploying the `main` state or the next release — never on
+top of another PR's validation run. A personal env is re-aligned by its
+owner whenever they choose (it is their sandbox).
 
 ## Infra PRs (kingdoms-infra)
 
