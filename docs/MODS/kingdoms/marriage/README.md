@@ -1,4 +1,4 @@
-# Mod: Marriage (work in progress)
+# Marriage feature (Kingdoms mod, work in progress)
 
 ## Data source: princesses / queens per civilization
 
@@ -6,7 +6,7 @@ The marriage workflow picks bride names from a versioned data file maintained
 in [kingdoms-services](https://github.com/merlin-pinpin-org/kingdoms-services):
 
 ```
-kingdoms-services/config/data/marriage/princesses.yaml
+kingdoms-services/config/data/kingdoms/princesses.yaml
 ```
 
 ### Schema

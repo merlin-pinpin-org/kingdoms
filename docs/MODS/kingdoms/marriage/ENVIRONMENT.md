@@ -1,4 +1,4 @@
-# Marriage mod — environment
+# Marriage — environment (Kingdoms mod feature)
 
 > Status: **data-only**. No channels, roles or commands are declared yet;
 > they will be added with the marriage workflow design.

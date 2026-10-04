@@ -1,4 +1,4 @@
-# Marriage mod — rules
+# Marriage — rules (Kingdoms mod feature)
 
 > Status: **data-only**. The gameplay rules are not designed yet; this mod
 > currently only ships its data source (see README.md).
