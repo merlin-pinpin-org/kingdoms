@@ -231,11 +231,21 @@ each `vibe/*/main` branch automatically; conflicts are resolved by
 5. Cut an RC, validate it.
 6. Release, then deploy to prod (ops/owner check of prod).
 
-### Maintainer fast-path
+### Vibe coders vs dev/ops
 
-The maintainer (dev+ops+maintainer in one person) may merge justified
-urgent or quick fixes **directly on `main`**. Longer evolutions follow
-the standard path above. When in doubt, use the standard path.
+- **Vibe coders** (game designers) live **entirely** on their user
+  branch: it maps to their personal environment — their bot, their
+  Discord, their runner, their code. They put whatever they want on
+  it and do everything through agents; the standard path above applies
+  when they promote work to `main`.
+- **Dev and ops** work on **feature branches** per subject (not a
+  personal integration branch), with collaborative PRs, test on the
+  shared test environment, and deploy to prod.
+- **Maintainers** work like dev/ops by default; they additionally hold
+  bypass powers (ruleset bypass, direct push to `main`) — the cowboy
+  mode — for justified urgent fixes. A cowboy action stays visible:
+  a commit on `main` with a clear message; it is an exception, never
+  the habit.
 
 ## PR lifecycle (merge-readiness)
 
