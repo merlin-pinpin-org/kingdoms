@@ -100,7 +100,6 @@ jobs:
             gh issue create --repo "$GITHUB_REPOSITORY" --title "Session drift: generated artifacts out of sync with issue state" --label session-drift --body-file /tmp/lag-body.md
           fi
 
-jobs:
   watchdog:
     name: Session checklist and drift issue
     runs-on: ubuntu-latest
