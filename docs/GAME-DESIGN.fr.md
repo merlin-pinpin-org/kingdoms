@@ -91,6 +91,22 @@ courant :
   début de chaque session. Une issue non lue ne fait rien tant que
   vous n'ouvrez pas de session.
 
+## Votre branche d'intégration — ne jamais attendre un merge
+
+Votre agent travaille sur **votre branche d'intégration** (`vibe/<votre-alias>/main`)
+— p. ex. `vibe/drasah/main`. C'est votre environnement de développement :
+
+- Chaque fonctionnalité y est mergée **sans attendre de review** — seule
+  la CI (tests, build) doit être verte. Votre cycle ne bloque jamais sur
+  un mainteneur.
+- La plateforme la synchronise avec `main` chaque jour automatiquement.
+- Quand votre travail est prêt : une seule PR de votre branche vers
+  `main` publie le tout, avec review. Vous continuez à travailler
+  pendant qu'elle attend.
+
+Dites simplement à votre agent : « travaille sur ma branche
+d'intégration » ou « publie vers main quand c'est prêt ».
+
 ## Ce que vous ne ferez jamais
 
 - Écrire ou fusionner du code, lancer des commandes, ouvrir un terminal.

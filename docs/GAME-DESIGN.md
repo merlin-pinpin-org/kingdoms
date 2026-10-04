@@ -82,6 +82,21 @@ The `/status` command is your dashboard in Discord. In plain language:
   every session. An unread issue does nothing until you open a
   session.
 
+## Your integration branch — never wait for a merge
+
+Your agent works on **your integration branch** (`vibe/<your-alias>/main`)
+— e.g. `vibe/drasah/main`. It is your development environment:
+
+- Every feature merges into it **without waiting for a review** — only
+  the CI (tests, build) must be green. Your cycle never blocks on a
+  maintainer.
+- The platform syncs it with `main` automatically every day.
+- When your work is ready: a single PR from your branch to `main`
+  publishes it all, with review. You keep working while it waits.
+
+Just tell your agent: "work on my integration branch" or "publish to
+main when it's ready".
+
 ## What you will never do
 
 - Write or merge code, run commands, open a terminal.

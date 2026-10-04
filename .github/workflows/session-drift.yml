@@ -35,6 +35,72 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  integration-branches:
+    name: Integration branches lag (vibe/*/main vs main)
+    runs-on: ubuntu-latest
+    steps:
+      # The integration-branch standard (CONVENTIONS.md § Integration
+      # branches): a vibe/<alias>/main that lags behind main recreates
+      # the drift that blocked Drasah (kingdoms#156, R1). The sync
+      # workflow merges daily; this watch is the safety net — it reports
+      # (never repairs) any branch beyond the threshold, to its owner.
+      - name: Check every vibe/*/main lag across the repos
+        id: lag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MAX_COMMITS: "10"
+          MAX_DAYS: "7"
+        run: |
+          set -euo pipefail
+          problems=""
+          for repo in kingdoms-services kingdoms-infra kingdoms; do
+            branches=$(git ls-remote --heads "https://github.com/merlin-pinpin-org/${repo}.git" 'refs/heads/vibe/*/main' | sed 's|.*refs/heads/||' | sort || true)
+            for branch in ${branches}; do
+              behind=$(gh api "repos/merlin-pinpin-org/${repo}/compare/main...${branch}" --jq '.behind_by' 2>/dev/null || echo 0)
+              [ "${behind}" -gt "${MAX_COMMITS}" ] && problems="${problems}${repo}: ${branch} is ${behind} commits behind main (threshold ${MAX_COMMITS}); upmerge or let the sync workflow catch up\n"
+            done
+          done
+          printf '%b' "${problems}" > /tmp/integration-lag.txt || true
+          if [ -s /tmp/integration-lag.txt ]; then
+            echo "lag=1" >> "$GITHUB_OUTPUT"
+            cat /tmp/integration-lag.txt
+          else
+            echo "lag=0" >> "$GITHUB_OUTPUT"
+            echo "every integration branch is within the lag threshold"
+          fi
+      - name: Ensure the session-drift label exists
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh label create session-drift --color d93f0b --description "Generated artifacts drift vs issue state" --force --repo "$GITHUB_REPOSITORY" || true
+      - name: Report the lag on the drift issue
+        if: steps.lag.outputs.lag == '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          existing=$(gh issue list --repo "$GITHUB_REPOSITORY" --label session-drift --state open --json number --jq '.[0].number')
+          aliases=$(cut -d' ' -f2 /tmp/integration-lag.txt | sed 's|vibe/||; s|/main||' | sort -u)
+          mentions=""
+          for alias in ${aliases}; do
+            login=$(grep -iE "^[|] *@\S+ +\| *${alias} *\|" CONTRIBUTORS.md | grep -oE '@[A-Za-z0-9-]+' | head -1 || true)
+            [ -n "${login}" ] && mentions="${mentions} ${login}"
+          done
+          mentions="${mentions} @merlin-pinpin-org/maintainers"
+          {
+            echo "${mentions} — integration branch lag (CONVENTIONS.md § Integration branches):"
+            echo
+            sed 's/^/- /' /tmp/integration-lag.txt
+            echo
+            echo "_The sync workflow merges main daily; a persistent lag means the upmerge is due — publish when ready (PR vibe/<alias>/main to main)._"
+          } > /tmp/lag-body.md
+          if [ -n "${existing}" ] && [ "${existing}" != "null" ]; then
+            gh issue comment "${existing}" --repo "$GITHUB_REPOSITORY" --body-file /tmp/lag-body.md
+          else
+            gh issue create --repo "$GITHUB_REPOSITORY" --title "Session drift: generated artifacts out of sync with issue state" --label session-drift --body-file /tmp/lag-body.md
+          fi
+
+jobs:
   watchdog:
     name: Session checklist and drift issue
     runs-on: ubuntu-latest

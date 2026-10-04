@@ -207,6 +207,36 @@ contributors-sync workflow enforces this automatically
 that drift from the roster `owns` column are flagged for the
 maintainers.
 
+## Integration branches — vibe/<alias>/main
+
+A game designer's cycle must never block on a maintainer's merge
+(retrospective kingdoms#156, cause R2). The standard answer is the
+**integration branch**: `vibe/<alias>/main`, named after the roster
+alias, one per contributor who needs it.
+
+**What it is:** the contributor's zone of integration. Sessions branch
+off it, PRs target it, and merges into it require **no review** — only
+the full CI. The contributor (or their session) merges freely once the
+checks are green.
+
+**What it is not:** a bypass of the quality gate. The road back to
+`main` is a classic PR with code-owner review — the integration branch
+frees the *cycle*, `main` stays the door. Mod code owner = the mod's
+designer; a designer merging their own mod into their integration
+branch is within their authority (CONTRIBUTORS.md).
+
+**Keeping it healthy:**
+- The `integration-branch-sync` workflow (kingdoms-services, extensible)
+  merges `main` into every `vibe/*/main` daily and on demand — merge,
+  never rebase, no force-push ever. Conflicts are resolved by the owner,
+  **never auto-resolved by a workflow** (a bot-authored resolution of
+gameplay code would be a silent game-design decision).
+- The session-drift watchdog reports integration branches that lag
+  behind `main` beyond the threshold, as an assigned issue to the owner.
+- Upmerge is on demand: when the work is ready, one PR from
+  `vibe/<alias>/main` to `main` publishes the accumulated work — the
+  cycle continued the whole time.
+
 ## PR lifecycle (merge-readiness)
 
 1. **Draft status is the merge-readiness signal.** Always open PRs as
