@@ -16,6 +16,7 @@ page routes you to the answer. Read this page, not the whole docs tree.
 | Which PR-comment commands exist (`/deploy`, `/logs`, `/restart`, `/rollback`, `/dump-db`, `/release`…)? | [CONTRIBUTORS.md](../CONTRIBUTORS.md) authority matrix (who) + [WORKFLOWS.md](WORKFLOWS.md) (how) |
 | How do I deploy something to test? | [PROCESS.md](PROCESS.md) §Test deployment + the `deploy-and-validate` [skill](../.agents/skills/deploy-and-validate/SKILL.md) |
 | How do I debug a failed deployment / read the test logs? | `/logs [env] [--service S] [--since 30m]` PR comment (see [WORKFLOWS.md](WORKFLOWS.md)) + the `diagnose-deploy` [skill](../.agents/skills/diagnose-deploy/SKILL.md) |
+| How do I observe or control a live environment (status, start, stop, restart, logs, rollback, dump-db)? | the `debug-an-env` [skill](../.agents/skills/debug-an-env/SKILL.md) — the ops PR-comment commands |
 | How do I stack PRs / rebase a chain? | the `restack-prs` [skill](../.agents/skills/restack-prs/SKILL.md) |
 | How do I release / cut a version? | [PROCESS.md](PROCESS.md) §Release + the `release-flow` [skill](../.agents/skills/release-flow/SKILL.md) |
 | How do I shape a game-designer idea into an issue? | the `shape-game-designer-idea` [skill](../.agents/skills/shape-game-designer-idea/SKILL.md) |

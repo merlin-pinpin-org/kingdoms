@@ -254,18 +254,32 @@ stateDiagram-v2
 
 ## Ops commands workflows (PR/issue comments)
 
-The `ops-commands` workflow (kingdoms-services) intercepts four keywords
-on any PR or issue comment, acknowledges immediately (what will happen,
-why the requestor may ask), gates through the reusable `authorize.yml`
-against the roster authority matrix, then dispatches to kingdoms-infra
-which runs on the environment's own runner:
+The `ops-commands` workflow (kingdoms-services) intercepts the ops
+keywords on any PR or issue comment. **UX contract**: ONE tracking
+comment per command — created at interception, updated in place
+(intercepted → dispatching → dispatched, with links) — so the thread
+stays readable: who ran it, the command, the target env, the outcome.
+The command gates through the reusable `authorize.yml` against the
+roster authority matrix, then dispatches to kingdoms-infra **on the
+state branch `deploy/<env>`** (the environment deployment branch policy
+only allows that ref), which runs on the environment's own runner:
 
 | Keyword | Capability | Who | What it does |
 | --- | --- | --- | --- |
-| `/logs [env] [--service S] [--since 30m] [--from iso] [--to iso] [--tail N]` | `env-logs` | ops, dev on test | `env-logs` workflow: filtered `docker compose logs` dump, posted back in the thread + private artifact. Read-only. |
+| `/logs [env] [--service S] [--since 30m] [--from iso] [--to iso] [--tail N]` | `env-logs` | ops, dev on test | `env-logs` workflow: filtered `docker compose logs` dump, uploaded as a private artifact (linked from the run). Read-only. |
 | `/restart [env]` | `env-control` | ops, dev on test | `env-control` workflow (restart): in-place restart, no pull, no recreate. |
+| `/start [env]` / `/stop [env]` | `env-control` | ops, dev on test | `env-control` workflow: start/stop the stack in place, containers kept. |
+| `/status [env]` | `env-control` | ops, dev on test | `env-control` workflow: `docker compose ps` dump in the run log (which image runs, health). Read-only. |
 | `/rollback [env]` | `rollback` | ops | `rollback-state` dispatch: reverts the last pin on the state branch, the push re-triggers the deployment of the previous known-good image. |
 | `/dump-db [env]` | `db-dump` | ops | `db-daily-dump` workflow on demand: mongodump + Redis snapshot, VPS archive + private artifact. |
+
+`/logs` parameters:
+
+- `env` — target environment (default `test`); must be a directory under `envs/` on kingdoms-infra.
+- `--service S` — one compose service (default: all services; a typo fails loudly listing the valid services).
+- `--since 30m` — relative window from now (`docker --since` syntax: `30m`, `2h`, `1d`).
+- `--from iso` / `--to iso` — absolute window (ISO8601); `--to` requires `--from`, which is mutually exclusive with `--since`.
+- `--tail N` — last N lines per service (default 200); the dump is capped at 10 MB — narrow the window if it truncates.
 
 The daily cron (04:30 UTC) runs the same `db-daily-dump` on every
 environment — no gate needed: the dump is read-only for the data.
