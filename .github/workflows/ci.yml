@@ -53,7 +53,7 @@ jobs:
       - name: Generate pydoc
         working-directory: kingdoms-services
         run: |
-          uv run python scripts/generate_pydoc.py \
+          uv run python .github/workflows/scripts/generate_pydoc.py \
             --source src/kingdoms \
             --output "${GITHUB_WORKSPACE}/pydoc-out"
       - name: Upload pydoc artifact
