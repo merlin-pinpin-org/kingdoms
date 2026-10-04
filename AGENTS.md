@@ -84,7 +84,7 @@ documentation, generated roadmap and dependency graph).
   open standard: one directory per skill, `SKILL.md` with YAML
   frontmatter). Read a skill's `SKILL.md` when a task matches its
   description: deploy-and-validate, ci-monitoring, diagnose-deploy,
-  release-flow, shape-game-designer-idea, restack-prs, update-roadmap,
+  release-flow, shape-game-designer-idea, update-roadmap,
   update-dependencies. New procedural knowledge goes there — when you
   learn something new, propose persisting it (see the *Propose to
   memorize new knowledge* rule in CONVENTIONS.md).

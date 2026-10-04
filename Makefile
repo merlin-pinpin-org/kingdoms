@@ -5,7 +5,7 @@
 
 KINGDOMS_SERVICES ?= ../kingdoms-services
 
-.PHONY: help session-check sync-artifacts restack-% validate contributors-check contributors-sync
+.PHONY: help session-check sync-artifacts validate contributors-check contributors-sync
 
 # List the available targets (human entry point).
 help:
@@ -14,7 +14,6 @@ help:
 	@echo "  make session-check               — full validation (docs + roadmap + dependencies)"
 	@echo "  make validate                    — docs validation only"
 	@echo "  make sync-artifacts              — regenerate generated/ROADMAP.md and generated/DEPENDENCIES.md"
-	@echo "  make restack-<repo>              — restack the open PRs of a repository"
 	@echo "  make contributors-check          — roster dry-run (report org drift, no mutation)"
 	@echo "  make contributors-sync           — reconcile the org with CONTRIBUTORS.md (mutates)"
 	@echo "  KINGDOMS_SERVICES=<path>          — where the kingdoms-services clone lives (default: ../kingdoms-services)"
@@ -22,7 +21,7 @@ help:
 # Mechanical session checklist: docs validation, roadmap drift,
 # dependency-graph drift. Fails closed with the exact artefacts to fix.
 session-check:
-	python3 scripts/session_check.py --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config
+	python3 scripts/session_check.py --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config --scripts-dir .github/workflows/scripts
 
 # Regenerate the synced artefacts (generated/ROADMAP.md, generated/DEPENDENCIES.md) —
 # local dry-run only: the sync-generated workflow owns the real
@@ -42,9 +41,6 @@ contributors-sync:
 	python3 .github/workflows/scripts/sync_contributors.py
 
 # Restack the open PRs of a repository on top of each other (stacking
-# convention): make restack-kingdoms-services, make restack-kingdoms-infra...
-restack-%:
-	./scripts/restack.sh merlin-pinpin-org/$*
 
 validate:
 	python3 .github/workflows/scripts/validate_docs.py --check --source $(KINGDOMS_SERVICES)/src/kingdoms --config $(KINGDOMS_SERVICES)/config

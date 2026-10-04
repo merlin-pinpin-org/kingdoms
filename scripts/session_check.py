@@ -54,15 +54,21 @@ def main() -> int:
         required=True,
         help="kingdoms-services config root (config)",
     )
+    parser.add_argument(
+        "--scripts-dir",
+        default="scripts",
+        help="directory holding validate_docs.py and sync_roadmap.py",
+    )
     args = parser.parse_args()
 
     root = repo_root()
+    scripts_dir = root / args.scripts_dir
     checks: list[list[str]] = [
         run_check(
             "docs validation",
             [
                 "python3",
-                str(root / "scripts" / "validate_docs.py"),
+                str(scripts_dir / "validate_docs.py"),
                 "--check",
                 "--source",
                 args.source,
@@ -72,7 +78,7 @@ def main() -> int:
         ),
         run_check(
             "roadmap drift",
-            ["python3", str(root / "scripts" / "sync_roadmap.py"), "--check"],
+            ["python3", str(scripts_dir / "sync_roadmap.py"), "--check"],
         ),
     ]
 
@@ -80,7 +86,7 @@ def main() -> int:
     deps_result = subprocess.run(
         [
             "python3",
-            str(root / "scripts" / "sync_dependencies.py"),
+            str(scripts_dir / "sync_dependencies.py"),
             "--out",
             str(deps_out),
         ],
@@ -93,7 +99,6 @@ def main() -> int:
     else:
         # The generated dependency graph lives on the sync/generated-artifacts
         # branch (main carries no generated files); read it from there.
-        import subprocess
         committed = subprocess.run(
             ["git", "show", "origin/sync/generated-artifacts:generated/DEPENDENCIES.md"],
             cwd=root, capture_output=True, text=True, check=True,

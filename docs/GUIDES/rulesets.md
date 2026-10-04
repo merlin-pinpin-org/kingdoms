@@ -40,7 +40,7 @@ Why rebase-only:
    rebase decision left to anyone, and the auto-commit never guesses.
 
 Consequence for sessions: never merge locally, never create merge commits,
-keep the branch rebased (`make restack-<repo>` for stacks), and expect the
+keep the branch rebased, and expect the
 PR to land as its exact commit list, one commit per logical unit.
 
 ## Rulesets per repository
