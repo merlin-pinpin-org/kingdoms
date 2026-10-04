@@ -15,6 +15,16 @@ name: Authorize PR command
 #   /sync-teams       -> sync-teams   (platform)
 on:
   workflow_call:
+    outputs:
+      alias:
+        description: "Roster alias of the requestor (identity for env defaults)"
+        value: ${{ jobs.authorize.outputs.alias }}
+      verdict:
+        description: "ALLOWED or DENIED"
+        value: ${{ jobs.authorize.outputs.verdict }}
+      reason:
+        description: "The matrix verdict, human-readable"
+        value: ${{ jobs.authorize.outputs.reason }}
     inputs:
       capability:
         description: "Capability to check (deploy, env-control, env-logs, db-dump, release, rollback, sync-teams)"
@@ -48,6 +58,10 @@ jobs:
   authorize:
     name: Roster gate (${{ inputs.capability }})
     runs-on: ubuntu-latest
+    outputs:
+      alias: ${{ steps.matrix.outputs.alias }}
+      verdict: ${{ steps.matrix.outputs.verdict }}
+      reason: ${{ steps.matrix.outputs.reason }}
     steps:
       - name: Check out the roster (kingdoms main — the source of truth)
         uses: actions/checkout@v4
