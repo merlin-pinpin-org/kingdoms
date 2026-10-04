@@ -231,21 +231,31 @@ each `vibe/*/main` branch automatically; conflicts are resolved by
 5. Cut an RC, validate it.
 6. Release, then deploy to prod (ops/owner check of prod).
 
-### Vibe coders vs dev/ops
+### Roles and their environments
 
-- **Vibe coders** (game designers) live **entirely** on their user
-  branch: it maps to their personal environment — their bot, their
-  Discord, their runner, their code. They put whatever they want on
-  it and do everything through agents; the standard path above applies
-  when they promote work to `main`.
-- **Dev and ops** work on **feature branches** per subject (not a
-  personal integration branch), with collaborative PRs, test on the
-  shared test environment, and deploy to prod.
-- **Maintainers** work like dev/ops by default; they additionally hold
-  bypass powers (ruleset bypass, direct push to `main`) — the cowboy
-  mode — for justified urgent fixes. A cowboy action stays visible:
-  a commit on `main` with a clear message; it is an exception, never
-  the habit.
+Every rostered user has a **personal environment** (their bot, their
+Discord, their runner) mapped to their user branch `vibe/<alias>/main`;
+every role also has access to the **shared validation environment**
+(test) and **prod** (ops/owner check). What differs per role is the
+scope of what they may do:
+
+- **Vibe coder (novice)** — sandboxed by design. They live entirely
+  on their user branch + personal environment: a sandbox where they
+  test freely and do everything through agents. Promoting to `main`
+  follows the standard path above (PR validated by another user).
+- **Dev / ops** — same personal environment for work in progress
+  (mapped to their user branch), plus **feature branches per subject**
+  with collaborative PRs. They test on their personal env, then on
+  the shared validation environment, and deploy to prod.
+- **Maintainer** — works like dev/ops by default. The **cowboy mode**
+  (ruleset bypass, direct push to `main`) is maintainer-only, granted
+  **on demand, explicitly** — never a default. A cowboy action stays
+  visible: a commit on `main` with a clear message; it is an
+  exception, never the habit.
+
+**Restrictions:** users who are not maintainers have no bypass
+powers — the PR process is the default for everyone; cowboy mode is
+requested and justified explicitly, per action.
 
 ## PR lifecycle (merge-readiness)
 
