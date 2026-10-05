@@ -11,6 +11,7 @@ the rules is a roster PR: edit the matrix, mirror the change here, and
 the maintainers review both in the same PR.
 
 Capabilities (from the authority matrix):
+  env-reset    -> ops (any env) or the env's own owner (self reset only)
   deploy       -> requestor rostered (vibe or better); never prod-like
   env-control  -> ops (any env) or dev (test only)
   env-logs    -> ops (any env) or dev (test only)
@@ -43,6 +44,8 @@ CAPABILITY_RULES: dict[str, dict] = {
                 "usage": "/release — cut a release from main (auto-bumped from Conventional Commits, never hand-picked)."},
     "rollback": {"roles": ["ops"], "help": "revert a pin",
                  "usage": "/rollback <env> — revert the last pinned image on deploy/<env> (previous known-good redeployed)."},
+    "env-reset": {"own_env_only_roles": ["vibe", "mod", "dev", "platform"], "help": "wipe an env's data and reseed",
+                  "usage": "/reset-env [env] — wipe the env's data volumes and reseed from the workflow datasets. Self env only, unless ops."},
     "sync-teams": {"roles": ["platform"], "help": "run the roster sync",
                    "usage": "/sync-teams — re-sync GitHub teams/permissions from CONTRIBUTORS.md (the doc is the source of truth)."},
 }
@@ -105,6 +108,15 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
         if env == "prod" and "test_only_roles" in rule:
             if roles & set(rule["test_only_roles"]) and not roles & (set(rule["roles"]) - set(rule["test_only_roles"])):
                 return False, f"'{capability}' on prod requires ops (the authority matrix)"
+    elif "own_env_only_roles" in rule:
+        # Destructive: ops may reset any env; anyone else (vibe/mod/dev/platform)
+        # may only reset their OWN environment (their roster alias).
+        if "ops" in roles:
+            pass
+        elif not roles & set(rule["own_env_only_roles"]):
+            return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs ops for any env, or one of {rule['own_env_only_roles']} on their own env, per the authority matrix)"
+        elif env and person.alias and env != person.alias.lower():
+            return False, f"'{capability}' on {env} is restricted to that environment's owner or ops ({person.alias or person.login} owns {person.alias.lower() or 'no env'}, per the authority matrix)"
     elif "min" in rule:
         granted = any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS[rule["min"]] for r in roles)
         if not granted:
@@ -118,7 +130,7 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
     if pr_author is not None:
         scope = pr_author.agent_scope.lower()
         if capability in ("deploy", "rollback", "env-control", "release", "sync-teams"):
-            if "fully on their behalf" not in scope and capability in ("deploy", "env-control") and "deploy" not in scope and "drive" not in scope:
+            if "fully on their behalf" not in scope and capability in ("deploy", "env-control", "env-reset") and "deploy" not in scope and "drive" not in scope:
                 return False, f"PR author {pr_author.alias or pr_author.login}'s agent-scope does not cover '{capability}': \"{pr_author.agent_scope}\""
     return True, f"{person.alias or person.login} ({', '.join(sorted(roles)) or 'no roles'}) may '{capability}'{f' on {env}' if env else ''}"
 
@@ -137,6 +149,8 @@ def _may_use(person: Person | None, capability: str) -> bool:
     roles = _normalized_roles(person)
     if "roles" in rule:
         return bool(roles & set(rule["roles"]))
+    if "own_env_only_roles" in rule:
+        return "ops" in roles or bool(roles & set(rule["own_env_only_roles"]))
     return any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS[rule["min"]] for r in roles)
 
 
