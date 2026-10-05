@@ -44,8 +44,9 @@ CAPABILITY_RULES: dict[str, dict] = {
                 "usage": "/release — cut a release from main (auto-bumped from Conventional Commits, never hand-picked)."},
     "rollback": {"roles": ["ops"], "help": "revert a pin",
                  "usage": "/rollback <env> — revert the last pinned image on deploy/<env> (previous known-good redeployed)."},
-    "env-reset": {"own_env_only_roles": ["vibe", "mod", "dev", "platform"], "help": "wipe an env's data and reseed",
-                  "usage": "/reset-env [env] — wipe the env's data volumes and reseed from the workflow datasets. Self env only, unless ops."},
+    "env-reset": {"own_env_only_roles": ["vibe", "mod", "dev", "platform"], "deny_envs_prod": True,
+                  "help": "wipe an env's data and reseed",
+                  "usage": "/reset-env [env] — wipe the env's data volumes and reseed from the workflow datasets. Self env only, unless ops. Never prod."},
     "sync-teams": {"roles": ["platform"], "help": "run the roster sync",
                    "usage": "/sync-teams — re-sync GitHub teams/permissions from CONTRIBUTORS.md (the doc is the source of truth)."},
 }
@@ -111,6 +112,8 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
     elif "own_env_only_roles" in rule:
         # Destructive: ops may reset any env; anyone else (vibe/mod/dev/platform)
         # may only reset their OWN environment (their roster alias).
+        if rule.get("deny_envs_prod") and env == "prod":
+            return False, f"'{capability}' is never allowed on prod (per the authority matrix)"
         if "ops" in roles:
             pass
         elif not roles & set(rule["own_env_only_roles"]):
