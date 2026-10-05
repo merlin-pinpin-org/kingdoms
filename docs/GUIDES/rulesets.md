@@ -178,8 +178,10 @@ workflow/job name) — factorization reduces drift, not check count.
 ## Drift detection — the ruleset check workflow
 
 Documentation is the expectation; GitHub is the reality. A scheduled
-workflow (kingdoms-services #183, *Ruleset conformance*) compares the
-live rulesets of the three repos against this guide's expected state:
+workflow (kingdoms-services #183, *Ruleset conformance*:
+`.github/workflows/ruleset-conformance.yml`, daily at 06:00 UTC +
+`workflow_dispatch`) compares the live rulesets of the three repos
+against this guide's expected state:
 
 - **fail**: a `main` ruleset whose `allowed_merge_methods` is not
   `["rebase"]`, a missing code-owner review requirement, a missing or
