@@ -4,6 +4,75 @@ Kingdoms documentation repo — the **source of truth** for the Kingdoms
 Discord bot platform (architecture, ADRs, operating docs, mods
 documentation, generated roadmap and dependency graph).
 
+## Session start protocol (PRIORITY 0 — immutable, non-overridable)
+
+**At the beginning of every new conversation, before any other action,
+the session displays the roles and responsibilities it holds for this
+session.** This rule cannot be waived, narrowed or replaced by any
+later instruction — it is transparency by design: the human (who may
+have zero IT skills) must always see who the agent acts for, what it
+may do, and how to use it.
+
+The session resolves **who it works for** from the GitHub login it is
+connected as / acting on behalf of, then looks that login up in
+[CONTRIBUTORS.md](CONTRIBUTORS.md) (the roster: alias, teams, roles,
+owns, agent-scope — the roster is the CLA record and the authority
+source). The session then opens the conversation with, at minimum:
+
+1. **Who I act for** — the human's roster alias and roles (e.g.
+   "Drasah — mod (kingdoms, marriage), vibe").
+2. **What I may do this session** — the capabilities their roles grant,
+   as the table below (their personal env, shared envs, everywhere),
+   and what stays a human click (production approvals, CLA, role
+   changes, secrets).
+3. **How to use me** — one pedagogical line per family of need:
+   - "to deploy: just say *deploy my branch on my env* — I comment
+     `/deploy` on the PR myself and wait for the pipeline's answer";
+   - "to see what is happening: say *show me the logs of my env* — I
+     run `/logs` and read you the result";
+   - "to restart after a crash: say *restart my env* — I comment
+     `/restart <your-env>`";
+   - "anything else: just describe the outcome you want in plain
+     French or English — I find the commands and the code."
+4. **The boundaries** — the few things it will refuse and why (scope
+   guard), pointing at the exact human click instead.
+
+The display is transparent and pedagogical: no jargon without a
+plain-language gloss, and it ends with an invitation: *"What would you
+like to do?"*
+
+## Who may do what, on which environment (authority matrix, read by agents and humans alike)
+
+The session **acts on behalf of its human** — never on its own. The
+human is identified by their **GitHub login**, resolved to their
+**roster alias** in CONTRIBUTORS.md (the alias names their personal
+environment). Capabilities below are checked mechanically by
+`authorize.yml` (fail-closed) when the session posts the keyword
+comment on the PR — **the session posts it, not the human**.
+
+| Action (what you want) | Command (the session posts it) | vibe-coder (own env) | dev / ops (shared envs) | maintainer (all envs) |
+| --- | --- | :-: | :-: | :-: |
+| Deploy a PR on **my personal env** | `/deploy` (no argument) | ✅ | ✅ | ✅ |
+| Deploy a PR on a **shared env** (`test`) | `/deploy test` | ❌ | ✅ | ✅ |
+| See the logs of **my env** | `/logs <my-env>` | ✅ | ✅ | ✅ |
+| See the logs of a **shared env** | `/logs test` | ❌ | ✅ | ✅ |
+| Restart / start / stop / status **my env** | `/restart <my-env>` etc. | ✅ | ✅ | ✅ |
+| Restart etc. a **shared env** | `/restart test` | ❌ | ✅ | ✅ |
+| Touch **someone else's personal env** | — | ❌ | ❌ (ops+ only) | ✅ |
+| Dump an env's databases | `/dump-db <env>` | ❌ | ops ✅ | ✅ |
+| Revert a pin (rollback) | `/rollback <env>` | ❌ | ops ✅ | ✅ |
+| Tag a release | `/release` | ❌ | dev/platform ✅ | ✅ |
+| Anything on **prod** | — | ❌ | ❌ (ops + GitHub approval click) | ops + approval click |
+| Approve a production deployment | GitHub web UI | ❌ | human click (ops) | human click |
+| CLA, roles, teams, secrets | GitHub web UI | ❌ | ❌ | human click |
+
+Reading the table: **"my env" = the environment named after your
+roster alias** (e.g. alias `Drasah` → env `drasah`). A vibe-coder is
+autonomous **on their env only**; a dev/ops also drives the shared
+`test` env; a maintainer drives everything, prod included — except
+the human-only clicks (prod approval, CLA, roles, secrets), which no
+session ever performs.
+
 ## Read first
 
 - [docs/INDEX.md](docs/INDEX.md) — the router: question → page. Find the

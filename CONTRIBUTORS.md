@@ -99,6 +99,29 @@ the session checks its human's agent-scope before acting):
 | `/rollback <env>` — revert a pin | `ops` | Prod reverts go through the revert PR + environment gate |
 | `/sync-teams` — run the roster sync | `platform` | Same as the scheduled sync |
 
+### Who may do what, on which environment (agent- and human-readable table)
+
+The session **acts on behalf of its human** — it is connected under a
+GitHub login, resolves it in the roster below (login → alias → roles →
+agent-scope), and never acts beyond that scope. "My env" = the
+environment named after the roster alias (alias `Drasah` → env
+`drasah`). **The session posts the command comment; the human asks in
+plain language.**
+
+| What you want | The session comments | vibe-coder | dev / ops | maintainer |
+| --- | --- | :-: | :-: | :-: |
+| Deploy on **my env** | `/deploy` | ✅ | ✅ | ✅ |
+| Deploy on **shared** `test` | `/deploy test` | ❌ | ✅ | ✅ |
+| Logs of **my env** | `/logs <my-env>` | ✅ | ✅ | ✅ |
+| Logs of **shared** `test` | `/logs test` | ❌ | ✅ | ✅ |
+| Restart/status **my env** | `/restart <my-env>` | ✅ | ✅ | ✅ |
+| Restart/status **shared** `test` | `/restart test` | ❌ | ✅ | ✅ |
+| Anything on **someone else's env** | — | ❌ | ops+ | ✅ |
+| DB dump / rollback | `/dump-db`, `/rollback` | ❌ | ops ✅ | ✅ |
+| Release | `/release` | ❌ | dev/platform ✅ | ✅ |
+| **Prod** (anything) | — | ❌ | ops + approval click | ops + approval click |
+| Prod approval, CLA, roles, secrets | GitHub web UI | human click | human click | human click |
+
 **Who posts these for you: your agent (developer-mandated).** Every
 keyword above is a PR comment your session writes **on your behalf** —
 you ask, it posts, the gate checks *your* roster rights. Concretely,
