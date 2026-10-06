@@ -12,9 +12,10 @@ Toutes les valeurs par défaut ci-dessous sont celles de la Saison II.
 
 | Key | Type | Default | Description |
 | --- | ---- | ------- | ----------- |
-| `weeks` | int | 4 | Nombre de semaines (= cycles, décision D1) |
+| `weeks` | int | 3 | Nombre de semaines (= cycles — 3 en Saison II, essai D55 ; défaut générique 4, D1) |
 | `starts_at` | datetime | — | Date/heure de début (lancement manuel admin) |
 | `cycle_bistable_at` | datetime | dim. 23h30 | Bascule de cycle + recharge attaque/défense |
+| `protection_window` | plage | dim. 23h30 → lun. 10h | Fenêtre de protection (D56) — aucune agression ni Corruption |
 
 ### Royaumes
 
@@ -46,7 +47,8 @@ Toutes les valeurs par défaut ci-dessous sont celles de la Saison II.
 
 ### Événements
 
-| Key | Type | Default | Description |
+|
+ Key | Type | Default | Description |
 | --- | ---- | ------- | ----------- |
 | `lords_day_at` | datetime | dim. 23h30 | Jour du Seigneur (cycle + +maps Gaïa + cadastre + alliances) |
 | `lords_day_new_maps` | int | 8 | Maps ajoutées à Gaïa au Jour du Seigneur |
@@ -60,6 +62,19 @@ Toutes les valeurs par défaut ci-dessous sont celles de la Saison II.
 | `age_change_at` | datetime | mer. minuit | Changement d'époque |
 | `ages` | list | 4 époques | IA Gaïa + bonus par époque (cf. RULES.md §15) |
 | `garrison_enabled` | bool | false | Garnison désactivée (décision D4) |
+
+### Paroisse (D64)
+
+| Key | Type | Default | Description |
+| --- | ---- | ------- | ----------- |
+| `parish_chapel_lock` | duration | 24h | Verrou du mariage classique (Chapelle) |
+| `parish_church_cost` | int | 2 | Coût de l'Église |
+| `parish_church_lock` | duration | 12h | Verrou à l'Église |
+| `parish_cathedral_cost` | int | 3 | Coût de la Cathédrale |
+| `parish_cathedral_lock` | duration | 6h | Verrou à la Cathédrale |
+| `shrine_duration` | duration | 72h | Durée du chantier Sacrée |
+| `marriage_base_stock` | int | 1 | Stock de mariages de base (D59) |
+| `corruption_max_per_season` | int | 2 | Corruptions max par saison et royaume (D58) |
 
 ## Channels and roles
 
@@ -84,3 +99,11 @@ défenses, résultats) : entièrement réinitialisées au lancement d'une
 nouvelle saison. Le mod ne stocke ni identifiants Discord ni IDs de
 jeu dans ses collections ; les IDs de messages persistants vivent dans
 le registre de messages de la plateforme.
+
+## Politique de modification (D66)
+
+Chaque paramètre porte une politique : `free` (modifiable à tout
+moment, effet sur les événements futurs), `next-cycle` (appliqué au
+cycle prochain), `next-season` (prochaine saison). Les chantiers
+Sacrée en cours et les Cathédrales validées ne sont jamais
+rétro-touchés.
