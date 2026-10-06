@@ -9,7 +9,7 @@
 
 ## Saison et cycle
 
-1. Une saison dure par défaut **4 semaines = 4 cycles** (un cycle =
+1. Une saison dure par défaut **3 semaines = 3 cycles** en Saison II (essai — D55) ; défaut générique **4 semaines = 4 cycles** (un cycle =
    une semaine — D1) ; toutes les valeurs sont configurables (D9).
 2. La saison est **lancée manuellement** par l'admin (date/heure
    annoncées) ; le passage de saison n'est jamais automatique.
@@ -17,12 +17,11 @@
    saison** ; la configuration est conservée et modifiable. Les maps
    sont réutilisables entre saisons.
 4. La bascule de cycle a lieu au **Jour du Seigneur (dimanche 23h30)** ;
-   les points d'attaque/défense se rechargent à la bascule (1 attaque +
+   les points d'attaque/défense se rechargent à la bascule et sont **utilisables immédiatement pour déclarer** (règle 32) (1 attaque +
    1 défense par seigneur et par semaine). À chaque bascule, le bot
    publie **la Gazette** dans `📣-géopolitique` : résumé du cycle
    (territoires par royaume, alliances, technologies dépensées) — D1.
-5. La saison se termine **le lundi minuit qui suit le Jour du Seigneur
-   du 4e cycle** (D38/D52) ; le vainqueur est désigné à ce moment.
+5. La saison se termine **le lundi minuit qui suit le Jour du Seigneur du dernier cycle** (3e en Saison II — D55) ; **dernier sprint de jeu lundi 10h → minuit** (D38/D52) ; le vainqueur est désigné à ce moment.
 
 ## Royaumes et inscription
 
@@ -35,7 +34,8 @@
    paramétrables — D21) ; les suivants rejoignent un royaume existant.
    Un royaume peut démarrer avec **un Roi seul** (D22).
 8. Des joueurs peuvent s'inscrire **en attente** (sans royaume) ;
-   un joueur peut **quitter la saison** (option + motif) et l'admin
+   un joueur peut **quitter la saison** (option + 
+motif) et l'admin
    affecte un joueur en attente en remplacement ; le remplaçant
    **reprend l'état attaque/défense de la semaine** du sortant
    (anti-abus — D23). Le Roi peut être remplacé par un seigneur du
@@ -53,8 +53,7 @@
     initiale, Jour du Seigneur, exploration, Explorateur) et ne peut
     plus être tirée avant la saison suivante.
 12. Si la liste autorisée devient insuffisante, le bot **avertit
-    l'admin**. Si Gaïa ne peut plus recevoir ses 8 nouvelles maps au
-    Jour du Seigneur, **la saison s'arrête automatiquement** (D31).
+    l'admin**. Si Gaïa ne peut plus recevoir ses 8 nouvelles maps au Jour du Seigneur, **Gaïa reçoit les maps restantes et le bot alerte l'admin** (D62 — l'arrêt automatique est abrogé).
 13. L'admin peut **éjecter une map** (bug, problème) : le bot la retire
     et tire automatiquement un remplacement non sorti dans la liste
     autorisée ; s'il n'en reste aucune, l'admin est prévenu.
@@ -72,9 +71,9 @@
 16. Si aucun défenseur ne répond dans le délai : comportement
     **paramétrable admin** — victoire automatique de l'attaquant, ou
     partie contre l'IA sur la map (D8).
-17. Attaquant absent : **l'attaque est consommée** ; l'admin peut
-    réattribuer le point d'attaque sur excuse valable (D17). Résultats
-    récupérés **automatiquement via le game contract** ; litige =
+17. Attaquant absent : **l'attaque est consommée** ; l'admin peut réattribuer le point d'attaque **à son appréciation** (D17) ; le cadrage précis (limites, motifs, procédure) sera **défini ultérieurement par l'admin avant la saison**. Résultats
+   
+ récupérés **automatiquement via le game contract** ; litige =
     l'admin tranche (D20) ; problème technique = sauvegarde de la
     partie, l'admin tranche (D39).
 18. Un territoire avec une attaque **en cours ne peut pas être ciblé**
@@ -91,11 +90,11 @@
 ## Époques (mercredi minuit, configurable)
 
 21. Âge sombre → féodal → châteaux → impérial. L'IA de Gaïa évolue sur
-    l'échelle numérique **1=Facile … 5=Extrême** (D18) :
+    l'échelle numérique **1=Facile … 5=Extrême** (D18), en **crescendo 2→3→4→5** (D57) :
     - **Âge sombre** : IA 2 (Standard) ; +1 mariage
     - **Âge féodal** : IA 3 (Intermédiaire) ; +1 tech, +1 mariage ;
       Ordre Royal attribué (D51)
-    - **Âge des châteaux** : IA 5 (Extrême) ; +2 tech, +1 mariage
+    - **Âge des châteaux** : IA 4 (Difficile) ; +2 tech, +1 mariage
     - **Âge impérial** : IA 5 (Extrême) ; +2 tech, +1 mariage
 22. « +N technologies » = des **points technologiques** (monnaie — D2) ;
     « +1 mariage » = un mariage supplémentaire : la **capacité de
@@ -111,7 +110,8 @@
 
 24. **Exploration — samedi 14h** (configurable) : vraie partie AoE2
     **FFA** (D5), participation **optionnelle** (1 seigneur par
-    royaume max) ; une map non sortie est tirée ; classement final de
+    royaume max) ; une map non sortie es
+t tirée ; classement final de
     la partie : 1er remporte la map (territoire de son royaume) + 1
     tech ; 2e : +3 tech ; 3e : +2 tech ; autres participants : +1 tech.
     **Limite de temps paramétrable** : à l'échéance, le plus gros
@@ -135,17 +135,27 @@
     jouables par royaume ; chaque seigneur choisit sa civilisation à
     sa convenance, à condition d'y avoir accès et qu'elle ne soit pas
     **sabotée** (D33).
-28. Mariage : chaque seigneur peut se marier **une fois** (D34) ; il
-    sécurise une civilisation pour le royaume ; la promise est une
-    personnalité historique (RP uniquement — D54,
-    [PROMISES.md](PROMISES.md)). Le mariage est **permanent jusqu'à
-    ce que le seigneur perde un combat** (effet retiré au cycle
-    prochain — D34/D53). Le **mariage arrangé** (3 techs) donne
-    l'**exclusivité** instantanée d'une civilisation sans contourner
-    la limite d'un mariage par seigneur (D45).
+28. Mariage : le royaume dispose d'un **stock de mariages** (valeur
+    de base paramétrable, **+1 à chaque époque franchie** — D59) ; chaque
+    mariage consomme **une unité du stock**. Un seigneur peut avoir **un
+    mariage actif à la fois** ; le **remariage est possible** après une
+    perte si le stock le permet. Une **civilisation déjà mariée ne peut
+    être ciblée** par aucun mariage, ni classique ni arrangé (D59) ; elle
+    redevient mariable au Jour du Seigneur suivant la rupture. Se marier
+    applique un **verrou de 24h** (temps réel) : le seigneur ne peut
+    **ni attaquer ni défendre** pendant cette durée (D59). La promise est
+    une personnalité historique (RP uniquement — D54,
+    [PROMISES.md](PROMISES.md)). Le mariage est **permanent jusqu'à ce
+    que le seigneur perde un combat** (effet retiré au Jour du Seigneur
+    suivant — D34/D53) ; la civilisation sécurisée reste jouable par le
+    royaume jusqu'à ce Jour du Seigneur. Le remplaçant d'un seigneur
+    parti **n'hérite jamais du mariage** (D25). Le **mariage arrangé**
+    (3 techs) donne l'**exclusivité instantanée** d'une civilisation
+    **sans consommer le stock**, avec un **verrou réduit de 6h** (D60).
 29. **Ordre Royal = traité** (une seule mécanique — D49/D51) : à
     l'entrée à l'Âge féodal, le royaume ayant le **plus de
-    civilisations** l'obtient ; son Roi dispose de **24h**
+    civilisations** l'obtient ; son Roi 
+dispose de **24h**
     (paramétrable) pour proposer le traité de la saison — un seul
     traité par saison (D19) ; vote POUR/CONTRE paramétrable (Rois ou
     tous les seigneurs ; 50%+1 ou unanimité — D19) ; si voté :
@@ -172,8 +182,9 @@
     - **Contre-espionnage** (2) : déclarer l'attaque au nom d'un autre
       seigneur (la couverture) ; révélation du vrai attaquant X temps
       avant la partie, paramétrable (D11/D28)
-    - **Sabotage** (1) : snipe de civilisations en attaque ou défense,
-      uniquement royaume contre royaume ; **2 max par seigneur et par
+        - **Sabotage** (1) : neutralise une civilisation adverse **pour
+      la rencontre uniquement** (elle revient ensuite), utilisable même
+      sur une civilisation mariée ; **2 max par seigneur et par
       rencontre**, compteur remis à zéro à la rencontre suivante (D12)
     - **Explorateur** (2) : map aléatoire **non sortie** reçue
       gratuitement et immédiatement, devient territoire du royaume ;
@@ -182,14 +193,17 @@
       saison (D18/D35)
     - **Mariage arrangé** (3) : exclusivité instantanée d'une
       civilisation (D45)
-    - **Corruption** (4) : achète un territoire de n'importe quel
-      royaume ou de Gaïa sans confrontation ; l'ennemi reçoit +1
-      tech ; territoire inattaquable et incorruptible **jusqu'à
-      lundi minuit** (D15/D37)
-    - **Garde Royale** (1) : 24h de protection d'un territoire ;
-      prolongation 1 tech = **3h** ; pas de cumul sur un même
-      territoire (D47)
-
+        - **Corruption** (4) : **vole** un territoire de n'importe quel
+      royaume ou de Gaïa **sans combat** — transfert **total et instantané**
+      (bonus cadastre **et** civilisations) ; le territoire est
+      **inattaquable et incorruptible 48h** (temps réel — la fenêtre de
+      protection peut absorber le chrono, comportement voulu) ; l'ennemi
+      reçoit +1 tech ; **max 2 par saison et par royaume** (D58)
+    - **Garde Royale** (1) : **24h** de protection d'un territoire —
+      ni attaque, **ni Corruption** ; **une seule Garde active par royaume**
+      à la fois ; prolongation **1 tech = +3h**, à **coût croissant**
+      (chaque prolongation supplémentaire coûte 1 tech de plus :
+      1, 2, 3…) (D61)
 ## Garnison
 
 31. **Mise de côté** pour équilibrage (Saison II — D4/D41) : aucune
@@ -197,3 +211,40 @@
     renforts, max 3 garnisons / 3 renforts) sont **en travaux, non
     définitives**. Les effets « garnison » du cadastre sont conservés
     mais **inactifs**.
+
+
+## Fenêtre de protection, lancement et Paroisse
+
+32. **Fenêtre de protection** (D56) : **aucune agression ni Corruption du
+    dimanche 23h30 au lundi 10h** ; les points rechargés à 23h30 peuvent
+    être **dépensés pour déclarer** dès 23h30, mais aucun combat ni
+    agression ne peut avoir lieu avant lundi 10h.
+
+33. **Découpage de la saison** (D63) : la semaine de lancement n'est
+    **pas un cycle complet** — le premier cycle entier commence au
+    premier Jour du Seigneur ; les **hostilités sont ouvertes dès le
+    lancement**, y compris pendant l'Âge sombre (setup).
+
+34. **Paroisse** (D64) : chaque royaume possède une Paroisse à trois
+    paliers :
+    - **Chapelle** (gratuit, dès le lancement) : verrou du mariage
+      classique **24h** ; **+1 mariage au stock à chaque Jour du
+      Seigneur** ;
+    - **Église** (2 techs) : verrou **12h** ; mêmes bonus ; **se marier
+      rapporte +1 tech** ;
+    - **Cathédrale** (3 techs) : verrou **6h** ; mêmes bonus ;
+      **Chantier Sacrée** : le royaume désigne une map de son cadastre
+      (annonce publique), qui devient **Sacrée pendant 72h** (temps
+      réel) — immunisée contre **toute action technologique** (dans les
+      deux sens, y compris Embuscade) et **insensible à la conquête**.
+      Seule une **attaque classique** peut la disputer ; points
+      consommés normalement quel que soit le résultat ; **le gagnant
+      du duel reçoit +1 tech**, quel que soit son camp. **Défense
+      victorieuse ou aucune attaque en 72h** : la Cathédrale est
+      validée — la map devient **inattaquable et incorruptible
+      jusqu'à la fin de saison**. **Défaite du défenseur** : la
+      Cathédrale est **détruite** (3 techs perdus), **la map reste au
+      royaume défenseur**, la Paroisse retombe à l'Église. Un seigneur
+      ne peut défendre **le même chantier qu'une fois** ; **une seule
+      relance** possible après échec en repayant 3 techs. Tous les
+    coûts et durées sont paramétrables.

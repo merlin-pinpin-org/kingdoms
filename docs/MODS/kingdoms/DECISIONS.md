@@ -49,7 +49,8 @@
 
 ## D6 — Attaque Gaïa = FFA, chacun pour soi
 
-- Les seigneurs participants ne sont **pas alliés** contre Gaïa :
+- Les seign
+eurs participants ne sont **pas alliés** contre Gaïa :
   chacun joue pour lui-même, contre les autres participants et contre
   l'IA.
 - **Un seul gagnant** : le vainqueur de la partie remporte la victoire
@@ -98,6 +99,7 @@
   révélée.
 
 ## D12 — Sabotage
+
 
 - Utilisable **en attaque ou en défense**, **avant le début de la
   partie**, uniquement dans les attaques **seigneur contre seigneur**
@@ -148,7 +150,8 @@
   4=Difficile, 5=Extrême** ; les effets se combinent avec plancher 1
   et plafond 5.
 - **La progression d'IA liée aux époques ne concerne que Gaïa**
-  (Âge sombre=2, Féodal=3, Châteaux=5, Impérial=5) — **pas** les
+  (Âge sombre=2, Féodal=
+3, Châteaux=5, Impérial=5) — **pas** les
   royaumes joueurs.
 - Pour qu'un royaume dispose d'une IA plus forte (défense contre les
   bots), il faut utiliser **Jeu d'armes** : effet **permanent** (+1
@@ -196,7 +199,8 @@
   pour des raisons d'équilibrage.
 - Un joueur peut **quitter la saison en cours** (option avec motif
   indiqué) ; l'admin peut alors affecter un **joueur en attente**.
-- Le remplaçant **reprend l'état d'attaque/défense de la semaine** du
+- Le remplaçant **reprend l'état d'attaque/
+défense de la semaine** du
   joueur sortant : si celui-ci avait déjà attaqué, le remplaçant ne
   peut pas non plus attaquer (anti-abus).
 
@@ -252,7 +256,8 @@
 - Correspondance **map → civilisations** fournie par l'admin (le
   game designer fournira la table) ; l'obtention de certaines
   civilisations répond à des **pré-requis fournis par l'admin**.
-- En début de saison, chaque royaume reçoit **X civilisations**
+- En début de s
+aison, chaque royaume reçoit **X civilisations**
   (paramétrable par l'admin). **À la fin de chaque cycle**, les
   alliances s'actualisent **en fonction des mariages et des
   territoires conquis** ; on peut obtenir des civilisations au début
@@ -307,6 +312,7 @@
 - Gestion **humaine** (admin) ; des règles de comportement seront
   ajoutées au règlement (document à part).
 
+
 ## D41 — Garnison : confirmée en pause
 
 - Renforts et garnisons sont **mis de côté** ; réintroduits plus
@@ -355,7 +361,8 @@
   d'obtention de chaque civilisation
   ([CIVILIZATIONS.md](CIVILIZATIONS.md)).
 - Types d'effets de cadastre observés : offrir une technologie
-  ponctuelle (par jour/semaine/dimanche), un point de technologie,
+  ponct
+uelle (par jour/semaine/dimanche), un point de technologie,
   une civilisation, un mariage, une embuscade, un sabotage, un
   contre-espionnage, une exploration, réduire/augmenter des délais
   d'agression, augmenter la capacité de patrouille, offrir une
@@ -395,7 +402,8 @@
   mécanique** : le porteur de l'Ordre Royal propose, les participants
   votent (paramètres D19), et si voté, l'application suit la demande
   (cycle prochain ou saison suivante).
-- Si le porteur ne propose rien dans son délai (D51), **l'opportunité
+- Si 
+le porteur ne propose rien dans son délai (D51), **l'opportunité
   est perdue** : il n'existe qu'un Ordre Royal par saison, sans
   réévaluation.
 
@@ -440,7 +448,8 @@
 ## D53 — Mariages : durée et budget
 
 - Un mariage est **permanent** jusqu'à ce que le seigneur marié
-  **perde un combat** (il perd alors le mariage, effet retiré au
+  **perde un combat** (il perd alors le ma
+riage, effet retiré au
   cycle prochain — D34).
 - **Chaque seigneur peut se marier une seule fois** ; les « +1
   mariage » d'époque augmentent la **capacité de mariages du
@@ -453,3 +462,116 @@
 - Elle couvre plus de civilisations que les 50 conditions documentées
   (Danois, Magyars, Mapuche, Muisca, Saxons, Tupi, Varègues…) :
   promises disponibles dès qu'une civilisation est obtenue.
+
+## D55 — Saison II : 3 cycles
+
+- La Saison II est une saison d'**essai** de **3 semaines = 3 cycles** ;
+  D1 reste le défaut générique de 4 cycles. Amende, pour la Saison II,
+  la partie « 4e cycle » de D38/D52.
+
+## D56 — Fenêtre de protection
+
+- **Aucune agression ni Corruption du dimanche 23h30 au lundi 10h** ;
+  les points rechargés à 23h30 sont utilisables **pour déclarer**
+  dès 23h30.
+- Le **sprint final** se joue **lundi 10h → minuit**.
+
+## D57 — Crescendo IA des époques
+
+- Châteaux passe d'IA 5 à **IA 4** : l'IA de Gaïa suit un crescendo
+  **2→3→4→5**, un palier par cycle ; l'Âge sombre est la phase de
+  **setup** du lancement. Amende D18 sur ce point.
+
+## D58 — Corruption : vol total et protection 48h
+
+- La Corruption **vole** le territoire choisi **sans combat** :
+  transfert **total et instantané** (bonus cadastre **et**
+  civilisations) ; l'ancien propriétaire perd tout sur le champ.
+- Protection **48h en temps réel** — la fenêtre de protection (D56)
+  peut absorber le reste du chrono : comportement **voulu**.
+  Amende D15/D37.
+- **Maximum 2 Corruptions par saison et par royaume**
+  (paramétrable) ; l'ennemi reçoit toujours +1 tech.
+
+## D59 — Mariages : stock, verrou, exclusivité
+
+- Le royaume dispose d'un **stock de mariages** (base paramétrable,
+  **+1 par époque franchie**) ; chaque mariage consomme une unité —
+  **résout le « À définir » de D3 : les unités se cumulent**.
+- Un mariage actif **par seigneur** ; **remariage autorisé** après
+  une perte si le stock le permet.
+- **Verrou de 24h** (temps réel) : ni attaquer ni défendre ; la
+  fenêtre de protection ne met pas le chrono en pause.
+- **Exclusivité** : une civilisation déjà mariée ne peut être ciblée
+  par aucun mariage (ni classique, ni arrangé) ; elle redevient
+  mariable au Jour du Seigneur suivant la rupture.
+- Amende D34/D53 ; le remplaçant d'un seigneur parti n'hérite
+  jamais du mariage (D25).
+
+## D60 — Mariage arrangé
+
+- 3 techs ; **exclusivité instantanée** **sans consommer le stock** ;
+  **verrou réduit à 6h** (temps réel). Amende D45 sur la durée du
+  verrou.
+
+## D61 — Garde Royale
+
+- **Une seule Garde Royale active par royaume** à la fois.
+- 24h de base ; **la Garde protège aussi de la Corruption**.
+- Prolongation : 1 tech = **+3h**, à **coût croissant** (chaque
+  prolongation supplémentaire coûte 1 tech de plus : 1, 2, 3…).
+  Amende D47 sur la prolongation.
+
+## D62 — Épuisement des maps : alerte admin
+
+- Si Gaïa ne peut pas recevoir ses 8 maps au Jour du Seigneur, elle
+  reçoit **ce qui reste** et le bot **alerte l'admin** ; **l'arrêt
+  automatique (D31) est abrogé**.
+
+## D63 — Semaine de lancement
+
+- La semaine de lancement n'est **pas un cycle complet** : le
+  premier cycle entier commence au premier Jour du Seigneur.
+- Les **hostilités sont ouvertes dès le lancement**, y compris
+  pendant l'Âge sombre (setup).
+
+## D64 — La Paroisse
+
+- Chaque royaume possède une **Paroisse** à trois paliers :
+  **Chapelle** (gratuit — verrou mariage 24h, +1 mariage au stock
+  chaque Jour du Seigneur), **Église** (2 techs — verrou 12h, mêmes
+  bonus, se marier rapporte +1 tech), **Cathédrale** (3 techs —
+  verrou 6h, mêmes bonus, Chantier Sacrée).
+- **Chantier Sacrée** : map désignée (annonce publique) **Sacrée
+  72h** (temps réel) — immunisée contre toute action technologique
+  (y compris Embuscade) et **insensible à la conquête** ; seule une
+  **attaque classique** peut la disputer ; points consommés
+  normalement quel que soit le résultat ; **gagnant du duel :
+  +1 tech**, quel que soit son camp.
+- **Validation** (défense victorieuse ou aucune attaque) : la map
+  devient **inattaquable et incorruptible jusqu'à la fin de saison**.
+  **Défaite du défenseur** : Cathédrale **détruite** (3 techs
+  perdus), la **map reste au défenseur**, la Paroisse retombe à
+  l'Église.
+- Un seigneur ne défend **le même chantier qu'une fois** ; **une
+  seule relance** possible en repayant 3 techs. Tous les coûts et
+  durées sont **paramétrables**.
+
+## D65 — Harmonisation avec le dossier marriage/ (data-only)
+
+- Le dossier `marriage/` reste **data-only** : source de données des
+  promises (`princesses.yaml`) ; **le gameplay du mariage vit dans
+  RULES.md §28** (renvoi croisé avec PROMISES.md).
+- Respect de D34 : seules les promises `documented` et
+  `tradition` sont tirées ; les noms `legendary` sont **exclus**
+  du tirage Kingdoms (`allow_legendary_names` à faux).
+
+## D66 — Politique de modification des paramètres
+
+- Chaque paramètre d'ENVIRONMENT.md porte une politique :
+  **free** (modifiable à tout moment, effet sur les événements
+  futurs), **next-cycle** (appliqué au cycle prochain),
+  **next-season** (prochaine saison).
+- Les chantiers Sacrée **en cours** et les Cathédrales **validées**
+  ne sont **jamais rétro-touchés** : la promesse « ad vitam
+  aeternam » est tenue.
