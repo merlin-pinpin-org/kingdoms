@@ -41,7 +41,14 @@ ready.
    no argument: the workflow targets your personal env from your roster
    alias; add `test` explicitly for the shared validation env).
    Only collaborators with write+ may trigger it; forks are rejected.
-3. **Follow the pipeline**: the `Deploy PR (comment)` workflow builds the
+3. **Wait and read the gate's answer before doing anything else**:
+   poll the PR conversation / runs (`gh run list --workflow deploy.yml`,
+   the tracking comment) for the roster-gate verdict (seconds) and then
+   the pipeline result; report the actual outcome to the human only
+   once a final status has landed — never answer with "posted, should
+   work" while a run is still in progress, and never move on before
+   the gate verdict (a deny means the deploy never started).
+4. **Follow the pipeline**: the `Deploy PR (comment)` workflow builds the
    image (`pr-<id>-<timestamp>-<sha>`), pushes it to GHCR, then dispatches
    the `Pin state` workflow on kingdoms-infra which pins it on the target's
    `deploy/<env>` state branch; the pin push triggers `Deploy environment`,
