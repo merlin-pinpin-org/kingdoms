@@ -225,6 +225,22 @@ is resolved from the roster only when an API call needs it.
 > email exchange stays private — never commit an address here. The `since`
 > date is the GitHub account creation date at first entry.
 
+## Agent whitelist
+
+Agent sessions act **on behalf of a rostered human** — they author or
+co-author commits and PRs under their own machine identity, never on
+their own account. These identities are **whitelisted in the CLA
+checks**: no CLA is asked from an agent; the human behind it carries
+theirs (verified against the roster: `accepted <date>` is mandatory).
+Every check reads this table — the whitelist lives here and nowhere
+else (single source of truth; a new agent identity is added by a
+maintainer roster PR, then every check picks it up automatically).
+
+| Identity (login or email) | Kind | Acts for |
+| --- | --- | --- |
+| `vibe@mistral.ai` | vibe agent session | its connected human (PR author or co-author) |
+| `github-actions[bot]` | automation | the workflows' own mutations (releases, pins, syncs) |
+
 ## Sync workflow
 
 `.github/workflows/scripts/sync_contributors.py` (kingdoms repo) reads this file and
