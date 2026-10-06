@@ -59,6 +59,16 @@ same matrix through the `authorize.yml` gate — the requestor's roster
 entry and the PR author's agent-scope are checked mechanically,
 fail-closed, with the exact matrix rule in the failure message.
 
+**Who posts them (developer-mandated): the session, not the human.**
+PR-command keywords are the agent's handle on the automation: when the
+human wants a deploy, logs, a restart or a release, the session posts
+the keyword comment on the PR itself, immediately — the gate checks
+the *human's* rights (roster entry, agent-scope, CLA), not the
+session's, because the session acts on the human's behalf. A session
+that answers "please comment /deploy on the PR" has misunderstood the
+platform: the only human clicks are the ones the scope guard reserves
+to them (PR reviews, production approvals, CLA, roles, secrets).
+
 ## Humans never code
 
 This platform is a pure vibe-coding test: the agent does 100% of the

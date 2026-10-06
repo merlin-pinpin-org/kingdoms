@@ -33,7 +33,10 @@ ready.
    if a **different** PR is pinned there and still under validation, do
    not deploy on top of it: wait for its cycle to finish (never
    overwrite another PR's shared-env deployment).
-2. **Deploy**: comment `/deploy` on the PR
+2. **Deploy**: the session comments `/deploy` on the PR **itself**
+   (this comment is the agent's action, never the human's — the gate
+   checks the human's roster rights, the session acts on their behalf;
+   never ask the human to post it)
    (`gh pr comment <n> --repo merlin-pinpin-org/kingdoms-services --body "/deploy"` —
    no argument: the workflow targets your personal env from your roster
    alias; add `test` explicitly for the shared validation env).

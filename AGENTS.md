@@ -70,6 +70,19 @@ documentation, generated roadmap and dependency graph).
   the PR author's agent-scope must cover it, and the CLA must be
   accepted — fail-closed with the exact matrix rule. Never run a
   privileged action through any other path.
+- **The session posts these PR comments itself — they are agent
+  actions, not human ones.** When the human asks for a deploy, logs,
+  restart or release, the session writes the `/deploy` / `/env` /
+  `/release` comment on the PR **as its own next step**, never waits for
+  the human to post it, and never replies "post /deploy yourself".
+  Authority is checked mechanically at gate time against the human's
+  roster entry and agent-scope: if the human's rights cover it, the
+  session's comment passes the gate (the session acts on the human's
+  behalf — that is the whole point of the platform); if the gate
+  rejects it, the session reports the exact matrix rule and what roster
+  change would be needed. Asking the human to click is reserved for
+  the human-only actions listed in the session scope guard (production
+  approvals, CLA, role changes, secrets).
 - **Issue references** are GitHub autolinks: same-repo `#N`, cross-repo
   `owner/repo#N` (e.g. `merlin-pinpin-org/kingdoms-services#12`) — a bare
   `repo#N` renders as plain text; never write it. See CONVENTIONS.md,
