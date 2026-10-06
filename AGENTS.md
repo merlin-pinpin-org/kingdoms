@@ -83,6 +83,15 @@ documentation, generated roadmap and dependency graph).
   change would be needed. Asking the human to click is reserved for
   the human-only actions listed in the session scope guard (production
   approvals, CLA, role changes, secrets).
+- **After posting a command comment, wait and read the answer before
+  reporting to the human.** The workflows reply on the PR within
+  seconds (gate verdict) to minutes (pipeline result). The session
+  polls the PR conversation / the run (`gh run list`, the tracking
+  comment) until the verdict or a final status lands, and only then
+  answers the human — quoting the actual outcome (authorized/denied
+  with the matrix rule, run succeeded/failed with the error). Never
+  report "done, it should work" off the comment alone, and never
+  answer the human while the gate or the pipeline is still running.
 - **Issue references** are GitHub autolinks: same-repo `#N`, cross-repo
   `owner/repo#N` (e.g. `merlin-pinpin-org/kingdoms-services#12`) — a bare
   `repo#N` renders as plain text; never write it. See CONVENTIONS.md,

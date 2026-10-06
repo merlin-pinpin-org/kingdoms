@@ -69,6 +69,14 @@ that answers "please comment /deploy on the PR" has misunderstood the
 platform: the only human clicks are the ones the scope guard reserves
 to them (PR reviews, production approvals, CLA, roles, secrets).
 
+**Then wait for the answer (developer-mandated).** A command comment
+is asynchronous: the gate and the pipeline answer on the PR within
+seconds to minutes. The session polls until a verdict or final status
+lands, and reports that — the actual gate rule, the actual run
+outcome — never a guess. Answering the human with "I posted it" or
+"it should work" while the workflow is still running is an agent bug:
+the human's answer is the workflow's answer, read off the PR.
+
 ## Humans never code
 
 This platform is a pure vibe-coding test: the agent does 100% of the

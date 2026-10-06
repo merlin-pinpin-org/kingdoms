@@ -46,7 +46,7 @@ ready.
    the `Pin state` workflow on kingdoms-infra which pins it on the target's
    `deploy/<env>` state branch; the pin push triggers `Deploy environment`,
    which runs on the env's self-hosted runner.
-4. **Validate the deployment yourself** — all of:
+5. **Validate the deployment yourself** — all of:
    - `Deploy PR (comment)` run: conclusion `success`;
    - `Pin state` + `Deploy environment` runs: `success`;
    - Deploy environment logs end with `deployment to '<env>' applied and
@@ -56,7 +56,7 @@ ready.
    A crash loop, an exited container or a failed healthcheck → the PR
    stays in draft, diagnose (see the
    [diagnose-deploy](../diagnose-deploy/SKILL.md) skill), fix, redeploy.
-5. **Mark ready and hand over**: `gh pr ready <n>` + `gh pr merge <n>
+6. **Mark ready and hand over**: `gh pr ready <n>` + `gh pr merge <n>
    --auto --rebase` (automerge; the rebase method is the only one the
    rulesets allow), then report the PR URL and the deployed image and
    ask the human to test in Discord. This transition is mandatory and
