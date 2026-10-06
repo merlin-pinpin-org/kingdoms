@@ -22,9 +22,10 @@ source). The session then opens the conversation with, at minimum:
 1. **Who I act for** — the human's roster alias and roles (e.g.
    "Drasah — mod (kingdoms, marriage), vibe").
 2. **What I may do this session** — the capabilities their roles grant,
-   as the table below (their personal env, shared envs, everywhere),
-   and what stays a human click (production approvals, CLA, role
-   changes, secrets).
+   summarized from the authority table in
+   [CONTRIBUTORS.md](CONTRIBUTORS.md) (personal env, shared envs,
+   everywhere), and what stays a human click (production approvals,
+   CLA, role changes, secrets).
 3. **How to use me** — one pedagogical line per family of need:
    - "to deploy: just say *deploy my branch on my env* — I comment
      `/deploy` on the PR myself and wait for the pipeline's answer";
@@ -41,37 +42,29 @@ The display is transparent and pedagogical: no jargon without a
 plain-language gloss, and it ends with an invitation: *"What would you
 like to do?"*
 
-## Who may do what, on which environment (authority matrix, read by agents and humans alike)
+**Content placement rule (applies to every instruction added here,
+now and by future sessions):** AGENTS.md is **for AI agents only** —
+session rules, scope, procedures, behavioral constraints. Anything
+potentially useful to *humans* (tables, guides, role/capability
+explanations, how-tos) lives in the human-facing docs
+([CONTRIBUTORS.md](CONTRIBUTORS.md) roster/matrix,
+[docs/CONVENTIONS.md](docs/CONVENTIONS.md), [docs/INDEX.md](docs/INDEX.md))
+and is **referenced here by link, never duplicated**. When adding an
+instruction, always ask: *would a human read this?* If yes, it belongs
+in docs/ and AGENTS.md links to it.
 
-The session **acts on behalf of its human** — never on its own. The
-human is identified by their **GitHub login**, resolved to their
-**roster alias** in CONTRIBUTORS.md (the alias names their personal
-environment). Capabilities below are checked mechanically by
-`authorize.yml` (fail-closed) when the session posts the keyword
-comment on the PR — **the session posts it, not the human**.
+## Authority: where to read it (agent rule)
 
-| Action (what you want) | Command (the session posts it) | vibe-coder (own env) | dev / ops (shared envs) | maintainer (all envs) |
-| --- | --- | :-: | :-: | :-: |
-| Deploy a PR on **my personal env** | `/deploy` (no argument) | ✅ | ✅ | ✅ |
-| Deploy a PR on a **shared env** (`test`) | `/deploy test` | ❌ | ✅ | ✅ |
-| See the logs of **my env** | `/logs <my-env>` | ✅ | ✅ | ✅ |
-| See the logs of a **shared env** | `/logs test` | ❌ | ✅ | ✅ |
-| Restart / start / stop / status **my env** | `/restart <my-env>` etc. | ✅ | ✅ | ✅ |
-| Restart etc. a **shared env** | `/restart test` | ❌ | ✅ | ✅ |
-| Touch **someone else's personal env** | — | ❌ | ❌ (ops+ only) | ✅ |
-| Dump an env's databases | `/dump-db <env>` | ❌ | ops ✅ | ✅ |
-| Revert a pin (rollback) | `/rollback <env>` | ❌ | ops ✅ | ✅ |
-| Tag a release | `/release` | ❌ | dev/platform ✅ | ✅ |
-| Anything on **prod** | — | ❌ | ❌ (ops + GitHub approval click) | ops + approval click |
-| Approve a production deployment | GitHub web UI | ❌ | human click (ops) | human click |
-| CLA, roles, teams, secrets | GitHub web UI | ❌ | ❌ | human click |
-
-Reading the table: **"my env" = the environment named after your
-roster alias** (e.g. alias `Drasah` → env `drasah`). A vibe-coder is
-autonomous **on their env only**; a dev/ops also drives the shared
-`test` env; a maintainer drives everything, prod included — except
-the human-only clicks (prod approval, CLA, roles, secrets), which no
-session ever performs.
+The session **acts on behalf of its human** — identified by the GitHub
+login it is connected as, resolved to the roster alias in
+[CONTRIBUTORS.md](CONTRIBUTORS.md). The full **"who may do what, on
+which environment" table** — human-readable, with the commands the
+session posts and the per-role ✅/❌ matrix — is maintained in
+[CONTRIBUTORS.md](CONTRIBUTORS.md) (*Who may do what, on which
+environment*). The session reads it there at session start and
+whenever an env-scoped request arrives; capabilities are enforced
+mechanically by `authorize.yml` (fail-closed) when the session posts
+the keyword comment on the PR.
 
 ## Read first
 
