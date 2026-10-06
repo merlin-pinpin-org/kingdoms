@@ -33,9 +33,9 @@ ROLE_LEVELS = {"none": 0, "vibe": 1, "mod": 2, "dev": 3, "platform": 3, "ops": 3
 CAPABILITY_RULES: dict[str, dict] = {
     "deploy": {"min": "vibe", "deny_envs_prod": True, "help": "deploy a PR to a non-prod env",
                "usage": "/deploy [env] — build the PR image and pin it on deploy/<env> (default test). Never prod-like envs."},
-    "env-control": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "start/stop/restart/status an env",
+    "env-control": {"roles": ["ops", "dev", "mod", "vibe"], "own_env_roles": ["vibe", "mod", "dev", "ops"], "shared_env_roles": ["dev", "ops"], "help": "start/stop/restart/status an env",
                     "usage": "/restart [env] — restart the env stack in place. Also /start /stop /status via env-control."},
-    "env-logs": {"roles": ["ops", "dev"], "test_only_roles": ["dev"], "help": "read an env's logs",
+    "env-logs": {"roles": ["ops", "dev", "mod", "vibe"], "own_env_roles": ["vibe", "mod", "dev", "ops"], "shared_env_roles": ["dev", "ops"], "help": "read an env's logs",
                  "usage": "/logs [env] [--service S] [--since 30m] [--from iso] [--to iso] [--tail N] — collect logs and post them back (read-only)."},
     "db-dump": {"roles": ["ops"], "help": "dump an env's databases",
                 "usage": "/dump-db [env] — mongodump + Redis snapshot, VPS archive + private artifact."},
@@ -99,7 +99,23 @@ def check(person: Person | None, capability: str, env: str = "", pr_author: Pers
     roles = {re.split(r"[(,]", r)[0].strip() for r in person.roles}
     roles = {r for r in roles if r and r != ")"}
 
-    if "roles" in rule:
+    if "own_env_roles" in rule:
+        # Ownership tiers (authority matrix): personal env (env == roster
+        # alias) at vibe+, shared envs (test) at dev+, ops+ anywhere.
+        if env == "prod":
+            if not roles & {"ops", "platform"}:
+                return False, f"'{capability}' on prod requires ops (the authority matrix)"
+        elif env and person.alias and env == person.alias.lower():
+            if not any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS["vibe"] for r in roles):
+                return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs vibe+ on a personal env, per the authority matrix)"
+        elif env in ("test",) or not env:
+            if not roles & set(rule["shared_env_roles"]) and not any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS["ops"] for r in roles):
+                return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' on shared envs (needs one of {rule['shared_env_roles']}+, per the authority matrix)"
+        else:
+            # someone else's personal env: ops+ only
+            if not any(ROLE_LEVELS.get(r, 0) >= ROLE_LEVELS["ops"] for r in roles):
+                return False, f"'{capability}' on another contributor's env ({env}) requires ops+ (the authority matrix)"
+    elif "roles" in rule:
         if not roles & set(rule["roles"]):
             return False, f"{person.alias or person.login} roles {sorted(roles) or ['none']} do not grant '{capability}' (needs one of {rule['roles']}, per the authority matrix)"
         if env == "prod" and "test_only_roles" in rule:
