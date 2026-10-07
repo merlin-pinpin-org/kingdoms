@@ -575,3 +575,107 @@ riage, effet retiré au
 - Les chantiers Sacrée **en cours** et les Cathédrales **validées**
   ne sont **jamais rétro-touchés** : la promesse « ad vitam
   aeternam » est tenue.
+
+## D67 — Seigneur de Guerre (compensation d'exclusion)
+
+- Si l'admin **exclut un joueur** et qu'**aucun remplaçant** n'est
+  disponible en file, l'admin peut attribuer la promotion
+  **Seigneur de Guerre** à un seigneur du royaume concerné.
+- **Effet mécanique : À DÉFINIR** avant implémentation (Saison II).
+- Les rôles Discord du mod sont **extensibles** : Roi et Seigneur
+  aujourd'hui, d'autres rôles ensuite (dont Seigneur de Guerre) —
+  le code parcourt les rôles déclarés, aucun n'est codé en dur.
+
+## D68 — Patrouille (redéfinition — amende D43)
+
+- La Patrouille s'achète **au Marché par le Roi** (coût 2 🔬).
+- Chaque achat protège **un créneau horaire quotidien de 2h** :
+  pendant cette tranche, **tous les territoires** du royaume sont
+  protégés contre les **attaques joueurs** et les actions
+  technologiques (**Corruption, Explorateur**).
+- **Gaïa n'attaque jamais** — la Patrouille n'a pas d'effet contre
+  Gaïa (redéfini : plus de « match patrouille vs IA »).
+- **Limite : 2 achats par royaume et par saison** par défaut,
+  **paramétrable par l'admin** dans le panel avant lancement.
+- La tranche est **modifiable uniquement pendant la fenêtre de
+  protection** (dim. 23h30 → lun. 10h) ; sans changement,
+  **maintien automatique**.
+- Le Roi reçoit un rappel via le **Pigeon-Voyageur** (D69).
+
+## D69 — Pigeon-Voyageur
+
+- Salon **éphémère par royaume** : rappels adressés au Roi
+  (confirmation de tranche de Patrouille, échéances de fenêtre de
+  protection, verrous de mariage en cours).
+- Visible uniquement de son destinataire ; contenu éphémère par
+  nature.
+
+## D70 — Catégorie Discord par royaume & Scriptorium
+
+- À la **validation du nom du royaume par l'admin**, une catégorie
+  Discord **[NomDuRoyaume]** est créée automatiquement, visible
+  uniquement des **joueurs de la saison + admins**.
+- Elle contient **6 salons** : 🛡️ Patrouille, 🎖️ Seigneurs,
+  🏰 Le-Royaume, 🗺️ Territoire, 📜 Alliances, ⛪ Église (+ le
+  Pigeon-Voyageur éphémère, D69).
+- Les salons du royaume sont des **vues d'état silencieuses** :
+  toutes les annonces d'événements vont en 📣-géopolitique.
+- **Gaïa n'a pas de catégorie** (entité IA, elle n'attaque jamais).
+- Les salons globaux Patrouille/Seigneurs/Territoire/Diplomatie
+  sont **supprimés**, remplacés par les versions par royaume.
+- La **catégorie globale** se nomme **Scriptorium** : salons
+  transversaux (⚔️-attaquer, 🕰️-délais-attaque, 🧾-cadastre,
+  📖-diplomatie, 📣-géopolitique, 🛒-marché).
+- Les **images** (maps, blasons) viennent de banques d'images
+  admin (`map_images`, `blason_images`), fournies par le game
+  designer hors implémentation — jamais bloquantes.
+
+## D71 — Promise tirée au sort
+
+- Pour **tout mariage** (standard ou arrangé), la promise est
+  **tirée au sort** parmi les promises éligibles (D65 : seules
+  `documented` et `tradition`, pas de `legendary`).
+- Le joueur choisit la **civilisation**, jamais la promise.
+
+## D72 — Exclusion admin
+
+- L'exclusion admin d'un joueur emprunte le **même parcours que le
+  départ volontaire** (`service.leave()`) : le seigneur quitte le
+  royaume, ses données de saison suivent les règles de
+  remplacement en vigueur.
+- Si aucun remplaçant n'est disponible : compensation **Seigneur
+  de Guerre** (D67). *(Trou d'implémentation repéré : le retrait
+  actuel ne retire que les rôles Discord — à câbler.)*
+
+## D73 — Chantier Sacrée : issue de la défaite (amende D64)
+
+- **Réussite** (défense victorieuse ou 72h sans attaque) :
+  inchangé — le territoire devient **inattaquable et
+  incorruptible jusqu'à la fin de saison**, la Cathédrale reste
+  liée à ce territoire.
+- **Défaite** : le royaume défenseur **conserve son territoire** ;
+  l'attaquant gagne **uniquement +1 🔬** (pas le territoire).
+- La Cathédrale **n'est pas détruite** (abroge ce point de D64) :
+  elle **se relie automatiquement à un autre territoire du
+  royaume, choisi aléatoirement**, et la **protection Sacrée
+  validée s'applique à ce nouveau territoire**.
+- Le royaume perd uniquement **le choix de l'emplacement** de sa
+  protection Sacrée ; la Paroisse **reste au palier Cathédrale**.
+- L'upgrade de paroisse est un **achat direct, toujours réussi**
+  (pas de probabilité d'échec).
+
+## D74 — Mariages : périmètre standard vs arrangé (amende D45)
+
+- **Mariage standard (stock)** : cible uniquement une
+  civilisation **déjà possédée par le royaume** — il **renforce le
+  lien** d'obtention. Le bonus « se marier rapporte +1 🔬 »
+  (paliers Église/Cathédrale) s'applique **uniquement au mariage
+  standard**.
+- **Mariage arrangé (Marché, 3 🔬)** : cible **n'importe quelle
+  civilisation du jeu** ; exclusivité instantanée **sans consommer
+  le stock** ; verrou **6h** (D60 inchangé).
+- **Exclusivité commune** : une civilisation déjà ciblée par un
+  **mariage actif** (quel que soit le royaume) **ne peut plus être
+  ciblée par aucun nouveau mariage**, ni standard, ni arrangé.
+- Dans le salon Église, les mariages actifs portent des **badges
+  distincts** : 💍 (stock) et 💍✨ (arrangé).

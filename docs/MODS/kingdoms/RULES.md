@@ -175,10 +175,15 @@ dispose de **24h**
       volontaire ne dépense pas son point de défense (D10)
     - **Traquenard** (1) : −1 niveau IA (royaume joueur ou Gaïa) par
       utilisation, expire fin de combat, cumulable (D18/D35)
-    - **Patrouille** (2) : crée un créneau horaire de 2h où toute
-      attaque est refusée ; application immédiate, modification au
-      cycle prochain ; **2 patrouilles max par royaume et par
-      saison** (D43)
+    - **Patrouille** (2) : crée une tranche quotidienne de 2h où
+      **tous les territoires** du royaume sont protégés contre les
+      **attaques joueurs et les actions technologiques** (Corruption,
+      Explorateur) ; **Gaïa n'attaque jamais** ; achat au **Marché
+      par le Roi** ; **2 achats max par royaume et par saison**
+      (paramétrable admin) ; tranche modifiable **uniquement pendant
+      la fenêtre de protection** (dim. 23h30 → lun. 10h), sinon
+      maintien automatique ; rappel au Roi via le Pigeon-Voyageur
+      (D68/D69)
     - **Contre-espionnage** (2) : déclarer l'attaque au nom d'un autre
       seigneur (la couverture) ; révélation du vrai attaquant X temps
       avant la partie, paramétrable (D11/D28)
@@ -243,8 +248,46 @@ dispose de **24h**
       victorieuse ou aucune attaque en 72h** : la Cathédrale est
       validée — la map devient **inattaquable et incorruptible
       jusqu'à la fin de saison**. **Défaite du défenseur** : la
-      Cathédrale est **détruite** (3 techs perdus), **la map reste au
-      royaume défenseur**, la Paroisse retombe à l'Église. Un seigneur
+      map **reste au royaume défenseur** ; l'attaquant gagne
+      **uniquement +1 tech** (pas le territoire) ; la Cathédrale
+      **n'est pas détruite** — elle **se relie automatiquement à un
+      autre territoire du royaume, choisi aléatoirement**, et la
+      protection Sacrée validée s'applique à ce nouveau territoire ;
+      la Paroisse **reste au palier Cathédrale** ; le royaume perd
+      uniquement **le choix de l'emplacement** (D73). Un seigneur
       ne peut défendre **le même chantier qu'une fois** ; **une seule
-      relance** possible après échec en repayant 3 techs. Tous les
+      relance** possible après échec en repayant 3 techs. L'upgrade
+      de paroisse est un **achat direct, toujours réussi**. Tous les
     coûts et durées sont paramétrables.
+
+## Salons Discord (catégories par royaume — D70)
+
+35. **Catégorie par royaume** : à la validation du nom du royaume par
+    l'admin, une catégorie Discord **[NomDuRoyaume]** est créée
+    automatiquement, visible uniquement des joueurs de la saison et
+    des admins. Elle contient 6 salons :
+    - **🛡️ Patrouille** — tranche(s) achetée(s), décompte, lien Marché ;
+    - **🎖️ Seigneurs** — roster épinglé (une ligne par seigneur,
+      rôles extensibles : Roi, Seigneur, futurs rôles) ;
+    - **🏰 Le-Royaume** — fiche épinglée : effectif, trésorerie 🔬,
+      compteur de territoires, 📜 Alliances, Paroisse (niveau X/3 +
+      stock mariages), Patrouille, IA, technos, garde royale ;
+    - **🗺️ Territoire** — cartes paginées (5/page) ; clic → détail
+      éphémère ; la Corruption **transfère le territoire** de salon ;
+    - **📜 Alliances** — uniquement les civs jouables ; « 🔍 En savoir
+      plus » éphémère (draft de départ, obtenues, sécurisées par
+      mariage, perdues au prochain cycle) ;
+    - **⛪ Église** — palier + coût de l'upgrade, stock mariages,
+      mariages actifs (badges 💍 stock / 💍✨ arrangé) ; boutons
+      💍 Se marier, ⛪ Améliorer, ✨ Chantier Sacrée, 🔍 règles.
+    Les salons du royaume sont des **vues d'état silencieuses** :
+    toutes les annonces d'événements vont en 📣-géopolitique.
+    **Gaïa n'a pas de catégorie** (entité IA, elle n'attaque jamais).
+    La catégorie globale **Scriptorium** regroupe les salons
+    transversaux : ⚔️-attaquer, 🕰️-délais-attaque, 🧾-cadastre,
+    📖-diplomatie, 📣-géopolitique. Les salons globaux
+    Patrouille/Seigneurs/Territoire/Diplomatie sont **supprimés**,
+    remplacés par les versions par royaume. Le **Pigeon-Voyageur**
+    (D69) est un salon éphémère de rappels adressé au Roi. Les
+    images (maps, blasons) viennent de banques d'images admin
+    (`map_images`, `blason_images`), fournies hors implémentation.
