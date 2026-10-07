@@ -430,11 +430,15 @@ silently skipped. **Never rename a workflow or a workflow job backing a
 required status check**: rulesets match check contexts by exact name, so a
 rename leaves the ruleset waiting for a check that never reports and
 silently blocks every merge — update the live rulesets (admin) and the
-docs/audit lists in the same change, or don't rename. **Sandbox limits are
-covered by GitHub Actions**:
-anything that cannot run in the dev sandbox must be exercised by a CI
-workflow instead — when a check cannot run locally, add or extend the
-workflow that validates it; never leave it unverified.
+docs/audit lists in the same change, or don't rename. **Agents use their sandbox before
+declaring limits**: an agent session sets up the local workspace first
+(`uv sync` / the repo's documented install tasks) and attempts the check
+locally; it never refuses a task as "impossible in the sandbox" without
+having tried, and never reports a capability limit it has not observed
+firsthand. **Sandbox limits are covered by GitHub Actions**: anything
+that cannot run in the dev sandbox — after a real attempt — must be
+exercised by a CI workflow instead: when a check cannot run locally, add
+or extend the workflow that validates it; never leave it unverified.
 
 ## Diagnose before blaming the infrastructure
 
