@@ -610,25 +610,73 @@ riage, effet retiré au
 - Visible uniquement de son destinataire ; contenu éphémère par
   nature.
 
-## D70 — Catégorie Discord par royaume & Scriptorium
+## D70 — Architecture Discord « salons-first » (amende — réconciliée avec l'issue #138)
 
-- À la **validation du nom du royaume par l'admin**, une catégorie
-  Discord **[NomDuRoyaume]** est créée automatiquement, visible
-  uniquement des **joueurs de la saison + admins**.
-- Elle contient **6 salons** : 🛡️ Patrouille, 🎖️ Seigneurs,
-  🏰 Le-Royaume, 🗺️ Territoire, 📜 Alliances, ⛪ Église (+ le
-  Pigeon-Voyageur éphémère, D69).
-- Les salons du royaume sont des **vues d'état silencieuses** :
-  toutes les annonces d'événements vont en 📣-géopolitique.
-- **Gaïa n'a pas de catégorie** (entité IA, elle n'attaque jamais).
-- Les salons globaux Patrouille/Seigneurs/Territoire/Diplomatie
-  sont **supprimés**, remplacés par les versions par royaume.
-- La **catégorie globale** se nomme **Scriptorium** : salons
-  transversaux (⚔️-attaquer, 🕰️-délais-attaque, 🧾-cadastre,
-  📖-diplomatie, 📣-géopolitique, 🛒-marché).
-- Les **images** (maps, blasons) viennent de banques d'images
-  admin (`map_images`, `blason_images`), fournies par le game
-  designer hors implémentation — jamais bloquantes.
+Le serveur est organisé en **11 catégories**. Sources : issue #138
+(design validé), config `kingdoms.yaml` (code), arbitrages Drasah
+(D67–D74). En cas de divergence, cette décision prime.
+
+1. **Profils** — un salon profil par royaume (`profil-aquitaine`, …) ;
+2. **Général** — Présentation, Annonce, Règles, Saison, Update,
+   Taverne, Suggestion ;
+3. **Conscription** — 📝 Postuler (ouvert à tous, panel éphémère :
+   rôle souhaité, nom de royaume si Roi, lien AoE II Insight + ID,
+   acceptation des règles) · 📋 Candidatures (admin only, boutons
+   ✅ validé / ⏳ en attente / ❌ refusé) ;
+4. **Kingdoms** — 🗺 Carte (v2, non prioritaire) · 📣 Géopolitique
+   (TOUTES les annonces d'événements : combats, chantiers,
+   corruptions, traités, époques, exploration) · 🛒 Marché
+   (boutique technos, Roi uniquement — D68/D74) ;
+5. **Époque** — salon au nom de l'âge courant (renommé à chaque
+   bascule, mercredi minuit), affiche les bonus de l'époque ;
+6. **Royaume Gaïa** — 🛡 Patrouille (contenu **à définir plus
+   tard** — trou assumé) · 🗺 Territoire (maps de Gaïa,
+   consultables) · 🔍 Exploration (comptes-rendus du samedi 14h).
+   **Gaïa ne fait que défendre** : elle n'attaque jamais, ne
+   déclare rien, ne consomme aucune techno. *(Abroge « Gaïa n'a
+   pas de catégorie » — première rédaction de D70.)* ;
+7. **Royaume [Nom]** (une par royaume joueur, créée à la
+   validation du nom par l'admin, visible uniquement du Roi + des
+   Seigneurs du royaume + admins) — **8 salons** :
+   - 💬 **Salle du Conseil** — le seul salon de discussion du
+     royaume, privé (stratégie, coordination) ;
+   - 🛡️ **Patrouille** — vue d'état : tranche(s) 2h achetée(s),
+     achats restants, modification dim. 23h30 → lun. 10h00 ;
+   - 🎖️ **Seigneurs** — vue d'état : roster privé (1 ligne par
+     seigneur, rôles extensibles, mariages, budgets ⚔️/🛡️,
+     badges ❌ parti / 🆕 nouveau) ;
+   - 🏰 **Le-Royaume** — vue d'état : fiche épinglée (effectif,
+     trésorerie 🔬, compteur territoires, Alliances, Paroisse
+     niveau X/3 + stock mariages, Patrouille, IA, technos, garde
+     royale) ;
+   - 🗺️ **Territoire** — vue d'état : cartes paginées 5/page,
+     protections, détail au clic ; la Corruption transfère le
+     territoire de salon ;
+   - 📜 **Alliances** — vue d'état : civs jouables + blasons,
+     🔍 En savoir plus éphémère ;
+   - ⛪ **Église** — vue d'état + actions : palier, stock
+     mariages, mariages actifs (💍/💍✨) ; boutons 💍 Se marier,
+     ⛪ Améliorer, ✨ Chantier Sacrée, 🔍 règles ;
+   - 🕊️ **Pigeon-Voyageur** — rappels éphémères au Roi (D69,
+     catalogue validé : 14 messages).
+   Les salons royaume sont des **vues d'état silencieuses** :
+   toutes les annonces d'événements vont en 📣-géopolitique ;
+8. **Champs de Bataille** — 🕐 Délais-attaque · ⚔️ Attaquer ·
+   💬 Pourparlers. La **gestion** attaque/défense vit ici, le
+   **résultat** est annoncé en 📣-géopolitique ;
+9. **Scriptorium** — 👑 Seigneurs (leaderboard public : tous les
+   seigneurs classés par royaume + ELO — distinct du 🎖️ Seigneurs
+   privé du royaume) · 📖 Diplomatie (traités, relations) · 🗺
+   Cadastre (territoires + effets + conditions de civilisations) ;
+10. **Admin** (admin only) — ⚙️ Paramètres · 🚀 Saison · 🗺 Maps ·
+    ✅ Validations · 🔧 Interventions · 📋 Demandes ;
+11. **Support** — Question · Signaler un Bug.
+
+Les anciens salons globaux Patrouille/Territoire/Diplomatie sont
+**supprimés**, remplacés par les versions par royaume (le
+Seigneurs global devient le leaderboard Scriptorium). Les images
+(maps, blasons) viennent des banques admin `map_images`,
+`blason_images` (D70/ENVIRONMENT), non bloquantes.
 
 ## D71 — Promise tirée au sort
 

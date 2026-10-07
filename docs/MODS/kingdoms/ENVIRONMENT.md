@@ -95,25 +95,43 @@ Toutes les valeurs par défaut ci-dessous sont celles de la Saison II.
 ## Channels and roles
 
 Mod-declared surfaces (provisioned by the core via ChannelService /
-RoleService, addressed by mod-scoped keys) :
+RoleService, addressed by mod-scoped keys). Structure complète :
+11 catégories (D70, réconciliée avec l'issue #138) :
 
-- `kingdoms:attack` — `⚔️-attaquer` (déclarations d'attaques)
-- `kingdoms:attack_delays` — `🕰️-délais-attaque` (suivi des délais)
-- `kingdoms:cadastre` — `🧾-cadastre` (territoires et leurs effets)
-- `kingdoms:diplomacy` — `📖-diplomatie` (alliances, civilisations)
-- `kingdoms:geopolitics` — `📣-géopolitique` (annonces, traités)
-- `kingdoms:market` — `🛒-marché` (boutique technos, réservée au Roi)
+- **Profils** — `profil-[royaume]` (un salon par royaume)
+- **Général** — `presentation`, `announce`, `rules`, `season`,
+  `update`, `tavern`, `suggestions`
+- **Conscription** — `apply` (📝 Postuler, ouvert) ·
+  `applications` (📋 Candidatures, admin only)
+- **Kingdoms** — `carte` (v2, non prioritaire) · `geopolitics`
+  (📣 — TOUTES les annonces d'événements) · `market` (🛒 Marché,
+  Roi uniquement)
+- **Époque** — `epoch` (salon au nom de l'âge courant, renommé à
+  chaque bascule)
+- **Royaume Gaïa** — `gaia_patrol` (🛡, contenu à définir) ·
+  `gaia_territory` (🗺) · `exploration` (🔍, samedi 14h) — Gaïa ne
+  fait que défendre, elle n'attaque jamais
+- **Royaume [Nom]** (par royaume joueur, créé à la validation du
+  nom, visible Roi + Seigneurs + admins) — `kingdom:council` (💬
+  Salle du Conseil) · `kingdom:patrol` (🛡️) · `kingdom:lords` (🎖️
+  roster privé) · `kingdom:overview` (🏰 Le-Royaume) ·
+  `kingdom:territories` (🗺️) · `kingdom:alliances` (📜) ·
+  `kingdom:church` (⛪) · `kingdom:carrier` (🕊️ Pigeon-Voyageur,
+  D69) — vues d'état silencieuses, sauf Salle du Conseil
+- **Champs de Bataille** — `attack_delays` (🕐) · `attack` (⚔️) ·
+  `talks` (💬 Pourparlers) — la gestion vit ici, le résultat en
+  📣-géopolitique
+- **Scriptorium** — `lords` (👑 leaderboard public par royaume +
+  ELO — distinct du 🎖️ privé) · `diplomacy` (📖) · `cadastre` (🗺)
+- **Admin** (admin only) — `settings` (⚙️) · season/maps/
+  validations/interventions (panels) · `requests` (📋 Demandes)
+- **Support** — `question` · `bug`
 
-Ces salons transversaux vivent dans la catégorie **Scriptorium**
-(D70). Les anciens salons globaux Patrouille/Seigneurs/Territoire/
-Diplomatie sont **supprimés** : chaque royaume possède sa propre
-catégorie `[NomDuRoyaume]` (créée à la validation du nom, visible
-des joueurs de la saison + admins) contenant les salons
-`kingdom:patrol` (🛡️), `kingdom:lords` (🎖️), `kingdom:overview`
-(🏰 Le-Royaume), `kingdom:territories` (🗺️), `kingdom:alliances`
-(📜), `kingdom:church` (⛪) et le salon éphémère de rappels
-`kingdom:carrier` (🕊️ Pigeon-Voyageur, D69). **Gaïa n'a pas de
-catégorie** (entité IA, elle n'attaque jamais).
+Les anciens salons globaux Patrouille/Territoire/Diplomatie sont
+supprimés, remplacés par les versions par royaume (le Seigneurs
+global devient le leaderboard Scriptorium). Le Marché migre de
+Scriptorium vers la catégorie Kingdoms (D70 — ajustement à
+prévoir dans le code, PR #215).
 
 Roles declared by the mod : `kingdoms_king`, `kingdoms_lord`,
 `kingdoms_admin` (Gaïa n'est pas un rôle — c'est une entité IA).
