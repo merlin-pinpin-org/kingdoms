@@ -260,34 +260,28 @@ dispose de **24h**
       de paroisse est un **achat direct, toujours réussi**. Tous les
     coûts et durées sont paramétrables.
 
-## Salons Discord (catégories par royaume — D70)
+## Salons Discord (architecture « salons-first » — D70)
 
-35. **Catégorie par royaume** : à la validation du nom du royaume par
-    l'admin, une catégorie Discord **[NomDuRoyaume]** est créée
-    automatiquement, visible uniquement des joueurs de la saison et
-    des admins. Elle contient 6 salons :
-    - **🛡️ Patrouille** — tranche(s) achetée(s), décompte, lien Marché ;
-    - **🎖️ Seigneurs** — roster épinglé (une ligne par seigneur,
-      rôles extensibles : Roi, Seigneur, futurs rôles) ;
-    - **🏰 Le-Royaume** — fiche épinglée : effectif, trésorerie 🔬,
-      compteur de territoires, 📜 Alliances, Paroisse (niveau X/3 +
-      stock mariages), Patrouille, IA, technos, garde royale ;
-    - **🗺️ Territoire** — cartes paginées (5/page) ; clic → détail
-      éphémère ; la Corruption **transfère le territoire** de salon ;
-    - **📜 Alliances** — uniquement les civs jouables ; « 🔍 En savoir
-      plus » éphémère (draft de départ, obtenues, sécurisées par
-      mariage, perdues au prochain cycle) ;
-    - **⛪ Église** — palier + coût de l'upgrade, stock mariages,
-      mariages actifs (badges 💍 stock / 💍✨ arrangé) ; boutons
-      💍 Se marier, ⛪ Améliorer, ✨ Chantier Sacrée, 🔍 règles.
-    Les salons du royaume sont des **vues d'état silencieuses** :
-    toutes les annonces d'événements vont en 📣-géopolitique.
-    **Gaïa n'a pas de catégorie** (entité IA, elle n'attaque jamais).
-    La catégorie globale **Scriptorium** regroupe les salons
-    transversaux : ⚔️-attaquer, 🕰️-délais-attaque, 🧾-cadastre,
-    📖-diplomatie, 📣-géopolitique. Les salons globaux
-    Patrouille/Seigneurs/Territoire/Diplomatie sont **supprimés**,
-    remplacés par les versions par royaume. Le **Pigeon-Voyageur**
-    (D69) est un salon éphémère de rappels adressé au Roi. Les
-    images (maps, blasons) viennent de banques d'images admin
-    (`map_images`, `blason_images`), fournies hors implémentation.
+35. Le serveur est organisé en **11 catégories** (D70) :
+    **Profils** (profil par royaume) · **Général** (présentation,
+    annonce, règles, saison, update, taverne, suggestions) ·
+    **Conscription** (Postuler, Candidatures) · **Kingdoms**
+    (Carte v2, Géopolitique — toutes les annonces d'événements,
+    Marché) · **Époque** (salon au nom de l'âge courant) ·
+    **Royaume Gaïa** (Patrouille à définir, Territoire,
+    Exploration — Gaïa ne fait que défendre) · **Royaume [Nom]**
+    (8 salons : Salle du Conseil, Patrouille, Seigneurs, Le-Royaume,
+    Territoire, Alliances, Église, Pigeon-Voyageur) · **Champs de
+    Bataille** (Délais-attaque, Attaquer, Pourparlers — la gestion
+    attaque/défense vit ici, le résultat en Géopolitique) ·
+    **Scriptorium** (Seigneurs leaderboard ELO public, Diplomatie,
+    Cadastre) · **Admin** (Paramètres, Saison, Maps, Validations,
+    Interventions, Demandes — admin only) · **Support** (Question,
+    Signaler un Bug).
+    La catégorie **Royaume [Nom]** est créée à la validation du
+    nom par l'admin, visible uniquement du Roi + des Seigneurs du
+    royaume + admins. Ses salons sont des **vues d'état
+    silencieuses** (toutes les annonces vont en 📣-géopolitique),
+    sauf la **Salle du Conseil**, seul salon de discussion privé
+    du royaume. Les images (maps, blasons) viennent des banques
+    admin `map_images`, `blason_images`, non bloquantes.
