@@ -76,6 +76,22 @@ Toutes les valeurs par défaut ci-dessous sont celles de la Saison II.
 | `marriage_base_stock` | int | 1 | Stock de mariages de base (D59) |
 | `corruption_max_per_season` | int | 2 | Corruptions max par saison et royaume (D58) |
 
+### Patrouille (D68)
+
+| Key | Type | Default | Description |
+| --- | ---- | ------- | ----------- |
+| `patrol_cost` | int | 2 | Coût d'un achat de tranche de Patrouille au Marché (Roi uniquement) |
+| `patrol_window_hours` | int | 2 | Durée de la tranche quotidienne protégée |
+| `patrol_max_per_season` | int | 2 | Tranches max par royaume et par saison (paramétrable admin avant lancement) |
+| `patrol_change_window` | plage | dim. 23h30 → lun. 10h | Fenêtre pendant laquelle le Roi peut modifier la tranche (sinon maintien automatique) |
+
+### Banques d'images (D70)
+
+| Key | Type | Default | Description |
+| --- | ---- | ------- | ----------- |
+| `map_images` | map | — | Banque d'images des maps (fournies par le game designer, non bloquantes) |
+| `blason_images` | map | — | Banque d'images des blasons de civilisation (fournies, non bloquantes) |
+
 ## Channels and roles
 
 Mod-declared surfaces (provisioned by the core via ChannelService /
@@ -86,6 +102,18 @@ RoleService, addressed by mod-scoped keys) :
 - `kingdoms:cadastre` — `🧾-cadastre` (territoires et leurs effets)
 - `kingdoms:diplomacy` — `📖-diplomatie` (alliances, civilisations)
 - `kingdoms:geopolitics` — `📣-géopolitique` (annonces, traités)
+- `kingdoms:market` — `🛒-marché` (boutique technos, réservée au Roi)
+
+Ces salons transversaux vivent dans la catégorie **Scriptorium**
+(D70). Les anciens salons globaux Patrouille/Seigneurs/Territoire/
+Diplomatie sont **supprimés** : chaque royaume possède sa propre
+catégorie `[NomDuRoyaume]` (créée à la validation du nom, visible
+des joueurs de la saison + admins) contenant les salons
+`kingdom:patrol` (🛡️), `kingdom:lords` (🎖️), `kingdom:overview`
+(🏰 Le-Royaume), `kingdom:territories` (🗺️), `kingdom:alliances`
+(📜), `kingdom:church` (⛪) et le salon éphémère de rappels
+`kingdom:carrier` (🕊️ Pigeon-Voyageur, D69). **Gaïa n'a pas de
+catégorie** (entité IA, elle n'attaque jamais).
 
 Roles declared by the mod : `kingdoms_king`, `kingdoms_lord`,
 `kingdoms_admin` (Gaïa n'est pas un rôle — c'est une entité IA).
