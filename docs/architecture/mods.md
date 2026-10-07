@@ -41,6 +41,10 @@ Mods are added by copying it as `config/mods/<mod>.yaml` — no core change.
 # kingdoms-services/config/mods/<mod>.yaml — schema (validated at startup)
 id: example            # simple slug, must match the mod package name
 enabled: false         # disabled mods are never loaded
+seasonal: false        # MANDATORY mod type: true = season-based (root
+                       # lifecycle panel + per-season admin salon),
+                       # false = permanent (config panel inside the
+                       # mod's guild category). Startup fails without it.
 settings: {}           # free-form, mod-specific
 channels:              # addressed at runtime as "mod:key"
   - key: announce
@@ -135,6 +139,20 @@ Mods are wired into Discord as cogs (see
 [ARCHITECTURE.md](../ARCHITECTURE.md#3-discord-implementation-kingdoms-servicessrckingdomsdiscord)),
 but cogs contain no game logic: they translate platform events into core
 calls.
+
+## 6. Mod types and admin surfaces
+
+The mandatory `seasonal` flag selects one of the two `Mod` interface
+implementations, and with it the admin surface the core provisions
+(lifecycle panel vs guild-level config panel) — detailed, with the
+pinned-view and channel-resolution contracts, in
+[architecture/channels.md](../architecture/channels.md).
+
+**The core/mods split rule:** mod code stays minimal — a spec
+declaration plus thin builders. Reusable UI components and workflow
+fillers (maps, pools, seasons, pinned channels, admin panels,
+categories, wirings) live in core. Duplicated machinery in a mod is a
+factorization bug.
 
 ## 5. Testing a mod
 
