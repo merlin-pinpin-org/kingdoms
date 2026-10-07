@@ -602,13 +602,57 @@ riage, effet retiré au
   **maintien automatique**.
 - Le Roi reçoit un rappel via le **Pigeon-Voyageur** (D69).
 
-## D69 — Pigeon-Voyageur
+## D69 — Pigeon-Voyageur (amende — catalogue des messages)
 
-- Salon **éphémère par royaume** : rappels adressés au Roi
-  (confirmation de tranche de Patrouille, échéances de fenêtre de
-  protection, verrous de mariage en cours).
-- Visible uniquement de son destinataire ; contenu éphémère par
+- Salon **éphémère par royaume** : rappels adressés au Roi.
+  Visible uniquement de son destinataire ; contenu éphémère par
   nature.
+- **Format acté** : narration médiévale en ouverture (une ligne,
+  adressée au Roi), données brutes en deuxième ligne (horaires,
+  décomptes, coûts), redirection de salon en troisième ligne
+  (`→`).
+- **Catalogue validé (14 messages)** — déclencheur, puis contenu :
+
+1. **Achat de patrouille** (Marché, Roi) : confirmation de la
+   tranche (ex. 02h00 → 04h00 chaque jour) + achats restants.
+   Sans rappel du coût (déjà payé).
+2. **Ouverture de la fenêtre de modification de patrouille** :
+   horaire actuel, échéance lundi 10h00, maintien automatique
+   sans action.
+3. **Mariage scellé** : seigneur + civilisation + promise tirée
+   au sort (D71), verrou restant, +1 🔬 versé au trésor.
+4. **Cathédrale prête / Chantier Sacrée disponible** :
+   invitation à désigner la map (palier Cathédrale).
+5. **Chantier Sacrée en cours** : map couverte + décompte +
+   annonce publique passée en 📣-géopolitique.
+6. **Chantier validé (réussite)** : terre inattaquable et
+   incorruptible jusqu'à la fin de saison.
+7. **Chantier perdu (défaite, D73)** : territoire conservé,
+   attaquant +1 🔬, protection Sacrée reportée par la
+   Cathédrale sur une autre terre.
+8. **Ouverture de la fenêtre de protection + Jour du Seigneur**
+   (fusion, D56) : trêve, points attaque/défense rechargés,
+   trésor, stock mariages, déclaration d'attaque planifiée
+   possible après lundi 10h00.
+9. **Levée de la trêve** : fin de la fenêtre lundi 10h00,
+   sprint final jusqu'à minuit.
+10. **Changement d'époque** : nom de l'époque, IA royaume,
+    bonus (+1 🔬, +1 mariage au stock), trésor.
+11. **Attaque déclarée contre le royaume** : royaume attaquant,
+    cible, délai, date du match ; redirection gestion vers
+    ⚔️ Champs de Bataille — le résultat part en
+    📣-géopolitique.
+12. **Garde Royale expirante** : territoire couvert, temps
+    restant, coût de prolongation (croissant).
+13. **Corruption ennemie subie** : territoire perdu,
+    compensation +1 🔬, transfert de salon du territoire.
+14. **Vassal parti** : place libre, admin alerté pour le
+    remplacement.
+
+- **Exclusions actées** : rappel de fermeture de fenêtre, rappel
+  de limite de patrouilles, résultat d'Exploration (passe en
+  rappel général en 📣-géopolitique), point d'attaque non
+  dépensé (système à repenser séparément).
 
 ## D70 — Architecture Discord « salons-first » (amende — réconciliée avec l'issue #138)
 
