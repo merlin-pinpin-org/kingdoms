@@ -213,7 +213,7 @@ défense de la semaine** du
 
 ## D25 — Remplacement d'un seigneur parti
 
-- Un remplaçant ne récupère **que le mariage lié à la personne** ;
+- Un remplaçant ne récupère **que le mariage lié à la personne** ; 
   les **territoires et les points sont communs** aux seigneurs du
   même royaume (donc rien à transférer).
 
@@ -419,8 +419,8 @@ le porteur ne propose rien dans son délai (D51), **l'opportunité
   nouveau PA2, et ainsi de suite jusqu'à un **2-0**.
 - **Choix des maps et civilisations** : chaque royaume choisit ses
   maps **parmi ses propres territoires** et ses civilisations
-  disponibles ; **aucune map ni civilisation ne peut être
-  réutilisée** au cours du ShowMatch.
+  disponibles ; **aucune map ni civilisation ne peut être réutilisée**
+  au cours du ShowMatch.
 - **Repli** : si un royaume n'a plus de civilisations ou de
   territoires disponibles, la suite se joue sur **Megarandom en
   civilisation aléatoire**.
@@ -726,7 +726,7 @@ Seigneurs global devient le leaderboard Scriptorium). Les images
 
 - Pour **tout mariage** (standard ou arrangé), la promise est
   **tirée au sort** parmi les promises éligibles (D65 : seules
-  `documented` et `tradition`, pas de `legendary`).
+  `documented` et `tradition`, pas `legendary`).
 - Le joueur choisit la **civilisation**, jamais la promise.
 
 ## D72 — Exclusion admin
@@ -758,9 +758,9 @@ Seigneurs global devient le leaderboard Scriptorium). Les images
 
 ## D74 — Mariages : périmètre standard vs arrangé (amende D45)
 
-- **Mariage standard (stock)** : cible uniquement une
-  civilisation **déjà possédée par le royaume** — il **renforce le
-  lien** d'obtention. Le bonus « se marier rapporte +1 🔬 »
+- **Mariage standard (stock)** : cible uniquement une civilisation
+  **déjà possédée par le royaume** — il **renforce le lien**
+  d'obtention. Le bonus « se marier rapporte +1 🔬 »
   (paliers Église/Cathédrale) s'applique **uniquement au mariage
   standard**.
 - **Mariage arrangé (Marché, 3 🔬)** : cible **n'importe quelle
@@ -771,3 +771,87 @@ Seigneurs global devient le leaderboard Scriptorium). Les images
   ciblée par aucun nouveau mariage**, ni standard, ni arrangé.
 - Dans le salon Église, les mariages actifs portent des **badges
   distincts** : 💍 (stock) et 💍✨ (arrangé).
+
+## D75 — Catégorie Admin : architecture de gouvernance (amende D70, item 10)
+
+- La catégorie **Admin** est redécoupée en **6 salons** (amende
+  l'item 10 de D70 ; la règle 35 de RULES.md et la section
+  « Channels and roles » d'ENVIRONMENT.md sont mises à jour en
+  conséquence) :
+  1. 🏰 **Royaume** — roster et entités (opérations neutres) ;
+  2. ⚖️ **Équilibrage** — royaumes ET marché (coûts 🔬, Paroisse
+     D64, Patrouille D68, Corruption D58, politiques D66) ;
+  3. ⏱️ **Gestion du temps** — Lancer / Pause / Décaler Jour J /
+     Clôturer + dashboard épinglé + fenêtre de protection D56
+     (absorbe le salon Gestion-saison de la phase 1.1 de l'épic
+     kingdoms-services#214 ; le marker `kingdoms:season:dashboard`
+     reste inchangé) ;
+  4. 🎯 **Compensation/Sanction** — trois objets : 📥 En attente
+     d'arbitrage · 📖 Journal (rollback intégré) · 🚫 Bannis ;
+  5. 🧩 **Paramètres & Mods** — fusion des anciens Paramètres,
+     Saison, Maps, Validations et Interventions, + infra
+     (provisionnement, resets, activation des mods, banques
+     d'images) ;
+  6. 📋 **Demandes** — point d'entrée unique du flux joueur
+     (candidatures, noms de royaume D21, signalements, appels).
+- **Socle commun** : un service unique **Journal + Snapshot +
+  Rollback** partagé par les six salons. Toute action admin exige
+  un **motif obligatoire (sans exception)**, une **confirmation
+  avant/après**, une **annonce en 📣-géopolitique**, une **entrée
+  de journal horodatée** et un **MP au joueur** (fallback : salon
+  du royaume).
+- **Rollback** : par action, fenêtre **2h dégressive**, **1 max
+  par action**, rétention **48h** puis **archivage compacté**
+  (jamais de suppression silencieuse).
+- **Royaume (opérations neutres, jamais punitives)** :
+  - ajout manuel d'un joueur (modal Joueur / Rôle / Royaume ou
+    attente / AoE II Insight requis / ID jeu 6–20 requis / smurfs
+    optionnel — mêmes effets qu'une candidature validée, l'admin
+    passe au-dessus des verrous) ;
+  - affectation d'un joueur de la file vers un royaume ;
+  - réassignation d'un rôle en attente (l'intervention D17 vit
+    ici) ;
+  - commutateur **recrutement par royaume** + commutateur
+    **global des candidatures** (tous deux indépendants du
+    lancement, affichés sur le dashboard) ;
+  - quotas (`kingdoms_count` / `lords_per_kingdom`, politique
+    **free**) : modifiables librement en cours de saison ;
+    surcapacité = **gel**, jamais d'éjection automatique ; un
+    seigneur n'appartient qu'à **un seul royaume** ; **1 Roi
+    obligatoire par royaume** — un royaume sans Roi (créé
+    manuellement ou après départ) reste visible en état « sans
+    souverain » jusqu'à affectation ;
+  - échange de trône : l'entrant hérite de tout (att/déf,
+    mariages), le sortant perd tout → file, MP avec motif ;
+  - éjecter → liste d'attente (le rôle est conservé) ;
+  - dissoudre : territoires → Gaïa, joueurs → file (aucun
+    attribut conservé), salon du royaume supprimé ;
+  - création manuelle d'un royaume en cours de saison (distinct
+    de `kingdoms_preset`, qui reste le mode pré-lancement) ;
+  - renommage admin d'un royaume (avec motif, distinct du flux
+    joueur D21) ;
+  - vue Gaïa / orphelins (territoires sans propriétaire).
+- **Droit de fondation** (config saison, D66) : coches Roi ☐ /
+  Admin ☐, aucune coche cochée = sauvegarde refusée ; ne vaut que
+  pour la fenêtre initiale — **saison lancée → fondation
+  verrouillée**, seule reste ouverte la candidature Seigneur en
+  attente ; le rôle Roi ≠ droit de fonder (un joueur peut être
+  Roi en file attendant un royaume admin).
+- **Compensation/Sanction** : les sanctions passent
+  **uniquement** par un dossier guidé, avec snapshot AVANT
+  l'action : trancher un litige (le résultat forcé ne transfère
+  **pas** automatiquement le territoire — le transfert reste une
+  action admin séparée, avec motif et snapshot) → compensations
+  standard cochables (crédit libre joueur OU royaume) → sanctions
+  royaume (confisquer, dissoudre, bloquer la Corruption, joueurs
+  → file ou bannis).
+- **Bannir** : sortie + marquage **persistant entre saisons**,
+  verrou du flux Postuler avec motif, vue « Bannis » séparée
+  (hors file), révocable manuellement. L'exclusion sans
+  bannissement suit D72 (parcours du départ volontaire +
+  compensation Seigneur de Guerre D67). La dissolution-sanction
+  reste un cas séparé dans le dossier.
+- Mise en œuvre : kingdoms-services, épic #214 — une étape = une
+  PR = un déploiement = validation terrain ; le socle commun
+  (Journal + Snapshot + Rollback) est construit avec la première
+  PR du salon Royaume.
