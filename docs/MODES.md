@@ -53,7 +53,9 @@ the org:
 ## Pro mode (dev/ops) — PR per feature
 
 - **Feature branch per subject** (`vibe/<slug>`): one branch per
-  coherent scope, collaborative PRs, normal size, CODEOWNERS review.
+  coherent scope, collaborative PRs to `main`, normal size, CODEOWNERS
+  review. Platform work is collaborative: several PRs may be open in
+  parallel — the sequential-chain constraint applies nowhere.
 - **Personal environment** still exists for work in progress (dev in
   progress, risky experiments) — same mapping `vibe/<alias>/main` ↔
   `env-<alias>`.
@@ -90,12 +92,20 @@ remains an isolated sandbox (own compose project, own data volumes).
 
 ## Agent rules (binding)
 
-1. The session asks the human which mode applies when in doubt.
-2. Sandbox mode never touches `main`, never opens PRs to `main`
+1. **The session asks what the session is for** before starting work —
+   personal mod (sandbox) or platform work (pro) — and guides the
+   human accordingly (mod creation: help and point to the mod
+   bootstrap path, never a blank slate).
+2. **`main` is right by default.** When the session's opinion conflicts
+   with what is on `main` (architecture, conventions, patterns), it
+   follows `main` and steers the human toward best practices;
+   disagreement is raised to the human (and the maintainer for
+   core/platform), never worked around.
+3. Sandbox mode never touches `main`, never opens PRs to `main`
    uninvited, never deploys outside the personal env.
-3. Pro mode never force-pushes, never bypasses a ruleset.
-4. Cowboy mode requires a fresh, explicit human validation **per
+4. Pro mode never force-pushes, never bypasses a ruleset.
+5. Cowboy mode requires a fresh, explicit human validation **per
    operation**; the session reports each cowboy operation in its
    summary so the audit trail exists.
-5. The mode applies to the session's GitHub actions only — the human
+6. The mode applies to the session's GitHub actions only — the human
    can always do more in the web UI than the session may automate.

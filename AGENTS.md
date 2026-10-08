@@ -70,6 +70,11 @@ the keyword comment on the PR.
 
 - [docs/INDEX.md](docs/INDEX.md) — the router: question → page. Find the
   answer without reading the whole docs tree.
+- [docs/MODES.md](docs/MODES.md) — the two working modes (personal mod
+  on the integration branch vs platform work on feature branches) and
+  the binding agent rules, including: ask what the session is for
+  before starting, guide mod creation, and treat `main` as right by
+  default.
 - [docs/CONVENTIONS.md](docs/CONVENTIONS.md) — conventions shared by the
   three repositories (language, humans-never-code, secrets, PR lifecycle,
   issues, checks).

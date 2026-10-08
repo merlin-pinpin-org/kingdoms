@@ -17,19 +17,34 @@ This page is your boot checklist; the repo is the source of truth.
 
 ## Working rules (from the decisions taken with the developer)
 
-- **Personal mod: stack commits on the integration branch, not PRs.**
-  For a personal mod (sandbox mode), push commits directly to the
-  user's integration branch `vibe/<alias>/main`. Exactly one draft
-  **mod PR** (`vibe/<alias>/main` → `main`) stays open for the whole
-  life of the mod — opened on the first push, re-running the required
-  checks on every push (that is its purpose: continuous validation of
-  the stack). Never stack additional PRs on top of it. It goes ready
-  and merges only when the owner judges the mod complete; until then
-  it stays in draft, whatever the state of its checks.
-- Outside personal mods (pro mode): **one open PR per session per
-  repo** — chain PRs sequentially; never stack. Scope each PR like a
-  review lot: one coherent unit a human can review in one sitting.
-  Big issues are split into sub-PRs (e.g. ladder core
+- **First question of every session: what is this session for?** Ask
+  the human before doing anything. Two kinds of work, two workflows:
+  a **personal mod** (sandbox mode — the game designer's own game) or
+  **platform work** (pro mode — core, platform, infra, shared
+  features). When the human wants to create a mod, help and guide
+  them: point to [mod-developer.md](mod-developer.md) and the mod
+  bootstrap path (rules in `docs/MODS/<mod>/`, ownership in the
+  roster) rather than starting from a blank slate.
+- **`main` is right by default.** When a session's opinion conflicts
+  with `main` (architecture, conventions, existing patterns), assume
+  `main` is right; follow it. Disagreements are raised to the human
+  (and, for core/platform, to the maintainer) — never worked around.
+- **Personal mod (sandbox mode): stack commits on the integration
+  branch, not PRs.** Push commits directly to the user's integration
+  branch `vibe/<alias>/main`. Exactly one draft **mod PR**
+  (`vibe/<alias>/main` → `main`) stays open for the whole life of the
+  mod — opened on the first push, re-running the required checks on
+  every push (that is its purpose: continuous validation of the
+  stack). Never stack additional PRs on top of it. It goes ready and
+  merges only when the owner judges the mod complete; until then it
+  stays in draft, whatever the state of its checks.
+- **Platform work (pro mode): collaborative feature branches → PRs to
+  `main`.** One branch per subject (`vibe/<slug>`), PRs reviewed by
+  CODEOWNERS, normal reviewable size — several PRs may be open in
+  parallel (they are collaborative; sequential chaining is not
+  required). Scope each PR like a review lot: one coherent unit a
+  human can review in one sitting. Big issues are split into sub-PRs
+  (e.g. ladder core
   [#134](https://github.com/merlin-pinpin-org/kingdoms-services/issues/134):
   data model → matchmaking → state machine/rating → invites).
 - **Tests land with every change** — the blanket mandate
