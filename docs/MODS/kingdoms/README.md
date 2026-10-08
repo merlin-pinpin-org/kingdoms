@@ -158,3 +158,14 @@ manquantes (ex. The Viking Sagas), upsert du contenu localisé (unités
 uniques, tech tree, textes d'aide — tout ce qui évolue à chaque maj).
 Attribution : voir `data/core/aoe2techtree/ATTRIBUTION.md` (MIT +
 notice Microsoft Game Content Usage Rules, affichée en tête de post).
+
+## Mappings de providers (ids propres)
+
+Chaque provider a ses ids propres (civ ids, map names) qui peuvent être
+renumérotés à chaque maj du jeu ; les ids stables du catalogue ne
+bougent jamais. Les tables de remappage (catalogue -> id provider)
+vivent dans la collection `provider_mappings` (cache Redis 10 min) et
+s'éditent depuis le panneau DM bot-admin (select « Editer un mapping
+de provider » puis modal `catalog=provider`, une entrée par ligne).
+Le refresh de contenu applique ces mappings ; la source de la data
+est toujours référencée (ligne `Source :` en tête de post + panneau).
