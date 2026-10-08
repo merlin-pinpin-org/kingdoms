@@ -307,6 +307,27 @@ scope of what they may do:
 powers — the PR process is the default for everyone; cowboy mode is
 requested and justified explicitly, per action.
 
+### Test guilds and the TEST_GUILD_ID environment variable
+
+Every **test environment** (personal envs and the shared validation env,
+never prod) is bound to exactly one **Discord test guild**. The binding
+is the GitHub **environment variable** `TEST_GUILD_ID` on the env
+(non-secret — it is a Discord snowflake, not a token):
+
+- **When creating a test env, always add its `TEST_GUILD_ID`** (GitHub
+  environment variable, alongside the existing secrets). The env's
+  `docker-compose.yml` reads it into `CICD_GUILD_ID`, so the bot syncs
+  its commands to that guild and scopes its ladders to it:
+  guild-scoped ladders are `ladder:aoe2:<test_guild_id>`.
+- **The matches seed is guild-parameterised and fail-closed**
+  (`/seed <env> matches [file] <guild_id>`): the workflow aborts with
+  an explicit error if the guild is missing, if the env declares no
+  `TEST_GUILD_ID`, or if the requested guild is not the env's own.
+  A guildless or cross-env seed must never fall through — this is what
+  guards against seeding the wrong environment (e.g. prod).
+- The users seed stays guild-less (identities are core data, not
+  guild-scoped): `/seed <env> users` is unchanged.
+
 ### Releases and milestones: no long-lived branches
 
 **No release or milestone branches.** Three mechanisms cover the
