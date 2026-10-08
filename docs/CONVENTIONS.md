@@ -234,18 +234,28 @@ all that user's PRs and the only place their work consolidates.
 
 - **One branch per user, not per mod.** All of a user's work lands on
   their integration branch, whatever mod it belongs to.
+- **Personal mods stack there directly.** While building a personal
+  mod, the agent pushes commits straight to the integration branch —
+  no stacked PRs on top of it. A single **mod PR** from
+  `vibe/<alias>/main` to `main` is opened as a draft at the start of
+  the work, re-runs the required checks on every push (its purpose is
+  continuous validation), and is merged only when the mod is
+  complete.
 - **The user decides maturity.** The integration branch is never
   auto-merged to `main`; its owner decides when the accumulated work is
-  ready and opens a PR to `main` themselves.
+  ready and marks the mod PR ready themselves.
 - **Sync, never auto-resolve.** The sync workflow merges `main` into
 each `vibe/*/main` branch automatically; conflicts are resolved by
   the branch owner, never automatically.
 
 ### Standard path (every user)
 
-1. Consolidate on your integration branch `vibe/<alias>/main`.
+1. Consolidate on your integration branch `vibe/<alias>/main`
+   (personal mod: one draft mod PR to `main` stays open, checks run
+   on every push, merge only when the mod is complete).
 2. Test it on your personal environment.
-3. Open a PR to `main` — validated by **another user**.
+3. Mark the PR ready for review when the work is complete — validated
+   by **another user**.
 4. Deploy to test/validation.
 5. Cut an RC, validate it.
 6. Release, then deploy to prod (ops/owner check of prod).

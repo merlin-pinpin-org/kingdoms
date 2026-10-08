@@ -87,15 +87,20 @@ Step by step:
    relevant repo, using that repo's issue templates — blank issues are
    disabled and a "Validate issue" workflow flags non-compliant issues
    `invalid`.
-3. The agent implements the issue on a `vibe/<short-slug>` branch, opens a
-   draft PR against the user's integration branch `vibe/<alias>/main`
-   (CONVENTIONS.md — *Integration branches*), and consolidates there. CI runs on the PR; the agent monitors and fixes failures. When
-   all checks are green, the branch is up to date and the implementation is
-   complete, the agent deploys the PR to the test environment (when there is
-   something to deploy), **validates the deployment itself** (healthchecks
-   green, stack healthy, no crash loop), and only then marks the PR *ready
-   for review* and asks the human to test and merge; while work or
-   validation remains, the PR stays in draft.
+3. The agent implements the issue. For a **personal mod** (sandbox
+   mode), the commits stack directly on the user's integration branch
+   `vibe/<alias>/main` (CONVENTIONS.md — *Integration branches*) — no
+   additional PRs are opened on top of the mod PR. The **mod PR**
+   (`vibe/<alias>/main` → `main`) is opened as a draft when the mod
+   work starts and stays open for the mod's whole life: every push
+   re-runs the required checks on it, which is its purpose — continuous
+   validation of the stack. It goes ready only when the owner judges
+   the mod complete; the standard path then applies (review by another
+   user, test deploy, release). The agent monitors and fixes check
+   failures on the mod PR, deploys the integration branch to the
+   personal environment, **validates the deployment itself**
+   (healthchecks green, stack healthy, no crash loop), and reports;
+   while the mod is in progress, the PR stays in draft.
 4. **The session never merges; GitHub automerges.** The session flips
    the PR to *ready for review* **only when it has nothing left to do**:
    checks green and completed on the head commit, deployed (the
@@ -173,11 +178,13 @@ flow frictionless:
    test at a time: if a different PR is pinned on `deploy/test` under
    validation, don't deploy on top of it. After a merge, re-align test
    to `main` only if the merged PR is the one deployed there.
-5. **Normal-size PRs.** One PR = one coherent, reviewable scope; the PR
-   body lists the covered issues. Never stack or grow session-long
-   mega-PRs.
-   One focused PR per coherent scope beats one PR per sub-issue; the PR
-   body lists the covered issues.
+5. **Normal-size PRs — outside personal mods.** In pro mode one
+   PR = one coherent, reviewable scope; the PR body lists the covered
+   issues. Never stack or grow session-long mega-PRs. The exception is
+   the sandbox-mode **mod PR** (CONVENTIONS.md — *Integration
+   branches*): one long-lived draft PR per personal mod is the intended
+   shape — it exists to run the checks on every push and merges only
+   when the mod is complete.
 
 ## Generated artifacts sync
 
@@ -220,17 +227,18 @@ An agent session (which starts with no memory of previous conversations):
 
 1. Read `AGENTS.md` in the target repo, then the assigned issue in full —
    issues are self-contained, with skills tables and dependencies.
-2. Create branch `vibe/<short-slug>` and open the PR against the user's
-   integration branch `vibe/<alias>/main` (see CONVENTIONS.md —
-   *Integration branches*).
+2. For a personal mod (sandbox mode): commit and push directly on
+   the user's integration branch `vibe/<alias>/main`, and keep its
+   draft **mod PR** to `main` up to date — open it on the first push if
+   it does not exist yet, never stack extra PRs on top of it
+   (CONVENTIONS.md — *Integration branches*). Otherwise (pro mode):
+   create branch `vibe/<short-slug>`.
 3. Implement, run `make lint` + `make test`.
-4. Open a draft PR, monitor CI, fix failures.
-5. Mark the PR ready for review when merge-ready (see the PR draft-status
-   rule below); otherwise keep it in draft. The integration branch owner
-   decides when the accumulated work is mature to open the PR to `main`
-   and follow the standard path (integration branch → personal env test →
-   PR to `main` validated by another user → test/validation deploy → RC →
-   validate → release → prod with ops check).
+4. Push; the mod PR's checks re-run — monitor CI, fix failures.
+5. Keep the mod PR in draft while the mod is in progress. The owner
+   decides when the mod is complete; then the mod PR goes ready and
+   follows the standard path (review by another user → test/validation
+   deploy → RC → validate → release → prod with ops check).
 6. Report the PR URL; the required reviewers approve (or ask for changes) and the PR automerges
    — the agent never merges). On request, tag and release — only from
    actors authorized by the GitHub policies.
