@@ -169,3 +169,21 @@ s'éditent depuis le panneau DM bot-admin (select « Editer un mapping
 de provider » puis modal `catalog=provider`, une entrée par ligne).
 Le refresh de contenu applique ces mappings ; la source de la data
 est toujours référencée (ligne `Source :` en tête de post + panneau).
+
+## Processus provider ext-aoe2techtree (API gRPC)
+
+Le contenu de jeu est servi par un processus provider dédié
+(`KINGDOMS_PROCESS: ext-aoe2techtree`, port 50063 sur le réseau docker
+uniquement) via le contrat gRPC `kingdoms.v1.Content` : contenu
+localisé de factions/maps, index de factions, capabilities. Le core le
+consomme via `EXT_AOE2TECHTREE_URI` ; sans cette variable, le refresh
+retombe sur la lecture du dataset vendored en-process (comportement
+actuel inchangé).
+
+La **source amont est abstraite** (`UpstreamContentSource`) : le dataset
+vendored par défaut (`AOE2TECHTREE_SOURCE=dataset`), ou une autre API
+HTTP (`AOE2TECHTREE_SOURCE=api` + `AOE2TECHTREE_API_URL`) sans toucher
+au contrat ni au core — remplacer la source par une autre API est un
+changement d'environnement, pas de code. Les mappings de provider
+(catalogue -> id provider) s'appliquent avant l'appel à la source, quelle
+qu'elle soit.
