@@ -128,3 +128,33 @@ python -m kingdoms.core.games.aoe2.faction_content_cli [dataset_dir]
 
 Run once per environment (deploy-time seeding); the forums' posts
 then read Redis first, Mongo second, per the guild's locale.
+
+## Activation par guilde (games/mods)
+
+Rien n'est actif par défaut. Chaque guilde enregistrée demande l'accès
+aux games/mods depuis son panel `/admin` (bouton « Demander l'accès ») ;
+les bot admins reçoivent la demande par DM et l'approuvent ou la
+refusent depuis leur panneau DM (`/admin` en DM, réservé BOT_ADMINS —
+aucune action n'est visible ou cliquable par quiconque d'autre). Les
+accords vivent dans la collection `guild_access` ; le provisioning des
+mods (channels/rôles) et la synchro des forums ne s'exécutent que pour
+les guildes ayant reçu l'accès.
+
+## Scope des entrées du catalogue
+
+Les maps et factions portent un `owner_guild_id` : `None` = global
+(config de jeu, bot admins — le bouton « + Map globale » du panel est
+réservé aux bot admins), ou une guilde = enrichissement local créé par
+les admins de la guilde. Les listes sont scoping (les entrées de la
+guilde + les globales) ; les posts des forums suivent ce scope dans
+toutes les guildes.
+
+## Refresh du contenu (maj du jeu)
+
+Le bouton « Rafraîchir le contenu civs/maps » (panneau DM bot admin)
+ou `python -m kingdoms.core.games.aoe2.content_refresh_cli`
+réconcilie le catalogue avec le dataset vendored : création des civs
+manquantes (ex. The Viking Sagas), upsert du contenu localisé (unités
+uniques, tech tree, textes d'aide — tout ce qui évolue à chaque maj).
+Attribution : voir `data/core/aoe2techtree/ATTRIBUTION.md` (MIT +
+notice Microsoft Game Content Usage Rules, affichée en tête de post).
