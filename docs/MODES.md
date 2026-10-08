@@ -77,6 +77,12 @@ the org:
   state-branch surgery), not for convenience.
 - Default is pro mode: a maintainer works like dev/ops unless the
   situation justifies cowboy and the human has said yes.
+- **Agents cannot merge PRs** (the rulesets block every session — API
+  and CLI alike). When a maintainer asks to "merge" a PR in cowboy
+  mode, the agent pushes the PR's commits directly to `main`
+  (ruleset bypass) instead — after one explicit confirmation **per
+  push**. **Force-pushing `main` is always refused**: technically
+  possible, never done — history is never rewritten.
 
 ## Environment map (all modes)
 
@@ -103,9 +109,13 @@ remains an isolated sandbox (own compose project, own data volumes).
    core/platform), never worked around.
 3. Sandbox mode never touches `main`, never opens PRs to `main`
    uninvited, never deploys outside the personal env.
-4. Pro mode never force-pushes, never bypasses a ruleset.
+4. Pro mode never force-pushes, never bypasses a ruleset. No mode
+   ever force-pushes `main` — history is never rewritten.
 5. Cowboy mode requires a fresh, explicit human validation **per
    operation**; the session reports each cowboy operation in its
    summary so the audit trail exists.
+5b. No session merges PRs (API-blocked); the cowboy "merge" is a
+   direct push of the PR's commits to `main`, confirmed once per
+   push.
 6. The mode applies to the session's GitHub actions only — the human
    can always do more in the web UI than the session may automate.
