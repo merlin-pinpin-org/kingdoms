@@ -255,7 +255,7 @@ dispose de **24h**
       protection Sacrée validée s'applique à ce nouveau territoire ;
       la Paroisse **reste au palier Cathédrale** ; le royaume perd
       uniquement **le choix de l'emplacement** (D73). Un seigneur
-      ne défend **le même chantier qu'une fois** ; **une seule
+      ne peut défendre **le même chantier qu'une fois** ; **une seule
       relance** possible après échec en repayant 3 techs. L'upgrade
       de paroisse est un **achat direct, toujours réussi**. Tous les
     coûts et durées sont paramétrables.
