@@ -213,7 +213,7 @@ défense de la semaine** du
 
 ## D25 — Remplacement d'un seigneur parti
 
-- Un remplaçant ne récupère **que le mariage lié à la personne** ; 
+- Un remplaçant ne récupère **que le mariage lié à la personne** ;
   les **territoires et les points sont communs** aux seigneurs du
   même royaume (donc rien à transférer).
 
@@ -419,8 +419,8 @@ le porteur ne propose rien dans son délai (D51), **l'opportunité
   nouveau PA2, et ainsi de suite jusqu'à un **2-0**.
 - **Choix des maps et civilisations** : chaque royaume choisit ses
   maps **parmi ses propres territoires** et ses civilisations
-  disponibles ; **aucune map ni civilisation ne peut être réutilisée**
-  au cours du ShowMatch.
+  disponibles ; **aucune map ni civilisation ne peut être
+  réutilisée** au cours du ShowMatch.
 - **Repli** : si un royaume n'a plus de civilisations ou de
   territoires disponibles, la suite se joue sur **Megarandom en
   civilisation aléatoire**.
@@ -726,7 +726,7 @@ Seigneurs global devient le leaderboard Scriptorium). Les images
 
 - Pour **tout mariage** (standard ou arrangé), la promise est
   **tirée au sort** parmi les promises éligibles (D65 : seules
-  `documented` et `tradition`, pas `legendary`).
+  `documented` et `tradition`, pas de `legendary`).
 - Le joueur choisit la **civilisation**, jamais la promise.
 
 ## D72 — Exclusion admin
@@ -758,9 +758,9 @@ Seigneurs global devient le leaderboard Scriptorium). Les images
 
 ## D74 — Mariages : périmètre standard vs arrangé (amende D45)
 
-- **Mariage standard (stock)** : cible uniquement une civilisation
-  **déjà possédée par le royaume** — il **renforce le lien**
-  d'obtention. Le bonus « se marier rapporte +1 🔬 »
+- **Mariage standard (stock)** : cible uniquement une
+  civilisation **déjà possédée par le royaume** — il **renforce le
+  lien** d'obtention. Le bonus « se marier rapporte +1 🔬 »
   (paliers Église/Cathédrale) s'applique **uniquement au mariage
   standard**.
 - **Mariage arrangé (Marché, 3 🔬)** : cible **n'importe quelle
