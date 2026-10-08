@@ -17,13 +17,22 @@ This page is your boot checklist; the repo is the source of truth.
 
 ## Working rules (from the decisions taken with the developer)
 
-- **One open PR per session per repo** — chain PRs sequentially; never
-  stack.
-- Scope each PR like a review lot: one coherent unit a human can review
-  in one sitting. Big issues are split into sub-PRs (e.g. ladder core
+- **Personal mod: stack commits on the integration branch, not PRs.**
+  For a personal mod (sandbox mode), push commits directly to the
+  user's integration branch `vibe/<alias>/main`. Exactly one draft
+  **mod PR** (`vibe/<alias>/main` → `main`) stays open for the whole
+  life of the mod — opened on the first push, re-running the required
+  checks on every push (that is its purpose: continuous validation of
+  the stack). Never stack additional PRs on top of it. It goes ready
+  and merges only when the owner judges the mod complete; until then
+  it stays in draft, whatever the state of its checks.
+- Outside personal mods (pro mode): **one open PR per session per
+  repo** — chain PRs sequentially; never stack. Scope each PR like a
+  review lot: one coherent unit a human can review in one sitting.
+  Big issues are split into sub-PRs (e.g. ladder core
   [#134](https://github.com/merlin-pinpin-org/kingdoms-services/issues/134):
   data model → matchmaking → state machine/rating → invites).
-- **Tests land with every PR** — the blanket mandate
+- **Tests land with every change** — the blanket mandate
   ([#139](https://github.com/merlin-pinpin-org/kingdoms-services/issues/139))
   covers every v0.4.0 issue: acceptance properties in CI, coverage not
   lowered on touched paths.
@@ -48,8 +57,10 @@ This page is your boot checklist; the repo is the source of truth.
 ## Session flow
 
 ```
-read docs → issue → branch vibe/<issue-slug> → implement + tests
-→ lint/typecheck/test/docs → push → draft PR → report + CI watch
+read docs → issue → integration branch vibe/<alias>/main (personal
+mod: stack commits; mod PR opened on first push) or vibe/<slug> (pro
+mode) → implement + tests → lint/typecheck/test/docs → push (mod PR
+checks re-run) → report + CI watch
 ```
 
 Report the PR URL, what was verified, and what remains. If the

@@ -24,22 +24,31 @@ Nobody downgrades their gate without an explicit human decision.
 
 ## Sandbox mode (vibe coder) — the default for vibe roles
 
-One branch, one environment, zero friction with the rest of the org:
+One branch, one PR, one environment, zero friction with the rest of
+the org:
 
 - **Branch**: everything lands on `vibe/<alias>/main`. No per-feature
-  branches, no PRs between own branches — commits stack until the
-  work is mature. The sync workflow keeps `main` merged in; the owner
-  resolves conflicts.
+  branches, no PRs between own branches — commits stack directly on
+  the integration branch for the whole life of a personal mod. The
+  sync workflow keeps `main` merged in; the owner resolves conflicts.
+- **Mod PR**: while a personal mod is being built, exactly **one PR
+  from `vibe/<alias>/main` to `main`** stays open — the *mod PR*. It
+  is opened as a draft as soon as work starts, it runs the required
+  checks on every push (that is its purpose: continuous validation of
+  the stack), and it is never merged until the mod is complete. Do
+  not stack additional PRs on top of it — that adds workflow friction
+  for no benefit; push to the integration branch instead.
 - **Environment**: the personal environment (bot + Discord server +
   runner labeled `env-<alias>`) deploys from the user branch; anything
   can be tested there, it is a sandbox.
-- **Promotion**: when the owner judges the work mature, they open **one
-  PR from `vibe/<alias>/main` to `main`** — validated by another user
-  (the standard path, [CONVENTIONS.md](CONVENTIONS.md) — *Integration
-  branches*). Until then, nothing leaves the sandbox.
+- **Promotion**: when the owner judges the mod complete, they mark the
+  mod PR ready — validated by another user (the standard path,
+  [CONVENTIONS.md](CONVENTIONS.md) — *Integration branches*). Until
+  then, nothing leaves the sandbox.
 - **Agents do the work**: the human describes, the agent stacks commits
-  on the user branch, deploys on the personal env and reports. The
-  human validates in **their** Discord.
+  on the user branch, pushes so the mod PR's checks re-run, deploys on
+  the personal env and reports. The human validates in **their**
+  Discord.
 
 ## Pro mode (dev/ops) — PR per feature
 
