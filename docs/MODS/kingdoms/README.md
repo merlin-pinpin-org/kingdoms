@@ -50,6 +50,40 @@ hard-coded AoE2 options are intentional. Everything shared is owned by the core:
   and never creates or duplicates them.
 - **Players** — Discord users come from the core identity/user service;
   the mod never manages accounts itself.
+- **Territories** — distinct from maps: a territory is backed by one
+  AoE2 map but carries the mod's own function (ownership, protection).
+  Its visible id is `territory:<season id>:<map key>`; the
+  `kingdoms-territories` forum (in the `games` category, built by the
+  core entity-forum engine) carries one post per territory, linked to
+  its map's `aoe2-maps` post, ids shown in a footer.
+- **Map pool rotations** — the season's pool reference lives on the
+  core season document (`map_pool_id`); the core's `map_pool_history`
+  activations are the rotations, referenced from the season.
+
+## Seeding (deploy time)
+
+The mod's season data seeds with its own CLI, by visible ids (the
+panels' footers):
+
+```
+python -m kingdoms.mods.kingdoms.kingdoms_seed_cli <seed_yaml> <guild_id>
+```
+
+The YAML file (see the ladder/core seeds for the deploy-time pattern):
+
+```yaml
+season_id: kingdoms-aoe2-<guild id>-<index>   # required — the footer id
+kingdoms: [Aquitaine]                        # imposed kingdom names
+territories:                                 # optional initial draw
+  - { map_key: arabia, owner: gaia }
+  - { map_key: kawasan, owner: Aquitaine }
+lords:                                       # enrolled players
+  - { player_id: "<discord id>", kingdom: Aquitaine, role: lord, display_name: Rollon }
+```
+
+Idempotent (re-run skips existing ids). The maps and pools themselves
+come from the core AoE2 seed — the mod seed only references map keys.
+The territory ids are `territory:<season id>:<map key>`.
 
 ## Usage
 
