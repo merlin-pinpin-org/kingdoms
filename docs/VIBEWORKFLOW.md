@@ -178,13 +178,14 @@ flow frictionless:
    test at a time: if a different PR is pinned on `deploy/test` under
    validation, don't deploy on top of it. After a merge, re-align test
    to `main` only if the merged PR is the one deployed there.
-5. **Normal-size PRs — outside personal mods.** In pro mode one
-   PR = one coherent, reviewable scope; the PR body lists the covered
-   issues. Never stack or grow session-long mega-PRs. The exception is
-   the sandbox-mode **mod PR** (CONVENTIONS.md — *Integration
-   branches*): one long-lived draft PR per personal mod is the intended
-   shape — it exists to run the checks on every push and merges only
-   when the mod is complete.
+5. **Normal-size PRs on platform work.** Platform work (pro mode) uses
+   collaborative feature branches with normal-size, reviewable PRs;
+   one PR = one coherent scope, the PR body lists the covered issues,
+   and several PRs may be open in parallel. The exception is the
+   sandbox-mode **mod PR** (CONVENTIONS.md — *Integration branches*):
+   one long-lived draft PR per personal mod is the intended shape — it
+   exists to run the checks on every push and merges only when the
+   mod is complete.
 
 ## Generated artifacts sync
 
@@ -227,12 +228,15 @@ An agent session (which starts with no memory of previous conversations):
 
 1. Read `AGENTS.md` in the target repo, then the assigned issue in full —
    issues are self-contained, with skills tables and dependencies.
-2. For a personal mod (sandbox mode): commit and push directly on
-   the user's integration branch `vibe/<alias>/main`, and keep its
-   draft **mod PR** to `main` up to date — open it on the first push if
-   it does not exist yet, never stack extra PRs on top of it
-   (CONVENTIONS.md — *Integration branches*). Otherwise (pro mode):
-   create branch `vibe/<short-slug>`.
+2. Ask the human what the session is for — a personal mod or platform
+   work — and pick the mode accordingly
+   ([MODES.md](MODES.md)). For a personal mod (sandbox mode): commit
+   and push directly on the user's integration branch
+   `vibe/<alias>/main`, and keep its draft **mod PR** to `main` up to
+   date — open it on the first push if it does not exist yet, never
+   stack extra PRs on top of it (CONVENTIONS.md — *Integration
+   branches*). For platform work (pro mode): collaborative feature
+   branch `vibe/<short-slug>` → PR to `main`.
 3. Implement, run `make lint` + `make test`.
 4. Push; the mod PR's checks re-run — monitor CI, fix failures.
 5. Keep the mod PR in draft while the mod is in progress. The owner

@@ -270,8 +270,10 @@ scope of what they may do:
 
 - **Vibe coder (novice)** — sandboxed by design. They live entirely
   on their user branch + personal environment: a sandbox where they
-  test freely and do everything through agents. Promoting to `main`
-  follows the standard path above (PR validated by another user).
+  test freely and do everything through agents (personal mods stack
+  commits on their integration branch — see *Integration branches*
+  above). Promoting to `main` follows the standard path above (PR
+  validated by another user).
 - **Dev / ops** — same personal environment for work in progress
   (mapped to their user branch), plus **feature branches per subject**
   with collaborative PRs. They test on their personal env, then on
