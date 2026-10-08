@@ -248,6 +248,27 @@ all that user's PRs and the only place their work consolidates.
 each `vibe/*/main` branch automatically; conflicts are resolved by
   the branch owner, never automatically.
 
+- **Never delete a user branch** (`vibe/<alias>/main`), not even
+  after a cowboy direct-push of its content to `main`: the
+  integration branch is the user's long-lived home (their mod lives
+  there even when `main` deliberately excludes it). Only feature
+  branches and branches whose code is fully on `main` or their
+  integration branch may be deleted.
+
+### Cowboy mode (maintainer-only, per-push confirmation)
+
+**PR merges are API-blocked — sessions stop trying to merge PRs.**
+No session can merge a PR through `gh` or the API (the org rulesets
+block it); ready PRs automerge, or a human clicks Merge. The cowboy
+equivalent of "merge a PR" is: push the PR's commits directly to
+`main`, bypassing the ruleset — allowed only when the human is a
+maintainer (read `CONTRIBUTORS.md` in the kingdoms repo), only
+after the human explicitly activates cowboy mode, and only after
+the session asks for and receives an explicit confirmation for
+**each** push to `main`. Force-pushing `main` is technically
+possible but **always refused** — history is never rewritten, no
+exceptions, no confirmation can unlock it.
+
 ### Standard path (every user)
 
 1. Consolidate on your integration branch `vibe/<alias>/main`
