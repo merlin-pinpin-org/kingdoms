@@ -255,7 +255,7 @@ dispose de **24h**
       protection Sacrée validée s'applique à ce nouveau territoire ;
       la Paroisse **reste au palier Cathédrale** ; le royaume perd
       uniquement **le choix de l'emplacement** (D73). Un seigneur
-      ne peut défendre **le même chantier qu'une fois** ; **une seule
+      ne défend **le même chantier qu'une fois** ; **une seule
       relance** possible après échec en repayant 3 techs. L'upgrade
       de paroisse est un **achat direct, toujours réussi**. Tous les
     coûts et durées sont paramétrables.
@@ -275,8 +275,9 @@ dispose de **24h**
     Bataille** (Délais-attaque, Attaquer, Pourparlers — la gestion
     attaque/défense vit ici, le résultat en Géopolitique) ·
     **Scriptorium** (Seigneurs leaderboard ELO public, Diplomatie,
-    Cadastre) · **Admin** (Paramètres, Saison, Maps, Validations,
-    Interventions, Demandes — admin only) · **Support** (Question,
+    Cadastre) · **Admin** (Royaume, Équilibrage, Gestion du temps,
+    Compensation/Sanction, Paramètres & Mods, Demandes —
+    admin only — D75) · **Support** (Question,
     Signaler un Bug).
     La catégorie **Royaume [Nom]** est créée à la validation du
     nom par l'admin, visible uniquement du Roi + des Seigneurs du
