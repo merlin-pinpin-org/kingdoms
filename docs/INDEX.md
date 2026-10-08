@@ -20,6 +20,7 @@ page routes you to the answer. Read this page, not the whole docs tree.
 | How do I release / cut a version? | [PROCESS.md](PROCESS.md) §Release + the `release-flow` [skill](../.agents/skills/release-flow/SKILL.md) |
 | How do I shape a game-designer idea into an issue? | the `shape-game-designer-idea` [skill](../.agents/skills/shape-game-designer-idea/SKILL.md) |
 | What is the architecture? Why was X decided? | [ARCHITECTURE.md](ARCHITECTURE.md) + [DECISIONS/](DECISIONS/README.md) (ADRs) |
+| How are salons/pinned menus/admin panels managed at runtime? | [architecture/channels.md](architecture/channels.md) — id-based resolution, pinned-view contract, mod types & admin surfaces, core/mods split |
 | How do I write/update a mod's docs? | [DEVELOPER.md](DEVELOPER.md) + [MODS/](MODS/README.md) |
 | Who reviews my PR? | [GUIDES/rulesets.md](GUIDES/rulesets.md) (rulesets) + CODEOWNERS in the target repo |
 | I am a game designer / mod dev / provider dev / vibe coder | [GUIDES/](GUIDES/README.md) — the per-role guides |

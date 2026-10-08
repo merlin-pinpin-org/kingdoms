@@ -381,6 +381,8 @@ All three are **frontends** over one application layer
 
 - [architecture/core.md](architecture/core.md) — core services design deep-dive
 - [architecture/mods.md](architecture/mods.md) — mod system design
+- [architecture/channels.md](architecture/channels.md) — channels,
+  pinned views and admin surfaces runtime conventions
 - [architecture/testing.md](architecture/testing.md) — hybrid testing strategy  (`MockDiscord` mock objects + SimCord behavioral simulator)
 - [architecture/discord.md](architecture/discord.md) — Discord.py components guide
 - [architecture/discord-permissions.md](architecture/discord-permissions.md) — Discord permissions & message delivery guide (DM vs channel, runtime role checks, channel access, sync)
