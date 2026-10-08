@@ -15,6 +15,25 @@ A mod is a self-contained feature that:
 - documents its rules and environment here, in `docs/MODS/<mod-name>/`
   (following [TEMPLATE/](TEMPLATE/))
 
+#### Game-bound mods
+
+A mod is normally game-agnostic (it may declare `allowed_games`, but its
+logic never depends on one game's data). Some mods are **game-bound by
+design**: their whole concept targets a single game (e.g. `kingdoms` is
+AoE2-only, because its map/civilization meta-game only makes sense there).
+
+A game-bound mod MAY hard-code its game key and game-specific options,
+but it MUST NOT own its game data:
+
+- the game catalog (maps, map pools, civilizations) is owned by the core
+  `GameDataService` — the mod reads it and never duplicates it
+- seasons are registered in the core season registry with a visible,
+  game-scoped id (`<mod>-<game key>-<guild id>-<index>`) — the mod never
+  runs its own season numbering
+- Discord surfaces (forum topics such as `<game key>-maps` and
+  `<game key>-map-pools` in the `games` category) are provisioned by the
+  core forum syncs — the mod grafts onto them and never creates them
+
 ### How mods integrate with the workflow engine
 
 Multi-step interactions (registration, match reporting) are declared as

@@ -36,6 +36,21 @@ enforces attack/defense budgets, and applies diplomacy.
 - **Diplomatie** — alliances liées aux civilisations, actualisées selon
   les territoires ; mariages ; traités ; Ordre Royal.
 
+## Core integration
+
+The mod is **game-bound** (AoE2 only, see [../README.md](../README.md) — game-bound mods):
+hard-coded AoE2 options are intentional. Everything shared is owned by the core:
+
+- **Seasons** — registered in the core season registry with the visible id
+  `kingdoms-aoe2-<guild id>-<index>` (index incremental from 1, per guild).
+  The legacy internal `s-<timestamp>` ids are a fallback only.
+- **Maps & map pools** — sourced from the core game catalog
+  (`GameDataService`); the mod grafts onto the existing
+  `aoe2-maps` and `aoe2-map-pools` forum topics (in the `games` category)
+  and never creates or duplicates them.
+- **Players** — Discord users come from the core identity/user service;
+  the mod never manages accounts itself.
+
 ## Usage
 
 ```text
