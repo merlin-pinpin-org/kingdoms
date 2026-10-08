@@ -328,6 +328,24 @@ is the GitHub **environment variable** `TEST_GUILD_ID` on the env
 - The users seed stays guild-less (identities are core data, not
   guild-scoped): `/seed <env> users` is unchanged.
 
+### Visible ids: ladders and seasons
+
+Entities carry **visible, unambiguous ids**, shown in every UI footer:
+
+- **Ladder**: `ladder-<game_key>-<guild_id>` — one ladder per
+  (guild, game); the game key charset is `a-z0-9` (validated at every
+  entry point), so the composite id never splits ambiguously.
+- **Season**: `ladder-<game_key>-<guild_id>-<index>` — the index is
+  incremental per ladder starting at 1; uniqueness is the
+  (ladder, index) pair, never the name (two seasons may share a name).
+- **Users are global**: one game profile binds at most one Discord
+  account at a time, across every guild — the last identity import
+  wins (the stale binding is rebound).
+
+Seeding a ladder season (`/seed <env> ladder-season [file] <guild_id>`)
+**creates** the guild's ladder and its first indexed season in one
+idempotent pass — there is no separate "create ladder" step.
+
 ### Releases and milestones: no long-lived branches
 
 **No release or milestone branches.** Three mechanisms cover the
