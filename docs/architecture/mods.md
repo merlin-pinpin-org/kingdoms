@@ -140,7 +140,7 @@ Mods are wired into Discord as cogs (see
 but cogs contain no game logic: they translate platform events into core
 calls.
 
-## 6. Mod types and admin surfaces
+## 5. Mod types and admin surfaces
 
 The mandatory `seasonal` flag selects one of the two `Mod` interface
 implementations, and with it the admin surface the core provisions
@@ -154,7 +154,7 @@ fillers (maps, pools, seasons, pinned channels, admin panels,
 categories, wirings) live in core. Duplicated machinery in a mod is a
 factorization bug.
 
-## 5. Testing a mod
+## 6. Testing a mod
 
 Mods are tested through the same seams they use in production: `MockDiscord`
 as the `IPlatform` implementation, in-memory stores, and the real
