@@ -123,8 +123,12 @@ RoleService, addressed by mod-scoped keys). Structure complète :
   📣-géopolitique
 - **Scriptorium** — `lords` (👑 leaderboard public par royaume +
   ELO — distinct du 🎖️ privé) · `diplomacy` (📖) · `cadastre` (🗺)
-- **Admin** (admin only) — `settings` (⚙️) · season/maps/
-  validations/interventions (panels) · `requests` (📋 Demandes)
+- **Admin** (admin only — D75) — `kingdom_panel` (🏰 Royaume) ·
+  `balance_panel` (⚖️ Équilibrage) · `season_dashboard` (⏱️ Gestion
+  du temps, phase 1.1 — absorbe l'ancien « Saison ») ·
+  `compensation_panel` (🎯 Compensation/Sanction) · `settings`
+  (🧩 Paramètres & Mods — absorbe Maps, Validations, Interventions) ·
+  `requests` (📋 Demandes)
 - **Support** — `question` · `bug`
 
 Les anciens salons globaux Patrouille/Territoire/Diplomatie sont
