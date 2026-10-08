@@ -59,10 +59,18 @@ hard-coded AoE2 options are intentional. Everything shared is owned by the core:
 - **Map pool rotations** — the season's pool reference lives on the
   core season document (`map_pool_id`); the core's `map_pool_history`
   activations are the rotations, referenced from the season.
-- **Civilizations** — the core's `aoe2-civs` forum (one post per civ,
-  content intentionally empty for now) is the link target for the
-  mod's future civ-overlay entities; the mod will reference these
-  posts, never duplicate the civs themselves.
+- **Factions** — the core's `aoe2-factions` forum (one post per
+  faction) is the link target for the mod's future faction-overlay
+  entities; the mod will reference these posts, never duplicate the
+  factions themselves. "Faction" is the platform-generic term
+  (AoE2 calls them civilizations, StarCraft races); each post carries
+  the localized name and the game's own civ help text, sourced from
+  the vendored aoe2techtree dataset (MIT licence, game data under
+  Microsoft's Game Content Usage Rules,
+  `https://github.com/SiegeEngineers/aoe2techtree`) with the source
+  referenced at the top of every post. Content resolves per the
+  guild's configured locale (FR/EN) through the core's cache-aside
+  content service (Redis first, Mongo second).
 
 ## Seeding (deploy time)
 
@@ -107,3 +115,16 @@ Les salons déclarés par le mod incluent `⚔️-attaquer`,
 - [ENVIRONMENT.md](ENVIRONMENT.md) — configuration et surfaces
 - [DECISIONS.md](DECISIONS.md) — décisions validées après la référence
 - [../../PLANS/reference/kingdoms-mod-saison2.md](../../PLANS/reference/kingdoms-mod-saison2.md) — référence fonctionnelle
+
+## Faction/map localized content seeding
+
+The vendored aoe2techtree dataset (`data/core/aoe2techtree/` in
+kingdoms-services) feeds the `faction_content` Mongo collection for
+every platform locale:
+
+```
+python -m kingdoms.core.games.aoe2.faction_content_cli [dataset_dir]
+```
+
+Run once per environment (deploy-time seeding); the forums' posts
+then read Redis first, Mongo second, per the guild's locale.
