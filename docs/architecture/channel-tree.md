@@ -9,49 +9,48 @@
 ```
 GUILD
 │
-├── # général            ………………………………………… [menu: home]
-├── # discussions        ………………………………………… (libre, public)
+├── # 🗺️ général ………………… [menu: view:home]
+├── # 💬 discussions …………… (libre, public)
 │
-├── 📁 bot                        (privée — bot-admins)
-│   ├── # logs
-│   ├── # admin          ……………………………………… [menu: bot-admin]
-│   └── # décisions      ……………………………………… (libre, admin)
+├── 📂 🤖 bot
+│   ├── # 📜 logs
+│   ├── # 🛠️ admin …………… [menu: view:bot:admin]
+│   └── # ⚖️ décisions ……… (libre, admin)
 │
-├── 📁 games
-│   ├── # général        ……………………………………… [menu: games-home]
-│   ├── # discussions    ……………………………………… (libre, public)
-│   ├── # admin          ……………………………………… [menu: games-admin]
-│   └── # décisions      ……………………………………… (libre, admin)
+├── 📂 🎮 games
+│   ├── # 🗺️ général ……… [menu: view:games:home]
+│   └── # 🛠️ admin ………… [menu: view:games:admin]
 │
-├── 📁 games/aoe2
-│   ├── # général        ……………………………………… [menu: aoe2-home]
-│   ├── # discussions    ……………………………………… (libre, public)
-│   ├── # live           ……………………………………… [menu: aoe2-live]
-│   ├── # civs           (forum, sync)
-│   ├── # maps           (forum, sync)
-│   ├── # map-pools      (forum, sync)
-│   ├── # admin          ……………………………………… [menu: aoe2-admin]
-│   └── # décisions      ……………………………………… (libre, admin)
+├── 📂 ⚔️ games/aoe2
+│   ├── # 🗺️ général ……… [menu: view:aoe2:home]
+│   ├── # 📡 live …………… [dashboard: view:aoe2:live]
+│   ├── # 🏛️ civilisations (forum, sync)
+│   ├── # 🌍 maps …………… (forum, sync)
+│   ├── # 🧱 map pools …… (forum, sync)
+│   └── # 🛠️ admin ………… [menu: view:aoe2:admin]
 │
-├── 📁 mods
-│   ├── # général        ……………………………………… [menu: mods-home]
-│   ├── # discussions    ……………………………………… (libre, public)
-│   ├── # admin          ……………………………………… [menu: mods-admin]
-│   └── # décisions      ……………………………………… (libre, admin)
+├── 📂 🧩 mods
+│   ├── # 🗺️ général ……… [menu: view:mods:home]
+│   └── # 🛠️ admin ………… [menu: view:mods:admin]
 │
-├── 📁 mods/<mod>               (un dossier par mod)
-│   ├── # général        ……………………………………… [menu: <mod>-home]
-│   ├── # discussions    ……………………………………… (libre, public)
-│   ├── # <data-*>       ……………………………………… (readonly, sync — salons data du mod)
-│   ├── # admin          ……………………………………… [menu: <mod>-admin]
-│   └── # décisions      ……………………………………… (libre, admin)
+├── 📂 🧩 mods/<mod>   (un dossier par mod, à venir)
+│   ├── # 🗺️ général ……… [menu: view:<mod>:home]
+│   ├── # 💬 discussions (libre, public)
+│   ├── # <data-*> ………… (readonly, sync)
+│   ├── # 🛠️ admin ………… [menu: view:<mod>:admin]
+│   └── # ⚖️ décisions … (libre, admin)
 │
-└── 📁 games/<jeu>              (un dossier par jeu)
-    ├── # général        ……………………………………… [menu: <jeu>-home]
-    ├── # discussions    ……………………………………… (libre, public)
-    ├── # <forums>       (forums, sync — un post par entité)
-    ├── # admin          ……………………………………… [menu: <jeu>-admin]
-    └── # décisions      ……………………………………… (libre, admin)
+└── 📂 🎮 games/<jeu>   (un dossier par jeu, à venir)
+    ├── # 🗺️ général ……… [menu: view:<jeu>:home]
+    ├── # 💬 discussions (libre, public)
+    ├── # <forums> ………… (forums, sync)
+    ├── # 🛠️ admin ………… [menu: view:<jeu>:admin]
+    └── # ⚖️ décisions … (libre, admin)
+
+Les dossiers de **regroupement** (games, mods, games/<jeu>) ne portent
+que `général` et `admin` : les échanges et décisions vivent dans les
+dossiers de **périmètre** (mods/<mod>, games/<jeu>), jamais dans les
+dossiers de regroupement.
 ```
 
 ## Les règles structurelles
@@ -98,7 +97,13 @@ GUILD
 8. **Les salons à menu sont readonly** (personne n'écrit dedans,
    admins compris). Les échanges vont dans `discussions` (public)
    ou `décisions` (admin du périmètre).
-9. **Chaque menu est un `PanelSpec`** (SDK `kingdoms.discord.ui`) :
+9. **Les ids de vues sont plats** : le scope d'un id de vue est le
+   **dernier segment** du scope du dossier — `games/aoe2` donne
+   `view:aoe2:home`, `view:aoe2:admin`, `view:aoe2:live` ;
+   `mods/ladder` donnera `view:ladder:news`. Jamais de slash dans un
+   id de vue : ils doivent rester quotables.
+
+0. **Chaque menu est un `PanelSpec`** (SDK `kingdoms.discord.ui`) :
    `name` (registre `view:<guild-id>:<slug>`), `pinned_on`
    (channel + PinMode LATEST_ONLY|ALL|None), `autoheal`,
    `navigable` (False partout : figé, ephemerals), `permissions`
