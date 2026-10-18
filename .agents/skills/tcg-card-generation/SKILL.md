@@ -54,7 +54,7 @@ font by `scripts/tcg_compose.py`.
    python scripts/tcg_compose.py sheet --data <data.json> --outdir <dir>
    ```
 
-   `data.json` format (see `docs/assets/tcg/data/*.json` for examples):
+   `data.json` format (see `docs/tcg/data/*.json` for examples):
 
    ```json
    {
@@ -74,7 +74,7 @@ font by `scripts/tcg_compose.py`.
 5. **Validate** — OCR every card (or at minimum every card with more
    than two lines of text); compare the transcript to the source text.
    Also run a visual check for layout defects.
-6. **Commit** the validated images under `docs/assets/tcg/<kind>/` on
+6. **Commit** the validated images under `docs/tcg/<kind>/` on
    the working branch (plus the `data.json` used), and share the raw
    GitHub URLs with the user. No PR unless requested.
 
@@ -87,6 +87,6 @@ locates them automatically.
 
 ## Existing assets
 
-- Technologies (10 cards + contact sheet): `docs/assets/tcg/`
-- Territories (8 cards): `docs/assets/tcg/territories/`
-- Rules poster (parchment): `docs/assets/tcg/rules/`
+- Technologies (10 cards + contact sheet): `docs/tcg/`
+- Territories (8 cards): `docs/tcg/territories/`
+- Rules poster (parchment): `docs/tcg/rules/`
