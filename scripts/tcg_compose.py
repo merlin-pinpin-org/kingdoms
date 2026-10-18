@@ -118,13 +118,20 @@ def make_card(pal, art_path, name, subtitle, body, extra, cost_label, index, tot
     if extra:
         box_bottom = 830
     d.rounded_rectangle([36, box_top, CW - 37, box_bottom], radius=14, fill=pal["box"], outline=pal["gold2"], width=3)
-    rf = font(FONTS["r"], 30 if len(body) <= 120 else 27)
-    line_h = 44 if rf.size == 30 else 40
-    lines = wrap(d, body, rf, CW - 160)
-    y = (box_top + box_bottom) // 2 - (len(lines) * line_h) // 2
-    for ln in lines:
-        d.text((60, y), ln, font=rf, fill=pal["ink"])
-        y += line_h
+    n_breaks = body.count("\n")
+    rf = font(FONTS["r"], 30 if len(body) <= 120 else (26 if n_breaks >= 3 else 27))
+    line_h = rf.size + 14
+    lines = []
+    for para in body.split("\n"):
+        pl = wrap(d, para, rf, CW - 160) or [""]
+        lines.append(pl)
+    total_h = sum(len(pl) * line_h for pl in lines) + (len(lines) - 1) * 8
+    y = (box_top + box_bottom) // 2 - total_h // 2
+    for pl in lines:
+        for ln in pl:
+            d.text((60, y), ln, font=rf, fill=pal["ink"])
+            y += line_h
+        y += 8
 
     if extra:
         d.rounded_rectangle([36, 846, CW - 37, CH - 80], radius=14, fill=pal["band"], outline=pal["gold"], width=3)
