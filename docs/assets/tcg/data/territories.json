@@ -1,0 +1,29 @@
+{
+  "kind": "territory",
+  "cards": [
+    {"art": "terr_foret-noire.jpg", "name": "Forêt Noire", "cost": "T", "filename": "terr_foret-noire.jpg",
+     "subtitle": "Territoire — Forêt", "rule": "Offre la civilisation des Celtes",
+     "extra_label": "Condition liée :", "extra_value": "Celtes"},
+    {"art": "terr_serengeti.jpg", "name": "Serengeti", "cost": "T", "filename": "terr_serengeti.jpg",
+     "subtitle": "Territoire — Savane", "rule": "Offre la civilisation des Éthiopiens",
+     "extra_label": "Condition liée :", "extra_value": "Éthiopiens"},
+    {"art": "terr_lombardie.jpg", "name": "Lombardie", "cost": "T", "filename": "terr_lombardie.jpg",
+     "subtitle": "Territoire — Plaine", "rule": "Offre la civilisation des Italiens ou des Siciliens",
+     "extra_label": "Condition liée :", "extra_value": "Italiens · Siciliens"},
+    {"art": "terr_yucatan.jpg", "name": "Yucatan", "cost": "T", "filename": "terr_yucatan.jpg",
+     "subtitle": "Territoire — Jungle", "rule": "Offre la civilisation des Mayas",
+     "extra_label": "Condition liée :", "extra_value": "Mayas"},
+    {"art": "terr_mongolie.jpg", "name": "Mongolie", "cost": "T", "filename": "terr_mongolie.jpg",
+     "subtitle": "Territoire — Steppe", "rule": "Offre la civilisation des Mongols",
+     "extra_label": "Condition liée :", "extra_value": "Mongols"},
+    {"art": "terr_archipel.jpg", "name": "Archipel", "cost": "T", "filename": "terr_archipel.jpg",
+     "subtitle": "Territoire — Îles", "rule": "Offre la civilisation des Japonais",
+     "extra_label": "Condition liée :", "extra_value": "Japonais"},
+    {"art": "terr_delta-nil.jpg", "name": "Delta du Nil", "cost": "T", "filename": "terr_delta-nil.jpg",
+     "subtitle": "Territoire — Fleuve", "rule": "Offre la civilisation des Sarrasins",
+     "extra_label": "Condition liée :", "extra_value": "Sarrasins"},
+    {"art": "terr_gorges.jpg", "name": "Gorges", "cost": "T", "filename": "terr_gorges.jpg",
+     "subtitle": "Territoire — Canyon", "rule": "Offre la civilisation des Géorgiens",
+     "extra_label": "Condition liée :", "extra_value": "Géorgiens"}
+  ]
+}
