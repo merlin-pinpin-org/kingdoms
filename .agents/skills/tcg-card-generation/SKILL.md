@@ -87,6 +87,6 @@ locates them automatically.
 
 ## Existing assets
 
-- Technologies (10 cards + contact sheet): `docs/tcg/`
-- Territories (8 cards): `docs/tcg/territories/`
-- Rules poster (parchment): `docs/tcg/rules/`
+- Technologies (10 cards + sheet): `docs/tcg/technologies/`
+- Territories (48 effect maps + sheet): `docs/tcg/territoires/`
+- Rules poster (parchment): `docs/tcg/regles_parchemin.jpg`
