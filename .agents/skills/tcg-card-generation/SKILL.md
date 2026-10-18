@@ -1,92 +1,103 @@
 ---
 name: tcg-card-generation
-description: Generate collectible card images (TCG) for Kingdoms mods — technologies, territories, civilizations — and parchment-format rule posters, with guaranteed correct French text. Use whenever the game designer asks for card art, printable game cards, or illustrated rules.
+description: Generate collectible card images (TCG) and parchment posters — art by image model, text by vector composer, OCR-validated. Self-contained skill: data, templates, art and validation live in this directory or docs/tcg. Use whenever a game designer asks for card art, printable cards, decks, or illustrated rules.
 ---
 
-# TCG card generation
+# TCG card generation (self-contained skill)
 
-Kingdoms game data (rules, costs, effects) comes from the repo docs and
-**must be rendered as text by the composer script, never by the image
-model**. Image models produce convincing-looking but misspelled
-pseudo-text; the text on a card is therefore always drawn with a real
-font by `scripts/tcg_compose.py`.
+This directory is a **standalone toolkit**: it does not depend on Kingdoms
+game data — any card game content works. The Kingdoms deck is the
+reference example, stored under `docs/tcg/`.
 
-## Hard rules (learned from failed attempts)
+## The one hard rule
 
-1. **Never ask the image model to write text.** Generate the *art only*,
-   with an explicit `NO text, NO letters, NO words anywhere` clause, and
-   empty zones reserved for the composer (a blank banner at the top and
-   a blank parchment strip at the bottom fifth). Any text found in a
-   generated art must be rejected.
-2. **Text is drawn by the script**, from data sourced in the repo docs:
-   - Technologies → `docs/MODS/kingdoms/RULES.md` (§ Actions spéciales)
-     and `docs/PLANS/reference/kingdoms-mod-saison2.md` (§ 20)
-   - Territories/effects → `docs/MODS/kingdoms/CADASTRE.md`
-   - Civilization conditions → `docs/MODS/kingdoms/CIVILIZATIONS.md`
-   Nothing is invented; if a rule is **À DÉFINIR** in the docs, it does
-   not go on a card.
-3. **Every produced image is validated by OCR** before being delivered:
-   the transcript must match the source text word for word (accents and
-   apostrophes included). An image whose OCR is gibberish is invalid,
-   even if it looks fine. A visual check (legibility, no cropped or
-   overlapping text) completes the validation.
-4. **Generated art URLs expire (~1 h).** Download each art immediately
-   after generation (`urllib.request.urlretrieve`) — never re-share an
-   expired link, and never share a sandbox path with the user: deliver
-   through a committed file on a branch (raw GitHub URL).
+**The image model never renders text.** It produces art with
+pseudo-text that looks convincing but is misspelled gibberish. All text
+on a card or poster is drawn by the composer scripts with a real vector
+font, from JSON data — which is what makes it possible to *prove*
+correctness by OCR. This rule exists because we shipped gibberish
+images before; do not "save time" by asking the model for text.
 
-## Pipeline
+## Toolkit layout
 
-1. **Data** — collect the card list from the docs (name, cost/type,
-   rule text). One row per card.
+```
+.agents/skills/tcg-card-generation/
+├── SKILL.md                 ← this file
+└── scripts/
+    ├── tcg_compose.py       ← cards + contact sheets (JSON-driven)
+    └── tcg_poster.py        ← parchment posters (JSON-driven)
+
+docs/tcg/                    ← the Kingdoms reference deck
+├── data/                    ← JSON sources of truth for every image
+│   ├── technologies.json    ← 10 technology cards
+│   ├── territoires.json     ← 48 territory cards
+│   └── regles.json          ← rules poster content
+├── technologies/            ← rendered cards + planche
+├── territoires/             ← rendered cards + planche
+└── regles_parchemin.jpg     ← rendered poster
+```
+
+**Data is the source of truth.** To change a card, edit the JSON and
+re-render; never edit the image. To add a deck, write a new JSON file
+following the schemas documented in the script docstrings.
+
+## Pipeline (per deck)
+
+1. **Data** — write `data.json` (schemas + examples in
+   `scripts/tcg_compose.py` and `scripts/tcg_poster.py` docstrings, plus
+   the live examples in `docs/tcg/data/`). For Kingdoms, extract content
+   from the mod docs (`docs/MODS/kingdoms/RULES.md`, `CADASTRE.md`,
+   `CIVILIZATIONS.md`); never invent rules, and **À DÉFINIR** content
+   does not go on a card.
 2. **Art** — one image-generation call per card, prompt template:
    `Medieval fantasy trading card art, portrait orientation, Age of
    Empires II style illustration only, NO text, NO letters, NO words
    anywhere: <scene>. Leave a clear empty parchment-colored strip at
    the bottom fifth of the image and a clear empty banner space at the
-   top, both blank and undecorated.`
-3. **Download** the art files into a scratch directory immediately.
-4. **Compose** — run the composer:
+   top, both blank and undecorated.` For posters: `A blank ancient
+   parchment background texture, portrait orientation, NO text, ...`
+   with an *empty* ornate border (text zones get flattened anyway, but
+   the cleaner the texture the better the OCR).
+3. **Download immediately** — the generated URLs expire in ~1 h.
+   Download each art right away; never re-share an expired link, and
+   never share a sandbox path with the user — deliver through a
+   committed file on a branch (raw GitHub URL).
+4. **Compose** —
+   `python scripts/tcg_compose.py cards --data <file> --outdir <dir>`
+   (repeat with `sheet` for the contact sheet);
+   `python scripts/tcg_poster.py --data <file> --out <file>`.
+   Dependencies: `pip install pillow` (fonts auto-located via
+   matplotlib's bundled DejaVu Serif; override with `--font-dir`).
+5. **Validate — mandatory, not optional.** OCR every rendered image
+   (or at minimum every card with ≥ 3 rule lines) and compare the
+   transcript to the JSON word for word, accents and apostrophes
+   included. A single mismatch = regenerate. Complete with a visual
+   check for layout defects (cropped/overlapping text). The poster
+   script already applies the known OCR guards: flattened title and
+   footer zones, dark ink, wide inner margins (MARGX=235) clear of the
+   ornate border, auto-fit font sizing with a fail-closed floor.
+6. **Commit** the JSON + rendered images together on the working
+   branch, share raw URLs. No PR unless requested.
 
-   ```bash
-   pip install pillow
-   python scripts/tcg_compose.py cards --data <data.json> --outdir <dir>
-   python scripts/tcg_compose.py sheet --data <data.json> --outdir <dir>
-   ```
+## Card anatomy (templates)
 
-   `data.json` format (see `docs/tcg/data/*.json` for examples):
+`tcg_compose.py` has three built-in templates (`kind`), each a full
+palette: `technology` (gold/brown frame, red cost badge), `territory`
+(green frame, "T" badge, optional linked-civilization box), and
+`civilization` (blue/gold frame, condition text). Anatomy: name
+banner, cost badge, art window (744×1032 canvas, art 460px), italic
+type line, rule box (parchment fill), optional extra box, footer with
+`n/total` and set signature. Rule text: one sentence per line — put
+`\n` between sentences in the JSON; the composer wraps each paragraph
+independently.
 
-   ```json
-   {
-     "kind": "technology",
-     "cards": [
-       {"art": "art_embuscade.jpg", "name": "Embuscade", "cost": 2,
-        "rule": "Attaque supplémentaire. Délai minimum : 1 heure."}
-     ]
-   }
-   ```
+## Known pitfalls (all learned the hard way)
 
-   Supported `kind`: `technology` (gold/brown frame, red cost badge),
-   `territory` (green frame, tower badge, effect + linked-civilization
-   box), `civilization` (blue/gold frame, condition text),
-   `poster` (parchment rule poster — landscape, flowing columns,
-   title flourish, footer seal).
-5. **Validate** — OCR every card (or at minimum every card with more
-   than two lines of text); compare the transcript to the source text.
-   Also run a visual check for layout defects.
-6. **Commit** the validated images under `docs/tcg/<kind>/` on
-   the working branch (plus the `data.json` used), and share the raw
-   GitHub URLs with the user. No PR unless requested.
-
-## Fonts
-
-The composer needs DejaVu Serif faces. If the sandbox has no system
-font, install matplotlib and use its bundled fonts
-(`.../matplotlib/mpl-data/fonts/ttf/DejaVuSerif*.ttf`) — the script
-locates them automatically.
-
-## Existing assets
-
-- Technologies (10 cards + sheet): `docs/tcg/technologies/`
-- Territories (48 effect maps + sheet): `docs/tcg/territoires/`
-- Rules poster (parchment): `docs/tcg/regles_parchemin.jpg`
+- Image-model text is unreadable — see the hard rule.
+- URLs expire (~1 h) — download immediately.
+- Title on a raw parchment texture fails OCR (brown on brown) — the
+  poster script flattens those zones; keep it that way.
+- Text too close to the ornate border looks broken and half-occluded —
+  keep MARGX ≥ 235.
+- Accented slugs in filenames caused art mismatch — generate the
+  output filename from the accent-stripped map name.
