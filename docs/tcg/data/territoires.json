@@ -1,439 +1,439 @@
 {
- "kind": "territory",
- "sheet_title": "KINGDOMS — Territoires",
- "sheet_filename": "planche_territoires.jpg",
- "cards": [
-  {
-   "art": "newarts/terr_acropolis.jpg",
-   "name": "Acropolis",
-   "cost": "T",
-   "subtitle": "Territoire — Citadelle",
-   "rule": "Offre un contre-espionnage/semaine",
-   "filename": "acropolis.jpg"
-  },
-  {
-   "art": "newarts/terr_archipel.jpg",
-   "name": "Archipel",
-   "cost": "T",
-   "subtitle": "Territoire — Îles",
-   "rule": "Offre la civilisation des Japonais",
-   "filename": "archipel.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Japonais"
-  },
-  {
-   "art": "newarts/terr_arene.jpg",
-   "name": "Arène",
-   "cost": "T",
-   "subtitle": "Territoire — Arène",
-   "rule": "Offre une technologie « Jeu d'armes »",
-   "filename": "arene.jpg"
-  },
-  {
-   "art": "newarts/terr_baltique.jpg",
-   "name": "Baltique",
-   "cost": "T",
-   "subtitle": "Territoire — Mer",
-   "rule": "Réduit d'une heure le délai de l'une de vos agressions classiques",
-   "filename": "baltique.jpg"
-  },
-  {
-   "art": "newarts/terr_bois-creux.jpg",
-   "name": "Bois Creux",
-   "cost": "T",
-   "subtitle": "Territoire — Forêt",
-   "rule": "Offre un sabotage/semaine",
-   "filename": "bois-creux.jpg"
-  },
-  {
-   "art": "newarts/terr_budapest.jpg",
-   "name": "Budapest",
-   "cost": "T",
-   "subtitle": "Territoire — Fleuve",
-   "rule": "Offre un contre-espionnage/semaine",
-   "filename": "budapest.jpg"
-  },
-  {
-   "art": "newarts/terr_clairiere-africaine.jpg",
-   "name": "Clairière Africaine",
-   "cost": "T",
-   "subtitle": "Territoire — Savane",
-   "rule": "Offre la civilisation des Maliens",
-   "filename": "clairiere-africaine.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Maliens"
-  },
-  {
-   "art": "newarts/terr_colline-aux-loups.jpg",
-   "name": "Colline aux loups",
-   "cost": "T",
-   "subtitle": "Territoire — Colline",
-   "rule": "Offre un sabotage/dimanche",
-   "filename": "colline-aux-loups.jpg"
-  },
-  {
-   "art": "newarts/terr_cote.jpg",
-   "name": "Côte",
-   "cost": "T",
-   "subtitle": "Territoire — Littoral",
-   "rule": "Offre la civilisation des Bengalis",
-   "filename": "cote.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Bengalis"
-  },
-  {
-   "art": "newarts/terr_delta-nil.jpg",
-   "name": "Delta du Nil",
-   "cost": "T",
-   "subtitle": "Territoire — Fleuve",
-   "rule": "Offre la civilisation des Sarrasins",
-   "filename": "delta-du-nil.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Sarrasins"
-  },
-  {
-   "art": "newarts/terr_embranchement.jpg",
-   "name": "Embranchement",
-   "cost": "T",
-   "subtitle": "Territoire — Forêt",
-   "rule": "Offre un sabotage/semaine\nGarnison ❌",
-   "filename": "embranchement.jpg"
-  },
-  {
-   "art": "newarts/terr_emigration.jpg",
-   "name": "Emigration",
-   "cost": "T",
-   "subtitle": "Territoire — Mer",
-   "rule": "Offre une exploration/semaine",
-   "filename": "emigration.jpg"
-  },
-  {
-   "art": "newarts/terr_falaise.jpg",
-   "name": "Falaise",
-   "cost": "T",
-   "subtitle": "Territoire — Falaise",
-   "rule": "Offre un sabotage/dimanche",
-   "filename": "falaise.jpg"
-  },
-  {
-   "art": "newarts/terr_flot-dore.jpg",
-   "name": "Flot doré",
-   "cost": "T",
-   "subtitle": "Territoire — Rivière",
-   "rule": "Offre un point de technologie/dimanche",
-   "filename": "flot-dore.jpg"
-  },
-  {
-   "art": "newarts/terr_foret-cotiere.jpg",
-   "name": "Forêt côtière",
-   "cost": "T",
-   "subtitle": "Territoire — Forêt",
-   "rule": "Offre une Embuscade/dimanche",
-   "filename": "foret-cotiere.jpg"
-  },
-  {
-   "art": "newarts/terr_foret-noire.jpg",
-   "name": "Forêt noire",
-   "cost": "T",
-   "subtitle": "Territoire — Forêt",
-   "rule": "Offre la civilisation des Celtes",
-   "filename": "foret-noire.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Celtes"
-  },
-  {
-   "art": "newarts/terr_forteresse.jpg",
-   "name": "Forteresse",
-   "cost": "T",
-   "subtitle": "Territoire — Forteresse",
-   "rule": "Offre une technologie « Jeu d'armes »",
-   "filename": "forteresse.jpg"
-  },
-  {
-   "art": "newarts/terr_gorges.jpg",
-   "name": "Gorges",
-   "cost": "T",
-   "subtitle": "Territoire — Canyon",
-   "rule": "Offre la civilisation des Géorgiens",
-   "filename": "gorges.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Géorgiens"
-  },
-  {
-   "art": "newarts/terr_gouffre-dore.jpg",
-   "name": "Gouffre doré",
-   "cost": "T",
-   "subtitle": "Territoire — Canyon",
-   "rule": "Offre un point de technologie/dimanche",
-   "filename": "gouffre-dore.jpg"
-  },
-  {
-   "art": "newarts/terr_groenland.jpg",
-   "name": "Groenland",
-   "cost": "T",
-   "subtitle": "Territoire — Glaciers",
-   "rule": "Offre la civilisation des Vikings",
-   "filename": "groenland.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Vikings"
-  },
-  {
-   "art": "newarts/terr_hamburger.jpg",
-   "name": "Hamburger",
-   "cost": "T",
-   "subtitle": "Territoire — Plaines",
-   "rule": "Offre la civilisation des Bourguignons",
-   "filename": "hamburger.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Bourguignons"
-  },
-  {
-   "art": "newarts/terr_ile-volcanique.jpg",
-   "name": "Île volcanique",
-   "cost": "T",
-   "subtitle": "Territoire — Île",
-   "rule": "Offre la civilisation des Japonais",
-   "filename": "ile-volcanique.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Japonais"
-  },
-  {
-   "art": "newarts/terr_iles.jpg",
-   "name": "Îles",
-   "cost": "T",
-   "subtitle": "Territoire — Îles",
-   "rule": "Offre la civilisation des Britanniques",
-   "filename": "iles.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Britanniques"
-  },
-  {
-   "art": "newarts/terr_iles-du-nord.jpg",
-   "name": "Îles du nord",
-   "cost": "T",
-   "subtitle": "Territoire — Îles",
-   "rule": "Offre la civilisation des Vikings",
-   "filename": "iles-du-nord.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Vikings"
-  },
-  {
-   "art": "newarts/terr_ile-pacifique.jpg",
-   "name": "Île du Pacifique",
-   "cost": "T",
-   "subtitle": "Territoire — Île",
-   "rule": "Offre la civilisation des Malais",
-   "filename": "ile-du-pacifique.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Malais"
-  },
-  {
-   "art": "newarts/terr_iles-marecageuses.jpg",
-   "name": "Îles marécageuses",
-   "cost": "T",
-   "subtitle": "Territoire — Marais",
-   "rule": "Offre une « Embuscade »/dimanche",
-   "filename": "iles-marecageuses.jpg"
-  },
-  {
-   "art": "newarts/terr_ile-partenaire.jpg",
-   "name": "Île partenaire",
-   "cost": "T",
-   "subtitle": "Territoire — Îles",
-   "rule": "Offre un mariage/semaine",
-   "filename": "ile-partenaire.jpg"
-  },
-  {
-   "art": "newarts/terr_jungle-mangrove.jpg",
-   "name": "Jungle de la mangrove",
-   "cost": "T",
-   "subtitle": "Territoire — Jungle",
-   "rule": "Offre la civilisation des Aztèques",
-   "filename": "jungle-de-la-mangrove.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Aztèques"
-  },
-  {
-   "art": "newarts/terr_lac-fantome.jpg",
-   "name": "Lac Fantôme",
-   "cost": "T",
-   "subtitle": "Territoire — Lac",
-   "rule": "Offre la civilisation des Polonais & des Slaves",
-   "filename": "lac-fantome.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Polonais & des Slaves"
-  },
-  {
-   "art": "newarts/terr_le-passage.jpg",
-   "name": "Le Fort de la colline",
-   "cost": "T",
-   "subtitle": "Territoire — Colline",
-   "rule": "Augmente votre capacité de patrouille de 1",
-   "filename": "le-fort-de-la-colline.jpg"
-  },
-  {
-   "art": "newarts/terr_le-passage.jpg",
-   "name": "Le Passage",
-   "cost": "T",
-   "subtitle": "Territoire — Montagne",
-   "rule": "Offre une exploration/dimanche\nGarnison ❌",
-   "filename": "le-passage.jpg"
-  },
-  {
-   "art": "newarts/terr_lombardie.jpg",
-   "name": "Lombardie",
-   "cost": "T",
-   "subtitle": "Territoire — Plaine",
-   "rule": "Offre la civilisation des Italiens & des Siciliens",
-   "filename": "lombardie.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Italiens & des Siciliens"
-  },
-  {
-   "art": "newarts/terr_marais-dor.jpg",
-   "name": "Marais d'or",
-   "cost": "T",
-   "subtitle": "Territoire — Marais",
-   "rule": "Offre un point de technologie/dimanche",
-   "filename": "marais-dor.jpg"
-  },
-  {
-   "art": "newarts/terr_marche.jpg",
-   "name": "Marché",
-   "cost": "T",
-   "subtitle": "Territoire — Ville",
-   "rule": "Offre la civilisation des Perses",
-   "filename": "marche.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Perses"
-  },
-  {
-   "art": "newarts/terr_mediterranee.jpg",
-   "name": "Méditerranée",
-   "cost": "T",
-   "subtitle": "Territoire — Mer",
-   "rule": "Réduit le délai minimum de vos agressions classiques d'une heure",
-   "filename": "mediterranee.jpg"
-  },
-  {
-   "art": "newarts/terr_mongolie.jpg",
-   "name": "Mongolie",
-   "cost": "T",
-   "subtitle": "Territoire — Steppe",
-   "rule": "Offre la civilisation des Mongols",
-   "filename": "mongolie.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Mongols"
-  },
-  {
-   "art": "newarts/terr_passage-montagneux.jpg",
-   "name": "Passage montagneux",
-   "cost": "T",
-   "subtitle": "Territoire — Montagne",
-   "rule": "Augmente le délai d'attaque minimum de vos adversaires de 1h",
-   "filename": "passage-montagneux.jpg"
-  },
-  {
-   "art": "newarts/terr_pierre-runiques.jpg",
-   "name": "Pierre runiques",
-   "cost": "T",
-   "subtitle": "Territoire — Prairie",
-   "rule": "Offre un mariage/dimanche",
-   "filename": "pierre-runiques.jpg"
-  },
-  {
-   "art": "newarts/terr_refuge.jpg",
-   "name": "Refuge",
-   "cost": "T",
-   "subtitle": "Territoire — Vallée",
-   "rule": "Offre la map Émigration ou 2 points de technologie",
-   "filename": "refuge.jpg"
-  },
-  {
-   "art": "newarts/terr_repercussions.jpg",
-   "name": "Répercussions",
-   "cost": "T",
-   "subtitle": "Territoire — Champ de bataille",
-   "rule": "Offre la civilisation des Huns",
-   "filename": "repercussions.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Huns"
-  },
-  {
-   "art": "newarts/terr_ruee-vers-or.jpg",
-   "name": "Ruée vers l'or",
-   "cost": "T",
-   "subtitle": "Territoire — Rivière",
-   "rule": "Offre un point de technologie/dimanche",
-   "filename": "ruee-vers-lor.jpg"
-  },
-  {
-   "art": "newarts/terr_scandinavie.jpg",
-   "name": "Scandinavie",
-   "cost": "T",
-   "subtitle": "Territoire — Fjords",
-   "rule": "Offre la civilisation des Vikings",
-   "filename": "scandinavie.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Vikings"
-  },
-  {
-   "art": "newarts/terr_serengeti.jpg",
-   "name": "Serengeti",
-   "cost": "T",
-   "subtitle": "Territoire — Savane",
-   "rule": "Offre la civilisation des Éthiopiens",
-   "filename": "serengeti.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Éthiopiens"
-  },
-  {
-   "art": "newarts/terr_sources-sacrees.jpg",
-   "name": "Sources sacrées",
-   "cost": "T",
-   "subtitle": "Territoire — Jungle",
-   "rule": "Offre un mariage arrangé/dimanche\nOffre la civilisation des Khmers",
-   "filename": "sources-sacrees.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Khmers"
-  },
-  {
-   "art": "newarts/terr_terrain-escarpe.jpg",
-   "name": "Terrain escarpé",
-   "cost": "T",
-   "subtitle": "Territoire — Montagne",
-   "rule": "Offre une Embuscade/semaine",
-   "filename": "terrain-escarpe.jpg"
-  },
-  {
-   "art": "newarts/terr_tourbiere.jpg",
-   "name": "Tourbière",
-   "cost": "T",
-   "subtitle": "Territoire — Marais",
-   "rule": "Offre la civilisation des Vietnamiens",
-   "filename": "tourbiere.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Vietnamiens"
-  },
-  {
-   "art": "newarts/terr_tunnel-amazonien.jpg",
-   "name": "Tunnel Amazonien",
-   "cost": "T",
-   "subtitle": "Territoire — Jungle",
-   "rule": "Offre la civilisation des Incas",
-   "filename": "tunnel-amazonien.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Incas"
-  },
-  {
-   "art": "newarts/terr_yucatan.jpg",
-   "name": "Yucatan",
-   "cost": "T",
-   "subtitle": "Territoire — Jungle",
-   "rule": "Offre la civilisation des Mayas",
-   "filename": "yucatan.jpg",
-   "extra_label": "Condition liée :",
-   "extra_value": "Mayas"
-  }
- ]
+  "kind": "territory",
+  "sheet_title": "KINGDOMS — Territoires",
+  "sheet_filename": "planche_territoires.jpg",
+  "cards": [
+    {
+      "art": "docs/tcg/assets/terr_acropolis.jpg",
+      "name": "Acropolis",
+      "cost": "T",
+      "subtitle": "Territoire — Citadelle",
+      "rule": "Offre un contre-espionnage/semaine",
+      "filename": "acropolis.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_archipel.jpg",
+      "name": "Archipel",
+      "cost": "T",
+      "subtitle": "Territoire — Îles",
+      "rule": "Offre la civilisation des Japonais",
+      "filename": "archipel.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Japonais"
+    },
+    {
+      "art": "docs/tcg/assets/terr_arene.jpg",
+      "name": "Arène",
+      "cost": "T",
+      "subtitle": "Territoire — Arène",
+      "rule": "Offre une technologie « Jeu d'armes »",
+      "filename": "arene.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_baltique.jpg",
+      "name": "Baltique",
+      "cost": "T",
+      "subtitle": "Territoire — Mer",
+      "rule": "Réduit d'une heure le délai de l'une de vos agressions classiques",
+      "filename": "baltique.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_bois-creux.jpg",
+      "name": "Bois Creux",
+      "cost": "T",
+      "subtitle": "Territoire — Forêt",
+      "rule": "Offre un sabotage/semaine",
+      "filename": "bois-creux.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_budapest.jpg",
+      "name": "Budapest",
+      "cost": "T",
+      "subtitle": "Territoire — Fleuve",
+      "rule": "Offre un contre-espionnage/semaine",
+      "filename": "budapest.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_clairiere-africaine.jpg",
+      "name": "Clairière Africaine",
+      "cost": "T",
+      "subtitle": "Territoire — Savane",
+      "rule": "Offre la civilisation des Maliens",
+      "filename": "clairiere-africaine.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Maliens"
+    },
+    {
+      "art": "docs/tcg/assets/terr_colline-aux-loups.jpg",
+      "name": "Colline aux loups",
+      "cost": "T",
+      "subtitle": "Territoire — Colline",
+      "rule": "Offre un sabotage/dimanche",
+      "filename": "colline-aux-loups.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_cote.jpg",
+      "name": "Côte",
+      "cost": "T",
+      "subtitle": "Territoire — Littoral",
+      "rule": "Offre la civilisation des Bengalis",
+      "filename": "cote.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Bengalis"
+    },
+    {
+      "art": "docs/tcg/assets/terr_delta-nil.jpg",
+      "name": "Delta du Nil",
+      "cost": "T",
+      "subtitle": "Territoire — Fleuve",
+      "rule": "Offre la civilisation des Sarrasins",
+      "filename": "delta-du-nil.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Sarrasins"
+    },
+    {
+      "art": "docs/tcg/assets/terr_embranchement.jpg",
+      "name": "Embranchement",
+      "cost": "T",
+      "subtitle": "Territoire — Forêt",
+      "rule": "Offre un sabotage/semaine\nGarnison ❌",
+      "filename": "embranchement.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_emigration.jpg",
+      "name": "Emigration",
+      "cost": "T",
+      "subtitle": "Territoire — Mer",
+      "rule": "Offre une exploration/semaine",
+      "filename": "emigration.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_falaise.jpg",
+      "name": "Falaise",
+      "cost": "T",
+      "subtitle": "Territoire — Falaise",
+      "rule": "Offre un sabotage/dimanche",
+      "filename": "falaise.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_flot-dore.jpg",
+      "name": "Flot doré",
+      "cost": "T",
+      "subtitle": "Territoire — Rivière",
+      "rule": "Offre un point de technologie/dimanche",
+      "filename": "flot-dore.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_foret-cotiere.jpg",
+      "name": "Forêt côtière",
+      "cost": "T",
+      "subtitle": "Territoire — Forêt",
+      "rule": "Offre une Embuscade/dimanche",
+      "filename": "foret-cotiere.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_foret-noire.jpg",
+      "name": "Forêt noire",
+      "cost": "T",
+      "subtitle": "Territoire — Forêt",
+      "rule": "Offre la civilisation des Celtes",
+      "filename": "foret-noire.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Celtes"
+    },
+    {
+      "art": "docs/tcg/assets/terr_forteresse.jpg",
+      "name": "Forteresse",
+      "cost": "T",
+      "subtitle": "Territoire — Forteresse",
+      "rule": "Offre une technologie « Jeu d'armes »",
+      "filename": "forteresse.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_gorges.jpg",
+      "name": "Gorges",
+      "cost": "T",
+      "subtitle": "Territoire — Canyon",
+      "rule": "Offre la civilisation des Géorgiens",
+      "filename": "gorges.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Géorgiens"
+    },
+    {
+      "art": "docs/tcg/assets/terr_gouffre-dore.jpg",
+      "name": "Gouffre doré",
+      "cost": "T",
+      "subtitle": "Territoire — Canyon",
+      "rule": "Offre un point de technologie/dimanche",
+      "filename": "gouffre-dore.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_groenland.jpg",
+      "name": "Groenland",
+      "cost": "T",
+      "subtitle": "Territoire — Glaciers",
+      "rule": "Offre la civilisation des Vikings",
+      "filename": "groenland.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Vikings"
+    },
+    {
+      "art": "docs/tcg/assets/terr_hamburger.jpg",
+      "name": "Hamburger",
+      "cost": "T",
+      "subtitle": "Territoire — Plaines",
+      "rule": "Offre la civilisation des Bourguignons",
+      "filename": "hamburger.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Bourguignons"
+    },
+    {
+      "art": "docs/tcg/assets/terr_ile-volcanique.jpg",
+      "name": "Île volcanique",
+      "cost": "T",
+      "subtitle": "Territoire — Île",
+      "rule": "Offre la civilisation des Japonais",
+      "filename": "ile-volcanique.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Japonais"
+    },
+    {
+      "art": "docs/tcg/assets/terr_iles.jpg",
+      "name": "Îles",
+      "cost": "T",
+      "subtitle": "Territoire — Îles",
+      "rule": "Offre la civilisation des Britanniques",
+      "filename": "iles.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Britanniques"
+    },
+    {
+      "art": "docs/tcg/assets/terr_iles-du-nord.jpg",
+      "name": "Îles du nord",
+      "cost": "T",
+      "subtitle": "Territoire — Îles",
+      "rule": "Offre la civilisation des Vikings",
+      "filename": "iles-du-nord.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Vikings"
+    },
+    {
+      "art": "docs/tcg/assets/terr_ile-pacifique.jpg",
+      "name": "Île du Pacifique",
+      "cost": "T",
+      "subtitle": "Territoire — Île",
+      "rule": "Offre la civilisation des Malais",
+      "filename": "ile-du-pacifique.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Malais"
+    },
+    {
+      "art": "docs/tcg/assets/terr_iles-marecageuses.jpg",
+      "name": "Îles marécageuses",
+      "cost": "T",
+      "subtitle": "Territoire — Marais",
+      "rule": "Offre une « Embuscade »/dimanche",
+      "filename": "iles-marecageuses.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_ile-partenaire.jpg",
+      "name": "Île partenaire",
+      "cost": "T",
+      "subtitle": "Territoire — Îles",
+      "rule": "Offre un mariage/semaine",
+      "filename": "ile-partenaire.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_jungle-mangrove.jpg",
+      "name": "Jungle de la mangrove",
+      "cost": "T",
+      "subtitle": "Territoire — Jungle",
+      "rule": "Offre la civilisation des Aztèques",
+      "filename": "jungle-de-la-mangrove.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Aztèques"
+    },
+    {
+      "art": "docs/tcg/assets/terr_lac-fantome.jpg",
+      "name": "Lac Fantôme",
+      "cost": "T",
+      "subtitle": "Territoire — Lac",
+      "rule": "Offre la civilisation des Polonais & des Slaves",
+      "filename": "lac-fantome.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Polonais & des Slaves"
+    },
+    {
+      "art": "docs/tcg/assets/terr_le-passage.jpg",
+      "name": "Le Fort de la colline",
+      "cost": "T",
+      "subtitle": "Territoire — Colline",
+      "rule": "Augmente votre capacité de patrouille de 1",
+      "filename": "le-fort-de-la-colline.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_le-passage.jpg",
+      "name": "Le Passage",
+      "cost": "T",
+      "subtitle": "Territoire — Montagne",
+      "rule": "Offre une exploration/dimanche\nGarnison ❌",
+      "filename": "le-passage.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_lombardie.jpg",
+      "name": "Lombardie",
+      "cost": "T",
+      "subtitle": "Territoire — Plaine",
+      "rule": "Offre la civilisation des Italiens & des Siciliens",
+      "filename": "lombardie.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Italiens & des Siciliens"
+    },
+    {
+      "art": "docs/tcg/assets/terr_marais-dor.jpg",
+      "name": "Marais d'or",
+      "cost": "T",
+      "subtitle": "Territoire — Marais",
+      "rule": "Offre un point de technologie/dimanche",
+      "filename": "marais-dor.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_marche.jpg",
+      "name": "Marché",
+      "cost": "T",
+      "subtitle": "Territoire — Ville",
+      "rule": "Offre la civilisation des Perses",
+      "filename": "marche.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Perses"
+    },
+    {
+      "art": "docs/tcg/assets/terr_mediterranee.jpg",
+      "name": "Méditerranée",
+      "cost": "T",
+      "subtitle": "Territoire — Mer",
+      "rule": "Réduit le délai minimum de vos agressions classiques d'une heure",
+      "filename": "mediterranee.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_mongolie.jpg",
+      "name": "Mongolie",
+      "cost": "T",
+      "subtitle": "Territoire — Steppe",
+      "rule": "Offre la civilisation des Mongols",
+      "filename": "mongolie.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Mongols"
+    },
+    {
+      "art": "docs/tcg/assets/terr_passage-montagneux.jpg",
+      "name": "Passage montagneux",
+      "cost": "T",
+      "subtitle": "Territoire — Montagne",
+      "rule": "Augmente le délai d'attaque minimum de vos adversaires de 1h",
+      "filename": "passage-montagneux.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_pierre-runiques.jpg",
+      "name": "Pierre runiques",
+      "cost": "T",
+      "subtitle": "Territoire — Prairie",
+      "rule": "Offre un mariage/dimanche",
+      "filename": "pierre-runiques.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_refuge.jpg",
+      "name": "Refuge",
+      "cost": "T",
+      "subtitle": "Territoire — Vallée",
+      "rule": "Offre la map Émigration ou 2 points de technologie",
+      "filename": "refuge.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_repercussions.jpg",
+      "name": "Répercussions",
+      "cost": "T",
+      "subtitle": "Territoire — Champ de bataille",
+      "rule": "Offre la civilisation des Huns",
+      "filename": "repercussions.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Huns"
+    },
+    {
+      "art": "docs/tcg/assets/terr_ruee-vers-or.jpg",
+      "name": "Ruée vers l'or",
+      "cost": "T",
+      "subtitle": "Territoire — Rivière",
+      "rule": "Offre un point de technologie/dimanche",
+      "filename": "ruee-vers-lor.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_scandinavie.jpg",
+      "name": "Scandinavie",
+      "cost": "T",
+      "subtitle": "Territoire — Fjords",
+      "rule": "Offre la civilisation des Vikings",
+      "filename": "scandinavie.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Vikings"
+    },
+    {
+      "art": "docs/tcg/assets/terr_serengeti.jpg",
+      "name": "Serengeti",
+      "cost": "T",
+      "subtitle": "Territoire — Savane",
+      "rule": "Offre la civilisation des Éthiopiens",
+      "filename": "serengeti.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Éthiopiens"
+    },
+    {
+      "art": "docs/tcg/assets/terr_sources-sacrees.jpg",
+      "name": "Sources sacrées",
+      "cost": "T",
+      "subtitle": "Territoire — Jungle",
+      "rule": "Offre un mariage arrangé/dimanche\nOffre la civilisation des Khmers",
+      "filename": "sources-sacrees.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Khmers"
+    },
+    {
+      "art": "docs/tcg/assets/terr_terrain-escarpe.jpg",
+      "name": "Terrain escarpé",
+      "cost": "T",
+      "subtitle": "Territoire — Montagne",
+      "rule": "Offre une Embuscade/semaine",
+      "filename": "terrain-escarpe.jpg"
+    },
+    {
+      "art": "docs/tcg/assets/terr_tourbiere.jpg",
+      "name": "Tourbière",
+      "cost": "T",
+      "subtitle": "Territoire — Marais",
+      "rule": "Offre la civilisation des Vietnamiens",
+      "filename": "tourbiere.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Vietnamiens"
+    },
+    {
+      "art": "docs/tcg/assets/terr_tunnel-amazonien.jpg",
+      "name": "Tunnel Amazonien",
+      "cost": "T",
+      "subtitle": "Territoire — Jungle",
+      "rule": "Offre la civilisation des Incas",
+      "filename": "tunnel-amazonien.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Incas"
+    },
+    {
+      "art": "docs/tcg/assets/terr_yucatan.jpg",
+      "name": "Yucatan",
+      "cost": "T",
+      "subtitle": "Territoire — Jungle",
+      "rule": "Offre la civilisation des Mayas",
+      "filename": "yucatan.jpg",
+      "extra_label": "Condition liée :",
+      "extra_value": "Mayas"
+    }
+  ]
 }
