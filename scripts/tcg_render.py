@@ -3,17 +3,19 @@
 
 Source of truth: the JSON files under ``docs/tcg/data/`` and
 ``docs/visuals/data/`` (names, rules, costs, art paths). Rendering and
-validation are delegated to the visual-generator library (engine,
-templates, OCR check) — this script only maps the Kingdoms data onto
-the library's JSON visual schema and invokes it.
+validation are delegated to the visual-generator library — installed
+in the uv environment (``uv sync --group visuals`` then ``uv run …``,
+see pyproject.toml and the library's agent skill for the full
+pipeline). This driver only maps the Kingdoms data onto the library's
+JSON visual schema and invokes it.
 
 Usage::
 
-    python3 scripts/tcg_render.py --lib ../visual-generator [--only technologies]
+    uv run python scripts/tcg_render.py [--only technologies|territoires|regles|match]...
 
-Art lives in ``docs/tcg/assets/`` (extracted from the previous renders
-or supplied by the game designers); rendered outputs land in
-``docs/tcg/technologies|territoires/`` and ``docs/tcg/``.
+Art lives in ``docs/tcg/assets/``; rendered outputs land in
+``docs/tcg/technologies|territoires/``, ``docs/tcg/`` and
+``docs/visuals/``.
 """
 from __future__ import annotations
 
@@ -49,28 +51,32 @@ KIND_PALETTE = {
     },
 }
 
-OUTDIR = {"technology": "technologies", "territory": "territoires", "civilization": "civilizations"}
-
 DEFAULT_SUBTITLE = {
     "technology": "Action spéciale — Technologie",
     "territory": "Territoire",
     "civilization": "Civilisation",
 }
 
+OUTDIR = {
+    "technology": "technologies",
+    "territory": "territoires",
+    "civilization": "civilizations",
+}
+
 
 def run(cmd):
-    print("+", " ".join(cmd))
+    print("+", " ".join(str(c) for c in cmd))
     r = subprocess.run(cmd, cwd=REPO)
     if r.returncode != 0:
         sys.exit(r.returncode)
 
 
-def card_visual(kind, card, index, total, art_dir):
+def card_visual(kind, card, index, total):
     pal = KIND_PALETTE[kind]
     sec = {
         "name": card["name"],
         "cost": card.get("cost", ""),
-        "art": os.path.join(art_dir, os.path.basename(card["art"])),
+        "art": os.path.join("docs/tcg/assets", os.path.basename(card["art"])),
         "type_line": card.get("subtitle", DEFAULT_SUBTITLE[kind]),
         "rule": card["rule"],
         "footer_left": f"{index}/{total}",
@@ -90,13 +96,10 @@ def card_visual(kind, card, index, total, art_dir):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    p.add_argument("--lib", required=True, help="path to the visual-generator clone")
-    p.add_argument("--only", choices=["technologies", "territoires", "regles", "match"], action="append",
+    p.add_argument("--only", choices=["technologies", "territoires", "regles", "match"],
+                   action="append",
                    help="render only this group (repeatable)")
     args = p.parse_args()
-    lib = os.path.abspath(args.lib)
-    engine = os.path.join(lib, "engine", "render.py")
-    ocr = os.path.join(lib, "tools", "ocr_check.py")
     wanted = args.only or ["technologies", "territoires", "regles", "match"]
 
     jobs = []
@@ -109,10 +112,7 @@ def main():
             kind = data["kind"]
             cards = data["cards"]
             total = len(cards)
-            visuals = []
-            for i, card in enumerate(cards, 1):
-                visuals.append(card_visual(kind, card, i, total, "docs/tcg/assets"))
-            # contact sheet
+            visuals = [card_visual(kind, c, i, total) for i, c in enumerate(cards, 1)]
             sheet = {
                 "template": "contact_sheet",
                 "output": os.path.join("docs/tcg", OUTDIR[kind], data["sheet_filename"]),
@@ -120,15 +120,11 @@ def main():
                     "title": data.get("sheet_title", "KINGDOMS"),
                     "columns": 5,
                     "card_template": "card_tcg",
-                    "cards": [dict(template="card_tcg", canvas=v.get("canvas", {}),
-                                   palette=v["palette"], sections=v["sections"])
+                    "cards": [dict(canvas=v["canvas"], palette=v["palette"], sections=v["sections"])
                               for v in visuals],
                 },
             }
-            # individual cards use their own output path
-            for v in visuals:
-                v2 = {k: val for k, val in v.items()}
-                jobs.append((v2, group))
+            jobs += [(v, group) for v in visuals]
             jobs.append((sheet, group))
 
     if "regles" in wanted:
@@ -145,16 +141,17 @@ def main():
         data = json.load(open(os.path.join(REPO, "docs/visuals/data/match_hen_gaia.json"), encoding="utf-8"))
         jobs.append((data, "match"))
 
+    tmp = os.path.join(REPO, "docs/tcg/data/_render.json")
+    n = 0
     for visual, group in jobs:
-        out = visual["output"]
-        tmp = os.path.join(REPO, "docs/tcg/data/_render.json")
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(visual, fh, ensure_ascii=False)
-        run([sys.executable, engine, "--data", tmp])
-        run([sys.executable, ocr, "--data", tmp])
-        print("ok", out)
+        run([sys.executable, "-m", "engine.render", "--data", tmp])
+        run([sys.executable, "-m", "tools.ocr_check", "--data", tmp])
+        print("ok", visual["output"])
+        n += 1
     os.remove(tmp)
-    print(f"done: {len(jobs)} visuals rendered and OCR-checked")
+    print(f"done: {n} visuals rendered and OCR-checked")
 
 
 if __name__ == "__main__":
