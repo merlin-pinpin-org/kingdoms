@@ -1,0 +1,41 @@
+{
+  "title": "LES RÈGLES DU ROYAUME",
+  "subtitle": "Mod Kingdoms — Saison II",
+  "footer": "— Tel qu'il est écrit, ainsi soit-il joué —",
+  "source_line": "Source : docs/MODS/kingdoms — Mod Kingdoms",
+  "columns": 2,
+  "sections": [
+    {
+      "head": "Le Royaume et la Saison",
+      "body": "Une saison dure quatre semaines, découpées en cycles. Chaque royaume est dirigé par un Roi entouré de Seigneurs. Gaïa, le royaume de l'IA, n'est ni jouable ni inscriptible. Le royaume qui domine à la fin de la saison est déclaré vainqueur."
+    },
+    {
+      "head": "Les Territoires",
+      "body": "Chaque territoire est une map AoE2, conquise par de vraies parties. Un Seigneur dispose d'une attaque et d'une défense par semaine. Les effets des territoires s'appliquent au Jour du Seigneur, le dimanche à 23 h 30."
+    },
+    {
+      "head": "Les Civilisations",
+      "body": "Une civilisation devient disponible quand sa condition est remplie. Les alliances s'actualisent à la fin de chaque cycle selon les mariages et les territoires conquis : une civilisation peut être obtenue, puis perdue."
+    },
+    {
+      "head": "Les Technologies",
+      "body": "Les technologies sont la monnaie du royaume, échangée au Marché contre des actions spéciales : Embuscade, Traquenard, Patrouille, Contre-espionnage, Sabotage, Explorateur, Jeu d'armes, Mariage arrangé, Corruption, Garde Royale."
+    },
+    {
+      "head": "Les Événements",
+      "body": "Exploration le samedi à 14 h : partie FFA optionnelle. Jour du Seigneur le dimanche à 23 h 30 : territoires Gaïa, cadastre, alliances. Changement d'époque le mercredi à minuit : l'IA de Gaïa progresse, le royaume gagne technologies et mariages."
+    },
+    {
+      "head": "La Diplomatie",
+      "body": "Les mariages lient un Seigneur au Roi ou à la Reine d'une civilisation : ils sécurisent une civilisation et empêchent les adversaires de l'obtenir. Les traités et l'Ordre Royal régissent les accords entre royaumes."
+    },
+    {
+      "head": "Les Interdits",
+      "body": "Durant la fenêtre de protection, du dimanche 23 h 30 au lundi 10 h, aucune agression ni Corruption n'est permise. La Patrouille protège tous les territoires du royaume, mais Gaïa n'attaque jamais."
+    },
+    {
+      "head": "La Gazette",
+      "body": "À chaque bascule de cycle, le héraut publie la Gazette : territoires par royaume, alliances, technologies dépensées. Le cadastre est la mémoire du monde."
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "template": "match_announcement",
+  "output": "docs/visuals/match_hen_gaia.jpg",
+  "art": "docs/tcg/assets/battle.jpg",
+  "sections": {
+    "left_name": "Royaume des HeN",
+    "left_crest": "docs/visuals/assets/crest_hen.png",
+    "left_civs": [
+      "docs/visuals/assets/civ_byzantines.png",
+      "docs/visuals/assets/civ_burgundians.png",
+      "docs/visuals/assets/civ_berbers.png"
+    ],
+    "right_name": "Royaume d'Ellenseg",
+    "right_crest": "docs/visuals/assets/crest_ellenseg.png",
+    "map_art": "docs/visuals/assets/map_arabia.png",
+    "map_name": "Arabie",
+    "vs": "VS",
+    "context_line": "Attaque — Territoire : Arabie",
+    "sub_line": "Dimanche 23 h 30 · Saison II — Cycle 3",
+    "footer": "Mod Kingdoms — Jour du Seigneur"
+  }
+}
