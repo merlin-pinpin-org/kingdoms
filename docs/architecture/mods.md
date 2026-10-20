@@ -18,8 +18,11 @@ they declare?".
 
 Responsibilities:
 
-1. **Discovery** — read mod declarations from
-   `kingdoms-services/config/mods/<mod>.yaml` at startup
+1. **Discovery** — read mod declarations at startup: modular layout
+   `kingdoms-services/modules/mods/<mod>/mod.yaml` (one self-contained
+   directory per mod, kingdoms#178) and legacy
+   `kingdoms-services/config/mods/<mod>.yaml` (supported, priority on
+   id collision during the migration)
 2. **Enablement** — honor the `enabled` flag; disabled mods are never
    loaded (no commands registered, no workflows, no channels created)
 3. **Declaration surface** — expose, per mod:
@@ -35,7 +38,11 @@ Responsibilities:
 ### Declaration example
 
 The repo ships a fully documented template: `kingdoms-services/config/mods/_example.yaml`.
-Mods are added by copying it as `config/mods/<mod>.yaml` — no core change.
+Mods are added by `kingdoms mod init <name>` (see
+[GUIDES/mod-init.md](../GUIDES/mod-init.md)) — the scaffold generates
+the modular directory (declaration + package + locales + test) — or,
+on a branch still in legacy layout, by copying `_example.yaml` as
+`config/mods/<mod>.yaml`. No core change either way.
 
 ```yaml
 # kingdoms-services/config/mods/<mod>.yaml — schema (validated at startup)
@@ -124,7 +131,8 @@ Anti-patterns (enforced by review, not by code):
 
 To be loadable, a mod package must provide:
 
-1. A YAML declaration in `kingdoms-services/config/mods/<mod>.yaml`
+1. A YAML declaration — `kingdoms-services/modules/mods/<mod>/mod.yaml`
+   (modular) or `kingdoms-services/config/mods/<mod>.yaml` (legacy)
    (schema shared with the [template](../../templates/mod-template/))
 2. A Python package implementing its workflows against `IWorkflow` and
    calling only core services
