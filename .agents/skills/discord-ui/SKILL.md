@@ -254,14 +254,43 @@ the `CatalogTranslator` (`kingdoms.discord.commands_i18n`) — the yaml
 `commands.<name>_name` / `commands.<name>_description` keys are the
 only source; never a hardcoded localization dict.
 
-The locale resolution rules:
+The locale resolution rules (native Discord, nothing stored):
 
-- **guild messages** — the per-guild language set in `/admin`
-  (`LogService.get_locale`); announcements, lifecycle events, panels;
-- **DMs** — the per-user language set in `/admin` in DM
-  (`user_settings`); DMs follow the user, not a guild;
+- **ephemeral / interaction surfaces** — the **clicker's client
+  language first** (`interaction.locale`), then the server's language
+  when the client speaks one the catalog does not carry — resolved
+  through `kingdoms.discord.locales.interaction_locale`. A French
+  client sees French even on an English server, exactly like Discord
+  localizes slash commands;
+- **pinned / public messages** (panels, announcements, lifecycle
+  events) — the server's own language, `guild.preferred_locale`
+  (Server Settings → Language), resolved through `guild_locale` /
+  `guild_locale_by_id`: one public message, one language;
+- **DMs** — the user's client language, `interaction.locale` (again
+  through the seam); DMs follow the user, not a guild;
 - **command entries** — the Discord client locale, through the
   translator, not the guild's.
+
+The platform stores the language (the admin picker for the guild,
+the DM picker for the user) and **the stored choice wins** over every
+Discord signal — Discord's own surfaces have hard limits:
+
+- a **Community server** carries a real language setting
+  (`preferred_locale`, Server Settings → Language) — the guild
+  surfaces follow it;
+- a **non-Community server** has NO language setting: Discord
+  hard-codes `en-US`. The guild surfaces fall back to the **majority
+  of the members' observed client languages** (every interaction
+  records the clicker's client language per guild —
+  `observe_guild_member_locale` / `observed_guild_locale`);
+- a **user's** language exists only inside interactions: the bot
+  observes it per user (DMs render in the last-seen language) and
+  per guild (the majority fallback above).
+
+A guild that never picked falls back to Discord's signal, then the
+members' observed majority; a user who never picked falls back to
+their last observed client language. The pickers live in menu:admin
+(set-language action) and the DM panel's language opener.
 
 Adding a screen or message, the checklist (never skip the sweep):
 
@@ -277,6 +306,48 @@ Adding a screen or message, the checklist (never skip the sweep):
    English, and a new key in one locale only is a bug — keep the
    key sets identical.
 
+## Menus, panels and the views registry
+
+Every view is **declared once** in `config/views.yaml`
+(kingdoms-services) — the single source of truth the runtime menu
+builder, the pins and the button router consume, and from which
+docs/DEVELOPMENT/VIEWS.md is generated
+(`scripts/generate_views_doc.py` — regenerate it in the same change).
+YAML anchors and aliases keep the repetition out. Navigation buttons
+declare their target; complex behaviors declare an action id the code
+wires at boot (`wire_action`) — an unwired action renders disabled.
+
+**A mod declares its own views in its own config**
+(`config/mods/<mod>.views.yaml`); the registry merges them with the
+platform's. A mod's files never scatter across the repo — its
+declaration, views, code and locales live together (kingdoms#179,
+the modular-layout rule): never add a mod's i18n keys to the shared
+`config/locales/`, never add its views to the platform's YAML. Two kinds:
+
+- a **menu** navigates — buttons only, each opening another view;
+- a **panel** informs or acts — data, actions, live content.
+
+The rules the registry enforces (the tests reject the drifts):
+
+- a menu button opens a **declared** view (`view:open:<view id>` on
+  the wire — the ViewOpenButton router), or carries the sync flag;
+- an admin button renders with 🔒, as discreet as Discord allows;
+- a sync button renders with 🔄 (the TreeEnsureButton: re-provision
+  the scope's channels and roles);
+- **the universal home rule** (registry-enforced): a menu pinned in
+  a scope's `general` explains its scope (the channel notice renders
+  from the declared tree — links, access bands), navigates, and
+  reaches the admin surface. The same contract for every game and
+  mod to come;
+- every view carries its id as its `-#` footer;
+- the platform caps: 20 maps/pool, 20 active pools/guild, 20 games,
+  20 mods.
+
+Adding or reorganizing views: read docs/DEVELOPMENT/VIEWS.md first,
+then declare, wire (`wire_view`), translate both locales, and keep
+the doc and `views_declared.py` in the same PR — the doc is the
+source of truth, the code is its executable mirror.
+
 ## Views organization (adding a screen)
 
 - one module per surface in `kingdoms/discord/` (admin.py, status.py…):
@@ -288,8 +359,13 @@ Adding a screen or message, the checklist (never skip the sweep):
 - labels and urls: prefer an emoji + a short generic label on buttons
   (🔍 Files, 📦 Image, 🌿 Branch); the full values (sha, tags, ids) ride
   the text blocks next to the buttons, timestamps render as Discord
-  relative times (`<t:…:R>`) — the footer stays empty or minimal, it
-  never repeats the body.
+  relative times (`<t:…:R>`);
+- **every view carries its view id as its footer** — a small `-#`
+  line with the id in backticks (`view:aoe2:admin`), built through
+  `kingdoms.core.ids.footer` (or `MenuSpec.view_id` on the menu
+  template). The id is the anchor every human feedback refers to:
+  "the Create button on `view:games:pools:manage` is broken" — no
+  view ships without one.
 
 ## Proactivity mandate (know the whole discord.py surface)
 
