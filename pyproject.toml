@@ -1,0 +1,14 @@
+[project]
+name = "kingdoms-visuals"
+version = "0.1.0"
+description = "Kingdoms TCG and visual generation: JSON sources of truth + the visual-generator library"
+requires-python = ">=3.10"
+
+[dependency-groups]
+visuals = ["visual-generator"]
+
+[tool.uv.sources]
+visual-generator = { path = "../github__merlin-pinpin-org__visual-generator" }
+
+[tool.uv]
+package = false

@@ -1,0 +1,76 @@
+{
+  "kind": "technology",
+  "cards": [
+    {
+      "art": "docs/tcg/assets/art_embuscade.jpg",
+      "name": "Embuscade",
+      "cost": 2,
+      "filename": "01_embuscade.jpg",
+      "rule": "Attaque supplémentaire.\nDélai minimum : 1 heure.\nLe défenseur volontaire ne dépense pas son point de défense."
+    },
+    {
+      "art": "docs/tcg/assets/art_traquenard.jpg",
+      "name": "Traquenard",
+      "cost": 1,
+      "filename": "02_traquenard.jpg",
+      "rule": "Réduit de 1 le niveau d'IA de Gaïa ou d'un royaume joueur.\nExpire à la fin du combat.\nCumulable."
+    },
+    {
+      "art": "docs/tcg/assets/art_patrouille.jpg",
+      "name": "Patrouille",
+      "cost": 2,
+      "filename": "03_patrouille.jpg",
+      "rule": "Tranche quotidienne de 2 heures : tous les territoires du royaume sont protégés.\nAchat par le Roi au Marché.\n2 achats max par royaume et par saison."
+    },
+    {
+      "art": "docs/tcg/assets/art_contre-espionnage.jpg",
+      "name": "Contre-espionnage",
+      "cost": 2,
+      "filename": "04_contre-espionnage.jpg",
+      "rule": "Déclare l'attaque au nom d'un autre seigneur.\nLe véritable attaquant reste caché jusqu'à la révélation."
+    },
+    {
+      "art": "docs/tcg/assets/art_sabotage.jpg",
+      "name": "Sabotage",
+      "cost": 1,
+      "filename": "05_sabotage.jpg",
+      "rule": "Neutralise une civilisation adverse pour la rencontre uniquement.\n2 max par seigneur et par rencontre."
+    },
+    {
+      "art": "docs/tcg/assets/art_explorateur.jpg",
+      "name": "Explorateur",
+      "cost": 2,
+      "filename": "06_explorateur.jpg",
+      "rule": "Une map aléatoire non sortie est reçue gratuitement et immédiatement.\nElle devient un territoire du royaume."
+    },
+    {
+      "art": "docs/tcg/assets/art_jeu-darmes.jpg",
+      "name": "Jeu d'armes",
+      "cost": 1,
+      "filename": "07_jeu-darmes.jpg",
+      "rule": "Augmente de 1 le niveau d'IA du royaume.\nPermanent jusqu'à la fin de la saison."
+    },
+    {
+      "art": "docs/tcg/assets/art_mariage.jpg",
+      "name": "Mariage arrangé",
+      "cost": 3,
+      "filename": "08_mariage-arrange.jpg",
+      "rule": "Exclusivité instantanée d'une civilisation via un mariage avec une promise.\nL'exclusivité est perdue si le Seigneur meurt."
+    },
+    {
+      "art": "docs/tcg/assets/art_corruption.jpg",
+      "name": "Corruption",
+      "cost": 4,
+      "filename": "09_corruption.jpg",
+      "rule": "Vole un territoire sans combat.\nInattaquable et incorruptible 48 heures.\nL'ennemi reçoit +1 technologie.\nMax 2 par saison et par royaume."
+    },
+    {
+      "art": "docs/tcg/assets/art_garde-royale.jpg",
+      "name": "Garde Royale",
+      "cost": 1,
+      "filename": "10_garde-royale.jpg",
+      "rule": "24 heures de protection d'un territoire : ni attaque, ni Corruption.\nUne seule Garde active par royaume.\nProlongation : 1 tech = +3 h."
+    }
+  ],
+  "sheet_filename": "planche_technologies.jpg"
+}
