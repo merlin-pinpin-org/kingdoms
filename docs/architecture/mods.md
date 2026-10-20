@@ -66,6 +66,8 @@ roles:                 # logical role keys, resolved by RoleService
 workflows: []           # workflow names implemented by the mod
 commands: []            # command names implemented by the mod
 dependencies: []        # mod ids this mod depends on
+private: false          # private mod: owners + bot admins only
+owner_discord_ids: []   # mandatory when private (Discord user ids)
 ```
 
 Channel and role declarations are **mod-scoped**: the core never

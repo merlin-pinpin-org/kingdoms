@@ -37,7 +37,7 @@ migration : une branche qui déménage son mod garde la main.
 ## 2. La commande
 
 ```bash
-uv run kingdoms mod init <name> [--seasonal | --permanent]
+uv run kingdoms mod init <name> [--seasonal | --permanent] [--private --owner <discord-id>]...
 uv run kingdoms mod list
 ```
 
@@ -64,13 +64,31 @@ n'est écrasé — un mod existant est refusé.
   catalogue appartient au core `GameDataService`, les saisons au
   registre core.
 
+## 3b. Mods publics et privés
+
+Un mod est **public par défaut**. Déclaré `private: true` dans le
+`mod.yaml`, il devient **privé** :
+
+- `owner_discord_ids` (ids Discord des propriétaires) est
+  **obligatoire** — un mod privé sans propriétaire fait échouer le boot
+  (fail loudly) ;
+- le provisioning saute les guildes où **aucun** propriétaire ni
+  bot-admin n'est membre ;
+- les surfaces (menu home, dispatch des vues de mod) le cachent à
+  quiconque n'est pas propriétaire ou bot-admin.
+
+Le scaffold le fait en une commande : `kingdoms mod init <name>
+--private --owner <id> [--owner <id>...]`. Usage typique : un mod en
+cours de construction qui ne doit pas apparaître sur les guildes de
+production avant d'être prêt.
+
 ## 4. Les deux exemples de référence
 
 | | [ladder](../MODS/ladder/) | [kingdoms](../MODS/kingdoms/) |
 |---|---|---|
 | Type | saisonnier, game-agnostic | saisonnier, **game-bound (AoE2)** |
 | Rôles | 3 (staff mod + player/season_staff par saison) | déclarés au déménagement |
-| Déclaration | `modules/mods/ladder/mod.yaml` | `modules/mods/kingdoms/mod.yaml` |
+| Déclaration | `modules/mods/ladder/mod.yaml` | `modules/mods/kingdoms/mod.yaml` (réelle, salons-first, depuis `vibe/drasah/main`) |
 | Code | branche `vibe/merlin/main` (PR kingdoms-services#245) | branche `vibe/drasah/main` (PR kingdoms-services#244) |
 
 Les deux répertoires `modules/mods/` pin **le layout cible et la
