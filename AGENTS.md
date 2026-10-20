@@ -68,6 +68,11 @@ the keyword comment on the PR.
 
 ## Read first
 
+**Everything on the repositories is in English** — docs, comments,
+docstrings, commit messages, PR titles and descriptions (see
+docs/CONVENTIONS.md, *Working language*). The only French allowed is
+the **user-facing UI content** (locale catalogs, rendered labels).
+
 - [docs/INDEX.md](docs/INDEX.md) — the router: question → page. Find the
   answer without reading the whole docs tree.
 - [docs/MODES.md](docs/MODES.md) — the two working modes (personal mod
