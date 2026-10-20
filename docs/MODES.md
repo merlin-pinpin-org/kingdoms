@@ -64,7 +64,7 @@ the org:
 - Long evolutions follow this mode even for maintainers; only
   justified urgent/quick fixes may take the cowboy shortcut.
 
-## Cowboy mode (maintainer only) — explicit, per operation
+## Cowboy mode (maintainer only) — explicit, single-shot per command
 
 - Direct push to `main`, ruleset bypass, force push, no PR: everything
   GitHub lets a maintainer do.
@@ -72,6 +72,12 @@ the org:
   kind** — the agent never assumes cowboy mode, never "inherits" it
   from the previous operation, and states what it is about to do
   before doing it.
+- **Activation is single-shot and expires with the next command:** an
+  explicit "cowboy" activation covers exactly one operation — the next
+  command the session runs — and expires the moment that operation
+  ends. It is never a session-long state: any later cowboy operation
+  needs a fresh, explicit activation and confirmation, even mid-
+  session, even for the same kind of operation.
 - **You own the fallout**: no review caught it, so whatever breaks is
   the author's. Use it for justified speed (broken CI fix, hotfix,
   state-branch surgery), not for convenience.
@@ -112,7 +118,9 @@ remains an isolated sandbox (own compose project, own data volumes).
 4. Pro mode never force-pushes, never bypasses a ruleset. No mode
    ever force-pushes `main` — history is never rewritten.
 5. Cowboy mode requires a fresh, explicit human validation **per
-   operation**; the session reports each cowboy operation in its
+   operation**; an activation is valid only for the **next command**
+   and expires as soon as it completes — it never lasts the session;
+   the session reports each cowboy operation in its
    summary so the audit trail exists.
 5b. No session merges PRs (API-blocked); the cowboy "merge" is a
    direct push of the PR's commits to `main`, confirmed once per

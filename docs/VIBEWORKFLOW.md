@@ -12,7 +12,9 @@ must be able to understand the model from this page alone.
 ## Modes
 
 Every contributor works in one of three modes — sandbox (vibe coder),
-pro (dev/ops) or cowboy (maintainer, explicit per operation). The mode
+pro (dev/ops) or cowboy (maintainer, explicit single-shot activation
+per command — an activation covers only the next operation and
+expires immediately, never the whole session). The mode
 decides the branch strategy, the review gate and the GitHub powers; it
 is documented on its own page: [MODES.md](MODES.md).
 

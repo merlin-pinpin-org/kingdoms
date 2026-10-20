@@ -265,7 +265,11 @@ equivalent of "merge a PR" is: push the PR's commits directly to
 maintainer (read `CONTRIBUTORS.md` in the kingdoms repo), only
 after the human explicitly activates cowboy mode, and only after
 the session asks for and receives an explicit confirmation for
-**each** push to `main`. Force-pushing `main` is technically
+**each** push to `main`. **Cowboy activation is single-shot:** it
+ covers exactly one operation (the next command) and expires
+ immediately after — it never lasts the session, is never carried
+ over to a following command, and must be re-activated and
+ re-confirmed for every subsequent cowboy operation. Force-pushing `main` is technically
 possible but **always refused** — history is never rewritten, no
 exceptions, no confirmation can unlock it.
 
@@ -301,7 +305,10 @@ scope of what they may do:
   the shared validation environment, and deploy to prod.
 - **Maintainer** — works like dev/ops by default. The **cowboy mode**
   (ruleset bypass, direct push to `main`) is maintainer-only, granted
-  **on demand, explicitly** — never a default.
+  **on demand, explicitly** — never a default. Each activation covers
+  only the next operation: it expires as soon as that operation
+  completes (or is aborted), and the next cowboy command needs a
+  fresh activation and confirmation.
 
 **Restrictions:** users who are not maintainers have no bypass
 powers — the PR process is the default for everyone; cowboy mode is
