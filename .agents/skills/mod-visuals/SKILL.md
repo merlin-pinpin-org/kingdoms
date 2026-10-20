@@ -1,14 +1,14 @@
 ---
-name: tcg-card-generation
-description: Generate collectible card images (TCG) and parchment posters for Kingdoms — art by image model, text by the visual-generator library, OCR-validated. Kingdoms content lives under docs/tcg (data, assets, rendered outputs) and docs/visuals; layout and validation come from the visual-generator library. Use whenever a game designer asks for card art, printable cards, decks, or illustrated rules.
+name: mod-visuals
+description: Render the Kingdoms mod visuals (cards, posters, sheets) — art by image model, text by the visual-generator library, OCR-validated. Kingdoms content lives under docs/visuals (deck, data, assets, outputs) and docs/visuals; layout and validation come from the visual-generator library. Use whenever a game designer asks for card art, printable cards, decks, or illustrated rules.
 ---
 
-# TCG card generation (Kingdoms)
+# Mod visuals (Kingdoms)
 
 Kingdoms visuals are rendered by the **visual-generator** library.
 This repo owns only the *content*: the JSON sources of truth under
-`docs/tcg/data/` and `docs/visuals/data/`, and the art under
-`docs/tcg/assets/` and `docs/visuals/assets/`.
+`docs/visuals/deck/data/` and `docs/visuals/data/`, and the art under
+`docs/visuals/deck/assets/` and `docs/visuals/assets/`.
 
 **Canonical skill**: the library ships the reference agent skill —
 `.agents/skills/visual-generator/SKILL.md` in
@@ -27,13 +27,13 @@ library from the JSON with a real vector font — provable by OCR.
 
 ```bash
 uv sync --group visuals     # installs visual-generator (see pyproject.toml)
-uv run python scripts/tcg_render.py
+uv run python scripts/visuals_render.py
 ```
 
 ## Layout
 
 ```
-docs/tcg/                    ← the Kingdoms deck
+docs/visuals/deck/                    ← the Kingdoms deck
 ├── data/                    ← JSON sources of truth for every image
 │   ├── technologies.json    ← 10 technology cards
 │   ├── territoires.json     ← 48 territory cards
@@ -48,7 +48,7 @@ docs/visuals/                ← other Kingdoms visuals (match banners…)
 ├── assets/                  ← crests, civ icons, map thumbnails
 └── *.jpg                    ← rendered outputs
 
-scripts/tcg_render.py        ← driver: Kingdoms JSON → library visuals + OCR check
+scripts/visuals_render.py        ← driver: Kingdoms JSON → library visuals + OCR check
 ```
 
 **Data is the source of truth.** To change a card, edit the JSON and
@@ -56,22 +56,22 @@ re-render; never edit the image.
 
 ## Pipeline (per deck)
 
-1. **Data** — edit `docs/tcg/data/<deck>.json`. Extract content from
+1. **Data** — edit `docs/visuals/deck/data/<deck>.json`. Extract content from
    the mod docs (`docs/MODS/kingdoms/RULES.md`, `CADASTRE.md`,
    `CIVILIZATIONS.md`); never invent rules, and **À DÉFINIR** content
    does not go on a card.
 2. **Art** — one image-generation call per card (or reuse committed
-   art in `docs/tcg/assets/`), prompt template: `Medieval fantasy
+   art in `docs/visuals/deck/assets/`), prompt template: `Medieval fantasy
    trading card art, portrait orientation, Age of Empires II style
    illustration only, NO text, NO letters, NO words anywhere: <scene>.`
 3. **Download immediately** — generated URLs expire in ~1 h; deliver
    through committed files (raw GitHub URLs), never sandbox paths.
-4. **Render** — `uv run python scripts/tcg_render.py`
+4. **Render** — `uv run python scripts/visuals_render.py`
    (optionally `--only technologies|territoires|regles|match`).
    The driver maps the Kingdoms JSON onto the library templates
    (`card_tcg`, `contact_sheet`, `parchment_poster`,
    `match_announcement`) with the Kingdoms palettes (defined in
-   `scripts/tcg_render.py`), renders and OCR-checks every visual.
+   `scripts/visuals_render.py`), renders and OCR-checks every visual.
 5. **Validate — mandatory.** The driver runs the library's OCR check
    on every visual (fail-closed; tesseract + `fra` required — with
    `OCR_CHECK_ALLOW_MISSING_TESSERACT=1` it skips with a warning, and
@@ -84,10 +84,10 @@ re-render; never edit the image.
 ## Kingdoms specifics
 
 - Card anatomy, palettes and schemas: see the library skill; the
-  Kingdoms palettes per `kind` live in `scripts/tcg_render.py`.
-- Planches live in `docs/tcg/technologies|territoires/` with their
-  deck, never at `docs/tcg/` root.
-- Art paths in the JSON are repo-relative (`docs/tcg/assets/…`),
+  Kingdoms palettes per `kind` live in `scripts/visuals_render.py`.
+- Planches live in `docs/visuals/deck/technologies|territoires/` with their
+  deck, never at `docs/visuals/deck/` root.
+- Art paths in the JSON are repo-relative (`docs/visuals/deck/assets/…`),
   never sandbox paths.
 - Accented slugs in filenames caused art mismatch — generate the
   output filename from the accent-stripped map name.

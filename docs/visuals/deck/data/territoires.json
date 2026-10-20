@@ -4,7 +4,7 @@
   "sheet_filename": "planche_territoires.jpg",
   "cards": [
     {
-      "art": "docs/tcg/assets/terr_acropolis.jpg",
+      "art": "docs/visuals/deck/assets/terr_acropolis.jpg",
       "name": "Acropolis",
       "cost": "T",
       "subtitle": "Territoire — Citadelle",
@@ -12,7 +12,7 @@
       "filename": "acropolis.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_archipel.jpg",
+      "art": "docs/visuals/deck/assets/terr_archipel.jpg",
       "name": "Archipel",
       "cost": "T",
       "subtitle": "Territoire — Îles",
@@ -22,7 +22,7 @@
       "extra_value": "Japonais"
     },
     {
-      "art": "docs/tcg/assets/terr_arene.jpg",
+      "art": "docs/visuals/deck/assets/terr_arene.jpg",
       "name": "Arène",
       "cost": "T",
       "subtitle": "Territoire — Arène",
@@ -30,7 +30,7 @@
       "filename": "arene.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_baltique.jpg",
+      "art": "docs/visuals/deck/assets/terr_baltique.jpg",
       "name": "Baltique",
       "cost": "T",
       "subtitle": "Territoire — Mer",
@@ -38,7 +38,7 @@
       "filename": "baltique.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_bois-creux.jpg",
+      "art": "docs/visuals/deck/assets/terr_bois-creux.jpg",
       "name": "Bois Creux",
       "cost": "T",
       "subtitle": "Territoire — Forêt",
@@ -46,7 +46,7 @@
       "filename": "bois-creux.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_budapest.jpg",
+      "art": "docs/visuals/deck/assets/terr_budapest.jpg",
       "name": "Budapest",
       "cost": "T",
       "subtitle": "Territoire — Fleuve",
@@ -54,7 +54,7 @@
       "filename": "budapest.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_clairiere-africaine.jpg",
+      "art": "docs/visuals/deck/assets/terr_clairiere-africaine.jpg",
       "name": "Clairière Africaine",
       "cost": "T",
       "subtitle": "Territoire — Savane",
@@ -64,7 +64,7 @@
       "extra_value": "Maliens"
     },
     {
-      "art": "docs/tcg/assets/terr_colline-aux-loups.jpg",
+      "art": "docs/visuals/deck/assets/terr_colline-aux-loups.jpg",
       "name": "Colline aux loups",
       "cost": "T",
       "subtitle": "Territoire — Colline",
@@ -72,7 +72,7 @@
       "filename": "colline-aux-loups.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_cote.jpg",
+      "art": "docs/visuals/deck/assets/terr_cote.jpg",
       "name": "Côte",
       "cost": "T",
       "subtitle": "Territoire — Littoral",
@@ -82,7 +82,7 @@
       "extra_value": "Bengalis"
     },
     {
-      "art": "docs/tcg/assets/terr_delta-nil.jpg",
+      "art": "docs/visuals/deck/assets/terr_delta-nil.jpg",
       "name": "Delta du Nil",
       "cost": "T",
       "subtitle": "Territoire — Fleuve",
@@ -92,7 +92,7 @@
       "extra_value": "Sarrasins"
     },
     {
-      "art": "docs/tcg/assets/terr_embranchement.jpg",
+      "art": "docs/visuals/deck/assets/terr_embranchement.jpg",
       "name": "Embranchement",
       "cost": "T",
       "subtitle": "Territoire — Forêt",
@@ -100,7 +100,7 @@
       "filename": "embranchement.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_emigration.jpg",
+      "art": "docs/visuals/deck/assets/terr_emigration.jpg",
       "name": "Emigration",
       "cost": "T",
       "subtitle": "Territoire — Mer",
@@ -108,7 +108,7 @@
       "filename": "emigration.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_falaise.jpg",
+      "art": "docs/visuals/deck/assets/terr_falaise.jpg",
       "name": "Falaise",
       "cost": "T",
       "subtitle": "Territoire — Falaise",
@@ -116,7 +116,7 @@
       "filename": "falaise.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_flot-dore.jpg",
+      "art": "docs/visuals/deck/assets/terr_flot-dore.jpg",
       "name": "Flot doré",
       "cost": "T",
       "subtitle": "Territoire — Rivière",
@@ -124,7 +124,7 @@
       "filename": "flot-dore.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_foret-cotiere.jpg",
+      "art": "docs/visuals/deck/assets/terr_foret-cotiere.jpg",
       "name": "Forêt côtière",
       "cost": "T",
       "subtitle": "Territoire — Forêt",
@@ -132,7 +132,7 @@
       "filename": "foret-cotiere.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_foret-noire.jpg",
+      "art": "docs/visuals/deck/assets/terr_foret-noire.jpg",
       "name": "Forêt noire",
       "cost": "T",
       "subtitle": "Territoire — Forêt",
@@ -142,7 +142,7 @@
       "extra_value": "Celtes"
     },
     {
-      "art": "docs/tcg/assets/terr_forteresse.jpg",
+      "art": "docs/visuals/deck/assets/terr_forteresse.jpg",
       "name": "Forteresse",
       "cost": "T",
       "subtitle": "Territoire — Forteresse",
@@ -150,7 +150,7 @@
       "filename": "forteresse.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_gorges.jpg",
+      "art": "docs/visuals/deck/assets/terr_gorges.jpg",
       "name": "Gorges",
       "cost": "T",
       "subtitle": "Territoire — Canyon",
@@ -160,7 +160,7 @@
       "extra_value": "Géorgiens"
     },
     {
-      "art": "docs/tcg/assets/terr_gouffre-dore.jpg",
+      "art": "docs/visuals/deck/assets/terr_gouffre-dore.jpg",
       "name": "Gouffre doré",
       "cost": "T",
       "subtitle": "Territoire — Canyon",
@@ -168,7 +168,7 @@
       "filename": "gouffre-dore.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_groenland.jpg",
+      "art": "docs/visuals/deck/assets/terr_groenland.jpg",
       "name": "Groenland",
       "cost": "T",
       "subtitle": "Territoire — Glaciers",
@@ -178,7 +178,7 @@
       "extra_value": "Vikings"
     },
     {
-      "art": "docs/tcg/assets/terr_hamburger.jpg",
+      "art": "docs/visuals/deck/assets/terr_hamburger.jpg",
       "name": "Hamburger",
       "cost": "T",
       "subtitle": "Territoire — Plaines",
@@ -188,7 +188,7 @@
       "extra_value": "Bourguignons"
     },
     {
-      "art": "docs/tcg/assets/terr_ile-volcanique.jpg",
+      "art": "docs/visuals/deck/assets/terr_ile-volcanique.jpg",
       "name": "Île volcanique",
       "cost": "T",
       "subtitle": "Territoire — Île",
@@ -198,7 +198,7 @@
       "extra_value": "Japonais"
     },
     {
-      "art": "docs/tcg/assets/terr_iles.jpg",
+      "art": "docs/visuals/deck/assets/terr_iles.jpg",
       "name": "Îles",
       "cost": "T",
       "subtitle": "Territoire — Îles",
@@ -208,7 +208,7 @@
       "extra_value": "Britanniques"
     },
     {
-      "art": "docs/tcg/assets/terr_iles-du-nord.jpg",
+      "art": "docs/visuals/deck/assets/terr_iles-du-nord.jpg",
       "name": "Îles du nord",
       "cost": "T",
       "subtitle": "Territoire — Îles",
@@ -218,7 +218,7 @@
       "extra_value": "Vikings"
     },
     {
-      "art": "docs/tcg/assets/terr_ile-pacifique.jpg",
+      "art": "docs/visuals/deck/assets/terr_ile-pacifique.jpg",
       "name": "Île du Pacifique",
       "cost": "T",
       "subtitle": "Territoire — Île",
@@ -228,7 +228,7 @@
       "extra_value": "Malais"
     },
     {
-      "art": "docs/tcg/assets/terr_iles-marecageuses.jpg",
+      "art": "docs/visuals/deck/assets/terr_iles-marecageuses.jpg",
       "name": "Îles marécageuses",
       "cost": "T",
       "subtitle": "Territoire — Marais",
@@ -236,7 +236,7 @@
       "filename": "iles-marecageuses.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_ile-partenaire.jpg",
+      "art": "docs/visuals/deck/assets/terr_ile-partenaire.jpg",
       "name": "Île partenaire",
       "cost": "T",
       "subtitle": "Territoire — Îles",
@@ -244,7 +244,7 @@
       "filename": "ile-partenaire.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_jungle-mangrove.jpg",
+      "art": "docs/visuals/deck/assets/terr_jungle-mangrove.jpg",
       "name": "Jungle de la mangrove",
       "cost": "T",
       "subtitle": "Territoire — Jungle",
@@ -254,7 +254,7 @@
       "extra_value": "Aztèques"
     },
     {
-      "art": "docs/tcg/assets/terr_lac-fantome.jpg",
+      "art": "docs/visuals/deck/assets/terr_lac-fantome.jpg",
       "name": "Lac Fantôme",
       "cost": "T",
       "subtitle": "Territoire — Lac",
@@ -264,7 +264,7 @@
       "extra_value": "Polonais & des Slaves"
     },
     {
-      "art": "docs/tcg/assets/terr_le-passage.jpg",
+      "art": "docs/visuals/deck/assets/terr_le-passage.jpg",
       "name": "Le Fort de la colline",
       "cost": "T",
       "subtitle": "Territoire — Colline",
@@ -272,7 +272,7 @@
       "filename": "le-fort-de-la-colline.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_le-passage.jpg",
+      "art": "docs/visuals/deck/assets/terr_le-passage.jpg",
       "name": "Le Passage",
       "cost": "T",
       "subtitle": "Territoire — Montagne",
@@ -280,7 +280,7 @@
       "filename": "le-passage.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_lombardie.jpg",
+      "art": "docs/visuals/deck/assets/terr_lombardie.jpg",
       "name": "Lombardie",
       "cost": "T",
       "subtitle": "Territoire — Plaine",
@@ -290,7 +290,7 @@
       "extra_value": "Italiens & des Siciliens"
     },
     {
-      "art": "docs/tcg/assets/terr_marais-dor.jpg",
+      "art": "docs/visuals/deck/assets/terr_marais-dor.jpg",
       "name": "Marais d'or",
       "cost": "T",
       "subtitle": "Territoire — Marais",
@@ -298,7 +298,7 @@
       "filename": "marais-dor.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_marche.jpg",
+      "art": "docs/visuals/deck/assets/terr_marche.jpg",
       "name": "Marché",
       "cost": "T",
       "subtitle": "Territoire — Ville",
@@ -308,7 +308,7 @@
       "extra_value": "Perses"
     },
     {
-      "art": "docs/tcg/assets/terr_mediterranee.jpg",
+      "art": "docs/visuals/deck/assets/terr_mediterranee.jpg",
       "name": "Méditerranée",
       "cost": "T",
       "subtitle": "Territoire — Mer",
@@ -316,7 +316,7 @@
       "filename": "mediterranee.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_mongolie.jpg",
+      "art": "docs/visuals/deck/assets/terr_mongolie.jpg",
       "name": "Mongolie",
       "cost": "T",
       "subtitle": "Territoire — Steppe",
@@ -326,7 +326,7 @@
       "extra_value": "Mongols"
     },
     {
-      "art": "docs/tcg/assets/terr_passage-montagneux.jpg",
+      "art": "docs/visuals/deck/assets/terr_passage-montagneux.jpg",
       "name": "Passage montagneux",
       "cost": "T",
       "subtitle": "Territoire — Montagne",
@@ -334,7 +334,7 @@
       "filename": "passage-montagneux.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_pierre-runiques.jpg",
+      "art": "docs/visuals/deck/assets/terr_pierre-runiques.jpg",
       "name": "Pierre runiques",
       "cost": "T",
       "subtitle": "Territoire — Prairie",
@@ -342,7 +342,7 @@
       "filename": "pierre-runiques.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_refuge.jpg",
+      "art": "docs/visuals/deck/assets/terr_refuge.jpg",
       "name": "Refuge",
       "cost": "T",
       "subtitle": "Territoire — Vallée",
@@ -350,7 +350,7 @@
       "filename": "refuge.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_repercussions.jpg",
+      "art": "docs/visuals/deck/assets/terr_repercussions.jpg",
       "name": "Répercussions",
       "cost": "T",
       "subtitle": "Territoire — Champ de bataille",
@@ -360,7 +360,7 @@
       "extra_value": "Huns"
     },
     {
-      "art": "docs/tcg/assets/terr_ruee-vers-or.jpg",
+      "art": "docs/visuals/deck/assets/terr_ruee-vers-or.jpg",
       "name": "Ruée vers l'or",
       "cost": "T",
       "subtitle": "Territoire — Rivière",
@@ -368,7 +368,7 @@
       "filename": "ruee-vers-lor.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_scandinavie.jpg",
+      "art": "docs/visuals/deck/assets/terr_scandinavie.jpg",
       "name": "Scandinavie",
       "cost": "T",
       "subtitle": "Territoire — Fjords",
@@ -378,7 +378,7 @@
       "extra_value": "Vikings"
     },
     {
-      "art": "docs/tcg/assets/terr_serengeti.jpg",
+      "art": "docs/visuals/deck/assets/terr_serengeti.jpg",
       "name": "Serengeti",
       "cost": "T",
       "subtitle": "Territoire — Savane",
@@ -388,7 +388,7 @@
       "extra_value": "Éthiopiens"
     },
     {
-      "art": "docs/tcg/assets/terr_sources-sacrees.jpg",
+      "art": "docs/visuals/deck/assets/terr_sources-sacrees.jpg",
       "name": "Sources sacrées",
       "cost": "T",
       "subtitle": "Territoire — Jungle",
@@ -398,7 +398,7 @@
       "extra_value": "Khmers"
     },
     {
-      "art": "docs/tcg/assets/terr_terrain-escarpe.jpg",
+      "art": "docs/visuals/deck/assets/terr_terrain-escarpe.jpg",
       "name": "Terrain escarpé",
       "cost": "T",
       "subtitle": "Territoire — Montagne",
@@ -406,7 +406,7 @@
       "filename": "terrain-escarpe.jpg"
     },
     {
-      "art": "docs/tcg/assets/terr_tourbiere.jpg",
+      "art": "docs/visuals/deck/assets/terr_tourbiere.jpg",
       "name": "Tourbière",
       "cost": "T",
       "subtitle": "Territoire — Marais",
@@ -416,7 +416,7 @@
       "extra_value": "Vietnamiens"
     },
     {
-      "art": "docs/tcg/assets/terr_tunnel-amazonien.jpg",
+      "art": "docs/visuals/deck/assets/terr_tunnel-amazonien.jpg",
       "name": "Tunnel Amazonien",
       "cost": "T",
       "subtitle": "Territoire — Jungle",
@@ -426,7 +426,7 @@
       "extra_value": "Incas"
     },
     {
-      "art": "docs/tcg/assets/terr_yucatan.jpg",
+      "art": "docs/visuals/deck/assets/terr_yucatan.jpg",
       "name": "Yucatan",
       "cost": "T",
       "subtitle": "Territoire — Jungle",

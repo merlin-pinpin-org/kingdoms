@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""Render the Kingdoms TCG visuals with the visual-generator library.
+"""Render the Kingdoms mod visuals with the visual-generator library.
 
-Source of truth: the JSON files under ``docs/tcg/data/`` and
+Source of truth: the JSON files under ``docs/visuals/deck/data/`` and
 ``docs/visuals/data/`` (names, rules, costs, art paths). Rendering and
 validation are delegated to the visual-generator library — installed
 in the uv environment (``uv sync --group visuals`` then ``uv run …``,
@@ -11,10 +11,10 @@ JSON visual schema and invokes it.
 
 Usage::
 
-    uv run python scripts/tcg_render.py [--only technologies|territoires|regles|match]...
+    uv run python scripts/visuals_render.py [--only technologies|territoires|regles|match]...
 
-Art lives in ``docs/tcg/assets/``; rendered outputs land in
-``docs/tcg/technologies|territoires/``, ``docs/tcg/`` and
+Art lives in ``docs/visuals/deck/assets/``; rendered outputs land in
+``docs/visuals/deck/technologies|territoires/``, ``docs/visuals/deck/`` and
 ``docs/visuals/``.
 """
 from __future__ import annotations
@@ -76,7 +76,7 @@ def card_visual(kind, card, index, total):
     sec = {
         "name": card["name"],
         "cost": card.get("cost", ""),
-        "art": os.path.join("docs/tcg/assets", os.path.basename(card["art"])),
+        "art": os.path.join("docs/visuals/deck/assets", os.path.basename(card["art"])),
         "type_line": card.get("subtitle", DEFAULT_SUBTITLE[kind]),
         "rule": card["rule"],
         "footer_left": f"{index}/{total}",
@@ -87,7 +87,7 @@ def card_visual(kind, card, index, total):
         sec["extra_value"] = card["extra_value"]
     return {
         "template": "card_tcg",
-        "output": os.path.join("docs/tcg", OUTDIR[kind], card["filename"]),
+        "output": os.path.join("docs/visuals/deck", OUTDIR[kind], card["filename"]),
         "palette": pal,
         "canvas": {"width": 744, "height": 1032},
         "sections": sec,
@@ -108,14 +108,14 @@ def main():
         for group in ("technologies", "territoires"):
             if group not in wanted:
                 continue
-            data = json.load(open(os.path.join(REPO, "docs/tcg/data", f"{group}.json"), encoding="utf-8"))
+            data = json.load(open(os.path.join(REPO, "docs/visuals/deck/data", f"{group}.json"), encoding="utf-8"))
             kind = data["kind"]
             cards = data["cards"]
             total = len(cards)
             visuals = [card_visual(kind, c, i, total) for i, c in enumerate(cards, 1)]
             sheet = {
                 "template": "contact_sheet",
-                "output": os.path.join("docs/tcg", OUTDIR[kind], data["sheet_filename"]),
+                "output": os.path.join("docs/visuals/deck", OUTDIR[kind], data["sheet_filename"]),
                 "sections": {
                     "title": data.get("sheet_title", "KINGDOMS"),
                     "columns": 5,
@@ -128,11 +128,11 @@ def main():
             jobs.append((sheet, group))
 
     if "regles" in wanted:
-        data = json.load(open(os.path.join(REPO, "docs/tcg/data/regles.json"), encoding="utf-8"))
+        data = json.load(open(os.path.join(REPO, "docs/visuals/deck/data/regles.json"), encoding="utf-8"))
         poster = {
             "template": "parchment_poster",
-            "output": "docs/tcg/regles_parchemin.jpg",
-            "art": "docs/tcg/assets/parchemin.jpg",
+            "output": "docs/visuals/deck/regles_parchemin.jpg",
+            "art": "docs/visuals/deck/assets/parchemin.jpg",
             "sections": data,
         }
         jobs.append((poster, "regles"))
@@ -141,7 +141,7 @@ def main():
         data = json.load(open(os.path.join(REPO, "docs/visuals/data/match_hen_gaia.json"), encoding="utf-8"))
         jobs.append((data, "match"))
 
-    tmp = os.path.join(REPO, "docs/tcg/data/_render.json")
+    tmp = os.path.join(REPO, "docs/visuals/deck/data/_render.json")
     n = 0
     for visual, group in jobs:
         with open(tmp, "w", encoding="utf-8") as fh:

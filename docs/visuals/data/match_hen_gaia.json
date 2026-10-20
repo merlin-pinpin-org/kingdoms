@@ -1,7 +1,7 @@
 {
   "template": "match_announcement",
   "output": "docs/visuals/match_hen_gaia.jpg",
-  "art": "docs/tcg/assets/battle.jpg",
+  "art": "docs/visuals/deck/assets/battle.jpg",
   "sections": {
     "left_name": "Royaume des HeN",
     "left_crest": "docs/visuals/assets/crest_hen.png",
