@@ -112,6 +112,43 @@ the PR description ("deviates from X because Y"), and link it from the
 mod's docs. An undocumented deviation is drift — the session drift
 watchdog will find it.
 
+## Deploying and validating a new mod — the learned pitfalls
+
+After `make lint typecheck test` and the PR CI is green, the mod deploys
+with `/deploy <env>` (a PR comment) and validates on the test Discord.
+The lessons below come from real sessions — each one cost an hour:
+
+- **Command visibility ≠ permission.** A slash command synced by an
+  enabled mod is visible to EVERYONE on every guild the bot is on; the
+  per-guild access gate only provisions channels/roles. Every mod
+  command MUST validate the guild's granted access at click time
+  (``build_guild_access_service().enabled_mods(guild_id)``) and deny
+  ephemerally — *seeing a command never implies being allowed to use
+  it* (AGENTS.md, runtime permission mandate). Add `@guild_only()`.
+- **A mod that fails to load is invisible, not red.** Mod loading is
+  best-effort by design; a broken import logs one line and the bot
+  boots "green" without the mod. After deploying, ALWAYS check the env
+  logs (`/logs <env>`) for `MOD <name> registered` — never trust the
+  deploy pipeline alone.
+- **The env state branch is last-writer-wins.** Deploying a PR pins
+  `deploy/<env>`; another PR deployed minutes later replaces the pin —
+  your validation silently tests someone else's code. Before validating,
+  confirm the pin (`envs/<env>/state/kingdoms-bot.yml`) carries YOUR
+  image; `/reset-env` wipes the access grants too — the guild must
+  re-request access after a reset.
+- **Approval ≠ provisioning.** Granting a mod from the admin DM used
+  to only write the grant; the channels appeared at the next restart.
+  The approve button now re-provisions immediately — but if a guild
+  reports "approved, nothing happened", check the logs for the
+  post-approval provisioning pass.
+- **Slash-command sync latency is Discord-side.** A global sync can
+  take up to ~1h to reach every client; a client refresh (Ctrl+R)
+  usually reveals it sooner. Guild-scoped sync (`CICD_GUILD_ID` on the
+  env) is instant — prefer it on test envs.
+- **Mod loading happens once at boot.** A fix pushed after the deploy
+  needs a re-deploy to take effect; `/restart <env>` is not enough if
+  the image pin did not change.
+
 ## Anti-patterns
 
 - Writing plumbing the core already owns (season numbering, role sync,
@@ -121,3 +158,5 @@ watchdog will find it.
 - A mod with no `seasonal` flag — startup fails loudly (by design).
 - Starting the implementation before the questionnaire is complete —
   the intake is what makes mods uniform across users.
+- A mod command without the click-time access guard — see *Deploying
+  and validating* above; the sync surface is public by construction.
