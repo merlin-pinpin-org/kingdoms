@@ -23,6 +23,7 @@ the skills there).
 | [shape-game-designer-idea](../../.agents/skills/shape-game-designer-idea/SKILL.md) | Turn a game designer idea into an automatable issue |
 | [ci-monitoring](../../.agents/skills/ci-monitoring/SKILL.md) | Monitor CI, find root causes, push focused fixes |
 | [discord-ui](../../.agents/skills/discord-ui/SKILL.md) | Build any Discord message through the kingdoms-services UI SDK — bricks, archetypes, guards, i18n |
+| [mod-intake](../../.agents/skills/mod-intake/SKILL.md) | Guide a novice through creating a new mod — intake questionnaire, reuse-first, scaffold, conventions |
 
 This directory is kept as the documentation entry point; do not add new
 skill pages here — create `.agents/skills/<name>/SKILL.md` instead.

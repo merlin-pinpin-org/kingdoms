@@ -110,6 +110,31 @@ que le déménagement mécanique du code (un PR par mod, CI verte à chaque
 7. Brancher le design sur la pipeline vibe (issue, PR, deploy, tag) —
    voir [VIBEWORKFLOW.md](../VIBEWORKFLOW.md)
 
+## 6. Les systèmes génériques prêts à brancher
+
+Le core fournit la machinerie complète — un mod déclaratif ne code que
+ses spécificités :
+
+| Système | Service core | Ce que le mod déclare |
+|---|---|---|
+| Parcours d'inscription | `EnrollmentService` | `settings.enrollment` (critères de la bibliothèque + `manual`) |
+| Saisons (une active max, rotations de pools, rôles saisonniers, inscriptions) | `build_mod_season_stack` | `seasonal: true` + les rôles `per_season` |
+| Inscription simple (register/unregister + sync rôles) | `MembershipService` | ses hooks métier |
+| Dashboards admin (candidats/inscrits/acceptés) | `AdminModSection` + `EnrollmentService.dashboard()` | ses sections |
+| Entités de l'univers (forums, posts) | `EntityForumSpec` | ses entités |
+
+Le parcours d'inscription : apply → critères automatiques →
+auto-accept / refus motivé / file d'attente → dashboard admin
+(pending ⏳ / accepted ✅ / refused ❌) → accept/refus admin avec raisons
+→ `MembershipService.register` (rôles de saison syncés). Les critères
+automatisables : `min_elo`, `min_matches` (X parties / Y jours / jeu Z),
+`requires_profile`, plus `manual` pour forcer la validation humaine.
+
+Le questionnaire guidé complet (pour les novices comme pour les agents)
+vit dans la skill
+[mod-intake](../../.agents/skills/mod-intake/SKILL.md) — une session qui
+crée un mod commence par elle.
+
 ## Voir aussi
 
 - [architecture/mods.md](../architecture/mods.md) — le design du
@@ -118,3 +143,5 @@ que le déménagement mécanique du code (un PR par mod, CI verte à chaque
 - [MODS/CATALOGUE.md](../MODS/CATALOGUE.md) — tous les mods, maturité
 - [GUIDES/mod-developer.md](mod-developer.md) — le guide développeur
   (plus profond : SDK, tests, core-evolution)
+- [la skill mod-intake](../../.agents/skills/mod-intake/SKILL.md) — le
+  questionnaire guidé (le point d'entrée d'une session)
