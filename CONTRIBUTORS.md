@@ -241,6 +241,7 @@ maintainer roster PR, then every check picks it up automatically).
 | --- | --- | --- |
 | `vibe@mistral.ai` | vibe agent session | its connected human (PR author or co-author) |
 | `github-actions[bot]` | automation | the workflows' own mutations (releases, pins, syncs) |
+| `dependabot[bot]` | automation | dependency version bumps proposed by GitHub Dependabot (the human maintainer who merges carries the review) |
 
 ## Sync workflow
 
