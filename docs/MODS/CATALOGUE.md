@@ -34,7 +34,7 @@ requires the [monetization plan](../PLANS/monetization.md) gate).
 | coaching | 2 — Shaped | Pro feedback marketplace: coach pool (level/reputation/free price), booking via dynamic views, per-coach request pool, session workspace (thread + temp voice), cross ratings & reputation, indicative commission ledger (no payment handling in v1) | social, money | kingdoms-services#151 (monetization: [PLANS/monetization.md](../PLANS/monetization.md) Axis C/D; readiness #154) |
 | tournament (80%) | 2 — Shaped | Operator-assisted tournaments: sign-ups, seeding, brackets, disputes | organizer | kingdoms-services#120 |
 | tournament (full-auto) | 2 — Shaped | Fully automated tournaments: auto rounds, auto seeding, scheduled seasons | organizer | kingdoms-services#121 |
-| clans | 5 — Developed | Clan management: free creation, mutual-agreement admissions (criteria + admin approval), leader/officer/member roles, dashboard with member counts, per-clan forum — reference example (mod-intake skill) | social | [clans/](clans/), kingdoms-services#19, kingdoms-services#267 |
+| clans | 2 — Shaped | Player clans: creation, membership, clan identity | social | kingdoms-services#19 |
 | admin | 2 — Shaped | Discord-first admin surface: game data, map pools, seasons, rating admin | platform | kingdoms-services#21, kingdoms-services#136 |
 | /drasah | 4 — Scoped | Medieval greeting command | social | kingdoms-services#148 |
 | friends & feedback (Epic J) | 2 — Shaped | Friends graph, private teammate micro-feedback (matching-only), avoid-lists, graduated sanctions with appeals | social | kingdoms#118 |
