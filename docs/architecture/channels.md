@@ -13,10 +13,12 @@ treat them as law.
 - Resolution at runtime uses the **stored id** only. Names are labels
   used on first creation; a human renaming a salon in Discord must
   never break the bot.
-- The registry is **self-healing**: a boot-time and per-change sync
-  re-provisions anything missing (salon deleted, message unpinned).
+- The registry heals **on demand**: the boot pass provisions a virgin
+  guild, and the sync button ("Synchroniser") re-provisions anything
+  missing afterwards (salon deleted, message unpinned, post deleted).
   While an entity exists in the database and is not disabled, its
-  salon/pinned message must exist.
+  salon/pinned message comes back at the next sync — nothing watches
+  Discord in real time, nothing runs in a loop.
 - Forum posts work the same way: the message id of each map post (or
   pool post) is stored so the flow can link back to the exact post.
 
@@ -25,8 +27,13 @@ treat them as law.
 - **Pins never move.** Clicking a pinned menu answers with an
   **ephemeral view**; the pinned message itself is edited in place when
   its content changes.
-- **Auto-refresh.** When an input changes (a parameter, the guild
-  locale, a season state), the surface calls the pin-refresher registry
+- **Auto-refresh.** The guild's pinned views are NEVER refreshed
+  wholesale — the single trigger is a **guild language change** (the
+  pins re-read their labels). Every other mutation heals at its own
+  surface (forum posts through the action's sync, counters at the
+  Synchroniser or the boot); a per-action full-pin refresh burns the
+  channel's PATCH budget.~~ When the language changes, the surface calls
+  the pin-refresher registry
   (`pinned_views.refresh_registered_pins`) so every registered pin is
   rebuilt with fresh data.
 - **Read-only by default.** Pinned salons are locked (`send_messages`
@@ -79,3 +86,35 @@ component or workflow filler is a factorization bug.
 - [discord.md](discord.md) — the Discord implementation layer
 - [ADR-0008](../DECISIONS/008-i18n-system.md) — i18n (every user-facing
   string, per guild, with pin resync on locale change)
+
+## 5. Ephemeral views contract
+
+- **An ephemeral view never sends a copy of itself — even after a modal
+  submit.** The only valid shapes: (1) a component click answers
+  `interaction.response.edit_message(...)`; (2) a modal submit edits the
+  message its opening button CAPTURED (`origin = interaction.message` at
+  the click, `origin.edit(view=fresh)` at the submit — the
+  `_profile_followup` pattern); the first-ever render sends the one
+  message. When the captured origin is gone, the fallback is a PLAIN
+  TEXT answer — never a new copy of the view.
+- **A modal's submit REFRESHES the view it came from** (the submit
+  changes what the view displays — re-render it with the fresh data,
+  the `_profile_followup` shape). And a components-v2 message is
+  edited through a VIEW, never through `content` (the API rejects
+  `content` on a v2 edit — 50035); the answer text rides a container
+  (`_text_answer`).
+- **An ephemeral view is never replaced by another view.** The update
+  re-renders the same logical view with fresh data; navigating to a
+  genuinely different view opens it in its own message, and the previous
+  one is never duplicated to do so.
+- The ack always lands before any slow work (forum syncs, provider
+  fetches): `defer()` or the in-place edit first, the slow cascade
+  after — a modal's 3-second window is a hard failure otherwise.
+- A select rides a modal **wrapped in a Label**
+  (`discord.ui.Label(text=..., component=select)`) — never bare: the
+  API rejects a bare select in a modal (50035 `type must be one of
+  (4,)`), the Label-wrapped one works (the same shape as the profile's
+  add-account form). A `TextInput` label is capped at **45 characters**.
+  An OPTIONAL select in a modal carries `required=False`
+  (`select._underlying.required = False` + `min_values=0`) — the API
+  rejects `min_values=0` on a required component.
