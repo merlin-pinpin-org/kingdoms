@@ -4,19 +4,29 @@ Add a new game (AoE2 today, any game later) with its external data
 providers. Audience: AI session or human developer; the platform
 developer reviews.
 
-## The model (ADR-0020)
+## The model (ADR-0020 + ADR-0021)
 
 ```
-bot-discord ──gRPC──> svc-core ──gRPC──> ext-<provider> process(es) ──HTTPS──> external APIs
+bot ──gRPC──> svc-core ──enrollments──> game-<game_key> ──gRPC──> ext-<provider> processes ──HTTPS/WS──> external APIs
+                  │                        │
+             (bindings, identity)   (game domain: matches, players, stats)
 ```
 
-- The **game module** (`src/kingdoms/games/<game_key>/` in svc-core)
-  holds the game's domain identity and the provider seam.
+- The **game service** (`game-<game_key>`, ADR-0021) is the ONLY
+  consumer of its game's providers. It owns the game domain (matches,
+  players, stats), exploits the raw provider data, and serves the
+  game-generic **GameData** contract (dashboard, player events,
+  enrollments, links). svc-core never talks to the providers, and
+  vice versa.
 - The **provider process** (`ext-<name>`) talks to the external API:
-  its own rate limiting, caching, secrets and downtime. It never shares
-  a process with the bot (ADR-0020 rationale).
-- Mods consume the game exclusively through the provider seam —
-  profiles, events, results, metadata. The mod core never interprets
+  its own rate limiting, caching, secrets and downtime. A provider is
+  NOT per-game: ext-liquipedia serves every game, ext-librematch
+  serves aoe2-3-4 — a multi-game provider keys its data by `game_key`
+  and each game service consumes its slice.
+- The **game module** (`src/kingdoms/games/<game_key>/`) holds the
+  game's domain identity (validation, grace rules, content).
+- Mods consume the game exclusively through the game service surface
+  — profiles, events, results, metadata. The mod core never interprets
   game-specific data formats.
 
 ## Capability declaration — the contract that matters
