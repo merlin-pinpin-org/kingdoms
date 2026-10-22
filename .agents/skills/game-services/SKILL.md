@@ -22,6 +22,11 @@ bot ──GameData──► game-<game_key> ──Game──► ext-<provider> p
 2. A **provider is not per-game**: ext-liquipedia serves every game,
    ext-librematch serves aoe2-3-4. A multi-game provider keys its raw
    data by `game_key`; each game service consumes its slice.
+3. **Every external data source is a provider process with its own
+   tables** — never an in-process module. Liquipedia was one
+   (`kingdoms.mapsdata` in the bot); it moved to `ext-liquipedia`
+   (Content contract + `liquipedia_maps`/`liquipedia_pages`). When a
+   new source appears (tournaments, matches), it starts as a process.
 
 ## Where things live (kingdoms-services)
 
@@ -30,7 +35,7 @@ bot ──GameData──► game-<game_key> ──Game──► ext-<provider> p
 | GameData contract | `contracts/kingdoms/v1/gamedata.proto` | game-generic (`game_key` param): dashboard, player events, enrollments, provider tests, links |
 | Game contract | `contracts/kingdoms/v1/game.proto` | provider-side: capabilities, StreamMatchEvents, UpdateSubscriptions |
 | game service | `src/kingdoms/game_aoe2/` | `aggregator.py` (states + `ProviderProber`), `rpc.py` (servicer + wire), `server.py` (entrypoint, port 50071), `client.py` (bot side) |
-| Providers | `src/kingdoms/ext_<name>/` | adapter = the protocol translation; server = the Game servicer; NEVER touches Mongo |
+| Providers | `src/kingdoms/ext_<name>/` | adapter = the protocol translation; server = the servicer; a provider owns its tables (ext-liquipedia: `liquipedia_maps`/`liquipedia_pages`) — the raw fetched data lives at the provider |
 | Game module | `src/kingdoms/core/games/aoe2/` | domain identity: grace rules, validation, content |
 | Profile sites | `config/games/aoe2/profile_sites.yaml` + `src/kingdoms/core/services/profile_sites.py` | typed URL format/parse per game — a site is config, never code |
 | Enrollments | svc-core `_sync_game_enrollments` | reads the bindings, pushes `UpdateEnrollments` to the game service (30 s) |
