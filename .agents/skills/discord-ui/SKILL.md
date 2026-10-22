@@ -291,6 +291,26 @@ Adding a screen or message, the checklist (never skip the sweep):
   relative times (`<t:…:R>`) — the footer stays empty or minimal, it
   never repeats the body.
 
+## Emoji come from the allowlist, never raw literals
+
+Discord's API rejects codepoints outside its emoji set with
+**50035 Invalid Form Body (Invalid emoji)** — the component is then
+silently dead: it renders nowhere and the click never opens (the
+2026-10-16 lesson, twice: U+1F5F2, then U+1F50D/U+1F50C/U+1F534 in
+CI). The invalid codepoints concentrate in the U+1F500-U+1F5FF block,
+but the rule is simple:
+
+- **Every component emoji comes from the SDK allowlist**:
+  `kingdoms.discord.ui.emoji.EMOJI` — pick a semantic constant
+  (`EMOJI.MAP`, `EMOJI.GREEN_CIRCLE`, `EMOJI.TOOLS`…), never a raw
+  literal in the code.
+- A new emoji is **live-checked first** (render it on a real button
+  in the test env — it must answer, not just look fine in the
+  editor), then added to the allowlist with its semantic name.
+- The architecture guard derives its scan from that module: an
+  out-of-allowlist emoji in `src/kingdoms/**` fails CI with the exact
+  codepoint. The guard and the allowlist cannot drift.
+
 ## Proactivity mandate (know the whole discord.py surface)
 
 The game designer and the developer are **not always aware of what

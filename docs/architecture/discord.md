@@ -448,6 +448,14 @@ flowchart TD
 - **3-second rule**: defer before any slow work (DB, external API).
 - **Modals have exactly one valid first response**:
   `response.send_modal(...)`.
+- **Component emoji come from the SDK allowlist**
+  (`kingdoms.discord.ui.emoji.EMOJI`): Discord rejects off-set
+  codepoints with 50035 Invalid emoji and the component is silently
+  dead (it renders nowhere, the click never opens). Pick a semantic
+  constant (`EMOJI.MAP`, `EMOJI.GREEN_CIRCLE`…); a new emoji is
+  live-checked on a real button first, then added to the allowlist.
+  The architecture guard scans `src/` against that module — an
+  off-allowlist emoji fails CI with the exact codepoint.
 
 ## See also
 
