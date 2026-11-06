@@ -36,9 +36,21 @@ words. Never ask anything technical (no "schema", no "Mongo").
    entity list stable (entities become forum posts and Mongo documents —
    renaming later is a migration).
 5. **What does the player see?** The surfaces: channels (the mod's
-   category), commands, pinned panels. Translate each into declaration
-   data (`channels:`, `commands:`) — a channel is a config line, never
-   code.
+   groups and channels), commands, pinned panels. Translate each into
+   declaration data — a channel is a config line, never code:
+   - `channel_groups:` — the Discord categories, declaration order =
+     display order; `admin_only` (mod admin roles + bot admins only) and
+     `read_only` (nobody writes) on the group AND its channels;
+   - `channels:` — `group:` (validated at boot), `kind:`
+     (text/forum/announce — announce is admin-written, read-only by
+     default), `access.view`/`access.post` with the mod's **role keys**
+     (`view: [lord, king]` — resolved from the declared roles); mark
+     the mod's admin role with `admin: true` (the `admin_only`
+     audience). No auto-heal: the Synchroniser button is the only
+     re-creation path.
+6. **When do inscriptions open?** A window gates `apply` itself:
+   `opens_at`/`closes_at` (ISO timestamps) or `opens_before_start: 7d`
+   (seasonal — inscriptions open before the season's start).
 
 ## 2. The enrollment criteria library (automatable checks)
 
@@ -47,10 +59,16 @@ remains for the edge cases. Declared in `settings.enrollment`:
 
 | Criterion | Declared as | Checks |
 |---|---|---|
-| `min_elo` | `min_elo: 1200` | the player's rating ≥ the value |
-| `min_matches` | `min_matches: {count: 5, days: 30, game: aoe2}` | X matches in the last Y days on the game |
-| `requires_profile` | `requires_profile: true` | a bound, validated game profile |
+| `min_elo` | `min_elo: 1200` or `min_elo: {value: 1000, leaderboard: rm_1v1}` | the player's rating ≥ the value (optionally one leaderboard) |
+| `max_elo` | `max_elo: 1500` (same mapping form) | the rating ≤ the value — the 1000-1500 range case |
+| `min_matches` | `min_matches: {count: 5, days: 30}` (add `leaderboard:`) | X matches in the last Y days (optionally one leaderboard) |
+| `requires_profile` | `requires_profile: true` | a bound, validated game profile (the mod's game) |
+| `requires_profiles` | `requires_profiles: [aoe2, aoe4]` | a bound account on EVERY declared game |
 | `manual` | `manual: true` | every candidate waits for an admin |
+
+The window keys (`opens_at`, `closes_at`, `opens_before_start`) ride in
+the same `settings.enrollment` mapping — they gate the apply, they are
+not criteria.
 
 Composition rule: all pass → auto-accept (unless `manual`); any failure →
 refused with the failing reasons recorded; an unknown stat (unrated

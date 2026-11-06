@@ -54,8 +54,38 @@ n'est écrasé — un mod existant est refusé.
   [architecture/mods.md](../architecture/mods.md) : `id`, `enabled`,
   `seasonal` **obligatoire** (type du mod : saisonnier → panneau de
   cycle de vie + salons admin par saison ; permanent → panneau de
-  config au niveau guilde), `settings`, `channels` (adressés
-  `mod:key`), `roles`, `workflows`, `commands`, `dependencies`.
+  config au niveau guilde), `settings`, `channel_groups`, `channels`
+  (adressés `mod:key`), `roles`, `workflows`, `commands`,
+  `dependencies`, `required_games`.
+- **Les salons sont des données, jamais du code** :
+  - `channel_groups` — les catégories Discord du mod, l'ordre de
+    déclaration = l'ordre d'affichage ; `admin_only` (seuls les rôles
+    admin du mod + les bot-admins le voient) et `read_only` (personne
+    n'écrit) s'appliquent au groupe **et** à chaque salon
+    (l'héritage par défaut) ;
+  - `channels` — `group` (référence validée au boot), `kind`
+    (`text`/`forum`/`announce` — une announce est admin-écrite,
+    lisible par tous, read-only par défaut) ;
+  - `access.view`/`access.post` — les **clés de rôles** déclarés par
+    le mod (`view: [lord, king]`), résolues en noms au chargement ;
+    un rôle marqué `admin: true` est l'audience des salons
+    `admin_only`. Pas d'auto-heal : le bouton **Synchroniser** de la
+    section est le seul chemin de re-création.
+- **Le cycle de vie** : un mod suspendu (`ModLifecycleService`, par
+  guilde) reste **gérable par les admins** mais **inutilisable par les
+  joueurs** — `require_usable` est le point de contrôle de chaque flux
+  joueur. La suspension est un flag, jamais un wipe.
+- **Les inscriptions** (`settings.enrollment`) : critères déclaratifs —
+  `min_elo`/`max_elo` (scalaire ou `{value: …, leaderboard: rm_1v1}`),
+  `min_matches` (`{count: 10, days: 30, leaderboard: …}`),
+  `requires_profile`/`requires_profiles` (un compte lié sur chaque jeu
+  déclaré), `manual` (validation admin ; sinon auto-accept quand tous
+  les critères passent). La **fenêtre** : `opens_at`/`closes_at`
+  (timestamps ISO) ou `opens_before_start: 7d` (les inscriptions
+  ouvrent avant le début de la saison).
+- **Le map pool** : attaché à une saison (`map_pool_id` de la saison,
+  rotation = une nouvelle saison avec un autre pool) ou au mod via
+  `settings.map_pool` — un pool `used` est gelé, jamais réédité.
 - Le code du mod ne parle **qu'aux seams du core** (hooks, UI SDK
   `kingdoms.discord.ui`, services core) — jamais à discord.py
   directement, jamais d'IDs de salon/rôle/guilde en dur.
