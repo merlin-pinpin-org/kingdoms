@@ -112,7 +112,22 @@ Le scaffold le fait en une commande : `kingdoms mod init <name>
 cours de construction qui ne doit pas apparaître sur les guildes de
 production avant d'être prêt.
 
-## 4. Les deux exemples de référence
+## 4. Les mods d'exemple
+
+**Les deux exemples ACTIVABLES** (générés depuis la skill, complets,
+testés, activables sur un env de test — le parcours complet vient des
+surfaces génériques avec une ligne de register) :
+
+| | `arena` | `conquest` |
+|---|---|---|
+| Type | **permanent** (inscription globale) | **saisonnier** (inscription par saison) |
+| Inscriptions | `manual` + `requires_profile`, validation par message dans le channel admin | idem + `opens_before_start: 7d` (les inscriptions ouvrent avant la saison) |
+| Saison | — | créer / démarrer / terminer depuis le panneau admin, map pool attachable par saison |
+| Où | `modules/mods/arena/` (kingdoms-services) | `modules/mods/conquest/` (kingdoms-services) |
+
+Les deux pins de **déménagement** (le layout cible des mods réels,
+`enabled: false` tant que leur code vit sur les branches
+d'intégration) :
 
 | | [ladder](../MODS/ladder/) | [kingdoms](../MODS/kingdoms/) |
 |---|---|---|
