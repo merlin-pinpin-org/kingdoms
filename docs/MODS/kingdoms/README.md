@@ -159,6 +159,73 @@ uniques, tech tree, textes d'aide — tout ce qui évolue à chaque maj).
 Attribution : voir `data/core/aoe2techtree/ATTRIBUTION.md` (MIT +
 notice Microsoft Game Content Usage Rules, affichée en tête de post).
 
+## Enrichissement maps Liquipedia (#247)
+
+Les pages map de Liquipedia (`https://liquipedia.net/ageofempires/`)
+ont une infobox structurée (`{{Infobox map}}` : type de terrain
+Land/Hybrid/Water, murs, nomade, nombre de TC, joueurs, créateur,
+période, image). Le job de sync
+`python -m kingdoms.core.games.aoe2.liquipedia_cli <season_yaml>`
+la récupère via l'API MediaWiki officielle (pas de scraping HTML,
+User-Agent identifiant + contact, 1 req/2 s et `action=parse`
+1 req/30 s) et stocke, par map du catalogue : une ligne `summary`
+calculée, l'`image_url` directe (pas de hotlink), et l'infobox
+complète dans `liquipedia_infobox` (clés minuscules, brute —
+exploitable par des filtres/panneaux futurs). Le sync est
+idempotent et reprenable (empreinte `liquipedia_page_sha` par map,
+commit par map). Le contact requis par les conditions d'usage de
+l'API est la variable d'environnement GitHub **non-secrète**
+`LIQUIPEDIA_CONTACT` (déclarée sur chaque GitHub environment, lue
+par deploy-env.yml puis le compose de l'env). Attribution : voir
+`data/core/liquipedia/ATTRIBUTION.md` (CC-BY-SA 3.0 texte ; images
+© Microsoft, même régime que le dataset aoe2techtree).
+
+La fiche de chaque map porte aussi `game_versions` (les onglets
+`tabs static` de la page — les versions du jeu pour lesquelles la
+map existe : AoE2, AoM, AoE3, AoE4..., avec leur page wiki) et des
+**tags de requête** normalisés dans `tags` : `terrain:land|hybrid|water`,
+`water`, `walled`, `nomad`, `tc:<n>`. Les tags sont indexés dans
+Mongo (index multikey sur `tags`, index couvert `(entity_id, locale)` —
+ créés par le sync via `ensure_indexes`) et requêtables via
+`FactionContentService.query_by_tags` (ex. toutes les maps hybrides
+nomades : `query_by_tags(["terrain:hybrid", "nomad"], entity_prefix="map:aoe2:")`).
+Les listes de maps par guilde (scope guilde + globales, la majeure
+partie étant des maps publiques partagées) passent par
+`FactionContentService.list_map_content` : la liste résolue est
+cachée en Redis par guilde+locale (TTL 1 h), invalidée par le
+tracker d'entités à chaque `store` — les maps publiques ne sont
+lues qu'une fois par guilde, pas une fois par map.
+
+## Contrat des listes : 25 éléments et le two-pattern select/par-id
+
+Discord limite un sélect à **25 options** — la plateforme le respecte
+par conception, avec **deux patterns distincts, jamais de pagination**
+(une pagination de sélect masque silencieusement les options au-delà
+de la page et ses boutons de page concurrencent le sync) :
+
+1. **Sélect natif** quand la liste tient dans la limite : les jeux et
+   les mods actifs (<= 25 par convention plateforme), les map pools
+   non supprimés d'une guilde (<= 25), les membres d'un map pool
+   (<= 25, `MAX_POOL_MAPS`).
+2. **Par-id** au-delà : un bouton ouvre une modale où l'on colle l'id
+   (`map:public:arena`, `pool:<guild_id>:<slug>`) ; pour les maps,
+   l'**import en masse** (une map par ligne : id, nom anglais avec
+   underscores ou URL Liquipedia, refus si un échec) couvre l'init
+   d'un pool complet.
+
+Quand un sélect n'est pas disponible (catalogue de maps > 25), la
+réponse **explique les alternatives** : bouton « Ajouter une map
+(id) », ou le bouton « Ajouter à un map pool » **du post de chaque
+map** (toujours visible, il opère par id).
+
+Ids des entrées (convention scope-first, l'id porte la visibilité,
+pas le jeu) : maps `map:public:<slug>` / `map:<guild_id>:<slug>`,
+pools `pool:public:<slug>` / `pool:<guild_id>:<slug>`. Les templates
+des composants persistants matchent ces ids avec `.+` — **jamais**
+`[^:]+` (les ids contiennent des deux-points, le clic mourrait en
+silence : c'est la cause racine historique des « boutons qui ne
+répondent pas »).
+
 ## Mappings de providers (ids propres)
 
 Chaque provider a ses ids propres (civ ids, map names) qui peuvent être
